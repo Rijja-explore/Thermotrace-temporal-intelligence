@@ -1,0 +1,32 @@
+[
+  {
+    "observation_id": "HIST-001",
+    "latitude": 28.612,
+    "longitude": 77.209,
+    "timestamp_utc": "2026-01-14T10:00:00Z",
+    "frp": 62.1,
+    "confidence": 75,
+    "satellite": "Aqua",
+    "sensor": "MODIS",
+    "source": "NASA_FIRMS",
+    "facility_id": "FAC-999",
+    "facility_type": "unknown",
+    "facility_distance_km": 1.2,
+    "landcover_class": null
+  },
+  {
+    "observation_id": "HIST-002",
+    "latitude": 28.615,
+    "longitude": 77.211,
+    "timestamp_utc": "2026-01-15T11:30:00Z",
+    "frp": null,
+    "confidence": null,
+    "satellite": "NOAA-20",
+    "sensor": "VIIRS",
+    "source": "NASA_FIRMS",
+    "facility_id": "FAC-999",
+    "facility_type": "unknown",
+    "facility_distance_km": null,
+    "landcover_class": null
+  }
+]
