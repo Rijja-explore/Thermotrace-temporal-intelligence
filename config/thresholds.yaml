@@ -1,0 +1,94 @@
+# ThermoTrace Temporal Intelligence – Threshold Configuration
+# Version: v1
+# All thresholds are configurable and must NOT be treated as scientifically validated.
+# Adjust based on observed data characteristics for your deployment region.
+
+version: "v1"
+
+clustering:
+  # Spatial radius in kilometres for DBSCAN epsilon (Haversine)
+  spatial_radius_km: 2.0
+  # Temporal window in hours; observations further apart are NOT the same event
+  temporal_window_hours: 24.0
+  # Minimum samples in a cluster (DBSCAN min_samples)
+  min_samples: 1
+
+temporal_features:
+  # Windows in days for temporal aggregation
+  windows:
+    short: 7
+    medium: 30
+    long: 90
+
+baseline:
+  # Minimum number of historical observations to produce a usable baseline
+  min_observations_for_baseline: 5
+  # Minimum number of historical days to produce a "good" baseline
+  min_days_for_good_baseline: 14
+  # Quantiles for baseline upper/lower bounds
+  upper_quantile: 0.90
+  lower_quantile: 0.10
+
+anomaly:
+  # Z-score threshold above which a feature is considered anomalous
+  frp_zscore_threshold: 2.0
+  # Robust z-score (modified) threshold using MAD
+  frp_robust_zscore_threshold: 3.0
+  # Frequency deviation percentage threshold (e.g. 50 = 50% above baseline frequency)
+  frequency_deviation_pct_threshold: 50.0
+  # Persistence ratio change threshold (absolute difference)
+  persistence_change_threshold: 0.25
+  # Spatial extent change threshold (km)
+  spatial_change_threshold_km: 2.0
+  # Duration increase threshold (hours) vs historical median
+  duration_change_threshold_hours: 24.0
+
+  # Score thresholds for anomaly levels
+  levels:
+    normal_max: 30
+    watch_max: 55
+    abnormal_max: 80
+    # > 80 = severe
+
+industrial_likelihood:
+  # Score thresholds
+  high_threshold: 70
+  medium_threshold: 40
+
+  # Facility proximity distance bands (km)
+  proximity:
+    very_close_km: 1.0
+    close_km: 3.0
+    moderate_km: 10.0
+
+  # Persistence thresholds
+  persistence:
+    high_ratio: 0.6
+    medium_ratio: 0.3
+
+risk:
+  # Risk level thresholds (score 0–100)
+  levels:
+    low_max: 30
+    medium_max: 55
+    high_max: 80
+    # > 80 = critical
+
+  # FRP intensity bands (MW) for risk contribution
+  frp_intensity:
+    low_max: 50
+    medium_max: 150
+    high_max: 300
+
+spatial_stability:
+  # Score thresholds (mean distance from centroid in km)
+  very_stable_km: 0.5
+  stable_km: 1.5
+  unstable_km: 5.0
+
+history_quality:
+  # Thresholds for fingerprint quality labels
+  good_min_observations: 30
+  good_min_days: 14
+  moderate_min_observations: 10
+  moderate_min_days: 5

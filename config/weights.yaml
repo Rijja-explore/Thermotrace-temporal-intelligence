@@ -1,0 +1,32 @@
+# ThermoTrace Temporal Intelligence – Scoring Weights Configuration
+# Version: v1
+# These weights are STARTING POINTS and are NOT scientifically validated.
+# They must be tuned empirically against labelled ground-truth data.
+# All weights within a group must sum to 1.0.
+
+version: "v1"
+
+industrial_likelihood:
+  # Component weights for industrial likelihood score (must sum to 1.0)
+  facility_proximity_weight: 0.30
+  persistence_weight: 0.25
+  landcover_weight: 0.15
+  spatial_stability_weight: 0.15
+  temporal_weight: 0.10
+  sensor_agreement_weight: 0.05
+
+operational_risk:
+  # Component weights for operational risk score (must sum to 1.0)
+  thermal_intensity_weight: 0.25
+  anomaly_persistence_weight: 0.25
+  population_proximity_weight: 0.20
+  environmental_sensitivity_weight: 0.15
+  classification_confidence_weight: 0.15
+
+anomaly:
+  # Sub-signal weights for composite anomaly score (must sum to 1.0)
+  frp_deviation_weight: 0.35
+  frequency_deviation_weight: 0.25
+  persistence_change_weight: 0.20
+  spatial_change_weight: 0.10
+  duration_change_weight: 0.10
