@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thermotrace-temporal"
+version = "1.0.0"
+description = "ThermoTrace – Temporal Intelligence, Anomaly Detection & Risk Engine (Person 3)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["thermal", "anomaly", "industrial", "remote-sensing", "FIRMS"]
+authors = [
+  { name = "ThermoTrace Team – Person 3" }
+]
+dependencies = [
+    "pandas>=2.1",
+    "numpy>=1.26",
+    "scikit-learn>=1.4",
+    "scipy>=1.12",
+    "pydantic>=2.6",
+    "PyYAML>=6.0",
+    "shapely>=2.0",
+    "python-dateutil>=2.9",
+    "pytz>=2024.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+]
+
+[project.scripts]
+thermotrace-demo = "thermotrace_temporal.pipeline:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
