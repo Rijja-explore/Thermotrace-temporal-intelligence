@@ -189,5 +189,37 @@
       ],
       "restoration_instructions": "Download event_features_v2.parquet and place into data/processed/features/event_features_v2.parquet"
     }
-  ]
+  ],
+  "zip_packages": {
+    "osm_india_package": {
+      "archive_path": "cloud_handoff\\osm\\osm_india_package.zip",
+      "archive_size_mb": 2035.6,
+      "archive_sha256": "81c62a1e33dda11e552cc15249262ddc6b7ee814be9ea2483707f1302f7e8c16",
+      "duration_seconds": 144.9
+    },
+    "population_india_package": {
+      "archive_path": "cloud_handoff\\population\\population_india_package.zip",
+      "archive_size_mb": 1709.5,
+      "archive_sha256": "5ef0bb8b38d221d6de21b21602157a0e86577ba87d929c18e6f34c729845e9d0",
+      "duration_seconds": 166.9
+    },
+    "worldcover_india_mosaic_package": {
+      "archive_path": "cloud_handoff\\worldcover\\worldcover_india_mosaic.zip",
+      "archive_size_mb": 3037.63,
+      "archive_sha256": "e4536a3f42e15102985bde86274f142be0574ca3e32dd1b16f2dff862d486fce",
+      "duration_seconds": 175.6
+    },
+    "protected_areas_package": {
+      "archive_path": "cloud_handoff\\protected_areas\\protected_areas_india.zip",
+      "archive_size_mb": 3.32,
+      "archive_sha256": "f2921f0a488c865261f646227fed0d9ab2694b52a5b5d04a163af7b4210edfbf",
+      "duration_seconds": 0.6
+    },
+    "event_features_v2_package": {
+      "archive_path": "cloud_handoff\\features\\event_features_v2_package.zip",
+      "archive_size_mb": 184.41,
+      "archive_sha256": "46984db1292f15dca1ea6845ba0b5a64120393d1d68b030890e3b63e019de458",
+      "duration_seconds": 20.8
+    }
+  }
 }
