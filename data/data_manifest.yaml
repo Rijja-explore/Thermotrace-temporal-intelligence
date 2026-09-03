@@ -112,7 +112,7 @@ datasets:
     source: "Event Features V1 + V2 Enrichment Suite"
     version: "2.0.0"
     local_path: "data/processed/features/event_features_v2.parquet"
-    git_status: "CLOUD"
+    git_status: "GIT (Git LFS)"
     cloud_status: "CLOUD"
     format: "parquet"
     size_bytes: 221217066
@@ -127,7 +127,7 @@ datasets:
     SHA256: "b27b63333d29e72dccb0ad999664289de6d86a4a50ef1d4a5aba11ed58f5b1cc"
     immutable: true
     downstream_users: ["Member 3 (Advanced ML & GBDT Models)", "Member 4 (Production UI Risk Badging)"]
-    notes: "Exceeds GitHub 100MB file limit (210.97 MB); packaged for Cloud Google Drive."
+    notes: "Tracked in Git via Git LFS (210.97 MB) and also staged in Google Drive."
 
   - dataset_id: "osm_india_canonical"
     name: "OpenStreetMap India Infrastructure & Industrial Facilities"

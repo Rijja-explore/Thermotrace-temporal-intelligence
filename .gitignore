@@ -39,13 +39,12 @@ data/raw/**
 # Exclude Parquet by default across repository
 *.parquet
 
-# EXPLICITLY ALLOW: Approved Key Parquet Handoff Datasets (< 100 MB each)
+# EXPLICITLY ALLOW: Approved Parquet Handoff Datasets
 !data/processed/firms/firms_india_canonical.parquet
 !data/processed/events/events_v0_1.parquet
 !data/processed/events/event_detection_links.parquet
 !data/processed/features/event_features_v1.parquet
-
-# (Note: data/processed/features/event_features_v2.parquet is 210 MB and excluded from Git)
+!data/processed/features/event_features_v2.parquet
 
 # Always Track Documentation, Manifests, Schemas, and QA Reports
 !data/README.md

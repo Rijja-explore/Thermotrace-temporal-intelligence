@@ -88,8 +88,7 @@ EVENT FEATURE ROW (996,891 rows, 65 V1 / 144 V2 features)
 ### 5. Advanced Event Features V2 & Baseline Risk Engine
 * **Path:** [`data/processed/features/event_features_v2.parquet`](file:///d:/New%20folder%20(2)/data/processed/features/event_features_v2.parquet)
 * **Size:** 210.97 MB | **Row Count:** 996,891 rows | **Columns:** 144
-* **Grain:** 1 row = 1 event with leak-free recurrence (7d/30d/90d), multi-scale spatial density (1km/5km/10km), cyclical time, and Explainable Baseline Risk Scores.
-* **Cloud Status:** Staged for Google Drive (exceeds GitHub 100MB limit).
+* **Git Status:** In Git (via Git LFS tracking; also staged for Google Drive Cloud).
 
 ---
 
