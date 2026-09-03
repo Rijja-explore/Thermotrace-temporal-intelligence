@@ -1,0 +1,3 @@
+incident_id,facility_id,facility_name,incident_date,pre_event_count,baseline_mean_frp_mw,baseline_median_frp_mw,baseline_max_frp_mw,baseline_mean_duration_hours,baseline_mean_detection_count
+INC-2026-001,395219953,Visakapatnam Steel Plant,2026-06-08,20,1.81,1.56,3.8,0.08,1.25
+INC-2026-002,65310813,Bhilai Steel Plant,2026-04-07,24,3.42,3.14,8.38,0.7,4.58
