@@ -1,0 +1,95 @@
+{
+  "pipeline_metadata": {
+    "pipeline_module": "ThermoTrace.M1.FIRMS_ETL",
+    "pipeline_version": "1.1.0",
+    "executed_at_utc": "2026-09-02T18:10:17.150131+00:00",
+    "execution_duration_seconds": 34.94
+  },
+  "file_summary": {
+    "total_input_files": 147,
+    "total_raw_rows": 1908698,
+    "total_combined_rows": 1908698,
+    "retained_rows": 1908697,
+    "removed_rows": 1,
+    "duplicates_removed": 1,
+    "invalid_coordinate_rows": 0
+  },
+  "spatial_coverage": {
+    "latitude_min": 6.50425,
+    "latitude_max": 35.69986,
+    "longitude_min": 68.10002,
+    "longitude_max": 97.4,
+    "records_inside_india_bbox": 1908697,
+    "records_outside_india_bbox": 0,
+    "india_bbox_definition": {
+      "min_lon": 68.1,
+      "max_lon": 97.4,
+      "min_lat": 6.5,
+      "max_lat": 35.7
+    }
+  },
+  "temporal_coverage": {
+    "date_minimum": "2025-09-02",
+    "date_maximum": "2026-09-02"
+  },
+  "distributions": {
+    "satellite_counts": {
+      "N20": 972823,
+      "N21": 935874
+    },
+    "instrument_counts": {
+      "VIIRS": 1908697
+    },
+    "confidence_counts": {
+      "n": 1520487,
+      "l": 333369,
+      "h": 54841
+    },
+    "daynight_counts": {
+      "D": 1396268,
+      "N": 512429
+    },
+    "source_product_counts": {
+      "VIIRS_NOAA20_SP": 941494,
+      "VIIRS_NOAA21_NRT": 935874,
+      "VIIRS_NOAA20_NRT": 31329
+    },
+    "quality_flag_counts": {
+      "VALID": 1908487,
+      "SUSPICIOUS_FRP_ZERO": 210
+    }
+  },
+  "frp_statistics_mw": {
+    "min": 0.0,
+    "max": 1333.949951171875,
+    "mean": 7.014699935913086,
+    "median": 3.9700000286102295,
+    "std": 16.411800384521484
+  },
+  "missing_values_by_column": {
+    "detection_id": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "acq_date": 0,
+    "acq_time": 0,
+    "acq_datetime": 0,
+    "satellite": 0,
+    "instrument": 0,
+    "daynight": 0,
+    "confidence": 0,
+    "confidence_score_operational": 0,
+    "confidence_numeric": 0,
+    "bright_ti4": 0,
+    "bright_ti5": 0,
+    "frp": 0,
+    "scan_km": 0,
+    "track_km": 0,
+    "type": 967203,
+    "hotspot_type": 967203,
+    "firms_version": 0,
+    "source": 0,
+    "downloaded_at_utc": 0,
+    "within_india_bbox": 0,
+    "quality_flag": 0
+  }
+}

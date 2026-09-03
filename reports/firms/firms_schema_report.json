@@ -1,0 +1,72 @@
+{
+  "report_type": "FIRMS_RAW_SCHEMA_INSPECTION",
+  "generated_at_utc": "2026-09-02T18:09:41.290688+00:00",
+  "total_files_inspected": 147,
+  "total_estimated_raw_rows": 1908698,
+  "distinct_schema_variants_count": 2,
+  "schema_variants": [
+    {
+      "schema_id": 1,
+      "description": "Standard Processing (SP) variant",
+      "column_count": 19,
+      "columns": [
+        "latitude",
+        "longitude",
+        "bright_ti4",
+        "scan",
+        "track",
+        "acq_date",
+        "acq_time",
+        "satellite",
+        "instrument",
+        "confidence",
+        "version",
+        "bright_ti5",
+        "frp",
+        "daynight",
+        "type",
+        "source_product",
+        "downloaded_at_utc",
+        "query_start",
+        "query_end"
+      ],
+      "file_count": 54,
+      "sample_files": [
+        "noaa20_2025-09-02_2025-09-06_VIIRS_NOAA20_SP.csv",
+        "noaa20_2025-09-07_2025-09-11_VIIRS_NOAA20_SP.csv",
+        "noaa20_2025-09-12_2025-09-16_VIIRS_NOAA20_SP.csv"
+      ]
+    },
+    {
+      "schema_id": 2,
+      "description": "Near Real-Time (NRT) variant",
+      "column_count": 18,
+      "columns": [
+        "latitude",
+        "longitude",
+        "bright_ti4",
+        "scan",
+        "track",
+        "acq_date",
+        "acq_time",
+        "satellite",
+        "instrument",
+        "confidence",
+        "version",
+        "bright_ti5",
+        "frp",
+        "daynight",
+        "source_product",
+        "downloaded_at_utc",
+        "query_start",
+        "query_end"
+      ],
+      "file_count": 93,
+      "sample_files": [
+        "noaa20_2026-06-04_2026-06-08_VIIRS_NOAA20_NRT.csv",
+        "noaa20_2026-06-09_2026-06-13_VIIRS_NOAA20_NRT.csv",
+        "noaa20_2026-06-14_2026-06-18_VIIRS_NOAA20_NRT.csv"
+      ]
+    }
+  ]
+}

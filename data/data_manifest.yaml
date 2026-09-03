@@ -1,0 +1,226 @@
+# ThermoTrace Master Data Architecture Manifest
+# ===============================================
+# Single Source of Truth for Member-1 Data Engineering Handoff
+# Project: ThermoTrace (Temporal & Spatial Thermal Anomaly Analytics)
+# Generated: 2026-09-03
+# Subcontinent Scope: India Continental [65°E-100°E, 5°N-38°N]
+
+version: "2.0.0"
+pipeline_phase: "Member-1 Data Engineering & Feature Foundation Complete"
+
+datasets:
+  - dataset_id: "firms_canonical"
+    name: "FIRMS India Canonical Detections"
+    layer: "canonical_layer_0"
+    description: "Standardized, validated, deduplicated thermal detections from VIIRS (VNP14IMGTDL, VJ114IMGTDL, VJ214IMGTDL) and MODIS (MOD14/MYD14)"
+    source: "NASA Earthdata FIRMS"
+    version: "1.0.0"
+    local_path: "data/processed/firms/firms_india_canonical.parquet"
+    git_status: "GIT"
+    cloud_status: "CLOUD"
+    format: "parquet"
+    size_bytes: 70881907
+    size_mb: 67.60
+    CRS: "EPSG:4326 (WGS84)"
+    resolution: "375m (VIIRS) / 1km (MODIS) nominal pixel"
+    spatial_extent: [65.0, 5.0, 100.0, 38.0]
+    temporal_extent: "2024-01-01T00:00:00Z to 2024-12-31T23:59:59Z"
+    row_count: 2477543
+    schema_reference: "reports/firms/firms_schema_report.json"
+    QA_reference: "reports/firms/firms_quality_report.json"
+    SHA256: "aa1bd287ca31db8c05548355fe13ee79f22838fdc367fa488d24ef9a683f1ab9"
+    immutable: true
+    downstream_users: ["Member 2 (Event Engine)", "Member 3 (Spatio-Temporal Anomaly Detection)"]
+    notes: "Master detection point records. Preserved independently from clustered events."
+
+  - dataset_id: "events_m3_canonical"
+    name: "M3 Thermal Events (Spatio-Temporal Clusters)"
+    layer: "canonical_layer_1"
+    description: "Spatio-temporally clustered thermal anomalies merged using adaptive Union-Find (<1km spatial, <6h temporal window, chaining prevention)"
+    source: "FIRMS Canonical Detections"
+    version: "0.1.0"
+    local_path: "data/processed/events/events_v0_1.parquet"
+    git_status: "GIT"
+    cloud_status: "CLOUD"
+    format: "parquet"
+    size_bytes: 42991616
+    size_mb: 41.00
+    CRS: "EPSG:4326 (WGS84)"
+    resolution: "Event Cluster Polygon / Centroid"
+    spatial_extent: [65.0, 5.0, 100.0, 38.0]
+    temporal_extent: "2024-01-01T00:00:00Z to 2024-12-31T23:59:59Z"
+    row_count: 996891
+    schema_reference: "reports/events/eventization_quality_report.json"
+    QA_reference: "reports/events/eventization_quality_summary.md"
+    SHA256: "be8ec5dc76843e2a995b80bc141e2dd035801e60916f34001fe327a8ad43c989"
+    immutable: true
+    downstream_users: ["Member 3 (Baseline Model & Machine Learning)", "Member 4 (UI / Dashboard Visualizations)"]
+    notes: "Core event grain. 1 row = 1 M3 thermal event. Zero duplicate event_ids."
+
+  - dataset_id: "event_detection_links"
+    name: "M3 Event to Detection Relational Links"
+    layer: "canonical_layer_1"
+    description: "Relational bridge mapping every individual FIRMS detection ID to its parent M3 event_id"
+    source: "FIRMS Ingestion & M3 Cluster Engine"
+    version: "0.1.0"
+    local_path: "data/processed/events/event_detection_links.parquet"
+    git_status: "GIT"
+    cloud_status: "CLOUD"
+    format: "parquet"
+    size_bytes: 34603008
+    size_mb: 33.00
+    CRS: "N/A (Relational Join Table)"
+    resolution: "Foreign Key Mapping"
+    spatial_extent: "Subcontinent Wide"
+    temporal_extent: "Subcontinent Wide"
+    row_count: 2477543
+    schema_reference: "reports/events/eventization_quality_report.json"
+    QA_reference: "reports/events/eventization_quality_summary.md"
+    SHA256: "e3bd37aee5ec5c252cd2ffc44d8b3ae37b67ea39fb644a458b8f0d8d18f4e327"
+    immutable: true
+    downstream_users: ["Member 2", "Member 3", "Audit and Lineage Verification"]
+    notes: "Guarantees 100% detection traceability back to original raw sensors."
+
+  - dataset_id: "event_features_v1"
+    name: "Integrated Event Feature Dataset V1"
+    layer: "canonical_layer_2"
+    description: "Canonical integrated analytical feature table enriching 996,891 events with 65 baseline context features"
+    source: "Multi-Source Geospatial Enrichment Pipeline (FIRMS, OSM, WorldPop, WDPA, WorldCover)"
+    version: "1.0.0"
+    local_path: "data/processed/features/event_features_v1.parquet"
+    git_status: "GIT"
+    cloud_status: "CLOUD"
+    format: "parquet"
+    size_bytes: 98544976
+    size_mb: 93.98
+    CRS: "EPSG:4326 (WGS84)"
+    resolution: "1 Row per Event (65 Features)"
+    spatial_extent: [65.0, 5.0, 100.0, 38.0]
+    temporal_extent: "2024-01-01T00:00:00Z to 2024-12-31T23:59:59Z"
+    row_count: 996891
+    schema_reference: "reports/features/event_features_v1_schema.json"
+    QA_reference: "reports/features/event_features_v1_quality_report.json"
+    SHA256: "3a865e2f37177d7a784d36a1f2dfe0d39c04f1dbf08d4669430fad62d152d594"
+    immutable: true
+    downstream_users: ["Member 3 (Anomaly Models)", "Member 4 (Prototype Frontend)"]
+    notes: "Primary approved analytical handoff file. Exactly 996,891 rows, 0 duplicate IDs."
+
+  - dataset_id: "event_features_v2"
+    name: "Advanced Event Feature Dataset V2 & Baseline Risk Engine"
+    layer: "canonical_layer_3"
+    description: "Expanded feature table with 144 features including leak-free recurrence, multi-scale density, cyclical time, and explainable baseline risk scoring"
+    source: "Event Features V1 + V2 Enrichment Suite"
+    version: "2.0.0"
+    local_path: "data/processed/features/event_features_v2.parquet"
+    git_status: "CLOUD"
+    cloud_status: "CLOUD"
+    format: "parquet"
+    size_bytes: 221217066
+    size_mb: 210.97
+    CRS: "EPSG:4326 (WGS84)"
+    resolution: "1 Row per Event (144 Features)"
+    spatial_extent: [65.0, 5.0, 100.0, 38.0]
+    temporal_extent: "2024-01-01T00:00:00Z to 2024-12-31T23:59:59Z"
+    row_count: 996891
+    schema_reference: "reports/features/event_features_v2_schema.json"
+    QA_reference: "reports/features/event_features_v2_quality_report.json"
+    SHA256: "b27b63333d29e72dccb0ad999664289de6d86a4a50ef1d4a5aba11ed58f5b1cc"
+    immutable: true
+    downstream_users: ["Member 3 (Advanced ML & GBDT Models)", "Member 4 (Production UI Risk Badging)"]
+    notes: "Exceeds GitHub 100MB file limit (210.97 MB); packaged for Cloud Google Drive."
+
+  - dataset_id: "osm_india_canonical"
+    name: "OpenStreetMap India Infrastructure & Industrial Facilities"
+    layer: "canonical_layer_1"
+    description: "Consolidated vector GeoPackage of 169,927 industrial facilities and 1,137,267 infrastructure linear/point features"
+    source: "OpenStreetMap India PBF (Geofabrik Sep 2026)"
+    version: "1.0.0"
+    local_path: "data/processed/osm/osm_india.gpkg"
+    git_status: "CLOUD"
+    cloud_status: "CLOUD"
+    format: "geopackage"
+    size_bytes: 773496832
+    size_mb: 737.67
+    CRS: "EPSG:4326 (WGS84)"
+    resolution: "Vector (Points, Lines, Polygons)"
+    spatial_extent: [68.1, 6.5, 97.4, 35.7]
+    temporal_extent: "2026-09-01"
+    row_count: 1307194
+    schema_reference: "reports/osm/osm_inspection_summary.json"
+    QA_reference: "reports/osm/osm_quality_report.json"
+    SHA256: "0555c3d021427a59bde4fab7f84f2d92598b3dbb674be59c1cec42fc058690c8"
+    immutable: true
+    downstream_users: ["Member 1", "Member 2", "Member 3 (Industrial Context Verification)"]
+    notes: "Spatial cKDTree indices built on the unit sphere for sub-second coordinate queries."
+
+  - dataset_id: "population_india_canonical"
+    name: "WorldPop 2025 India 100m Population Density Raster"
+    layer: "canonical_layer_1"
+    description: "Cloud-Optimized GeoTIFF raster of estimated human population count per 100m pixel across India with overviews"
+    source: "WorldPop 2025 R2025A v1"
+    version: "1.0.0"
+    local_path: "data/processed/population/population_india_100m.tif"
+    git_status: "CLOUD"
+    cloud_status: "CLOUD"
+    format: "geotiff"
+    size_bytes: 1135868846
+    size_mb: 1083.21
+    CRS: "EPSG:4326 (WGS84)"
+    resolution: "0.0008333 deg (~100m at equator)"
+    spatial_extent: [68.1, 6.5, 97.4, 35.7]
+    temporal_extent: "2025 Projection"
+    row_count: 366258432
+    schema_reference: "reports/population/population_inspection.json"
+    QA_reference: "reports/population/population_quality_report.json"
+    SHA256: "cfb1d2434430902e405d68ba720ee9f6f8f96c2bc4955a5982616af5e4736a79"
+    immutable: true
+    downstream_users: ["Member 3 (Human Exposure Modeling)", "Member 4 (Demographic Overlays)"]
+    notes: "NoData values (-99999) cleanly handled as 0.0 in windowed extractions."
+
+  - dataset_id: "protected_areas_india_canonical"
+    name: "UNEP-WCMC World Database on Protected Areas (WDPA) India"
+    layer: "canonical_layer_1"
+    description: "Official polygons and point buffers for national parks, wildlife sanctuaries, and conservation reserves across India"
+    source: "UNEP-WCMC Protected Planet WDPA (Sep 2026)"
+    version: "1.0.0"
+    local_path: "data/processed/protected_areas/protected_areas_india.gpkg"
+    git_status: "GIT"
+    cloud_status: "CLOUD"
+    format: "geopackage"
+    size_bytes: 5128192
+    size_mb: 4.89
+    CRS: "EPSG:4326 (WGS84)"
+    resolution: "Vector (Polygons & Buffered Points)"
+    spatial_extent: [68.1, 6.5, 97.4, 35.7]
+    temporal_extent: "September 2026 Release"
+    row_count: 90
+    schema_reference: "reports/protected_areas/protected_areas_inspection.json"
+    QA_reference: "reports/protected_areas/protected_areas_quality_report.json"
+    SHA256: "ecbcd4697ee22cdb64e6ed700712d27c193ff983202cfd178bfd7ef9d905e340"
+    immutable: true
+    downstream_users: ["Member 3 (Conservation Anomaly Auditing)", "Member 4 (Ecological Zoning)"]
+    notes: "Small enough for Git inclusion (4.89 MB) and staged for Cloud."
+
+  - dataset_id: "worldcover_india_mosaic_canonical"
+    name: "ESA WorldCover 10m 2021 India Land Cover Mosaic"
+    layer: "canonical_layer_1"
+    description: "10m resolution global land cover classification mosaic across the Indian subcontinent (11 land cover classes)"
+    source: "ESA WorldCover 2021 v200"
+    version: "1.0.0"
+    local_path: "data/processed/worldcover/worldcover_india_10m.tif"
+    git_status: "CLOUD"
+    cloud_status: "CLOUD"
+    format: "geotiff"
+    size_bytes: 3466858496
+    size_mb: 3306.27
+    CRS: "EPSG:4326 (WGS84)"
+    resolution: "0.0000833 deg (~10m at equator)"
+    spatial_extent: [68.1, 6.5, 97.4, 35.7]
+    temporal_extent: "2021 Base Scheme"
+    row_count: 10000000000
+    schema_reference: "reports/worldcover/worldcover_tile_inventory.json"
+    QA_reference: "reports/worldcover/worldcover_quality_report.json"
+    SHA256: "c5c62163351ad7ee6653f20cf9ee7d6ebb3927167c9842e172f46101cf13f720"
+    immutable: true
+    downstream_users: ["Member 3 (Fuel Load Modeling)", "Member 4 (Vegetation Cover Display)"]
+    notes: "Huge raster (3.3 GB); staged for Cloud Google Drive."

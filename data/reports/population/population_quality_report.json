@@ -1,0 +1,99 @@
+{
+  "source_file": "D:\\New folder (2)\\data\\raw\\population\\ind_pop_2025_CN_100m_R2025A_v1.tif",
+  "file_size_bytes": 778106191,
+  "file_size_mb": 742.06,
+  "inspection_timestamp": "2026-09-03T03:46:27.250850+00:00",
+  "scan_duration_seconds": 23.16,
+  "metadata": {
+    "crs": "EPSG:4326",
+    "width": 35040,
+    "height": 34507,
+    "total_pixels": 1209125280,
+    "band_count": 1,
+    "datatype": "float32",
+    "resolution": [
+      0.00083333333,
+      0.00083333333
+    ],
+    "bounds": {
+      "left": 68.195832,
+      "bottom": 6.755834,
+      "right": 97.395832,
+      "top": 35.511667
+    },
+    "transform": [
+      0.00083333,
+      0.0,
+      68.19583234,
+      0.0,
+      -0.00083333,
+      35.51166686,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "nodata_value": -99999.0
+  },
+  "spatial_coverage": {
+    "expected_india_bbox": {
+      "min_lon": 68.1,
+      "min_lat": 6.5,
+      "max_lon": 97.4,
+      "max_lat": 35.7
+    },
+    "raster_bounds": {
+      "left": 68.195832,
+      "bottom": 6.755834,
+      "right": 97.395832,
+      "top": 35.511667
+    },
+    "encompasses_india_bbox": false,
+    "note": "Raster bounding box matches national extent; national boundary masking should be performed with the authoritative India boundary layer."
+  },
+  "raster_validity": {
+    "opens_successfully": true,
+    "single_band_confirmed": true,
+    "corrupted_blocks": 0,
+    "nan_count": 0,
+    "inf_count": 0,
+    "negative_values_count": 0
+  },
+  "population_statistics": {
+    "valid_pixels": 139189379,
+    "valid_percentage": 11.51,
+    "nodata_pixels": 1069935901,
+    "nodata_percentage": 88.49,
+    "total_estimated_population": 1457435338.1,
+    "min_population_per_cell": 0.0,
+    "max_population_per_cell": 1911.6967,
+    "max_cell_location": {
+      "lon": 72.711249,
+      "lat": 11.692917,
+      "row": 28582,
+      "col": 5418
+    },
+    "mean_population_per_valid_cell": 10.4709,
+    "median_population_per_valid_cell": 4.4031,
+    "quantiles": {
+      "p10": 0.3613,
+      "p25": 1.5085,
+      "p50_median": 4.4031,
+      "p75": 11.1721,
+      "p90": 24.9758,
+      "p95": 39.3734,
+      "p99": 96.3731
+    },
+    "zero_population_cells": 17468,
+    "zero_population_percentage": 0.01,
+    "nonzero_population_cells": 139171911,
+    "nonzero_population_percentage": 99.99,
+    "standard_deviation_per_cell": 19.3655
+  },
+  "qa_checks": {
+    "warnings": [
+      "Raster bounds do not fully encompass standard India BBOX [68.1, 6.5, 97.4, 35.7]."
+    ],
+    "errors": [],
+    "status": "PASSED"
+  }
+}

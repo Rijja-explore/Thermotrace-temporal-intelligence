@@ -1,0 +1,81 @@
+{
+  "pipeline_name": "ThermoTrace Canonical Event Feature Engineering",
+  "pipeline_version": "1.0.0",
+  "execution_timestamp": "2026-09-03T06:18:02.813762+00:00",
+  "processing_duration_seconds": 50.55,
+  "event_counts": {
+    "total_input_events": 996891,
+    "processed_events": 1000,
+    "events_lost": 0,
+    "duplicate_event_ids": 0
+  },
+  "feature_table_specifications": {
+    "output_path": "D:\\New folder (2)\\data\\processed\\features\\event_features_v1.parquet",
+    "file_size_mb": 0.16,
+    "total_columns": 65,
+    "total_rows": 1000
+  },
+  "feature_group_readiness": {
+    "firms_m3_events": "READY",
+    "temporal_features": "READY",
+    "population_features": "READY",
+    "protected_area_features": "READY",
+    "osm_facilities": "READY",
+    "osm_infrastructure": "READY",
+    "worldcover_features": "READY (MOSAIC)",
+    "administrative_boundaries": "PENDING (Awaiting Survey of India boundaries)",
+    "weather": "PENDING (Scheduled for Layer-2)",
+    "sentinel2": "PENDING (Scheduled for Layer-2)",
+    "landsat": "PENDING (Scheduled for Layer-2)",
+    "m5_historical_baseline": "PENDING (Scheduled for M5)"
+  },
+  "data_lineage": {
+    "events_m3": {
+      "path": "D:\\New folder (2)\\data\\processed\\events\\events_v0_1.parquet",
+      "records": 1000
+    },
+    "population": {
+      "path": "D:\\New folder (2)\\data\\processed\\population\\population_india_100m.tif",
+      "resolution": "100m",
+      "source": "WorldPop 2025"
+    },
+    "protected_areas": {
+      "path": "D:\\New folder (2)\\data\\processed\\protected_areas\\protected_areas_india.gpkg",
+      "source": "UNEP-WCMC WDPA Sep 2026",
+      "polygons": 63,
+      "points": 27
+    },
+    "osm": {
+      "path": "D:\\New folder (2)\\data\\processed\\osm\\osm_india.gpkg",
+      "source": "OpenStreetMap India 2026-09-01",
+      "facilities": 169927,
+      "infrastructure": 1137267
+    },
+    "worldcover": {
+      "path": "D:\\New folder (2)\\data\\processed\\worldcover\\worldcover_india_10m.tif",
+      "status": "READY (MOSAIC)"
+    }
+  },
+  "missing_values_by_feature": {
+    "nearest_facility_name": 857,
+    "state": 1000,
+    "state_code": 1000,
+    "district": 1000,
+    "district_code": 1000
+  },
+  "feature_summary_statistics": {
+    "mean_population_at_event": 10.28,
+    "mean_population_1km": 3425.52,
+    "mean_population_5km": 56076.01,
+    "events_inside_protected_areas": 0,
+    "events_within_1km_protected_area": 0,
+    "events_near_power_plant": 101,
+    "events_near_factory": 67,
+    "events_near_refinery": 9,
+    "events_near_mine": 0,
+    "events_near_quarry": 120,
+    "mean_distance_to_major_road_km": 134.29,
+    "mean_distance_to_railway_km": 157.74
+  },
+  "quality_status": "PASSED"
+}

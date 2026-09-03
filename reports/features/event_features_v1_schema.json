@@ -1,0 +1,587 @@
+[
+  {
+    "column_name": "event_id",
+    "datatype": "string",
+    "description": "Unique ThermoTrace M3 Spatio-Temporal Thermal Event Identifier",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "Aggregated via M3 spatio-temporal clustering engine (DBSCAN + temporal tracking)",
+    "units": "Identifier",
+    "missing_value_meaning": "Not allowed (Primary Key)"
+  },
+  {
+    "column_name": "start_time",
+    "datatype": "string",
+    "description": "UTC timestamp of the earliest satellite detection in the event cluster",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "min(acq_date + acq_time) across clustered FIRMS detections",
+    "units": "ISO-8601 UTC Timestamp",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "end_time",
+    "datatype": "string",
+    "description": "UTC timestamp of the latest satellite detection in the event cluster",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "max(acq_date + acq_time) across clustered FIRMS detections",
+    "units": "ISO-8601 UTC Timestamp",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "duration_hours",
+    "datatype": "float32",
+    "description": "Total active observed event lifespan in hours",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "(end_time - start_time) in hours",
+    "units": "Hours",
+    "missing_value_meaning": "0.0 for single-detection events"
+  },
+  {
+    "column_name": "centroid_lat",
+    "datatype": "float32",
+    "description": "Weighted spatial centroid latitude of the event cluster",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "FRP-weighted mean latitude of member detections",
+    "units": "Degrees North (WGS 84)",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "centroid_lon",
+    "datatype": "float32",
+    "description": "Weighted spatial centroid longitude of the event cluster",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "FRP-weighted mean longitude of member detections",
+    "units": "Degrees East (WGS 84)",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "spatial_extent_km",
+    "datatype": "float32",
+    "description": "Maximum spatial diameter bounding the detection coordinates",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "Maximum pairwise Haversine distance between member detections",
+    "units": "Kilometers",
+    "missing_value_meaning": "0.0 for point events"
+  },
+  {
+    "column_name": "detection_count",
+    "datatype": "int32",
+    "description": "Total number of satellite detections aggregated into this event",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "Count of member FIRMS detections",
+    "units": "Count",
+    "missing_value_meaning": "Not allowed (min=1)"
+  },
+  {
+    "column_name": "unique_satellite_count",
+    "datatype": "int16",
+    "description": "Number of distinct observing satellite sensors",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "Distinct count of satellite identifiers (N20, N21, Suomi, Terra, Aqua)",
+    "units": "Count",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "satellites",
+    "datatype": "string",
+    "description": "Comma-separated list of observing platforms",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "Concatenation of sorted unique satellite names",
+    "units": "Categorical string",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "max_frp_mw",
+    "datatype": "float32",
+    "description": "Peak observed Fire Radiative Power across detections",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "max(frp) across cluster member detections",
+    "units": "Megawatts (MW)",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "mean_frp_mw",
+    "datatype": "float32",
+    "description": "Average Fire Radiative Power across detections",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "mean(frp) across cluster member detections",
+    "units": "Megawatts (MW)",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "median_frp_mw",
+    "datatype": "float32",
+    "description": "Median Fire Radiative Power across detections",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "median(frp) across cluster member detections",
+    "units": "Megawatts (MW)",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "sum_frp_mw",
+    "datatype": "float32",
+    "description": "Cumulative radiative energy proxy across detections",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "sum(frp) across cluster member detections",
+    "units": "Megawatts (MW)",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "event_quality",
+    "datatype": "string",
+    "description": "Event cluster categorization quality indicator",
+    "source_dataset": "data/processed/events/events_v0_1.parquet",
+    "calculation_method": "M3 classification (NORMAL, SINGLE_DETECTION, etc.)",
+    "units": "Categorical string",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "year",
+    "datatype": "int16",
+    "description": "Calendar year of event initiation",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "start_time.dt.year",
+    "units": "Year",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "month",
+    "datatype": "int8",
+    "description": "Calendar month of event initiation (1-12)",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "start_time.dt.month",
+    "units": "Month",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "day",
+    "datatype": "int8",
+    "description": "Day of the month (1-31)",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "start_time.dt.day",
+    "units": "Day",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "day_of_week",
+    "datatype": "int8",
+    "description": "Day of week index (0=Monday, 6=Sunday)",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "start_time.dt.dayofweek",
+    "units": "Index",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "hour",
+    "datatype": "int8",
+    "description": "UTC hour of event initiation (0-23)",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "start_time.dt.hour",
+    "units": "Hour (UTC)",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "season",
+    "datatype": "string",
+    "description": "India Meteorological Department (IMD) standard seasonal classification",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "Categorized by month: WINTER (12,1,2), PRE_MONSOON (3,4,5), MONSOON (6,7,8,9), POST_MONSOON (10,11)",
+    "units": "Categorical string",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "is_day",
+    "datatype": "boolean",
+    "description": "True if event occurred during daylight hours",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "day_detection_count >= night_detection_count",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "is_night",
+    "datatype": "boolean",
+    "description": "True if event occurred during nocturnal hours",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "~is_day",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "is_weekend",
+    "datatype": "boolean",
+    "description": "True if event occurred on Saturday or Sunday",
+    "source_dataset": "data_pipeline/features/temporal_features.py",
+    "calculation_method": "day_of_week >= 5",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "population_at_event",
+    "datatype": "float32",
+    "description": "Estimated resident population at the 100m grid cell containing centroid",
+    "source_dataset": "data/processed/population/population_india_100m.tif",
+    "calculation_method": "Nearest rasterio pixel sampling with NoData (-99999) handled as 0.0",
+    "units": "Persons / 100m cell",
+    "missing_value_meaning": "0.0 for uninhabited, oceanic, or external cells"
+  },
+  {
+    "column_name": "population_1km",
+    "datatype": "float32",
+    "description": "Total estimated population within 1km radius circle of centroid",
+    "source_dataset": "data/processed/population/population_india_100m.tif",
+    "calculation_method": "Sum of valid population raster cells within 10-pixel kernel",
+    "units": "Persons",
+    "missing_value_meaning": "0.0 for uninhabited zones"
+  },
+  {
+    "column_name": "population_5km",
+    "datatype": "float32",
+    "description": "Total estimated population within 5km radius circle of centroid",
+    "source_dataset": "data/processed/population/population_india_100m.tif",
+    "calculation_method": "Sum of valid population raster cells within 50-pixel kernel",
+    "units": "Persons",
+    "missing_value_meaning": "0.0 for uninhabited zones"
+  },
+  {
+    "column_name": "population_density_1km",
+    "datatype": "float32",
+    "description": "Population density within 1km radius of event centroid",
+    "source_dataset": "data_pipeline/features/raster_features.py",
+    "calculation_method": "population_1km / (pi * 1.0^2)",
+    "units": "Persons / km²",
+    "missing_value_meaning": "0.0 for uninhabited zones"
+  },
+  {
+    "column_name": "population_density_5km",
+    "datatype": "float32",
+    "description": "Population density within 5km radius of event centroid",
+    "source_dataset": "data_pipeline/features/raster_features.py",
+    "calculation_method": "population_5km / (pi * 5.0^2)",
+    "units": "Persons / km²",
+    "missing_value_meaning": "0.0 for uninhabited zones"
+  },
+  {
+    "column_name": "inside_protected_area",
+    "datatype": "boolean",
+    "description": "True if event centroid falls within an official India protected area boundary polygon",
+    "source_dataset": "data/processed/protected_areas/protected_areas_india.gpkg (protected_areas_polygons)",
+    "calculation_method": "STRtree spatial containment intersection query",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "protected_area_id",
+    "datatype": "string",
+    "description": "UNEP-WCMC Protected Area Identifier (WDPAID) for containing or closest site",
+    "source_dataset": "data/processed/protected_areas/protected_areas_india.gpkg",
+    "calculation_method": "Retrieved from containing polygon or nearest site record",
+    "units": "WDPAID",
+    "missing_value_meaning": "None if no site within search horizon"
+  },
+  {
+    "column_name": "protected_area_name",
+    "datatype": "string",
+    "description": "Official English name of the containing or closest protected area",
+    "source_dataset": "data/processed/protected_areas/protected_areas_india.gpkg",
+    "calculation_method": "Retrieved from containing polygon or nearest site record",
+    "units": "Name string",
+    "missing_value_meaning": "None if no site within search horizon"
+  },
+  {
+    "column_name": "protected_area_designation",
+    "datatype": "string",
+    "description": "Designation classification (National Park, Wildlife Sanctuary, Ramsar Site, etc.)",
+    "source_dataset": "data/processed/protected_areas/protected_areas_india.gpkg",
+    "calculation_method": "Retrieved from containing polygon or nearest site record",
+    "units": "Categorical string",
+    "missing_value_meaning": "None if no site within search horizon"
+  },
+  {
+    "column_name": "distance_to_protected_area_km",
+    "datatype": "float32",
+    "description": "Great-circle distance to the nearest protected area boundary (0.0 if inside)",
+    "source_dataset": "data_pipeline/features/protected_area_features.py",
+    "calculation_method": "Haversine distance to nearest boundary or centroid",
+    "units": "Kilometers",
+    "missing_value_meaning": "Not allowed (min=0.0)"
+  },
+  {
+    "column_name": "protected_area_within_1km",
+    "datatype": "boolean",
+    "description": "True if event is inside or within 1km of a protected area boundary",
+    "source_dataset": "data_pipeline/features/protected_area_features.py",
+    "calculation_method": "distance_to_protected_area_km <= 1.0",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "protected_area_within_5km",
+    "datatype": "boolean",
+    "description": "True if event is inside or within 5km of a protected area boundary",
+    "source_dataset": "data_pipeline/features/protected_area_features.py",
+    "calculation_method": "distance_to_protected_area_km <= 5.0",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "nearest_facility_id",
+    "datatype": "string",
+    "description": "OpenStreetMap object ID of the closest industrial facility",
+    "source_dataset": "data/processed/osm/osm_india.gpkg (osm_facilities)",
+    "calculation_method": "Nearest neighbor query on 3D spherical cKDTree of representative coordinates",
+    "units": "OSM Identifier",
+    "missing_value_meaning": "None if no facility indexed"
+  },
+  {
+    "column_name": "nearest_facility_type",
+    "datatype": "string",
+    "description": "Normalized category of the closest industrial facility",
+    "source_dataset": "data/processed/osm/osm_india.gpkg (osm_facilities)",
+    "calculation_method": "Retrieved from nearest facility record",
+    "units": "Categorical string (POWER_PLANT, FACTORY, REFINERY, etc.)",
+    "missing_value_meaning": "None if no facility indexed"
+  },
+  {
+    "column_name": "nearest_facility_name",
+    "datatype": "string",
+    "description": "Name of the closest industrial facility if tagged in OpenStreetMap",
+    "source_dataset": "data/processed/osm/osm_india.gpkg (osm_facilities)",
+    "calculation_method": "Retrieved from nearest facility record",
+    "units": "Name string",
+    "missing_value_meaning": "Null for unnamed industrial structures"
+  },
+  {
+    "column_name": "distance_to_facility_km",
+    "datatype": "float32",
+    "description": "Distance from event centroid to the nearest representative facility centroid",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "Spherical cKDTree nearest neighbor query in kilometers",
+    "units": "Kilometers",
+    "missing_value_meaning": "Not allowed (min=0.0)"
+  },
+  {
+    "column_name": "near_power_plant",
+    "datatype": "boolean",
+    "description": "True if event is within 2km of an OSM-mapped thermal/solar/hydro power plant",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "cKDTree query_ball_point with radius=2.0 km",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "near_factory",
+    "datatype": "boolean",
+    "description": "True if event is within 2km of an OSM-mapped factory or manufacturing facility",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "cKDTree query_ball_point with radius=2.0 km",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "near_refinery",
+    "datatype": "boolean",
+    "description": "True if event is within 5km of an OSM-mapped oil/gas/petrochemical refinery",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "cKDTree query_ball_point with radius=5.0 km",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "near_mine",
+    "datatype": "boolean",
+    "description": "True if event is within 5km of an OSM-mapped open-pit/underground mine",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "cKDTree query_ball_point with radius=5.0 km",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "near_quarry",
+    "datatype": "boolean",
+    "description": "True if event is within 3km of an OSM-mapped stone/aggregate quarry",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "cKDTree query_ball_point with radius=3.0 km",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "near_storage_facility",
+    "datatype": "boolean",
+    "description": "True if event is within 2km of an OSM-mapped storage tank / logistics depot",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "cKDTree query_ball_point with radius=2.0 km",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "near_substation",
+    "datatype": "boolean",
+    "description": "True if event is within 2km of an OSM-mapped electrical transmission substation",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "cKDTree query_ball_point with radius=2.0 km",
+    "units": "Boolean",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "distance_to_major_road_km",
+    "datatype": "float32",
+    "description": "Distance to the nearest major road (motorway, trunk, primary, secondary, tertiary)",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "Spherical cKDTree nearest neighbor query against road network",
+    "units": "Kilometers",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "distance_to_railway_km",
+    "datatype": "float32",
+    "description": "Distance to the nearest railway corridor or freight line",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "Spherical cKDTree nearest neighbor query against railway network",
+    "units": "Kilometers",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "distance_to_power_line_km",
+    "datatype": "float32",
+    "description": "Distance to the nearest overhead high-voltage power transmission line",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "Spherical cKDTree nearest neighbor query against power line corridors",
+    "units": "Kilometers",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "distance_to_pipeline_km",
+    "datatype": "float32",
+    "description": "Distance to the nearest mapped gas/oil/water utility pipeline",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "Spherical cKDTree nearest neighbor query against pipeline network",
+    "units": "Kilometers",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "distance_to_airport_km",
+    "datatype": "float32",
+    "description": "Distance to the nearest airport, airfield, or military runway perimeter",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "Spherical cKDTree nearest neighbor query against aviation infrastructure",
+    "units": "Kilometers",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "distance_to_port_km",
+    "datatype": "float32",
+    "description": "Distance to the nearest major marine commercial shipping seaport or harbour",
+    "source_dataset": "data_pipeline/features/osm_features.py",
+    "calculation_method": "Spherical cKDTree nearest neighbor query against port infrastructure",
+    "units": "Kilometers",
+    "missing_value_meaning": "Not allowed"
+  },
+  {
+    "column_name": "landcover_class",
+    "datatype": "int16",
+    "description": "ESA WorldCover 10m 2021 v200 categorical classification value at event centroid",
+    "source_dataset": "data/processed/worldcover/ or data/raw/worldcover/india/",
+    "calculation_method": "Nearest-neighbour windowed sampling of 10m land cover raster",
+    "units": "Class ID (10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100)",
+    "missing_value_meaning": "0 for background oceans or unclassified peripheral cells"
+  },
+  {
+    "column_name": "landcover_name",
+    "datatype": "string",
+    "description": "Descriptive label corresponding to landcover_class",
+    "source_dataset": "data_pipeline/features/raster_features.py",
+    "calculation_method": "Lookup in official ESA WorldCover 2021 categorical scheme",
+    "units": "Categorical string (Tree cover, Cropland, Built-up, etc.)",
+    "missing_value_meaning": "NoData / Water"
+  },
+  {
+    "column_name": "forest_fraction_1km",
+    "datatype": "float32",
+    "description": "Proportion of land classified as Tree cover (class 10) within 1km buffer",
+    "source_dataset": "data_pipeline/features/raster_features.py",
+    "calculation_method": "mean(valid_pixels == 10) across 1km neighborhood window",
+    "units": "Fraction [0.0 - 1.0]",
+    "missing_value_meaning": "0.0 if no tree cover present"
+  },
+  {
+    "column_name": "cropland_fraction_1km",
+    "datatype": "float32",
+    "description": "Proportion of land classified as Cropland (class 40) within 1km buffer",
+    "source_dataset": "data_pipeline/features/raster_features.py",
+    "calculation_method": "mean(valid_pixels == 40) across 1km neighborhood window",
+    "units": "Fraction [0.0 - 1.0]",
+    "missing_value_meaning": "0.0 if no cropland present"
+  },
+  {
+    "column_name": "builtup_fraction_1km",
+    "datatype": "float32",
+    "description": "Proportion of land classified as Built-up / Urban (class 50) within 1km buffer",
+    "source_dataset": "data_pipeline/features/raster_features.py",
+    "calculation_method": "mean(valid_pixels == 50) across 1km neighborhood window",
+    "units": "Fraction [0.0 - 1.0]",
+    "missing_value_meaning": "0.0 if no built-up area present"
+  },
+  {
+    "column_name": "grassland_fraction_1km",
+    "datatype": "float32",
+    "description": "Proportion of land classified as Grassland (class 30) within 1km buffer",
+    "source_dataset": "data_pipeline/features/raster_features.py",
+    "calculation_method": "mean(valid_pixels == 30) across 1km neighborhood window",
+    "units": "Fraction [0.0 - 1.0]",
+    "missing_value_meaning": "0.0 if no grassland present"
+  },
+  {
+    "column_name": "water_fraction_1km",
+    "datatype": "float32",
+    "description": "Proportion of land classified as Permanent water bodies (class 80) within 1km buffer",
+    "source_dataset": "data_pipeline/features/raster_features.py",
+    "calculation_method": "mean(valid_pixels == 80) across 1km neighborhood window",
+    "units": "Fraction [0.0 - 1.0]",
+    "missing_value_meaning": "0.0 if no water bodies present"
+  },
+  {
+    "column_name": "country",
+    "datatype": "string",
+    "description": "Sovereign national entity containing the event",
+    "source_dataset": "data_pipeline/features/boundary_features.py",
+    "calculation_method": "Assigned national boundary",
+    "units": "Country Name",
+    "missing_value_meaning": "India"
+  },
+  {
+    "column_name": "state",
+    "datatype": "string",
+    "description": "First-level administrative state / union territory",
+    "source_dataset": "data/processed/boundaries/india_admin.gpkg",
+    "calculation_method": "Spatial join with official state polygon",
+    "units": "State Name",
+    "missing_value_meaning": "Null (Pending Survey of India boundary ingestion)"
+  },
+  {
+    "column_name": "state_code",
+    "datatype": "string",
+    "description": "Standardized two-character state ISO or census code",
+    "source_dataset": "data/processed/boundaries/india_admin.gpkg",
+    "calculation_method": "Retrieved from state polygon attribute",
+    "units": "State Code",
+    "missing_value_meaning": "Null (Pending Survey of India boundary ingestion)"
+  },
+  {
+    "column_name": "district",
+    "datatype": "string",
+    "description": "Second-level administrative district name (Zilla)",
+    "source_dataset": "data/processed/boundaries/india_admin.gpkg",
+    "calculation_method": "Spatial join with official district polygon",
+    "units": "District Name",
+    "missing_value_meaning": "Null (Pending Survey of India boundary ingestion)"
+  },
+  {
+    "column_name": "district_code",
+    "datatype": "string",
+    "description": "Official Local Government Directory (LGD) district code",
+    "source_dataset": "data/processed/boundaries/india_admin.gpkg",
+    "calculation_method": "Retrieved from district polygon attribute",
+    "units": "LGD Code",
+    "missing_value_meaning": "Null (Pending Survey of India boundary ingestion)"
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "pipeline_name": "ThermoTrace Canonical Event Feature Engineering V2",
+  "pipeline_version": "2.0.0",
+  "execution_timestamp": "2026-09-03T10:36:57.741350+00:00",
+  "processing_duration_seconds": 78.02,
+  "cardinality": {
+    "input_v1_events": 996891,
+    "output_v2_events": 996891,
+    "unique_event_ids": 996891,
+    "duplicate_event_ids": 0,
+    "preservation_percentage": 100.0
+  },
+  "specifications": {
+    "output_path": "D:\\New folder (2)\\data\\processed\\features\\event_features_v2.parquet",
+    "file_size_mb": 210.97,
+    "total_columns": 144,
+    "v1_columns_preserved": 65,
+    "v2_new_columns": 79
+  },
+  "risk_distributions": {
+    "mean_baseline_risk_score": 25.39,
+    "median_baseline_risk_score": 24.04,
+    "max_baseline_risk_score": 75.03,
+    "risk_level_counts": {
+      "LOW": 698500,
+      "MODERATE": 297205,
+      "HIGH": 1186
+    },
+    "top_primary_risk_reasons": {
+      "REPEATED_ACTIVITY": 380623,
+      "HIGH_POPULATION_EXPOSURE": 234366,
+      "FOREST_DOMINANT_LANDCOVER": 187012,
+      "BASELINE_MONITORING": 114804,
+      "HIGH_THERMAL_INTENSITY": 36022
+    }
+  },
+  "component_averages": {
+    "thermal_risk_component": 25.18,
+    "exposure_risk_component": 33.93,
+    "environmental_risk_component": 30.03,
+    "conservation_risk_component": 0.2,
+    "industrial_context_component": 17.93,
+    "infrastructure_context_component": 32.14,
+    "recurrence_component": 43.73
+  },
+  "missing_values_by_feature": {
+    "nearest_facility_name": 712516,
+    "state": 996891,
+    "state_code": 996891,
+    "district": 996891,
+    "district_code": 996891
+  },
+  "quality_status": "PASS"
+}
