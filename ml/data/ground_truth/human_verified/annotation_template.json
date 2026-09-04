@@ -1,0 +1,15 @@
+{
+  "event_id": "TT-EVT-00000000",
+  "annotator_id": "ANNOTATOR_01",
+  "assigned_class": "unknown_requires_verification",
+  "confidence": "LOW",
+  "evidence_used": {
+    "thermal": ["max_frp_mw", "duration_hours"],
+    "temporal": ["events_previous_30d", "active_days_previous_30d"],
+    "land_cover": ["cropland_fraction_1km", "forest_fraction_1km"],
+    "infrastructure": ["distance_to_facility_km"]
+  },
+  "annotation_notes": "Example human annotation record template. Replace with real human review data.",
+  "timestamp": "2026-09-04T00:00:00Z",
+  "review_status": "pending"
+}

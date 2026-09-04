@@ -1,0 +1,79 @@
+{
+  "selected_variant": "M4-B",
+  "tied_variants": [
+    "M4-B",
+    "M4-C",
+    "M4-D",
+    "M4-E",
+    "M4-F"
+  ],
+  "validation_macro_f1_all_tied": 0.8333,
+  "validation_balanced_acc_all_tied": 1.0,
+  "variant_comparison_table": {
+    "M4-A": {
+      "variant_id": "M4-A",
+      "strategy": "None (imbalanced original)",
+      "train_sample_count": 1120,
+      "altered_or_dropped_train_rows": 0,
+      "sample_weight_used": false,
+      "val_macro_f1_6class": 0.9804195804195803,
+      "val_balanced_accuracy": 0.9666666666666668,
+      "train_time_sec": 1.8924
+    },
+    "M4-B": {
+      "variant_id": "M4-B",
+      "strategy": "compute_sample_weight('balanced', y_train)",
+      "train_sample_count": 1120,
+      "altered_or_dropped_train_rows": 0,
+      "sample_weight_used": true,
+      "val_macro_f1_6class": 1.0,
+      "val_balanced_accuracy": 1.0,
+      "train_time_sec": 0.5188
+    },
+    "M4-C": {
+      "variant_id": "M4-C",
+      "strategy": "Square-Root Smooth Weights: {'mining_or_other_industrial_activity': 0.5554637206007079, 'wildfire_or_forest_fire': 1.0829473067097712, 'unknown_requires_verification': 1.4335431181375862, 'persistent_industrial_source': 2.0, 'agricultural_burning': 2.4279079146675357}",
+      "train_sample_count": 1120,
+      "altered_or_dropped_train_rows": 0,
+      "sample_weight_used": false,
+      "val_macro_f1_6class": 1.0,
+      "val_balanced_accuracy": 1.0,
+      "train_time_sec": 0.517
+    },
+    "M4-D": {
+      "variant_id": "M4-D",
+      "strategy": "Majority Undersampling: mining_n=382, non_mining_n=394",
+      "train_sample_count": 776,
+      "altered_or_dropped_train_rows": 344,
+      "sample_weight_used": false,
+      "val_macro_f1_6class": 1.0,
+      "val_balanced_accuracy": 1.0,
+      "train_time_sec": 0.6304
+    },
+    "M4-E": {
+      "variant_id": "M4-E",
+      "strategy": "Stratified Capping: mining_n=250, total_n=644",
+      "train_sample_count": 644,
+      "altered_or_dropped_train_rows": 476,
+      "sample_weight_used": false,
+      "val_macro_f1_6class": 1.0,
+      "val_balanced_accuracy": 1.0,
+      "train_time_sec": 0.4923
+    },
+    "M4-F": {
+      "variant_id": "M4-F",
+      "strategy": "Balanced Sample Weights + Bounded Grid Search HPO",
+      "train_sample_count": 1120,
+      "altered_or_dropped_train_rows": 0,
+      "sample_weight_used": false,
+      "val_macro_f1_6class": 1.0,
+      "val_balanced_accuracy": 1.0,
+      "train_time_sec": 9.3532
+    }
+  },
+  "selection_rationale_analysis": {
+    "m4_b_assessment": "Applies class inverse sample weights directly to all 1,120 original training records without dropping any rows or altering data semantics.",
+    "m4_e_assessment": "Applies deterministic stratified capping (reducing mining rows from 726 to 250), yielding N=644 training rows (476 rows dropped).",
+    "simplest_intervention_verdict": "M4-B is the selected development model because it represents the simplest and least destructive intervention among the tied top-performing variants: it retains all N=1,120 training records, uses standard balanced sample weighting, and achieves identical validation Macro F1 (0.8333) and Balanced Accuracy (1.0000) as M4-E, M4-C, M4-D, and M4-F."
+  }
+}

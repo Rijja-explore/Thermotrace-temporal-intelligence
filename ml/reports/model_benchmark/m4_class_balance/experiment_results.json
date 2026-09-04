@@ -1,0 +1,548 @@
+{
+  "M4-A": {
+    "variant_id": "M4-A",
+    "description": "Baseline HistGradientBoosting without class weighting",
+    "train_count": 1120,
+    "val_count": 280,
+    "class_distribution_used": {
+      "mining_or_other_industrial_activity": 726,
+      "wildfire_or_forest_fire": 191,
+      "unknown_requires_verification": 109,
+      "persistent_industrial_source": 56,
+      "agricultural_burning": 38
+    },
+    "weighting_undersampling_config": "None (imbalanced original)",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "class_weight": null
+    },
+    "train_time_sec": 1.8924,
+    "val_macro_f1": 0.9804195804195803,
+    "val_balanced_accuracy": 0.9666666666666668,
+    "val_accuracy": 0.9964285714285714,
+    "delta_macro_f1_vs_m4_a": 0.0,
+    "delta_balanced_accuracy_vs_m4_a": 0.0,
+    "per_class_precision": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 0.9861111111111112,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_recall": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 0.8333333333333334,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_f1": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 0.9090909090909091,
+      "unknown_requires_verification": 0.993006993006993,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_support": {
+      "agricultural_burning": 29,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    },
+    "confusion_matrix": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        5,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ]
+  },
+  "M4-B": {
+    "variant_id": "M4-B",
+    "description": "Class-balanced training using sample_weight inverse to class frequencies",
+    "train_count": 1120,
+    "val_count": 280,
+    "class_distribution_used": {
+      "mining_or_other_industrial_activity": 726,
+      "wildfire_or_forest_fire": 191,
+      "unknown_requires_verification": 109,
+      "persistent_industrial_source": 56,
+      "agricultural_burning": 38
+    },
+    "weighting_undersampling_config": "compute_sample_weight('balanced', y_train)",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "sample_weight": "balanced"
+    },
+    "train_time_sec": 0.5188,
+    "val_macro_f1": 1.0,
+    "val_balanced_accuracy": 1.0,
+    "val_accuracy": 1.0,
+    "delta_macro_f1_vs_m4_a": 0.0196,
+    "delta_balanced_accuracy_vs_m4_a": 0.0333,
+    "per_class_precision": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_recall": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_f1": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_support": {
+      "agricultural_burning": 29,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    },
+    "confusion_matrix": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ]
+  },
+  "M4-C": {
+    "variant_id": "M4-C",
+    "description": "Moderate class weighting using square-root smoothed sample weights w_c = sqrt(N / (K * n_c))",
+    "train_count": 1120,
+    "val_count": 280,
+    "class_distribution_used": {
+      "mining_or_other_industrial_activity": 726,
+      "wildfire_or_forest_fire": 191,
+      "unknown_requires_verification": 109,
+      "persistent_industrial_source": 56,
+      "agricultural_burning": 38
+    },
+    "weighting_undersampling_config": "Square-Root Smooth Weights: {'mining_or_other_industrial_activity': 0.5554637206007079, 'wildfire_or_forest_fire': 1.0829473067097712, 'unknown_requires_verification': 1.4335431181375862, 'persistent_industrial_source': 2.0, 'agricultural_burning': 2.4279079146675357}",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "sample_weight": "smooth_sqrt"
+    },
+    "train_time_sec": 0.517,
+    "val_macro_f1": 1.0,
+    "val_balanced_accuracy": 1.0,
+    "val_accuracy": 1.0,
+    "delta_macro_f1_vs_m4_a": 0.0196,
+    "delta_balanced_accuracy_vs_m4_a": 0.0333,
+    "per_class_precision": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_recall": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_f1": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_support": {
+      "agricultural_burning": 29,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    },
+    "confusion_matrix": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ]
+  },
+  "M4-D": {
+    "variant_id": "M4-D",
+    "description": "Controlled undersampling reducing dominant mining class from 726 to 382 instances",
+    "train_count": 776,
+    "val_count": 280,
+    "class_distribution_used": {
+      "mining_or_other_industrial_activity": 382,
+      "wildfire_or_forest_fire": 191,
+      "unknown_requires_verification": 109,
+      "persistent_industrial_source": 56,
+      "agricultural_burning": 38
+    },
+    "weighting_undersampling_config": "Majority Undersampling: mining_n=382, non_mining_n=394",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "undersampling": "mining_to_382"
+    },
+    "train_time_sec": 0.6304,
+    "val_macro_f1": 1.0,
+    "val_balanced_accuracy": 1.0,
+    "val_accuracy": 1.0,
+    "delta_macro_f1_vs_m4_a": 0.0196,
+    "delta_balanced_accuracy_vs_m4_a": 0.0333,
+    "per_class_precision": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_recall": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_f1": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_support": {
+      "agricultural_burning": 29,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    },
+    "confusion_matrix": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ]
+  },
+  "M4-E": {
+    "variant_id": "M4-E",
+    "description": "Deterministic stratified subset capping majority mining class to 250 instances",
+    "train_count": 644,
+    "val_count": 280,
+    "class_distribution_used": {
+      "mining_or_other_industrial_activity": 250,
+      "wildfire_or_forest_fire": 191,
+      "unknown_requires_verification": 109,
+      "persistent_industrial_source": 56,
+      "agricultural_burning": 38
+    },
+    "weighting_undersampling_config": "Stratified Capping: mining_n=250, total_n=644",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "stratification": "cap_majority_250"
+    },
+    "train_time_sec": 0.4923,
+    "val_macro_f1": 1.0,
+    "val_balanced_accuracy": 1.0,
+    "val_accuracy": 1.0,
+    "delta_macro_f1_vs_m4_a": 0.0196,
+    "delta_balanced_accuracy_vs_m4_a": 0.0333,
+    "per_class_precision": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_recall": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_f1": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_support": {
+      "agricultural_burning": 29,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    },
+    "confusion_matrix": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ]
+  },
+  "M4-F": {
+    "variant_id": "M4-F",
+    "description": "Balanced sample weighting with bounded grid search HPO {'learning_rate': 0.03, 'l2_regularization': 0.0001, 'max_depth': 4, 'sample_weight': 'balanced'}",
+    "train_count": 1120,
+    "val_count": 280,
+    "class_distribution_used": {
+      "mining_or_other_industrial_activity": 726,
+      "wildfire_or_forest_fire": 191,
+      "unknown_requires_verification": 109,
+      "persistent_industrial_source": 56,
+      "agricultural_burning": 38
+    },
+    "weighting_undersampling_config": "Balanced Sample Weights + Bounded Grid Search HPO",
+    "hyperparameters": {
+      "learning_rate": 0.03,
+      "l2_regularization": 0.0001,
+      "max_depth": 4,
+      "sample_weight": "balanced"
+    },
+    "train_time_sec": 9.3532,
+    "val_macro_f1": 1.0,
+    "val_balanced_accuracy": 1.0,
+    "val_accuracy": 1.0,
+    "delta_macro_f1_vs_m4_a": 0.0196,
+    "delta_balanced_accuracy_vs_m4_a": 0.0333,
+    "per_class_precision": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_recall": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_f1": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "per_class_support": {
+      "agricultural_burning": 29,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    },
+    "confusion_matrix": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ]
+  }
+}

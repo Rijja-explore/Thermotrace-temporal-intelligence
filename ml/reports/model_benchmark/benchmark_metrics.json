@@ -1,0 +1,79 @@
+{
+  "M1_Majority_Baseline": {
+    "val_macro_f1": 0.07042253521126761,
+    "val_balanced_acc": 0.2,
+    "val_accuracy": 0.26785714285714285,
+    "eval_macro_f1": 0.012820512820512822,
+    "eval_balanced_acc": 0.16666666666666666,
+    "eval_accuracy": 0.04,
+    "eval_industrial_precision": 0.04,
+    "eval_fp_reduction": 0.0,
+    "train_time_sec": 0.001
+  },
+  "M2_Logistic_Regression": {
+    "val_macro_f1": 0.6815460517227822,
+    "val_balanced_acc": 0.8263184148429413,
+    "val_accuracy": 0.8964285714285715,
+    "eval_macro_f1": 0.5229873800013197,
+    "eval_balanced_acc": 0.5746223196881092,
+    "eval_accuracy": 0.65,
+    "eval_industrial_precision": 0.3783783783783784,
+    "eval_fp_reduction": 0.0,
+    "train_time_sec": 0.0915
+  },
+  "M3_Random_Forest": {
+    "val_macro_f1": 0.7754116485421633,
+    "val_balanced_acc": 0.9204502528931864,
+    "val_accuracy": 0.9678571428571429,
+    "eval_macro_f1": 0.5316698679738686,
+    "eval_balanced_acc": 0.5537889863547759,
+    "eval_accuracy": 0.66,
+    "eval_industrial_precision": 0.35135135135135137,
+    "eval_fp_reduction": 0.0,
+    "train_time_sec": 0.2342
+  },
+  "M4_Hist_Gradient_Boosting": {
+    "val_macro_f1": 0.8170163170163169,
+    "val_balanced_acc": 0.9666666666666668,
+    "val_accuracy": 0.9964285714285714,
+    "eval_macro_f1": 0.5877430600511175,
+    "eval_balanced_acc": 0.6403508771929824,
+    "eval_accuracy": 0.72,
+    "eval_industrial_precision": 0.39473684210526316,
+    "eval_fp_reduction": 0.0,
+    "train_time_sec": 1.9296
+  },
+  "M5_XGBoost": {
+    "val_macro_f1": 0.8170163170163169,
+    "val_balanced_acc": 0.9666666666666668,
+    "val_accuracy": 0.9964285714285714,
+    "eval_macro_f1": 0.5640421503664989,
+    "eval_balanced_acc": 0.6162889863547759,
+    "eval_accuracy": 0.69,
+    "eval_industrial_precision": 0.3684210526315789,
+    "eval_fp_reduction": 0.0,
+    "train_time_sec": 0.5076
+  },
+  "M6_PyTorch_Temporal_MLP": {
+    "val_macro_f1": 0.7107098613290453,
+    "val_balanced_acc": 0.8419331734047615,
+    "val_accuracy": 0.925,
+    "eval_macro_f1": 0.48737070567280466,
+    "eval_balanced_acc": 0.5401437621832358,
+    "eval_accuracy": 0.61,
+    "eval_industrial_precision": 0.35135135135135137,
+    "eval_fp_reduction": 0.0,
+    "train_time_sec": 3.5429
+  },
+  "M7_Hybrid_Rule_ML_Ensemble": {
+    "val_macro_f1": 0.780126633986928,
+    "val_balanced_acc": 0.9469483568075118,
+    "val_accuracy": 0.9714285714285714,
+    "eval_macro_f1": 0.5666631607943304,
+    "eval_balanced_acc": 0.6076998050682262,
+    "eval_accuracy": 0.69,
+    "eval_industrial_precision": 0.3902439024390244,
+    "eval_fp_reduction": 0.0,
+    "train_time_sec": 0.2413
+  }
+}

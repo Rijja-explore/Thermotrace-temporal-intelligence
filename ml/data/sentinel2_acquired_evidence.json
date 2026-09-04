@@ -1,0 +1,134 @@
+[
+  {
+    "event_id": "TT-EVT-00199756",
+    "centroid_lat": 23.767667083333333,
+    "centroid_lon": 86.39284666666667,
+    "start_time": "2025-12-29T19:07:00",
+    "stac_evidence_status": "STAC_SCENES_FOUND",
+    "scenes_found": 3,
+    "scenes": [
+      {
+        "scene_id": "S2C_45QVG_20260101_0_L2A",
+        "datetime": "2026-01-01T05:02:09.470000Z",
+        "cloud_cover": 0.001277,
+        "thumbnail_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2026/1/S2C_45QVG_20260101_0_L2A/preview.jpg",
+        "visual_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2026/1/S2C_45QVG_20260101_0_L2A/TCI.tif",
+        "s3_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2026/1/S2C_45QVG_20260101_0_L2A/B04.tif"
+      },
+      {
+        "scene_id": "S2B_45QVG_20251227_0_L2A",
+        "datetime": "2025-12-27T05:02:01.740000Z",
+        "cloud_cover": 0.041427,
+        "thumbnail_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2B_45QVG_20251227_0_L2A/preview.jpg",
+        "visual_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2B_45QVG_20251227_0_L2A/TCI.tif",
+        "s3_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2B_45QVG_20251227_0_L2A/B04.tif"
+      },
+      {
+        "scene_id": "S2A_45QVG_20251224_1_L2A",
+        "datetime": "2025-12-24T05:02:21.371000Z",
+        "cloud_cover": 32.776827,
+        "thumbnail_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2A_45QVG_20251224_1_L2A/preview.jpg",
+        "visual_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2A_45QVG_20251224_1_L2A/TCI.tif",
+        "s3_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2A_45QVG_20251224_1_L2A/B04.tif"
+      }
+    ]
+  },
+  {
+    "event_id": "TT-EVT-00203868",
+    "centroid_lat": 23.76749,
+    "centroid_lon": 86.39819,
+    "start_time": "2025-12-31T19:19:00",
+    "stac_evidence_status": "STAC_SCENES_FOUND",
+    "scenes_found": 2,
+    "scenes": [
+      {
+        "scene_id": "S2C_45QVG_20260101_0_L2A",
+        "datetime": "2026-01-01T05:02:09.470000Z",
+        "cloud_cover": 0.001277,
+        "thumbnail_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2026/1/S2C_45QVG_20260101_0_L2A/preview.jpg",
+        "visual_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2026/1/S2C_45QVG_20260101_0_L2A/TCI.tif",
+        "s3_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2026/1/S2C_45QVG_20260101_0_L2A/B04.tif"
+      },
+      {
+        "scene_id": "S2B_45QVG_20251227_0_L2A",
+        "datetime": "2025-12-27T05:02:01.740000Z",
+        "cloud_cover": 0.041427,
+        "thumbnail_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2B_45QVG_20251227_0_L2A/preview.jpg",
+        "visual_url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2B_45QVG_20251227_0_L2A/TCI.tif",
+        "s3_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/Q/VG/2025/12/S2B_45QVG_20251227_0_L2A/B04.tif"
+      }
+    ]
+  },
+  {
+    "event_id": "TT-EVT-00205422",
+    "centroid_lat": 23.76884,
+    "centroid_lon": 86.39651105263158,
+    "start_time": "2026-01-01T19:00:00",
+    "stac_evidence_status": "NO_SCENE_AVAILABLE",
+    "scenes_found": 0,
+    "scenes": []
+  },
+  {
+    "event_id": "TT-EVT-00214400",
+    "centroid_lat": 23.77022043478261,
+    "centroid_lon": 86.38831086956522,
+    "start_time": "2026-01-06T19:08:00",
+    "stac_evidence_status": "NO_SCENE_AVAILABLE",
+    "scenes_found": 0,
+    "scenes": []
+  },
+  {
+    "event_id": "TT-EVT-00203874",
+    "centroid_lat": 23.79641666666667,
+    "centroid_lon": 86.35023666666666,
+    "start_time": "2025-12-31T19:19:00",
+    "stac_evidence_status": "NO_SCENE_AVAILABLE",
+    "scenes_found": 0,
+    "scenes": []
+  },
+  {
+    "event_id": "TT-EVT-00205423",
+    "centroid_lat": 23.77502722222222,
+    "centroid_lon": 86.37036944444445,
+    "start_time": "2026-01-01T19:00:00",
+    "stac_evidence_status": "NO_SCENE_AVAILABLE",
+    "scenes_found": 0,
+    "scenes": []
+  },
+  {
+    "event_id": "TT-EVT-00355032",
+    "centroid_lat": 23.762445185185182,
+    "centroid_lon": 86.3960148148148,
+    "start_time": "2026-02-19T19:33:00",
+    "stac_evidence_status": "NO_SCENE_AVAILABLE",
+    "scenes_found": 0,
+    "scenes": []
+  },
+  {
+    "event_id": "TT-EVT-00205425",
+    "centroid_lat": 23.79768727272728,
+    "centroid_lon": 86.35079545454545,
+    "start_time": "2026-01-01T19:00:00",
+    "stac_evidence_status": "NO_SCENE_AVAILABLE",
+    "scenes_found": 0,
+    "scenes": []
+  },
+  {
+    "event_id": "TT-EVT-00203869",
+    "centroid_lat": 23.773356875,
+    "centroid_lon": 86.3694225,
+    "start_time": "2025-12-31T19:19:00",
+    "stac_evidence_status": "NO_SCENE_AVAILABLE",
+    "scenes_found": 0,
+    "scenes": []
+  },
+  {
+    "event_id": "TT-EVT-00378258",
+    "centroid_lat": 23.76947722222222,
+    "centroid_lon": 86.38883648148148,
+    "start_time": "2026-02-25T19:20:00",
+    "stac_evidence_status": "NO_SCENE_AVAILABLE",
+    "scenes_found": 0,
+    "scenes": []
+  }
+]

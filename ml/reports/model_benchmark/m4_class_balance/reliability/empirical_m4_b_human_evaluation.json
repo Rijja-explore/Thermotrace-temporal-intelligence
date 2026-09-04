@@ -1,0 +1,193 @@
+{
+  "model_id": "M4-B",
+  "checkpoint_path": "ml/models/benchmark/m4_class_balance/best_m4_class_balance_variant.joblib",
+  "human_ground_truth_path": "ml/data/ground_truth/human_verified/pilot_v2/reliability/human_ground_truth_30.json",
+  "evaluation_provenance": "canonical_human_ground_truth_30",
+  "sample_size": 30,
+  "overall_metrics": {
+    "accuracy": 0.7,
+    "correct_count": 21,
+    "error_count": 9,
+    "error_rate": 0.3,
+    "balanced_accuracy": 0.6333,
+    "macro_f1_6class": 0.5879
+  },
+  "per_class_metrics": {
+    "agricultural_burning": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 1
+    },
+    "industrial_fire_or_abnormal_event": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 1
+    },
+    "mining_or_other_industrial_activity": {
+      "precision": 0.125,
+      "recall": 0.5,
+      "f1": 0.2,
+      "support": 2
+    },
+    "persistent_industrial_source": {
+      "precision": 1.0,
+      "recall": 0.3,
+      "f1": 0.4615,
+      "support": 10
+    },
+    "unknown_requires_verification": {
+      "precision": 0.9167,
+      "recall": 1.0,
+      "f1": 0.9565,
+      "support": 11
+    },
+    "wildfire_or_forest_fire": {
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1": 0.9091,
+      "support": 5
+    }
+  },
+  "confusion_matrix": {
+    "matrix": [
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        7,
+        3,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        11,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5
+      ]
+    ],
+    "row_label": "Empirical Human Ground Truth",
+    "col_label": "M4-B Prediction",
+    "labels": [
+      "agricultural_burning",
+      "industrial_fire_or_abnormal_event",
+      "mining_or_other_industrial_activity",
+      "persistent_industrial_source",
+      "unknown_requires_verification",
+      "wildfire_or_forest_fire"
+    ]
+  },
+  "predicted_class_distribution": {
+    "agricultural_burning": 1,
+    "industrial_fire_or_abnormal_event": 0,
+    "mining_or_other_industrial_activity": 8,
+    "persistent_industrial_source": 3,
+    "unknown_requires_verification": 12,
+    "wildfire_or_forest_fire": 6
+  },
+  "confidence_diagnostics": {
+    "overall_mean_confidence": 0.9931,
+    "correct_predictions_mean_confidence": 0.9901,
+    "incorrect_predictions_mean_confidence": 1.0
+  },
+  "error_records": [
+    {
+      "event_id": "TT-EVT-00122510",
+      "human_ground_truth_label": "persistent_industrial_source",
+      "m4_b_prediction": "mining_or_other_industrial_activity",
+      "confidence": 0.999998159804164,
+      "is_correct": false
+    },
+    {
+      "event_id": "TT-EVT-00220961",
+      "human_ground_truth_label": "persistent_industrial_source",
+      "m4_b_prediction": "mining_or_other_industrial_activity",
+      "confidence": 0.9999967218770643,
+      "is_correct": false
+    },
+    {
+      "event_id": "TT-EVT-00232464",
+      "human_ground_truth_label": "persistent_industrial_source",
+      "m4_b_prediction": "mining_or_other_industrial_activity",
+      "confidence": 0.9999984433869352,
+      "is_correct": false
+    },
+    {
+      "event_id": "TT-EVT-00242637",
+      "human_ground_truth_label": "persistent_industrial_source",
+      "m4_b_prediction": "mining_or_other_industrial_activity",
+      "confidence": 0.999998146193013,
+      "is_correct": false
+    },
+    {
+      "event_id": "TT-EVT-00397634",
+      "human_ground_truth_label": "persistent_industrial_source",
+      "m4_b_prediction": "mining_or_other_industrial_activity",
+      "confidence": 0.9999983515987722,
+      "is_correct": false
+    },
+    {
+      "event_id": "TT-EVT-00438668",
+      "human_ground_truth_label": "industrial_fire_or_abnormal_event",
+      "m4_b_prediction": "wildfire_or_forest_fire",
+      "confidence": 0.9999979950444857,
+      "is_correct": false
+    },
+    {
+      "event_id": "TT-EVT-00480931",
+      "human_ground_truth_label": "persistent_industrial_source",
+      "m4_b_prediction": "mining_or_other_industrial_activity",
+      "confidence": 0.9999982767366875,
+      "is_correct": false
+    },
+    {
+      "event_id": "TT-EVT-00612422",
+      "human_ground_truth_label": "mining_or_other_industrial_activity",
+      "m4_b_prediction": "unknown_requires_verification",
+      "confidence": 0.9999958728048042,
+      "is_correct": false
+    },
+    {
+      "event_id": "TT-EVT-00782256",
+      "human_ground_truth_label": "persistent_industrial_source",
+      "m4_b_prediction": "mining_or_other_industrial_activity",
+      "confidence": 0.9999983246204629,
+      "is_correct": false
+    }
+  ]
+}

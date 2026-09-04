@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GroundTruthAnnotationRecord",
+  "type": "object",
+  "required": [
+    "event_id",
+    "assigned_label",
+    "label_confidence",
+    "evidence_sources",
+    "annotator_id",
+    "annotation_timestamp",
+    "review_status"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string"
+    },
+    "assigned_label": {
+      "type": "string",
+      "enum": [
+        "persistent_industrial_source",
+        "industrial_fire_or_abnormal_event",
+        "wildfire_or_forest_fire",
+        "agricultural_burning",
+        "mining_or_other_industrial_activity",
+        "unknown_requires_verification"
+      ]
+    },
+    "label_confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "evidence_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_type", "source_url", "evidence_tier"],
+        "properties": {
+          "source_type": { "type": "string" },
+          "source_url": { "type": "string" },
+          "evidence_tier": { "type": "string", "enum": ["TIER_1_DIRECT", "TIER_2_CORROBORATING", "TIER_3_CONTEXTUAL"] },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "evidence_notes": { "type": "string" },
+    "annotator_id": { "type": "string" },
+    "annotation_timestamp": { "type": "string" },
+    "review_status": {
+      "type": "string",
+      "enum": ["pending", "reviewed", "adjudication_required", "verified", "rejected"]
+    },
+    "requires_adjudication": { "type": "boolean" },
+    "adjudication_label": { "type": "string" },
+    "adjudication_notes": { "type": "string" }
+  }
+}

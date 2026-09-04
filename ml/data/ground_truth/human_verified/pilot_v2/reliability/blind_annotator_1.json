@@ -1,0 +1,602 @@
+[
+  {
+    "event_id": "TT-EVT-00046063",
+    "latitude": 31.67769,
+    "longitude": 72.21333,
+    "timestamp": "2025-11-06T08:15:00",
+    "source_features": {
+      "max_frp_mw": 3.6700000762939453,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 12.0,
+      "events_previous_30d": 25.0,
+      "forest_fraction_1km": 0.07754141837358475,
+      "cropland_fraction_1km": 0.904617190361023,
+      "builtup_fraction_1km": 0.015194588340818882,
+      "distance_to_facility_km": 220.35647583007812,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00222050",
+    "latitude": 17.6990125,
+    "longitude": 77.3358175,
+    "timestamp": "2026-01-10T07:53:00",
+    "source_features": {
+      "max_frp_mw": 5.059999942779541,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 0.0,
+      "events_previous_30d": 0.0,
+      "forest_fraction_1km": 0.0,
+      "cropland_fraction_1km": 0.8846191763877869,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 1.2559620141983032,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00718492",
+    "latitude": 24.877313333333333,
+    "longitude": 75.37685666666667,
+    "timestamp": "2026-04-14T07:44:00",
+    "source_features": {
+      "max_frp_mw": 4.960000038146973,
+      "duration_hours": 0.8333333134651184,
+      "active_days_previous_30d": 1.0,
+      "events_previous_30d": 1.0,
+      "forest_fraction_1km": 0.04185863956809044,
+      "cropland_fraction_1km": 0.0,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 11.366094589233398,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00782256",
+    "latitude": 23.77843,
+    "longitude": 86.39164,
+    "timestamp": "2026-04-22T06:52:00",
+    "source_features": {
+      "max_frp_mw": 16.530000686645508,
+      "duration_hours": 0.8500000238418579,
+      "active_days_previous_30d": 28.0,
+      "events_previous_30d": 162.0,
+      "forest_fraction_1km": 0.006371924187988043,
+      "cropland_fraction_1km": 0.0002940888225566596,
+      "builtup_fraction_1km": 0.12792862951755524,
+      "distance_to_facility_km": 1.0848628282546997,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": true
+    }
+  },
+  {
+    "event_id": "TT-EVT-00990991",
+    "latitude": 22.35803,
+    "longitude": 82.30253,
+    "timestamp": "2026-08-01T20:21:00",
+    "source_features": {
+      "max_frp_mw": 1.9700000286102295,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 8.0,
+      "events_previous_30d": 10.0,
+      "forest_fraction_1km": 0.02078227698802948,
+      "cropland_fraction_1km": 0.42378199100494385,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 0.7715139985084534,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": true
+    }
+  },
+  {
+    "event_id": "TT-EVT-00541398",
+    "latitude": 17.26494,
+    "longitude": 73.57439,
+    "timestamp": "2026-03-20T08:50:00",
+    "source_features": {
+      "max_frp_mw": 11.029999732971191,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 4.0,
+      "events_previous_30d": 4.0,
+      "forest_fraction_1km": 0.7063032984733582,
+      "cropland_fraction_1km": 0.008724634535610676,
+      "builtup_fraction_1km": 0.0002940888225566596,
+      "distance_to_facility_km": 8.293740272521973,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00209235",
+    "latitude": 21.21362,
+    "longitude": 83.88143,
+    "timestamp": "2026-01-04T07:16:00",
+    "source_features": {
+      "max_frp_mw": 4.28000020980835,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 12.0,
+      "events_previous_30d": 15.0,
+      "forest_fraction_1km": 0.10479364544153214,
+      "cropland_fraction_1km": 0.5590628385543823,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 0.6343395113945007,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00438668",
+    "latitude": 24.3206025,
+    "longitude": 92.88623,
+    "timestamp": "2026-03-06T07:24:00",
+    "source_features": {
+      "max_frp_mw": 231.8300018310547,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 2.0,
+      "events_previous_30d": 2.0,
+      "forest_fraction_1km": 1.0,
+      "cropland_fraction_1km": 0.0,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 4.093032360076904,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00612422",
+    "latitude": 21.07767,
+    "longitude": 72.90855,
+    "timestamp": "2026-03-30T08:14:00",
+    "source_features": {
+      "max_frp_mw": 5.389999866485596,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 1.0,
+      "events_previous_30d": 1.0,
+      "forest_fraction_1km": 0.13969218730926514,
+      "cropland_fraction_1km": 0.2666405141353607,
+      "builtup_fraction_1km": 0.4228997230529785,
+      "distance_to_facility_km": 0.40667885541915894,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00038103",
+    "latitude": 31.60492,
+    "longitude": 75.2004,
+    "timestamp": "2025-11-02T07:49:00",
+    "source_features": {
+      "max_frp_mw": 3.8499999046325684,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 5.0,
+      "events_previous_30d": 5.0,
+      "forest_fraction_1km": 0.011371433734893799,
+      "cropland_fraction_1km": 0.9822566509246826,
+      "builtup_fraction_1km": 0.006077835336327553,
+      "distance_to_facility_km": 3.6744704246520996,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00525877",
+    "latitude": 18.608939999999997,
+    "longitude": 95.662505,
+    "timestamp": "2026-03-17T18:56:00",
+    "source_features": {
+      "max_frp_mw": 3.8399999141693115,
+      "duration_hours": 0.8500000238418579,
+      "active_days_previous_30d": 14.0,
+      "events_previous_30d": 18.0,
+      "forest_fraction_1km": 0.187726691365242,
+      "cropland_fraction_1km": 0.12116459012031555,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 508.437255859375,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00191560",
+    "latitude": 16.268805,
+    "longitude": 80.666995,
+    "timestamp": "2025-12-26T07:34:00",
+    "source_features": {
+      "max_frp_mw": 6.329999923706055,
+      "duration_hours": 0.8333333134651184,
+      "active_days_previous_30d": 13.0,
+      "events_previous_30d": 21.0,
+      "forest_fraction_1km": 0.0004901480278931558,
+      "cropland_fraction_1km": 0.999509871006012,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 1.697204828262329,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00524188",
+    "latitude": 17.759638000000002,
+    "longitude": 73.429714,
+    "timestamp": "2026-03-17T08:05:00",
+    "source_features": {
+      "max_frp_mw": 3.9800000190734863,
+      "duration_hours": 0.8666666746139526,
+      "active_days_previous_30d": 3.0,
+      "events_previous_30d": 3.0,
+      "forest_fraction_1km": 0.5366140604019165,
+      "cropland_fraction_1km": 0.10949906706809998,
+      "builtup_fraction_1km": 0.01097931619733572,
+      "distance_to_facility_km": 1.4439655542373657,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00704034",
+    "latitude": 24.274362,
+    "longitude": 93.219436,
+    "timestamp": "2026-04-13T06:20:00",
+    "source_features": {
+      "max_frp_mw": 133.00999450683594,
+      "duration_hours": 0.8666666746139526,
+      "active_days_previous_30d": 0.0,
+      "events_previous_30d": 0.0,
+      "forest_fraction_1km": 1.0,
+      "cropland_fraction_1km": 0.0,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 6.263318061828613,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00232464",
+    "latitude": 23.76731,
+    "longitude": 86.39859674418605,
+    "timestamp": "2026-01-14T19:07:00",
+    "source_features": {
+      "max_frp_mw": 6.119999885559082,
+      "duration_hours": 1.6666666269302368,
+      "active_days_previous_30d": 31.0,
+      "events_previous_30d": 177.0,
+      "forest_fraction_1km": 0.18625624477863312,
+      "cropland_fraction_1km": 0.008332516066730022,
+      "builtup_fraction_1km": 0.005783746484667063,
+      "distance_to_facility_km": 0.13774515688419342,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": true
+    }
+  },
+  {
+    "event_id": "TT-EVT-00168804",
+    "latitude": 23.83002,
+    "longitude": 84.93325666666667,
+    "timestamp": "2025-12-16T19:51:00",
+    "source_features": {
+      "max_frp_mw": 3.240000009536743,
+      "duration_hours": 0.8166666626930237,
+      "active_days_previous_30d": 23.0,
+      "events_previous_30d": 41.0,
+      "forest_fraction_1km": 0.0033330065198242664,
+      "cropland_fraction_1km": 0.27477699518203735,
+      "builtup_fraction_1km": 0.0030389176681637764,
+      "distance_to_facility_km": 5.37469482421875,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00480931",
+    "latitude": 23.766963333333333,
+    "longitude": 86.39768958333333,
+    "timestamp": "2026-03-11T19:58:00",
+    "source_features": {
+      "max_frp_mw": 2.490000009536743,
+      "duration_hours": 0.800000011920929,
+      "active_days_previous_30d": 30.0,
+      "events_previous_30d": 179.0,
+      "forest_fraction_1km": 0.13263405859470367,
+      "cropland_fraction_1km": 0.0019605921115726233,
+      "builtup_fraction_1km": 0.0019605921115726233,
+      "distance_to_facility_km": 0.16839544475078583,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": true
+    }
+  },
+  {
+    "event_id": "TT-EVT-00220961",
+    "latitude": 23.784275,
+    "longitude": 86.37179,
+    "timestamp": "2026-01-09T19:53:00",
+    "source_features": {
+      "max_frp_mw": 1.9800000190734863,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 30.0,
+      "events_previous_30d": 184.0,
+      "forest_fraction_1km": 0.22154690325260162,
+      "cropland_fraction_1km": 0.014508381485939026,
+      "builtup_fraction_1km": 0.12283109128475189,
+      "distance_to_facility_km": 0.25199660658836365,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": true
+    }
+  },
+  {
+    "event_id": "TT-EVT-00122510",
+    "latitude": 23.774414999999998,
+    "longitude": 86.36221499999999,
+    "timestamp": "2025-12-01T19:31:00",
+    "source_features": {
+      "max_frp_mw": 3.299999952316284,
+      "duration_hours": 0.8666666746139526,
+      "active_days_previous_30d": 31.0,
+      "events_previous_30d": 170.0,
+      "forest_fraction_1km": 0.200666606426239,
+      "cropland_fraction_1km": 0.14018233120441437,
+      "builtup_fraction_1km": 0.05117145553231239,
+      "distance_to_facility_km": 0.32047203183174133,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": true
+    }
+  },
+  {
+    "event_id": "TT-EVT-00341175",
+    "latitude": 19.80531,
+    "longitude": 94.80233,
+    "timestamp": "2026-02-17T06:50:00",
+    "source_features": {
+      "max_frp_mw": 2.4200000762939453,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 7.0,
+      "events_previous_30d": 9.0,
+      "forest_fraction_1km": 0.0921478271484375,
+      "cropland_fraction_1km": 0.30810704827308655,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 347.64801025390625,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00052511",
+    "latitude": 20.90812,
+    "longitude": 71.4603,
+    "timestamp": "2025-11-08T20:55:00",
+    "source_features": {
+      "max_frp_mw": 1.559999942779541,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 18.0,
+      "events_previous_30d": 18.0,
+      "forest_fraction_1km": 0.058719731867313385,
+      "cropland_fraction_1km": 0.04607391357421875,
+      "builtup_fraction_1km": 0.8494265079498291,
+      "distance_to_facility_km": 0.11200011521577835,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00585666",
+    "latitude": 23.06539,
+    "longitude": 95.74294,
+    "timestamp": "2026-03-27T06:40:00",
+    "source_features": {
+      "max_frp_mw": 3.299999952316284,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 11.0,
+      "events_previous_30d": 15.0,
+      "forest_fraction_1km": 0.01441035233438015,
+      "cropland_fraction_1km": 0.8939319849014282,
+      "builtup_fraction_1km": 0.015880795195698738,
+      "distance_to_facility_km": 198.0286102294922,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00397634",
+    "latitude": 23.77273,
+    "longitude": 86.36427,
+    "timestamp": "2026-03-01T07:18:00",
+    "source_features": {
+      "max_frp_mw": 3.509999990463257,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 31.0,
+      "events_previous_30d": 176.0,
+      "forest_fraction_1km": 0.2730124592781067,
+      "cropland_fraction_1km": 0.07979609817266464,
+      "builtup_fraction_1km": 0.07871777564287186,
+      "distance_to_facility_km": 0.3477102220058441,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": true
+    }
+  },
+  {
+    "event_id": "TT-EVT-00262021",
+    "latitude": 16.608800000000002,
+    "longitude": 74.49069,
+    "timestamp": "2026-01-26T07:53:00",
+    "source_features": {
+      "max_frp_mw": 4.860000133514404,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 1.0,
+      "events_previous_30d": 1.0,
+      "forest_fraction_1km": 0.18331536650657654,
+      "cropland_fraction_1km": 0.5938633680343628,
+      "builtup_fraction_1km": 0.007352220360189676,
+      "distance_to_facility_km": 1.708523154258728,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00585393",
+    "latitude": 22.31494222222222,
+    "longitude": 92.81723666666667,
+    "timestamp": "2026-03-27T06:40:00",
+    "source_features": {
+      "max_frp_mw": 196.38999938964844,
+      "duration_hours": 0.8333333134651184,
+      "active_days_previous_30d": 3.0,
+      "events_previous_30d": 3.0,
+      "forest_fraction_1km": 0.9564748406410217,
+      "cropland_fraction_1km": 0.0,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 7.267650127410889,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00219566",
+    "latitude": 22.057244375,
+    "longitude": 84.1983575,
+    "timestamp": "2026-01-09T07:22:00",
+    "source_features": {
+      "max_frp_mw": 215.97000122070312,
+      "duration_hours": 0.8500000238418579,
+      "active_days_previous_30d": 1.0,
+      "events_previous_30d": 1.0,
+      "forest_fraction_1km": 0.006077835336327553,
+      "cropland_fraction_1km": 0.9244191646575928,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 7.7585129737854,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00714314",
+    "latitude": 23.518826,
+    "longitude": 91.766232,
+    "timestamp": "2026-04-14T06:53:00",
+    "source_features": {
+      "max_frp_mw": 219.39999389648438,
+      "duration_hours": 0.800000011920929,
+      "active_days_previous_30d": 5.0,
+      "events_previous_30d": 8.0,
+      "forest_fraction_1km": 0.9706891775131226,
+      "cropland_fraction_1km": 0.0086266053840518,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 8.233165740966797,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00554707",
+    "latitude": 20.40503,
+    "longitude": 83.31783,
+    "timestamp": "2026-03-23T07:05:00",
+    "source_features": {
+      "max_frp_mw": 3.2100000381469727,
+      "duration_hours": 0.0,
+      "active_days_previous_30d": 6.0,
+      "events_previous_30d": 6.0,
+      "forest_fraction_1km": 0.08028624951839447,
+      "cropland_fraction_1km": 0.12116459012031555,
+      "builtup_fraction_1km": 9.802960266824812e-05,
+      "distance_to_facility_km": 0.687143862247467,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00425764",
+    "latitude": 23.447086888888887,
+    "longitude": 93.118294,
+    "timestamp": "2026-03-05T06:02:00",
+    "source_features": {
+      "max_frp_mw": 350.010009765625,
+      "duration_hours": 1.6833332777023315,
+      "active_days_previous_30d": 0.0,
+      "events_previous_30d": 0.0,
+      "forest_fraction_1km": 0.9916675090789795,
+      "cropland_fraction_1km": 0.0,
+      "builtup_fraction_1km": 0.0,
+      "distance_to_facility_km": 8.503287315368652,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": false
+    }
+  },
+  {
+    "event_id": "TT-EVT-00242637",
+    "latitude": 23.797955714285713,
+    "longitude": 86.35025428571429,
+    "timestamp": "2026-01-18T19:32:00",
+    "source_features": {
+      "max_frp_mw": 3.859999895095825,
+      "duration_hours": 0.8500000238418579,
+      "active_days_previous_30d": 30.0,
+      "events_previous_30d": 171.0,
+      "forest_fraction_1km": 0.003823154605925083,
+      "cropland_fraction_1km": 0.0002940888225566596,
+      "builtup_fraction_1km": 0.00460739154368639,
+      "distance_to_facility_km": 0.21374459564685822,
+      "near_refinery": false,
+      "near_factory": false,
+      "near_mine": false,
+      "near_quarry": true
+    }
+  }
+]

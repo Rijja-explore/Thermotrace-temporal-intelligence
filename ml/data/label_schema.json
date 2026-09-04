@@ -1,0 +1,30 @@
+{
+  "allowed_labels": [
+    "persistent_industrial_source",
+    "industrial_fire_or_abnormal_event",
+    "wildfire_or_forest_fire",
+    "agricultural_burning",
+    "mining_or_other_industrial_activity",
+    "unknown_requires_verification"
+  ],
+  "required_fields": [
+    "event_id",
+    "label",
+    "final_label"
+  ],
+  "confidence_values": [
+    "HIGH",
+    "MEDIUM",
+    "LOW"
+  ],
+  "reviewer_requirements": {
+    "minimum_reviewers": 2,
+    "consensus_required": true
+  },
+  "evidence_requirements": {
+    "evidence_urls_required_if_not_unknown": true,
+    "evidence_type_allowed": ["SATELLITE_IMAGERY", "GROUND_REPORT", "NEWS_ARTICLE", "GOVERNMENT_DATA", "OTHER"]
+  },
+  "consensus_rules": "If reviewer_1 and reviewer_2 disagree, a third reviewer or a discussion must take place to determine the final_label.",
+  "independence_note": "Labels must come from independent evidence (e.g., visual inspection of Sentinel-2/Planet imagery or ground reports). Do NOT use the baseline_risk_level or other ML features to determine the label."
+}

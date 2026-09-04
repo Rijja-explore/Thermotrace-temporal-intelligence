@@ -1,0 +1,95 @@
+{
+  "m4_a_baseline": {
+    "val_confusion_matrix": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        5,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ],
+    "val_per_class_f1": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 0.9090909090909091,
+      "unknown_requires_verification": 0.993006993006993,
+      "wildfire_or_forest_fire": 1.0
+    }
+  },
+  "selected_winner": {
+    "variant_id": "M4-B",
+    "val_confusion_matrix": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ],
+    "val_per_class_f1": {
+      "agricultural_burning": 1.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    }
+  }
+}

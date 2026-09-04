@@ -1,0 +1,20 @@
+{
+  "m4_a_baseline": {
+    "overall_mean_confidence": 0.9989134779327097,
+    "correct_preds_mean_confidence": 0.9998663096184315,
+    "incorrect_preds_mean_confidence": 0.7330734376163427,
+    "high_confidence_errors_count": 0
+  },
+  "m4_b_balanced": {
+    "overall_mean_confidence": 0.9998286834962846,
+    "correct_preds_mean_confidence": 0.9998286834962846,
+    "incorrect_preds_mean_confidence": 0.0,
+    "high_confidence_errors_count": 0
+  },
+  "m4_e_stratified": {
+    "overall_mean_confidence": 0.9987839147838409,
+    "correct_preds_mean_confidence": 0.9987839147838409,
+    "incorrect_preds_mean_confidence": 0.0,
+    "high_confidence_errors_count": 0
+  }
+}
