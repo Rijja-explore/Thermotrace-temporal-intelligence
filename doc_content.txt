@@ -1,0 +1,172 @@
+THERMOTRACE
+PERSON 4 — GIS, BACKEND, FRONTEND & INTEGRATION
+GIS Platform, Backend APIs, Product UI and End-to-End Integration
+
+Purpose of this document — This is a hand-off specification. It defines exactly what this person must build, the datasets and inputs required, the implementation tasks, interfaces with other members, the expected end output, and the definition of done.
+Source basis
+This assignment is derived from the uploaded SIH26162 Deep Research & Selection Dossier, the Complete Prototype Blueprint, the five-person implementation work split, and the detailed analysis. The source documents emphasize an intelligence layer above NASA FIRMS: detection → context → classification → facility normal behaviour → anomaly detection → explanation → analyst action → report.
+1. Mission
+Turn all other members' outputs into one professional, judge-friendly investigation platform. The application must work without notebooks or command-line operations during the demo.
+2. Recommended stack
+3. Database schema
+4. Canonical Event JSON
+Every module must use one canonical event contract.
+{
+  "event_id": "TT-IND-00427",
+  "geometry": {"lat": 20.123, "lon": 73.456},
+  "time_window": {
+    "start": "2026-01-01T00:00:00Z",
+    "end": "2026-01-30T23:59:59Z"
+  },
+  "observations": [],
+  "facility_context": {},
+  "landcover_context": {},
+  "temporal_features": {},
+  "classification": {},
+  "scores": {},
+  "evidence": [],
+  "status": "requires_verification",
+  "data_version": "demo-2026-01",
+  "model_version": "hybrid-v1"
+}
+5. Required backend APIs
+6. Required GIS layers
+Raw FIRMS thermal detections
+Active/clustered thermal events
+Industrial facilities
+Persistent sources
+Abnormal/high-risk events
+Land-cover context
+Historical event density
+Facility baseline deviation
+Satellite imagery where available
+Administrative boundaries / optional critical-infrastructure context
+7. UI visual direction
+8. Screen 1 — Command Dashboard
+┌──────────────────────────────────────────────────────────────┐
+│ THERMOTRACE                 Last update | Alerts | User      │
+├──────────────┬───────────────────────────────────┬───────────┤
+│ FILTERS      │                                   │ ALERTS    │
+│ Date range   │           LIVE GIS MAP            │ Critical 3│
+│ Region       │      hotspots + facilities        │ High 12   │
+│ Event class  │      industrial overlays          │ New 18    │
+│ Risk level   │                                   │           │
+│ Persistence  │                                   │           │
+├──────────────┴───────────────────────────────────┴───────────┤
+│ Total | Industrial | Persistent | Abnormal | Unknown         │
+└──────────────────────────────────────────────────────────────┘
+Summary cards: total anomalies, industrial-likelihood events, persistent sources, abnormal events, unknown cases
+Filters: date, region, class, risk, persistence
+Map legend
+Alert summary
+Timeline/date control
+Search by event/facility
+9. Screen 2 — Event Investigation Page
+┌──────────────────────────────────────────────────────────────┐
+│ ← Back to map       Event TT-IND-00427       Export report    │
+├───────────────────────────────┬──────────────────────────────┤
+│ MAP                           │ CLASSIFICATION               │
+│ hotspot + facility + buffer   │ Persistent industrial source│
+│                               │ Confidence: 87%             │
+│                               │ Industrial likelihood: 87   │
+│                               │ Operational risk: 72         │
+├───────────────────────────────┼──────────────────────────────┤
+│ FACILITY CONTEXT              │ EVIDENCE                     │
+│ Nearby refinery: 0.43 km      │ ✓ 24 detections / 30 days   │
+│ Industrial land cover         │ ✓ Stable centroid           │
+│ Population exposure           │ ✓ Facility proximity        │
+├───────────────────────────────┴──────────────────────────────┤
+│ THERMAL FINGERPRINT: baseline vs current timeline             │
+├──────────────────────────────────────────────────────────────┤
+│ Recommended action: Verify with facility / authority          │
+└──────────────────────────────────────────────────────────────┘
+10. Evidence panel
+11. Alert centre
+12. Analyst workflow
+Open dashboard.
+Select event.
+View facility and land-cover context.
+View 30-day history.
+View facility thermal fingerprint.
+View baseline deviation.
+Read evidence for and against.
+Confirm, reject or reclassify.
+Generate incident report.
+Record decision in audit log.
+13. Report contents
+Event identifier and timestamp
+Location map
+Classification and confidence
+Industrial-likelihood score
+Operational-risk score
+Facility and land-cover context
+Thermal history
+Evidence factors
+Data sources and versions
+Limitations and recommended action
+Analyst status and audit trail
+14. Folder structure
+backend/
+  app/main.py
+  app/api/events.py
+  app/api/facilities.py
+  app/api/alerts.py
+  app/api/reports.py
+  app/services/pipeline.py
+
+frontend/
+  src/pages/Dashboard.tsx
+  src/pages/EventInvestigation.tsx
+  src/pages/Alerts.tsx
+  src/components/MapView.tsx
+  src/components/EventPanel.tsx
+  src/components/EvidenceCard.tsx
+  src/components/RiskBadge.tsx
+  src/components/TimelineChart.tsx
+  src/components/ReportButton.tsx
+
+database/
+  schema.sql
+
+docker-compose.yml
+15. Integration order
+Create PostGIS schema and seed sample data.
+Display raw FIRMS points on the map.
+Add facility layer and event search.
+Add event detail endpoint.
+Connect Member 3 temporal/baseline outputs.
+Connect Member 2 classification outputs.
+Build evidence panel.
+Build risk badges and timeline.
+Add analyst verification/reclassification.
+Add report generation.
+Add cached-data fallback and friendly API errors.
+Package the full system with Docker Compose.
+16. Testing
+Dashboard loads with cached data.
+Date/class/risk filters work.
+Map events and facilities render correctly.
+Event detail loads complete evidence.
+Timeline renders historical data and baseline.
+Risk component weights are visible.
+Unknown event does not get forced into a class.
+Missing imagery produces a friendly unavailable message.
+API failure falls back to cached data or a clear error.
+Report contains required sections.
+Analyst actions persist to audit log.
+17. Final output
+Working web application
+Interactive GIS map
+PostGIS database
+FastAPI backend
+React frontend
+Command dashboard
+Investigation page
+Evidence panel
+Alert centre
+Analyst review workflow
+Incident report
+Docker deployment
+Cached demo mode
+18. Definition of Done
+A judge can open the application, select an event on the map, inspect facility/context/history/classification/evidence/risk, make an analyst decision, and generate a report without opening a notebook or terminal.
