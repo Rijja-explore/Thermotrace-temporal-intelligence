@@ -104,7 +104,14 @@ async def fetch_firms_data():
 
 async def save_to_db(events):
     try:
-        conn = await asyncpg.connect(user="thermotrace", password="thermopassword", database="thermotrace", host="127.0.0.1")
+        # Use environment variables with fallbacks to defaults
+        import os
+        db_user = os.getenv("DB_USER", "thermotrace")
+        db_password = os.getenv("DB_PASSWORD", "thermopassword")
+        db_name = os.getenv("DB_NAME", "thermotrace")
+        db_host = os.getenv("DB_HOST", "127.0.0.1")
+        
+        conn = await asyncpg.connect(user=db_user, password=db_password, database=db_name, host=db_host)
         # For full implementation we would insert using ST_MakePoint and JSONB
         print("Connected to DB, inserting data...")
         for ev in events:
