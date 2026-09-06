@@ -1,0 +1,194 @@
+{
+  "pbf_file": "D:\\New folder (2)\\data\\raw\\osm\\india\\india-260901.osm.pbf",
+  "inspection_timestamp": "2026-09-03T04:18:26.948201+00:00",
+  "scan_duration_seconds": 15.1,
+  "total_boundary_objects": 85338,
+  "object_types": {
+    "Node": 4,
+    "Way": 19002,
+    "Relation": 66332
+  },
+  "admin_level_distribution": {
+    "2": 1476,
+    "8": 654,
+    "9": 56694,
+    "5": 7936,
+    "10": 4416,
+    "missing": 4105,
+    "City": 3,
+    "4": 2235,
+    "6": 7370,
+    "11": 31,
+    "3": 1,
+    "7": 378,
+    "1": 34,
+    "Panchayat": 3,
+    "OSMAND SULTAN SOOMRO": 1,
+    "District": 1
+  },
+  "admin_level_2_national": {
+    "relation_count": 8,
+    "relations": [
+      {
+        "relation_id": 50371,
+        "name": "Myanmar",
+        "name_local": "\u1019\u103c\u1014\u103a\u1019\u102c",
+        "iso_code": "MM",
+        "type": "boundary",
+        "admin_level": "2",
+        "border_type": null,
+        "is_disputed": false,
+        "member_ways_count": 476
+      },
+      {
+        "relation_id": 184629,
+        "name": "Bhutan",
+        "name_local": "\u0f60\u0f56\u0fb2\u0f74\u0f42\u0f0b\u0f61\u0f74\u0f63\u0f0d",
+        "iso_code": "BT",
+        "type": "boundary",
+        "admin_level": "2",
+        "border_type": null,
+        "is_disputed": false,
+        "member_ways_count": 308
+      },
+      {
+        "relation_id": 184633,
+        "name": "Nepal",
+        "name_local": "\u0928\u0947\u092a\u093e\u0932",
+        "iso_code": "NP",
+        "type": "boundary",
+        "admin_level": "2",
+        "border_type": null,
+        "is_disputed": false,
+        "member_ways_count": 662
+      },
+      {
+        "relation_id": 184640,
+        "name": "Bangladesh",
+        "name_local": "\u09ac\u09be\u0982\u09b2\u09be\u09a6\u09c7\u09b6",
+        "iso_code": "BD",
+        "type": "boundary",
+        "admin_level": "2",
+        "border_type": null,
+        "is_disputed": false,
+        "member_ways_count": 416
+      },
+      {
+        "relation_id": 270056,
+        "name": "China",
+        "name_local": "\u4e2d\u56fd",
+        "iso_code": "CN",
+        "type": "boundary",
+        "admin_level": "2",
+        "border_type": null,
+        "is_disputed": false,
+        "member_ways_count": 1689
+      },
+      {
+        "relation_id": 304716,
+        "name": "India",
+        "name_local": "India",
+        "iso_code": "IN",
+        "type": "boundary",
+        "admin_level": "2",
+        "border_type": "nation",
+        "is_disputed": false,
+        "member_ways_count": 1579
+      },
+      {
+        "relation_id": 307573,
+        "name": "Pakistan",
+        "name_local": "\u067e\u0627\u06a9\u0633\u062a\u0627\u0646",
+        "iso_code": "PK",
+        "type": "boundary",
+        "admin_level": "2",
+        "border_type": "nation",
+        "is_disputed": false,
+        "member_ways_count": 475
+      },
+      {
+        "relation_id": 536807,
+        "name": "Sri Lanka",
+        "name_local": "Sri Lanka",
+        "iso_code": "LK",
+        "type": "boundary",
+        "admin_level": "2",
+        "border_type": "nation",
+        "is_disputed": false,
+        "member_ways_count": 31
+      }
+    ],
+    "india_relation_found": true,
+    "disputed_border_relations_detected": 0,
+    "assessment": "Incomplete/Fragmented for legal national boundary clipping due to disputed northern borders and extract clipping."
+  },
+  "admin_level_4_state": {
+    "relation_count": 68,
+    "unique_names_count": 67,
+    "sample_names": [
+      "Andaman and Nicobar Islands",
+      "Andhra Pradesh",
+      "Arunachal Pradesh",
+      "Assam",
+      "Azad Kashmir",
+      "Bagamati Province",
+      "Bihar",
+      "Chandigarh",
+      "Chattogram Division",
+      "Chhattisgarh",
+      "Chin",
+      "Chukha",
+      "Dadra and Nagar Haveli and Daman and Diu",
+      "Dagana District",
+      "Delhi",
+      "Gandaki Province",
+      "Gilgit-Baltistan",
+      "Goa",
+      "Gujarat",
+      "Haryana"
+    ],
+    "assessment": "Covers most Indian States and UTs, but includes coastal territorial water extensions and border disputes in J&K/Ladakh."
+  },
+  "admin_level_6_district": {
+    "relation_count": 6670,
+    "unique_names_count": 6491,
+    "sample_names": [
+      "'N' Thingdawl",
+      "A.Konduru",
+      "Aali",
+      "Aalo HQ",
+      "Abapura Tehsil",
+      "Abdasa Taluka",
+      "Abdullapurmet mandal",
+      "Abhanpur Tahsil",
+      "Abhyachandpur",
+      "Abohar Tahsil",
+      "Aboi",
+      "Abu Road Tehsil",
+      "Achalpur",
+      "Achampet mandal",
+      "Achanta",
+      "Adajan Taluka",
+      "Adampur",
+      "Adapur",
+      "Adava",
+      "Adavidevulapally mandal",
+      "Addagudur mandal",
+      "Addakal mandal",
+      "Addanki",
+      "Addateegala",
+      "Adhartal Tahsil"
+    ],
+    "assessment": "Covers ~700+ districts with high coverage, but lacks Local Government Directory (LGD) census codes."
+  },
+  "recommendation": {
+    "verdict": "ACQUIRE a separate authoritative boundary dataset",
+    "primary_reasons": [
+      "Legal Compliance: OpenStreetMap represents international borders based on ground control / de-facto reality (Line of Control, Line of Actual Control), which differs from the official Survey of India boundary required for Indian national geospatial compliance.",
+      "Topological Completeness: Subcontinental PBF regional extracts often suffer from broken/unclosed border ways where boundary segments cross the extract's bounding box into neighboring nations, leading to invalid or fragmented multipolygons.",
+      "Administrative Standard Codes: OSM administrative boundaries lack standardized government administrative identifiers (LGD - Local Government Directory codes / Census codes) required for downstream regional aggregation.",
+      "Authoritative Alternative: High-quality, authoritative, official India boundary shapefiles/GeoPackages (National, 36 States/UTs, 780+ Districts) are freely and directly available from the Survey of India (Bharat Maps), Datameet India GIS, or GADM India."
+    ],
+    "osm_usable_as_fallback": "OSM admin_level=4 and admin_level=6 can serve as a supplementary reference, but must NOT be used as the primary legal national boundary polygon."
+  }
+}

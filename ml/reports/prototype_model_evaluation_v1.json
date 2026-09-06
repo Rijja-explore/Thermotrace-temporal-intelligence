@@ -1,0 +1,82 @@
+{
+  "training_samples": 50,
+  "testing_samples": 50,
+  "approved_feature_count": 47,
+  "classes": [
+    "wildfire_or_forest_fire",
+    "agricultural_burning",
+    "industrial_fire_or_abnormal_event",
+    "persistent_industrial_source",
+    "mining_or_other_industrial_activity"
+  ],
+  "metrics": {
+    "macro_f1": 0.15738095238095237,
+    "balanced_accuracy": 0.21864579864579867,
+    "confusion_matrix": [
+      [
+        1,
+        2,
+        1,
+        6,
+        3
+      ],
+      [
+        0,
+        1,
+        1,
+        5,
+        2
+      ],
+      [
+        3,
+        2,
+        1,
+        5,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        5,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        7,
+        1
+      ]
+    ],
+    "precision": {
+      "agricultural_burning": 0.14285714285714285,
+      "industrial_fire_or_abnormal_event": 0.16666666666666666,
+      "mining_or_other_industrial_activity": 0.3333333333333333,
+      "persistent_industrial_source": 0.17857142857142858,
+      "wildfire_or_forest_fire": 0.16666666666666666
+    },
+    "recall": {
+      "agricultural_burning": 0.07692307692307693,
+      "industrial_fire_or_abnormal_event": 0.1111111111111111,
+      "mining_or_other_industrial_activity": 0.09090909090909091,
+      "persistent_industrial_source": 0.7142857142857143,
+      "wildfire_or_forest_fire": 0.1
+    },
+    "f1": {
+      "agricultural_burning": 0.1,
+      "industrial_fire_or_abnormal_event": 0.13333333333333333,
+      "mining_or_other_industrial_activity": 0.14285714285714285,
+      "persistent_industrial_source": 0.2857142857142857,
+      "wildfire_or_forest_fire": 0.125
+    },
+    "support": {
+      "agricultural_burning": 13,
+      "industrial_fire_or_abnormal_event": 9,
+      "mining_or_other_industrial_activity": 11,
+      "persistent_industrial_source": 7,
+      "wildfire_or_forest_fire": 10
+    }
+  },
+  "status": "PROTOTYPE_MODEL_TRAINED_DEMO"
+}

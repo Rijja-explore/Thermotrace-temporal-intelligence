@@ -1,0 +1,412 @@
+{
+  "labels": [
+    "agricultural_burning",
+    "industrial_fire_or_abnormal_event",
+    "mining_or_other_industrial_activity",
+    "persistent_industrial_source",
+    "unknown_requires_verification",
+    "wildfire_or_forest_fire"
+  ],
+  "m4_a_baseline": {
+    "confusion_matrix_raw": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        5,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ],
+    "confusion_matrix_normalized": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.8333,
+        0.1667,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "precision": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 0.9861111111111112,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "recall": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 0.8333333333333334,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "f1": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 0.9090909090909091,
+      "unknown_requires_verification": 0.993006993006993,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "support": {
+      "agricultural_burning": 29,
+      "industrial_fire_or_abnormal_event": 0,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    }
+  },
+  "m4_b_balanced": {
+    "confusion_matrix_raw": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ],
+    "confusion_matrix_normalized": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "precision": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "recall": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "f1": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "support": {
+      "agricultural_burning": 29,
+      "industrial_fire_or_abnormal_event": 0,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    }
+  },
+  "m4_e_stratified": {
+    "confusion_matrix_raw": [
+      [
+        29,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        75,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        71,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        99
+      ]
+    ],
+    "confusion_matrix_normalized": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "precision": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "recall": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "f1": {
+      "agricultural_burning": 1.0,
+      "industrial_fire_or_abnormal_event": 0.0,
+      "mining_or_other_industrial_activity": 1.0,
+      "persistent_industrial_source": 1.0,
+      "unknown_requires_verification": 1.0,
+      "wildfire_or_forest_fire": 1.0
+    },
+    "support": {
+      "agricultural_burning": 29,
+      "industrial_fire_or_abnormal_event": 0,
+      "mining_or_other_industrial_activity": 75,
+      "persistent_industrial_source": 6,
+      "unknown_requires_verification": 71,
+      "wildfire_or_forest_fire": 99
+    }
+  }
+}

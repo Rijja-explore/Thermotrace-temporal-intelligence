@@ -1,0 +1,8 @@
+{
+  "classification_scaffold": "READY",
+  "verified_labels": "NOT_AVAILABLE",
+  "independent_evidence": "NOT_AVAILABLE",
+  "real_training": "BLOCKED",
+  "real_evaluation": "BLOCKED",
+  "software_smoke_tests": "ALLOWED"
+}

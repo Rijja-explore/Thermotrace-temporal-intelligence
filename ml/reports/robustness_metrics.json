@@ -1,0 +1,66 @@
+{
+  "random_seed_changes": {
+    "seed_100": {
+      "top_10": 1.0,
+      "top_50": 0.96,
+      "top_100": 0.98,
+      "top_500": 1.0
+    },
+    "seed_999": {
+      "top_10": 1.0,
+      "top_50": 0.96,
+      "top_100": 0.99,
+      "top_500": 0.996
+    }
+  },
+  "sampling_changes": {
+    "top_10": 1.0,
+    "top_100": 0.99,
+    "top_500": 1.0,
+    "rank_correlation": 0.999684929890719
+  },
+  "temporal_holdout": {
+    "hist_train_size": 100000,
+    "future_eval_size": 601715,
+    "top_100_overlap": 1.0,
+    "rank_correlation": 0.9992727111658274
+  },
+  "missingness_sensitivity": {
+    "rank_correlation": 0.509742951695681,
+    "top_100_overlap": 0.0
+  },
+  "ablations": {
+    "A": {
+      "feature_count": 11,
+      "top_100_overlap_with_D": 0.95
+    },
+    "B": {
+      "feature_count": 27,
+      "top_100_overlap_with_D": 0.99
+    },
+    "C": {
+      "feature_count": 33,
+      "top_100_overlap_with_D": 0.99
+    },
+    "D": {
+      "feature_count": 47,
+      "top_100_overlap_with_D": 1.0
+    }
+  },
+  "geographic_concentration": {
+    "unique_1deg_cells_in_top_500": 1,
+    "max_events_in_single_cell": 500,
+    "fraction_in_largest_cell": 1.0
+  },
+  "facility_proximity": {
+    "fraction_facility_matched_in_top_500": 1.0,
+    "fraction_high_frp_no_facility_in_top_500": 0.0
+  },
+  "real_event": {
+    "priority_score": 18.737803761852334,
+    "priority_tier": "LOW",
+    "baseline_score": 24.457999992370606,
+    "anomaly_score": -0.11440392461036542,
+    "explanation_count": 47
+  }
+}

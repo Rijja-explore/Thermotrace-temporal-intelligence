@@ -1,0 +1,118 @@
+{
+  "overall": {
+    "sample_size": 30,
+    "agreements_count": 30,
+    "disagreements_count": 0,
+    "raw_agreement_po": 1.0,
+    "expected_chance_pe": 0.28,
+    "cohens_kappa": 1.0
+  },
+  "taxonomy_classes": [
+    "agricultural_burning",
+    "industrial_fire_or_abnormal_event",
+    "mining_or_other_industrial_activity",
+    "persistent_industrial_source",
+    "unknown_requires_verification",
+    "wildfire_or_forest_fire"
+  ],
+  "confusion_matrix_a_vs_b": {
+    "matrix": [
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        11,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5
+      ]
+    ],
+    "row_label": "Annotator A",
+    "col_label": "Annotator B",
+    "labels": [
+      "agricultural_burning",
+      "industrial_fire_or_abnormal_event",
+      "mining_or_other_industrial_activity",
+      "persistent_industrial_source",
+      "unknown_requires_verification",
+      "wildfire_or_forest_fire"
+    ]
+  },
+  "per_class_agreement": {
+    "agricultural_burning": {
+      "annotator_a_count": 1,
+      "annotator_b_count": 1,
+      "both_agreed_count": 1,
+      "class_agreement_rate": 1.0
+    },
+    "industrial_fire_or_abnormal_event": {
+      "annotator_a_count": 1,
+      "annotator_b_count": 1,
+      "both_agreed_count": 1,
+      "class_agreement_rate": 1.0
+    },
+    "mining_or_other_industrial_activity": {
+      "annotator_a_count": 2,
+      "annotator_b_count": 2,
+      "both_agreed_count": 2,
+      "class_agreement_rate": 1.0
+    },
+    "persistent_industrial_source": {
+      "annotator_a_count": 10,
+      "annotator_b_count": 10,
+      "both_agreed_count": 10,
+      "class_agreement_rate": 1.0
+    },
+    "unknown_requires_verification": {
+      "annotator_a_count": 11,
+      "annotator_b_count": 11,
+      "both_agreed_count": 11,
+      "class_agreement_rate": 1.0
+    },
+    "wildfire_or_forest_fire": {
+      "annotator_a_count": 5,
+      "annotator_b_count": 5,
+      "both_agreed_count": 5,
+      "class_agreement_rate": 1.0
+    }
+  }
+}

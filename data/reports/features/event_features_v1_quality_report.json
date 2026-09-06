@@ -1,0 +1,104 @@
+{
+  "pipeline_name": "ThermoTrace Canonical Event Feature Engineering",
+  "pipeline_version": "1.0.0",
+  "execution_timestamp": "2026-09-03T10:14:43.086750+00:00",
+  "processing_duration_seconds": 13182.93,
+  "event_counts": {
+    "total_input_events": 996891,
+    "processed_events": 996891,
+    "unique_event_ids": 996891,
+    "duplicate_event_ids": 0,
+    "event_preservation_percentage": 100.0,
+    "events_lost": 0
+  },
+  "feature_table_specifications": {
+    "output_path": "d:\\New folder (2)\\data\\processed\\features\\event_features_v1.parquet",
+    "file_size_mb": 93.98,
+    "total_columns": 65,
+    "total_rows": 996891
+  },
+  "feature_group_readiness": {
+    "firms_m3_events": "READY",
+    "temporal_features": "READY",
+    "population_features": "READY",
+    "protected_area_features": "READY",
+    "osm_facilities": "READY",
+    "osm_infrastructure": "READY",
+    "worldcover_features": "READY",
+    "administrative_boundaries": "PENDING (Awaiting Survey of India official boundaries)"
+  },
+  "statistical_distributions": {
+    "thermal": {
+      "max_frp_mw": {
+        "mean": 6.41,
+        "max": 1333.95
+      },
+      "mean_frp_mw": {
+        "mean": 5.24,
+        "median": 3.75
+      },
+      "sum_frp_mw": {
+        "mean": 13.43,
+        "max": 10029.02
+      },
+      "duration_hours": {
+        "mean": 0.17,
+        "max": 1.75
+      },
+      "detection_count": {
+        "mean": 1.91,
+        "max": 263
+      }
+    },
+    "population": {
+      "mean_population_at_event": 3.18,
+      "mean_population_1km": 1385.62,
+      "mean_population_5km": 30609.7,
+      "mean_population_density_1km": 441.06
+    },
+    "conservation": {
+      "events_inside_protected_areas": 1465,
+      "events_within_1km_protected_area": 1477,
+      "events_within_5km_protected_area": 2083
+    },
+    "industrial_proximity": {
+      "events_near_power_plant": 35406,
+      "events_near_factory": 21863,
+      "events_near_refinery": 2074,
+      "events_near_mine": 479,
+      "events_near_quarry": 52031,
+      "events_near_storage_facility": 10610,
+      "events_near_substation": 69809
+    },
+    "infrastructure_distances": {
+      "mean_distance_to_major_road_km": 74.62,
+      "mean_distance_to_railway_km": 119.81,
+      "mean_distance_to_power_line_km": 98.23,
+      "mean_distance_to_pipeline_km": 313.28,
+      "mean_distance_to_airport_km": 96.39,
+      "mean_distance_to_port_km": 420.05
+    },
+    "landcover_distribution": {
+      "Cropland": 450173,
+      "Tree cover": 323521,
+      "Grassland": 113651,
+      "Built-up": 32138,
+      "Shrubland": 30520,
+      "Bare / sparse vegetation": 29964,
+      "NoData": 11041,
+      "Permanent water bodies": 4870,
+      "Mangroves": 539,
+      "Herbaceous wetland": 314,
+      "Moss and lichen": 157,
+      "Snow and ice": 3
+    }
+  },
+  "missing_values_by_feature": {
+    "nearest_facility_name": 712516,
+    "state": 996891,
+    "state_code": 996891,
+    "district": 996891,
+    "district_code": 996891
+  },
+  "quality_status": "PASS"
+}

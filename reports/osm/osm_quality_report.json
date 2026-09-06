@@ -1,0 +1,88 @@
+{
+  "pbf_source": "data/raw/osm/india/india-260901.osm.pbf",
+  "raw_pbf_unmodified": true,
+  "gpkg_file": "D:\\New folder (2)\\data\\processed\\osm\\osm_india.gpkg",
+  "gpkg_size_mb": 737.67,
+  "timestamp": "2026-09-03T04:15:47.859186+00:00",
+  "qa_duration_seconds": 20.04,
+  "layers": {
+    "osm_facilities": {
+      "total_features": 169927,
+      "crs": "EPSG:4326",
+      "bounds": [
+        68.500797,
+        8.081518,
+        96.99696,
+        35.377822
+      ],
+      "geometry_types": {
+        "Polygon": 119798,
+        "Point": 50114,
+        "LineString": 15
+      },
+      "valid_geometries": 169927,
+      "invalid_geometries": 0,
+      "empty_geometries": 0,
+      "null_geometries": 0,
+      "duplicate_ids": 0,
+      "named_count": 22232,
+      "unnamed_count": 147695,
+      "operator_count": 4953,
+      "representative_points_valid": true,
+      "category_breakdown": {
+        "POWER_PLANT": 60570,
+        "OTHER_INDUSTRIAL": 31936,
+        "INDUSTRIAL_AREA": 21261,
+        "SUBSTATION": 17052,
+        "FACTORY": 12108,
+        "STORAGE_FACILITY": 10999,
+        "QUARRY": 10418,
+        "WASTE_PROCESSING": 2612,
+        "WAREHOUSE": 2126,
+        "MINE": 696,
+        "OIL_GAS": 79,
+        "REFINERY": 35,
+        "CHEMICAL_PLANT": 26,
+        "CEMENT_PLANT": 7,
+        "STEEL_PLANT": 2
+      }
+    },
+    "osm_infrastructure": {
+      "total_features": 1137267,
+      "crs": "EPSG:4326",
+      "bounds": [
+        68.510751,
+        6.760413,
+        97.276524,
+        35.568624
+      ],
+      "geometry_types": {
+        "LineString": 1054817,
+        "Polygon": 43993,
+        "Point": 38456,
+        "MultiPolygon": 1
+      },
+      "valid_geometries": 1137267,
+      "invalid_geometries": 0,
+      "empty_geometries": 0,
+      "null_geometries": 0,
+      "duplicate_ids": 0,
+      "named_count": 242521,
+      "category_breakdown": {
+        "MAJOR_ROAD": 894263,
+        "RAILWAY": 105295,
+        "POWER_PLANT": 60569,
+        "POWER_LINE": 47717,
+        "SUBSTATION": 17052,
+        "AIRPORT": 12245,
+        "PORT": 80,
+        "PIPELINE": 46
+      }
+    }
+  },
+  "quality_warnings": [
+    "OSM facility mapping is voluntary and contextual; spatial proximity does not imply authoritative ownership of thermal events.",
+    "Representative coordinates (rep_lon, rep_lat) are geometric centroids for spatial matching acceleration and must NOT be claimed as exact thermal stack / emission locations.",
+    "78.3% of infrastructure features are major roads (tertiary through motorway); high density in urban centres."
+  ]
+}

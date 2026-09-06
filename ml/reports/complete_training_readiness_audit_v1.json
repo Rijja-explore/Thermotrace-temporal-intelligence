@@ -1,0 +1,9 @@
+{
+  "labels": {
+    "VERIFIED_LABEL_COUNT": 0,
+    "UNVERIFIED_LABEL_COUNT": 0,
+    "UNREVIEWED_COUNT": 996891,
+    "LABELS_BY_CLASS": {}
+  },
+  "readiness": "ML_TRAINING_BLOCKED_BY_GROUND_TRUTH"
+}

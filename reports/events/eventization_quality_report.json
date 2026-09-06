@@ -1,0 +1,134 @@
+{
+  "metadata": {
+    "module": "ThermoTrace.M3.EventEngine",
+    "version": "0.1.0",
+    "executed_at_utc": "2026-09-02T19:00:49.527227+00:00",
+    "execution_duration_seconds": 203.41
+  },
+  "parameters_used": {
+    "spatial_radius_km": 1.0,
+    "temporal_window_hours": 6.0,
+    "max_duration_hours": 48.0,
+    "max_extent_km": 15.0
+  },
+  "executive_summary": {
+    "total_input_detections": 1908697,
+    "total_events_created": 996891,
+    "detections_assigned_to_events": 1908697,
+    "unassigned_detections": 0,
+    "single_detection_events": 645771,
+    "multi_detection_events": 351120,
+    "percentage_detections_in_multi_events": 66.17
+  },
+  "event_size_statistics": {
+    "min_detections_per_event": 1,
+    "median_detections_per_event": 1.0,
+    "mean_detections_per_event": 1.91,
+    "max_detections_per_event": 263
+  },
+  "temporal_statistics_hours": {
+    "min_duration_hours": 0.0,
+    "median_duration_hours": 0.0,
+    "mean_duration_hours": 0.17000000178813934,
+    "max_duration_hours": 1.75
+  },
+  "spatial_extent_statistics_km": {
+    "min_spatial_extent_km": 0.0,
+    "median_spatial_extent_km": 0.0,
+    "mean_spatial_extent_km": 0.23999999463558197,
+    "max_spatial_extent_km": 14.710000038146973
+  },
+  "satellite_breakdown": {
+    "events_by_satellite_combination": {
+      "N20": 412200,
+      "N21": 400262,
+      "N20,N21": 184429
+    },
+    "dual_satellite_events_count": 184429
+  },
+  "event_quality_distribution": {
+    "SINGLE_DETECTION": 645771,
+    "NORMAL": 351085,
+    "LARGE_SPATIAL_SPREAD": 35
+  },
+  "parameter_sensitivity_experiment": [
+    {
+      "spatial_radius_km": 1.0,
+      "temporal_window_hours": 3.0,
+      "total_events": 56465,
+      "median_event_size": 1.0,
+      "max_event_size": 134,
+      "percentage_singletons": 56.74,
+      "median_duration_hours": 0.0,
+      "max_duration_hours": 1.72,
+      "edges_merged": 252894,
+      "chaining_edges_rejected": 0,
+      "computation_time_seconds": 3.73
+    },
+    {
+      "spatial_radius_km": 1.0,
+      "temporal_window_hours": 6.0,
+      "total_events": 56465,
+      "median_event_size": 1.0,
+      "max_event_size": 134,
+      "percentage_singletons": 56.74,
+      "median_duration_hours": 0.0,
+      "max_duration_hours": 1.72,
+      "edges_merged": 269977,
+      "chaining_edges_rejected": 0,
+      "computation_time_seconds": 4.23
+    },
+    {
+      "spatial_radius_km": 1.0,
+      "temporal_window_hours": 12.0,
+      "total_events": 50847,
+      "median_event_size": 1.0,
+      "max_event_size": 222,
+      "percentage_singletons": 57.21,
+      "median_duration_hours": 0.0,
+      "max_duration_hours": 47.4,
+      "edges_merged": 332441,
+      "chaining_edges_rejected": 2400,
+      "computation_time_seconds": 3.83
+    },
+    {
+      "spatial_radius_km": 2.0,
+      "temporal_window_hours": 6.0,
+      "total_events": 48539,
+      "median_event_size": 1.0,
+      "max_event_size": 142,
+      "percentage_singletons": 53.81,
+      "median_duration_hours": 0.0,
+      "max_duration_hours": 1.72,
+      "edges_merged": 456738,
+      "chaining_edges_rejected": 158,
+      "computation_time_seconds": 8.98
+    },
+    {
+      "spatial_radius_km": 2.0,
+      "temporal_window_hours": 12.0,
+      "total_events": 42528,
+      "median_event_size": 1.0,
+      "max_event_size": 240,
+      "percentage_singletons": 54.76,
+      "median_duration_hours": 0.0,
+      "max_duration_hours": 47.4,
+      "edges_merged": 576442,
+      "chaining_edges_rejected": 12622,
+      "computation_time_seconds": 10.34
+    },
+    {
+      "spatial_radius_km": 5.0,
+      "temporal_window_hours": 6.0,
+      "total_events": 35022,
+      "median_event_size": 2.0,
+      "max_event_size": 155,
+      "percentage_singletons": 47.25,
+      "median_duration_hours": 0.0,
+      "max_duration_hours": 1.72,
+      "edges_merged": 825435,
+      "chaining_edges_rejected": 96976,
+      "computation_time_seconds": 14.55
+    }
+  ]
+}

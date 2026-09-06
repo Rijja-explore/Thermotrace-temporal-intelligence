@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Environments
 .env
 .env.local
@@ -40,9 +41,77 @@ yarn-error.log*
 *.db
 
 # IDEs and Editors
+=======
+# ==============================================================================
+# ThermoTrace Git Ignore Rules - Member 1 Final Data Handoff
+# ==============================================================================
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual Environments
+.env
+.env.example
+.venv
+env/
+venv/
+ENV/
+
+# Cloud Staging Directory (Staged for Google Drive, not Git)
+cloud_handoff/
+cloud_handoff/**
+
+# Raw Data Directory (Immutable provenance layer, stored locally/cloud)
+data/raw/
+data/raw/**
+
+# Large Geospatial Formats (Exceed standard Git repository limits)
+*.pbf
+*.tif
+*.tiff
+*.gpkg
+*.zip
+*.tar.gz
+*.part
+*.csv
+
+# Exclude Parquet by default across repository
+*.parquet
+
+# EXPLICITLY ALLOW: Approved Parquet Handoff Datasets
+!data/processed/firms/firms_india_canonical.parquet
+!data/processed/events/events_v0_1.parquet
+!data/processed/events/event_detection_links.parquet
+!data/processed/features/event_features_v1.parquet
+!data/processed/features/event_features_v2.parquet
+
+# Always Track Documentation, Manifests, Schemas, and QA Reports
+!data/README.md
+!data/data_manifest.yaml
+!data/reports/
+!data/reports/**
+!reports/
+!reports/**
+
+# IDE and OS Files
+>>>>>>> origin/member2-ai-ml
 .vscode/
 .idea/
 *.swp
 *.swo
+<<<<<<< HEAD
 *~
 .DS_Store
+=======
+Thumbs.db
+[Dd]esktop.ini
+
+# Temporary Pipeline Outputs
+data/processed/features/parts/
+*.log
+>>>>>>> origin/member2-ai-ml

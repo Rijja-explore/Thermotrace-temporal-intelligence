@@ -1,0 +1,2402 @@
+{
+  "dataset_name": "ESA WorldCover 10m 2021 v200",
+  "inspection_timestamp": "2026-09-03T04:26:35.202127+00:00",
+  "scan_duration_seconds": 1.19,
+  "source_directory": "D:\\New folder (2)\\data\\raw\\worldcover\\india",
+  "total_tiles_found": 91,
+  "total_size_bytes": 6873656763,
+  "total_size_gb": 6.4,
+  "corrupted_tiles": [],
+  "suspicious_size_tiles": [],
+  "unexpected_classes": {},
+  "india_bbox": [
+    68.1,
+    6.5,
+    97.4,
+    35.7
+  ],
+  "intersecting_tiles_count": 91,
+  "peripheral_tiles_count": 0,
+  "class_scheme": {
+    "0": "NoData",
+    "10": "Tree cover",
+    "20": "Shrubland",
+    "30": "Grassland",
+    "40": "Cropland",
+    "50": "Built-up",
+    "60": "Bare / sparse vegetation",
+    "70": "Snow and ice",
+    "80": "Permanent water bodies",
+    "90": "Herbaceous wetland",
+    "95": "Mangroves",
+    "100": "Moss and lichen"
+  },
+  "tiles": [
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N06E072_Map.tif",
+      "tile_id": "N06E072",
+      "file_size_bytes": 2379446,
+      "file_size_mb": 2.27,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 6.0,
+        "right": 75.0,
+        "top": 9.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N06E075_Map.tif",
+      "tile_id": "N06E075",
+      "file_size_bytes": 14485973,
+      "file_size_mb": 13.81,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 6.0,
+        "right": 78.0,
+        "top": 9.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N06E078_Map.tif",
+      "tile_id": "N06E078",
+      "file_size_bytes": 34407738,
+      "file_size_mb": 32.81,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 6.0,
+        "right": 81.0,
+        "top": 9.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N06E081_Map.tif",
+      "tile_id": "N06E081",
+      "file_size_bytes": 19310758,
+      "file_size_mb": 18.42,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 6.0,
+        "right": 84.0,
+        "top": 9.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N06E090_Map.tif",
+      "tile_id": "N06E090",
+      "file_size_bytes": 2049250,
+      "file_size_mb": 1.95,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 6.0,
+        "right": 93.0,
+        "top": 9.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N06E093_Map.tif",
+      "tile_id": "N06E093",
+      "file_size_bytes": 3025549,
+      "file_size_mb": 2.89,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 6.0,
+        "right": 96.0,
+        "top": 9.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N06E096_Map.tif",
+      "tile_id": "N06E096",
+      "file_size_bytes": 6600982,
+      "file_size_mb": 6.3,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 6.0,
+        "right": 99.0,
+        "top": 9.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N09E072_Map.tif",
+      "tile_id": "N09E072",
+      "file_size_bytes": 2341607,
+      "file_size_mb": 2.23,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 9.0,
+        "right": 75.0,
+        "top": 12.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N09E075_Map.tif",
+      "tile_id": "N09E075",
+      "file_size_bytes": 75590338,
+      "file_size_mb": 72.09,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 9.0,
+        "right": 78.0,
+        "top": 12.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N09E078_Map.tif",
+      "tile_id": "N09E078",
+      "file_size_bytes": 92254923,
+      "file_size_mb": 87.98,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 9.0,
+        "right": 81.0,
+        "top": 12.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N09E081_Map.tif",
+      "tile_id": "N09E081",
+      "file_size_bytes": 1951593,
+      "file_size_mb": 1.86,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 9.0,
+        "right": 84.0,
+        "top": 12.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N09E090_Map.tif",
+      "tile_id": "N09E090",
+      "file_size_bytes": 3062512,
+      "file_size_mb": 2.92,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 9.0,
+        "right": 93.0,
+        "top": 12.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N09E093_Map.tif",
+      "tile_id": "N09E093",
+      "file_size_bytes": 2056494,
+      "file_size_mb": 1.96,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 9.0,
+        "right": 96.0,
+        "top": 12.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N09E096_Map.tif",
+      "tile_id": "N09E096",
+      "file_size_bytes": 8730885,
+      "file_size_mb": 8.33,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 9.0,
+        "right": 99.0,
+        "top": 12.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N12E072_Map.tif",
+      "tile_id": "N12E072",
+      "file_size_bytes": 11493386,
+      "file_size_mb": 10.96,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 12.0,
+        "right": 75.0,
+        "top": 15.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N12E075_Map.tif",
+      "tile_id": "N12E075",
+      "file_size_bytes": 127650362,
+      "file_size_mb": 121.74,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 12.0,
+        "right": 78.0,
+        "top": 15.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N12E078_Map.tif",
+      "tile_id": "N12E078",
+      "file_size_bytes": 119065806,
+      "file_size_mb": 113.55,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 12.0,
+        "right": 81.0,
+        "top": 15.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N12E090_Map.tif",
+      "tile_id": "N12E090",
+      "file_size_bytes": 3863471,
+      "file_size_mb": 3.68,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 12.0,
+        "right": 93.0,
+        "top": 15.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N12E093_Map.tif",
+      "tile_id": "N12E093",
+      "file_size_bytes": 2645656,
+      "file_size_mb": 2.52,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 12.0,
+        "right": 96.0,
+        "top": 15.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N12E096_Map.tif",
+      "tile_id": "N12E096",
+      "file_size_bytes": 11609493,
+      "file_size_mb": 11.07,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 12.0,
+        "right": 99.0,
+        "top": 15.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N15E072_Map.tif",
+      "tile_id": "N15E072",
+      "file_size_bytes": 77831415,
+      "file_size_mb": 74.23,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 15.0,
+        "right": 75.0,
+        "top": 18.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N15E075_Map.tif",
+      "tile_id": "N15E075",
+      "file_size_bytes": 103154625,
+      "file_size_mb": 98.38,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 15.0,
+        "right": 78.0,
+        "top": 18.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N15E078_Map.tif",
+      "tile_id": "N15E078",
+      "file_size_bytes": 116291512,
+      "file_size_mb": 110.9,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 15.0,
+        "right": 81.0,
+        "top": 18.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N15E081_Map.tif",
+      "tile_id": "N15E081",
+      "file_size_bytes": 39539634,
+      "file_size_mb": 37.71,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 15.0,
+        "right": 84.0,
+        "top": 18.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N15E093_Map.tif",
+      "tile_id": "N15E093",
+      "file_size_bytes": 32040917,
+      "file_size_mb": 30.56,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 15.0,
+        "right": 96.0,
+        "top": 18.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N15E096_Map.tif",
+      "tile_id": "N15E096",
+      "file_size_bytes": 53983242,
+      "file_size_mb": 51.48,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 15.0,
+        "right": 99.0,
+        "top": 18.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E069_Map.tif",
+      "tile_id": "N18E069",
+      "file_size_bytes": 6316652,
+      "file_size_mb": 6.02,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 69.0,
+        "bottom": 18.0,
+        "right": 72.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E072_Map.tif",
+      "tile_id": "N18E072",
+      "file_size_bytes": 125766199,
+      "file_size_mb": 119.94,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 18.0,
+        "right": 75.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E075_Map.tif",
+      "tile_id": "N18E075",
+      "file_size_bytes": 98525091,
+      "file_size_mb": 93.96,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 18.0,
+        "right": 78.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E078_Map.tif",
+      "tile_id": "N18E078",
+      "file_size_bytes": 108640122,
+      "file_size_mb": 103.61,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 18.0,
+        "right": 81.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E081_Map.tif",
+      "tile_id": "N18E081",
+      "file_size_bytes": 132418174,
+      "file_size_mb": 126.28,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 18.0,
+        "right": 84.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E084_Map.tif",
+      "tile_id": "N18E084",
+      "file_size_bytes": 54269282,
+      "file_size_mb": 51.76,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 84.0,
+        "bottom": 18.0,
+        "right": 87.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E087_Map.tif",
+      "tile_id": "N18E087",
+      "file_size_bytes": 2002722,
+      "file_size_mb": 1.91,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 87.0,
+        "bottom": 18.0,
+        "right": 90.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E090_Map.tif",
+      "tile_id": "N18E090",
+      "file_size_bytes": 6550384,
+      "file_size_mb": 6.25,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 18.0,
+        "right": 93.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E093_Map.tif",
+      "tile_id": "N18E093",
+      "file_size_bytes": 79262070,
+      "file_size_mb": 75.59,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 18.0,
+        "right": 96.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N18E096_Map.tif",
+      "tile_id": "N18E096",
+      "file_size_bytes": 80564579,
+      "file_size_mb": 76.83,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 18.0,
+        "right": 99.0,
+        "top": 21.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E066_Map.tif",
+      "tile_id": "N21E066",
+      "file_size_bytes": 10192573,
+      "file_size_mb": 9.72,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 66.0,
+        "bottom": 21.0,
+        "right": 69.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E069_Map.tif",
+      "tile_id": "N21E069",
+      "file_size_bytes": 92933241,
+      "file_size_mb": 88.63,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 69.0,
+        "bottom": 21.0,
+        "right": 72.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E072_Map.tif",
+      "tile_id": "N21E072",
+      "file_size_bytes": 133840887,
+      "file_size_mb": 127.64,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 21.0,
+        "right": 75.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E075_Map.tif",
+      "tile_id": "N21E075",
+      "file_size_bytes": 102720459,
+      "file_size_mb": 97.96,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 21.0,
+        "right": 78.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E078_Map.tif",
+      "tile_id": "N21E078",
+      "file_size_bytes": 118205353,
+      "file_size_mb": 112.73,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 21.0,
+        "right": 81.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E081_Map.tif",
+      "tile_id": "N21E081",
+      "file_size_bytes": 124090449,
+      "file_size_mb": 118.34,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 21.0,
+        "right": 84.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E084_Map.tif",
+      "tile_id": "N21E084",
+      "file_size_bytes": 127991194,
+      "file_size_mb": 122.06,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 84.0,
+        "bottom": 21.0,
+        "right": 87.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E087_Map.tif",
+      "tile_id": "N21E087",
+      "file_size_bytes": 81771213,
+      "file_size_mb": 77.98,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 87.0,
+        "bottom": 21.0,
+        "right": 90.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E090_Map.tif",
+      "tile_id": "N21E090",
+      "file_size_bytes": 58949208,
+      "file_size_mb": 56.22,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 21.0,
+        "right": 93.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E093_Map.tif",
+      "tile_id": "N21E093",
+      "file_size_bytes": 94447576,
+      "file_size_mb": 90.07,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 21.0,
+        "right": 96.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N21E096_Map.tif",
+      "tile_id": "N21E096",
+      "file_size_bytes": 93309494,
+      "file_size_mb": 88.99,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 21.0,
+        "right": 99.0,
+        "top": 24.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E066_Map.tif",
+      "tile_id": "N24E066",
+      "file_size_bytes": 96971395,
+      "file_size_mb": 92.48,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 66.0,
+        "bottom": 24.0,
+        "right": 69.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E069_Map.tif",
+      "tile_id": "N24E069",
+      "file_size_bytes": 130383847,
+      "file_size_mb": 124.34,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 69.0,
+        "bottom": 24.0,
+        "right": 72.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E072_Map.tif",
+      "tile_id": "N24E072",
+      "file_size_bytes": 131047562,
+      "file_size_mb": 124.98,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 24.0,
+        "right": 75.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E075_Map.tif",
+      "tile_id": "N24E075",
+      "file_size_bytes": 97319738,
+      "file_size_mb": 92.81,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 24.0,
+        "right": 78.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E078_Map.tif",
+      "tile_id": "N24E078",
+      "file_size_bytes": 101801980,
+      "file_size_mb": 97.09,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 24.0,
+        "right": 81.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E081_Map.tif",
+      "tile_id": "N24E081",
+      "file_size_bytes": 126723055,
+      "file_size_mb": 120.85,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 24.0,
+        "right": 84.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E084_Map.tif",
+      "tile_id": "N24E084",
+      "file_size_bytes": 123474050,
+      "file_size_mb": 117.75,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 84.0,
+        "bottom": 24.0,
+        "right": 87.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E087_Map.tif",
+      "tile_id": "N24E087",
+      "file_size_bytes": 117460909,
+      "file_size_mb": 112.02,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 87.0,
+        "bottom": 24.0,
+        "right": 90.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E090_Map.tif",
+      "tile_id": "N24E090",
+      "file_size_bytes": 98826043,
+      "file_size_mb": 94.25,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 24.0,
+        "right": 93.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E093_Map.tif",
+      "tile_id": "N24E093",
+      "file_size_bytes": 55435233,
+      "file_size_mb": 52.87,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 24.0,
+        "right": 96.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N24E096_Map.tif",
+      "tile_id": "N24E096",
+      "file_size_bytes": 48641297,
+      "file_size_mb": 46.39,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 24.0,
+        "right": 99.0,
+        "top": 27.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E066_Map.tif",
+      "tile_id": "N27E066",
+      "file_size_bytes": 78075709,
+      "file_size_mb": 74.46,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 66.0,
+        "bottom": 27.0,
+        "right": 69.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E069_Map.tif",
+      "tile_id": "N27E069",
+      "file_size_bytes": 105024722,
+      "file_size_mb": 100.16,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 69.0,
+        "bottom": 27.0,
+        "right": 72.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E072_Map.tif",
+      "tile_id": "N27E072",
+      "file_size_bytes": 108754189,
+      "file_size_mb": 103.72,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 27.0,
+        "right": 75.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E075_Map.tif",
+      "tile_id": "N27E075",
+      "file_size_bytes": 91078639,
+      "file_size_mb": 86.86,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 27.0,
+        "right": 78.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E078_Map.tif",
+      "tile_id": "N27E078",
+      "file_size_bytes": 103610643,
+      "file_size_mb": 98.81,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 27.0,
+        "right": 81.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E081_Map.tif",
+      "tile_id": "N27E081",
+      "file_size_bytes": 104848806,
+      "file_size_mb": 99.99,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 27.0,
+        "right": 84.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E084_Map.tif",
+      "tile_id": "N27E084",
+      "file_size_bytes": 104225123,
+      "file_size_mb": 99.4,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 84.0,
+        "bottom": 27.0,
+        "right": 87.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E087_Map.tif",
+      "tile_id": "N27E087",
+      "file_size_bytes": 88835880,
+      "file_size_mb": 84.72,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 87.0,
+        "bottom": 27.0,
+        "right": 90.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E090_Map.tif",
+      "tile_id": "N27E090",
+      "file_size_bytes": 84842890,
+      "file_size_mb": 80.91,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 27.0,
+        "right": 93.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E093_Map.tif",
+      "tile_id": "N27E093",
+      "file_size_bytes": 79061337,
+      "file_size_mb": 75.4,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 27.0,
+        "right": 96.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N27E096_Map.tif",
+      "tile_id": "N27E096",
+      "file_size_bytes": 96124189,
+      "file_size_mb": 91.67,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 27.0,
+        "right": 99.0,
+        "top": 30.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E066_Map.tif",
+      "tile_id": "N30E066",
+      "file_size_bytes": 63076146,
+      "file_size_mb": 60.15,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 66.0,
+        "bottom": 30.0,
+        "right": 69.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E069_Map.tif",
+      "tile_id": "N30E069",
+      "file_size_bytes": 141396433,
+      "file_size_mb": 134.85,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 69.0,
+        "bottom": 30.0,
+        "right": 72.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E072_Map.tif",
+      "tile_id": "N30E072",
+      "file_size_bytes": 122839390,
+      "file_size_mb": 117.15,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 30.0,
+        "right": 75.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E075_Map.tif",
+      "tile_id": "N30E075",
+      "file_size_bytes": 102543746,
+      "file_size_mb": 97.79,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 30.0,
+        "right": 78.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E078_Map.tif",
+      "tile_id": "N30E078",
+      "file_size_bytes": 93012520,
+      "file_size_mb": 88.7,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 30.0,
+        "right": 81.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E081_Map.tif",
+      "tile_id": "N30E081",
+      "file_size_bytes": 82091849,
+      "file_size_mb": 78.29,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 30.0,
+        "right": 84.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E084_Map.tif",
+      "tile_id": "N30E084",
+      "file_size_bytes": 80311129,
+      "file_size_mb": 76.59,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 84.0,
+        "bottom": 30.0,
+        "right": 87.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E087_Map.tif",
+      "tile_id": "N30E087",
+      "file_size_bytes": 74436521,
+      "file_size_mb": 70.99,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 87.0,
+        "bottom": 30.0,
+        "right": 90.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E090_Map.tif",
+      "tile_id": "N30E090",
+      "file_size_bytes": 74589278,
+      "file_size_mb": 71.13,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 30.0,
+        "right": 93.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E093_Map.tif",
+      "tile_id": "N30E093",
+      "file_size_bytes": 124239426,
+      "file_size_mb": 118.48,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 30.0,
+        "right": 96.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N30E096_Map.tif",
+      "tile_id": "N30E096",
+      "file_size_bytes": 87758216,
+      "file_size_mb": 83.69,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 30.0,
+        "right": 99.0,
+        "top": 33.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E066_Map.tif",
+      "tile_id": "N33E066",
+      "file_size_bytes": 123999964,
+      "file_size_mb": 118.26,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 66.0,
+        "bottom": 33.0,
+        "right": 69.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E069_Map.tif",
+      "tile_id": "N33E069",
+      "file_size_bytes": 155712630,
+      "file_size_mb": 148.5,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 69.0,
+        "bottom": 33.0,
+        "right": 72.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E072_Map.tif",
+      "tile_id": "N33E072",
+      "file_size_bytes": 153200236,
+      "file_size_mb": 146.1,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 72.0,
+        "bottom": 33.0,
+        "right": 75.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E075_Map.tif",
+      "tile_id": "N33E075",
+      "file_size_bytes": 97538409,
+      "file_size_mb": 93.02,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 75.0,
+        "bottom": 33.0,
+        "right": 78.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E078_Map.tif",
+      "tile_id": "N33E078",
+      "file_size_bytes": 38632951,
+      "file_size_mb": 36.84,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 78.0,
+        "bottom": 33.0,
+        "right": 81.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E081_Map.tif",
+      "tile_id": "N33E081",
+      "file_size_bytes": 36721693,
+      "file_size_mb": 35.02,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 81.0,
+        "bottom": 33.0,
+        "right": 84.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E084_Map.tif",
+      "tile_id": "N33E084",
+      "file_size_bytes": 39898023,
+      "file_size_mb": 38.05,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 84.0,
+        "bottom": 33.0,
+        "right": 87.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E087_Map.tif",
+      "tile_id": "N33E087",
+      "file_size_bytes": 73582396,
+      "file_size_mb": 70.17,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 87.0,
+        "bottom": 33.0,
+        "right": 90.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E090_Map.tif",
+      "tile_id": "N33E090",
+      "file_size_bytes": 82507371,
+      "file_size_mb": 78.69,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 90.0,
+        "bottom": 33.0,
+        "right": 93.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E093_Map.tif",
+      "tile_id": "N33E093",
+      "file_size_bytes": 70357364,
+      "file_size_mb": 67.1,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 93.0,
+        "bottom": 33.0,
+        "right": 96.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    },
+    {
+      "filename": "ESA_WorldCover_10m_2021_v200_N33E096_Map.tif",
+      "tile_id": "N33E096",
+      "file_size_bytes": 82459347,
+      "file_size_mb": 78.64,
+      "crs": "EPSG:4326",
+      "dimensions": [
+        36000,
+        36000
+      ],
+      "resolution": [
+        8.333333333333333e-05,
+        8.333333333333333e-05
+      ],
+      "bounds": {
+        "left": 96.0,
+        "bottom": 33.0,
+        "right": 99.0,
+        "top": 36.0
+      },
+      "bands": 1,
+      "datatype": "uint8",
+      "nodata": 0.0,
+      "intersects_india_bbox": true,
+      "integrity_valid": true
+    }
+  ]
+}

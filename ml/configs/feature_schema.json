@@ -1,0 +1,82 @@
+{
+  "safe_post_event_features": [
+    "centroid_lat",
+    "centroid_lon",
+    "hour_sin",
+    "hour_cos",
+    "month_sin",
+    "month_cos",
+    "duration_hours",
+    "max_frp_mw",
+    "mean_frp_mw",
+    "sum_frp_mw",
+    "detection_count",
+    "spatial_extent_km",
+    "thermal_persistence_indicator",
+    "thermal_intensity"
+  ],
+  "safe_temporal_context": [
+    "events_previous_7d",
+    "events_previous_30d",
+    "events_previous_90d",
+    "frp_previous_7d",
+    "frp_previous_30d",
+    "frp_previous_90d",
+    "active_days_previous_7d",
+    "active_days_previous_30d",
+    "active_days_previous_90d",
+    "time_since_previous_event_hours"
+  ],
+  "safe_environmental_infrastructure_context": [
+    "population_1km",
+    "population_5km",
+    "forest_fraction_1km",
+    "cropland_fraction_1km",
+    "builtup_fraction_1km",
+    "grassland_fraction_1km",
+    "water_fraction_1km",
+    "distance_to_major_road_km",
+    "distance_to_railway_km",
+    "distance_to_power_line_km",
+    "distance_to_pipeline_km",
+    "distance_to_airport_km",
+    "distance_to_port_km",
+    "distance_to_protected_area_km",
+    "inside_protected_area",
+    "distance_to_facility_km",
+    "near_power_plant",
+    "near_factory",
+    "near_refinery",
+    "near_mine",
+    "near_quarry",
+    "near_storage_facility",
+    "near_substation"
+  ],
+  "excluded_features": [
+    "event_id",
+    "state",
+    "state_code",
+    "district",
+    "district_code",
+    "events_local_1km",
+    "events_local_5km",
+    "events_local_10km",
+    "thermal_density_1km",
+    "thermal_density_5km",
+    "thermal_density_10km",
+    "baseline_risk_score",
+    "baseline_risk_level",
+    "risk_reason_1",
+    "risk_reason_2",
+    "risk_reason_3"
+  ],
+  "excluded_wildcard_patterns": [
+    "*_risk_component"
+  ],
+  "review_required_features": [
+    "end_time",
+    "event_quality",
+    "satellites"
+  ],
+  "notes": "Features requiring review need explicit modeling decisions and should not automatically be included."
+}

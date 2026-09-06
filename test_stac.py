@@ -1,0 +1,1 @@
+import requests; import json; url='https://earth-search.aws.element84.com/v1/search'; payload={'collections': ['sentinel-2-l2a'], 'intersects': {'type': 'Point', 'coordinates': [84.556492, 27.250835]}, 'datetime': '2025-11-24T00:00:00Z/2025-12-22T23:59:59Z'}; r = requests.post(url, json=payload); print(r.json())

@@ -1,0 +1,494 @@
+{
+  "source_directory": "D:\\New folder (2)\\data\\raw\\protected_areas",
+  "inspection_timestamp": "2026-09-03T03:52:13.970301+00:00",
+  "scan_duration_seconds": 0.25,
+  "raw_inventory": [
+    {
+      "filename": "Shapefile_splitting_README.txt",
+      "file_size_bytes": 464,
+      "file_size_kb": 0.45,
+      "file_type": "txt"
+    },
+    {
+      "filename": "WDPA_sources_Sep2026.csv",
+      "file_size_bytes": 120414,
+      "file_size_kb": 117.59,
+      "file_type": "csv"
+    },
+    {
+      "filename": "WDPA_WDOECM_Sep2026_Public_IND_shp_0.zip",
+      "file_size_bytes": 440099,
+      "file_size_kb": 429.78,
+      "file_type": "zip",
+      "archive_contents": [
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.shp",
+          "size_bytes": 593204
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.shx",
+          "size_bytes": 268
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.dbf",
+          "size_bytes": 46933
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.prj",
+          "size_bytes": 143
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.cpg",
+          "size_bytes": 5
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.shp",
+          "size_bytes": 676
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.shx",
+          "size_bytes": 172
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.dbf",
+          "size_bytes": 19134
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.prj",
+          "size_bytes": 143
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.cpg",
+          "size_bytes": 5
+        }
+      ]
+    },
+    {
+      "filename": "WDPA_WDOECM_Sep2026_Public_IND_shp_1.zip",
+      "file_size_bytes": 109357,
+      "file_size_kb": 106.79,
+      "file_type": "zip",
+      "archive_contents": [
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.shp",
+          "size_bytes": 150060
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.shx",
+          "size_bytes": 268
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.dbf",
+          "size_bytes": 46093
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.prj",
+          "size_bytes": 143
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.cpg",
+          "size_bytes": 5
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.shp",
+          "size_bytes": 676
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.shx",
+          "size_bytes": 172
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.dbf",
+          "size_bytes": 19134
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.prj",
+          "size_bytes": 143
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.cpg",
+          "size_bytes": 5
+        }
+      ]
+    },
+    {
+      "filename": "WDPA_WDOECM_Sep2026_Public_IND_shp_2.zip",
+      "file_size_bytes": 1188472,
+      "file_size_kb": 1160.62,
+      "file_type": "zip",
+      "archive_contents": [
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.shp",
+          "size_bytes": 1644380
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.shx",
+          "size_bytes": 268
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.dbf",
+          "size_bytes": 47332
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.prj",
+          "size_bytes": 143
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons.cpg",
+          "size_bytes": 5
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.shp",
+          "size_bytes": 676
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.shx",
+          "size_bytes": 172
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.dbf",
+          "size_bytes": 19134
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.prj",
+          "size_bytes": 143
+        },
+        {
+          "entry": "WDPA_WDOECM_Sep2026_Public_IND_shp-points.cpg",
+          "size_bytes": 5
+        }
+      ]
+    }
+  ],
+  "selected_layers": {
+    "canonical_polygon_layer": {
+      "source_archives": [
+        "WDPA_WDOECM_Sep2026_Public_IND_shp_0.zip",
+        "WDPA_WDOECM_Sep2026_Public_IND_shp_1.zip",
+        "WDPA_WDOECM_Sep2026_Public_IND_shp_2.zip"
+      ],
+      "layer_name": "WDPA_WDOECM_Sep2026_Public_IND_shp-polygons",
+      "feature_count": 63,
+      "crs": "EPSG:4326",
+      "geometry_types": {
+        "Polygon": 52,
+        "MultiPolygon": 11
+      },
+      "valid_geometries": 63,
+      "invalid_geometries": 0,
+      "empty_geometries": 0,
+      "bounds": [
+        70.118694,
+        8.140104,
+        93.92524,
+        34.41148
+      ],
+      "total_gis_area_km2": 27794.23,
+      "total_reported_area_km2": 39933.3
+    },
+    "supplementary_point_layer": {
+      "source_archives": [
+        "WDPA_WDOECM_Sep2026_Public_IND_shp_0.zip",
+        "WDPA_WDOECM_Sep2026_Public_IND_shp_1.zip",
+        "WDPA_WDOECM_Sep2026_Public_IND_shp_2.zip"
+      ],
+      "layer_name": "WDPA_WDOECM_Sep2026_Public_IND_shp-points",
+      "feature_count": 27,
+      "crs": "EPSG:4326",
+      "geometry_types": {
+        "MultiPoint": 27
+      },
+      "valid_geometries": 27,
+      "bounds": [
+        72.039167,
+        8.95,
+        91.65,
+        34.083333
+      ]
+    }
+  },
+  "schema": {
+    "total_fields": 33,
+    "concept_mapping": {
+      "protected_area_identifier": "SITE_ID",
+      "parcel_identifier": "SITE_PID",
+      "name_english": "NAME_ENG",
+      "name_local": "NAME",
+      "designation": "DESIG",
+      "designation_english": "DESIG_ENG",
+      "designation_type": "DESIG_TYPE",
+      "iucn_category": "IUCN_CAT",
+      "international_criteria": "INT_CRIT",
+      "realm": "REALM",
+      "reported_area": "REP_AREA",
+      "gis_area": "GIS_AREA",
+      "legal_status": "STATUS",
+      "status_year": "STATUS_YR",
+      "governance_type": "GOV_TYPE",
+      "management_authority": "MANG_AUTH",
+      "country_iso3": "ISO3",
+      "source_metadata_id": "METADATAID"
+    },
+    "fields": {
+      "SITE_ID": {
+        "dtype": "int32",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "10744"
+      },
+      "SITE_PID": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "10744"
+      },
+      "SITE_TYPE": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "PA"
+      },
+      "NAME_ENG": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Kaziranga National Park"
+      },
+      "NAME": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Parc national de Kaziranga"
+      },
+      "DESIG": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "World Heritage Site (natural or mixed)"
+      },
+      "DESIG_ENG": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "World Heritage Site (natural or mixed)"
+      },
+      "DESIG_TYPE": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "International"
+      },
+      "IUCN_CAT": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Applicable"
+      },
+      "INT_CRIT": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "(ix);(x)"
+      },
+      "REALM": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Terrestrial"
+      },
+      "REP_M_AREA": {
+        "dtype": "float64",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "0.0"
+      },
+      "GIS_M_AREA": {
+        "dtype": "float64",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "0.0"
+      },
+      "REP_AREA": {
+        "dtype": "float64",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "429.96"
+      },
+      "GIS_AREA": {
+        "dtype": "float64",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "432.200265618519"
+      },
+      "NO_TAKE": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Applicable"
+      },
+      "NO_TK_AREA": {
+        "dtype": "float64",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "0.0"
+      },
+      "STATUS": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Inscribed"
+      },
+      "STATUS_YR": {
+        "dtype": "int32",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "1985"
+      },
+      "GOV_TYPE": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Reported"
+      },
+      "GOVSUBTYPE": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Applicable"
+      },
+      "OWN_TYPE": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Reported"
+      },
+      "OWNSUBTYPE": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Applicable"
+      },
+      "MANG_AUTH": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Reported"
+      },
+      "MANG_PLAN": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Reported"
+      },
+      "VERIF": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "State Verified"
+      },
+      "METADATAID": {
+        "dtype": "int32",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "946"
+      },
+      "PRNT_ISO3": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "IND"
+      },
+      "ISO3": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "IND"
+      },
+      "SUPP_INFO": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Applicable"
+      },
+      "CONS_OBJ": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Applicable"
+      },
+      "INLND_WTRS": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Reported"
+      },
+      "OECM_ASMT": {
+        "dtype": "object",
+        "non_null_count": 63,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "sample_value": "Not Applicable"
+      }
+    }
+  },
+  "attribute_completeness": {
+    "total_polygon_features": 63,
+    "unnamed_features": 0,
+    "countries": {
+      "IND": 63
+    },
+    "designations": {
+      "Wetland of International Importance (Ramsar Site)": 54,
+      "World Heritage Site (natural or mixed)": 8,
+      "UNESCO-MAB Biosphere Reserve": 1
+    },
+    "iucn_categories": {
+      "Not Reported": 24,
+      "IV": 18,
+      "Not Applicable": 9,
+      "V": 4,
+      "Ib": 3,
+      "II": 2,
+      "Ia": 1,
+      "VI": 1,
+      "III": 1
+    }
+  },
+  "qa_checks": {
+    "warnings": [],
+    "errors": [],
+    "status": "PASSED"
+  }
+}

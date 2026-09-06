@@ -1,0 +1,1196 @@
+[
+  {
+    "variant_id": "M4-A",
+    "description": "Baseline M4 without class weighting",
+    "dataset_version": "41f4dc643748ef9fca85dfb4638adc0b",
+    "train_count": 1120,
+    "val_count": 280,
+    "test_count": 100,
+    "sampling_strategy": "Original Imbalanced",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "class_weight": null
+    },
+    "val_metrics": {
+      "macro_f1": 0.8170163170163169,
+      "balanced_accuracy": 0.9666666666666668,
+      "confusion_matrix": [
+        [
+          29,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          75,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          99
+        ]
+      ],
+      "industrial_precision": 1.0,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 0.9861111111111112,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 0.8333333333333334,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 0.9090909090909091,
+        "unknown_requires_verification": 0.993006993006993,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "support": {
+        "agricultural_burning": 29,
+        "industrial_fire_or_abnormal_event": 0,
+        "mining_or_other_industrial_activity": 75,
+        "persistent_industrial_source": 6,
+        "unknown_requires_verification": 71,
+        "wildfire_or_forest_fire": 99
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.004412452202524988,
+      "accuracy": 0.9964285714285714,
+      "weighted_f1": 0.9962787212787213
+    },
+    "eval_metrics": {
+      "macro_f1": 0.5877430600511175,
+      "balanced_accuracy": 0.6403508771929824,
+      "confusion_matrix": [
+        [
+          16,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          23,
+          13,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          18,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          23
+        ]
+      ],
+      "industrial_precision": 0.39473684210526316,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.08,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 0.8181818181818182,
+        "wildfire_or_forest_fire": 0.9583333333333334
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.5,
+        "persistent_industrial_source": 0.34210526315789475,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.13793103448275862,
+        "persistent_industrial_source": 0.5098039215686274,
+        "unknown_requires_verification": 0.9,
+        "wildfire_or_forest_fire": 0.9787234042553191
+      },
+      "support": {
+        "agricultural_burning": 16,
+        "industrial_fire_or_abnormal_event": 1,
+        "mining_or_other_industrial_activity": 4,
+        "persistent_industrial_source": 38,
+        "unknown_requires_verification": 18,
+        "wildfire_or_forest_fire": 23
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.5412755255838575,
+      "accuracy": 0.72,
+      "weighted_f1": 0.7463491145541121
+    },
+    "train_time_sec": 1.9606,
+    "artifact_path": "ml/models/benchmark/class_balance\\m4_a.joblib"
+  },
+  {
+    "variant_id": "M4-B",
+    "description": "Balanced inverse class weighting",
+    "dataset_version": "41f4dc643748ef9fca85dfb4638adc0b",
+    "train_count": 1120,
+    "val_count": 280,
+    "test_count": 100,
+    "sampling_strategy": "Balanced Weights (N / (K * n_c))",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "class_weight": "balanced"
+    },
+    "val_metrics": {
+      "macro_f1": 0.8333333333333334,
+      "balanced_accuracy": 1.0,
+      "confusion_matrix": [
+        [
+          29,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          75,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          99
+        ]
+      ],
+      "industrial_precision": 1.0,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "support": {
+        "agricultural_burning": 29,
+        "industrial_fire_or_abnormal_event": 0,
+        "mining_or_other_industrial_activity": 75,
+        "persistent_industrial_source": 6,
+        "unknown_requires_verification": 71,
+        "wildfire_or_forest_fire": 99
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 7.936528801967572e-06,
+      "accuracy": 1.0,
+      "weighted_f1": 1.0
+    },
+    "eval_metrics": {
+      "macro_f1": 0.6050100992732943,
+      "balanced_accuracy": 0.6491228070175439,
+      "confusion_matrix": [
+        [
+          16,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          23,
+          15,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          18,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          23
+        ]
+      ],
+      "industrial_precision": 0.425,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.08,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 0.9,
+        "wildfire_or_forest_fire": 0.9583333333333334
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.5,
+        "persistent_industrial_source": 0.39473684210526316,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.13793103448275862,
+        "persistent_industrial_source": 0.5660377358490566,
+        "unknown_requires_verification": 0.9473684210526315,
+        "wildfire_or_forest_fire": 0.9787234042553191
+      },
+      "support": {
+        "agricultural_burning": 16,
+        "industrial_fire_or_abnormal_event": 1,
+        "mining_or_other_industrial_activity": 4,
+        "persistent_industrial_source": 38,
+        "unknown_requires_verification": 18,
+        "wildfire_or_forest_fire": 23
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.5202539067551164,
+      "accuracy": 0.74,
+      "weighted_f1": 0.7762442797701489
+    },
+    "train_time_sec": 0.6115,
+    "artifact_path": "ml/models/benchmark/class_balance\\m4_b.joblib"
+  },
+  {
+    "variant_id": "M4-C",
+    "description": "Moderate square-root smoothed class weights",
+    "dataset_version": "41f4dc643748ef9fca85dfb4638adc0b",
+    "train_count": 1120,
+    "val_count": 280,
+    "test_count": 100,
+    "sampling_strategy": "Sqrt-Smooth Class Weights: {'mining_or_other_industrial_activity': 0.5554637206007079, 'wildfire_or_forest_fire': 1.0829473067097712, 'unknown_requires_verification': 1.4335431181375862, 'persistent_industrial_source': 2.0, 'agricultural_burning': 2.4279079146675357}",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "class_weight": "smooth_sqrt"
+    },
+    "val_metrics": {
+      "macro_f1": 0.8333333333333334,
+      "balanced_accuracy": 1.0,
+      "confusion_matrix": [
+        [
+          29,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          75,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          99
+        ]
+      ],
+      "industrial_precision": 1.0,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "support": {
+        "agricultural_burning": 29,
+        "industrial_fire_or_abnormal_event": 0,
+        "mining_or_other_industrial_activity": 75,
+        "persistent_industrial_source": 6,
+        "unknown_requires_verification": 71,
+        "wildfire_or_forest_fire": 99
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.00017295833517305497,
+      "accuracy": 1.0,
+      "weighted_f1": 1.0
+    },
+    "eval_metrics": {
+      "macro_f1": 0.6050100992732943,
+      "balanced_accuracy": 0.6491228070175439,
+      "confusion_matrix": [
+        [
+          16,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          23,
+          15,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          18,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          23
+        ]
+      ],
+      "industrial_precision": 0.425,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.08,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 0.9,
+        "wildfire_or_forest_fire": 0.9583333333333334
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.5,
+        "persistent_industrial_source": 0.39473684210526316,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.13793103448275862,
+        "persistent_industrial_source": 0.5660377358490566,
+        "unknown_requires_verification": 0.9473684210526315,
+        "wildfire_or_forest_fire": 0.9787234042553191
+      },
+      "support": {
+        "agricultural_burning": 16,
+        "industrial_fire_or_abnormal_event": 1,
+        "mining_or_other_industrial_activity": 4,
+        "persistent_industrial_source": 38,
+        "unknown_requires_verification": 18,
+        "wildfire_or_forest_fire": 23
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.5207334630089404,
+      "accuracy": 0.74,
+      "weighted_f1": 0.7762442797701489
+    },
+    "train_time_sec": 0.5979,
+    "artifact_path": "ml/models/benchmark/class_balance\\m4_c.joblib"
+  },
+  {
+    "variant_id": "M4-D",
+    "description": "Controlled majority-class undersampling (mining reduced to 382 instances)",
+    "dataset_version": "41f4dc643748ef9fca85dfb4638adc0b",
+    "train_count": 776,
+    "val_count": 280,
+    "test_count": 100,
+    "sampling_strategy": "Majority Undersampling (Mining 726 -> 382)",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "undersampling": "mining_to_382"
+    },
+    "val_metrics": {
+      "macro_f1": 0.8333333333333334,
+      "balanced_accuracy": 1.0,
+      "confusion_matrix": [
+        [
+          29,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          75,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          99
+        ]
+      ],
+      "industrial_precision": 1.0,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "support": {
+        "agricultural_burning": 29,
+        "industrial_fire_or_abnormal_event": 0,
+        "mining_or_other_industrial_activity": 75,
+        "persistent_industrial_source": 6,
+        "unknown_requires_verification": 71,
+        "wildfire_or_forest_fire": 99
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.0006937878998350992,
+      "accuracy": 1.0,
+      "weighted_f1": 1.0
+    },
+    "eval_metrics": {
+      "macro_f1": 0.6050100992732943,
+      "balanced_accuracy": 0.6491228070175439,
+      "confusion_matrix": [
+        [
+          16,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          23,
+          15,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          18,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          23
+        ]
+      ],
+      "industrial_precision": 0.425,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.08,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 0.9,
+        "wildfire_or_forest_fire": 0.9583333333333334
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.5,
+        "persistent_industrial_source": 0.39473684210526316,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.13793103448275862,
+        "persistent_industrial_source": 0.5660377358490566,
+        "unknown_requires_verification": 0.9473684210526315,
+        "wildfire_or_forest_fire": 0.9787234042553191
+      },
+      "support": {
+        "agricultural_burning": 16,
+        "industrial_fire_or_abnormal_event": 1,
+        "mining_or_other_industrial_activity": 4,
+        "persistent_industrial_source": 38,
+        "unknown_requires_verification": 18,
+        "wildfire_or_forest_fire": 23
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.523018818857048,
+      "accuracy": 0.74,
+      "weighted_f1": 0.7762442797701489
+    },
+    "train_time_sec": 0.4919,
+    "artifact_path": "ml/models/benchmark/class_balance\\m4_d.joblib"
+  },
+  {
+    "variant_id": "M4-E",
+    "description": "Stratified resampling boosting minority classes to at least 150 instances",
+    "dataset_version": "41f4dc643748ef9fca85dfb4638adc0b",
+    "train_count": 1367,
+    "val_count": 280,
+    "test_count": 100,
+    "sampling_strategy": "Stratified Minority Resampling (Min 150/class)",
+    "hyperparameters": {
+      "max_iter": 100,
+      "learning_rate": 0.08,
+      "max_depth": 6,
+      "resampling": "minority_oversample_150"
+    },
+    "val_metrics": {
+      "macro_f1": 0.8333333333333334,
+      "balanced_accuracy": 1.0,
+      "confusion_matrix": [
+        [
+          29,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          75,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          99
+        ]
+      ],
+      "industrial_precision": 1.0,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "support": {
+        "agricultural_burning": 29,
+        "industrial_fire_or_abnormal_event": 0,
+        "mining_or_other_industrial_activity": 75,
+        "persistent_industrial_source": 6,
+        "unknown_requires_verification": 71,
+        "wildfire_or_forest_fire": 99
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.00012289698073218055,
+      "accuracy": 1.0,
+      "weighted_f1": 1.0
+    },
+    "eval_metrics": {
+      "macro_f1": 0.6050100992732943,
+      "balanced_accuracy": 0.6491228070175439,
+      "confusion_matrix": [
+        [
+          16,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          23,
+          15,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          18,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          23
+        ]
+      ],
+      "industrial_precision": 0.425,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.08,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 0.9,
+        "wildfire_or_forest_fire": 0.9583333333333334
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.5,
+        "persistent_industrial_source": 0.39473684210526316,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.13793103448275862,
+        "persistent_industrial_source": 0.5660377358490566,
+        "unknown_requires_verification": 0.9473684210526315,
+        "wildfire_or_forest_fire": 0.9787234042553191
+      },
+      "support": {
+        "agricultural_burning": 16,
+        "industrial_fire_or_abnormal_event": 1,
+        "mining_or_other_industrial_activity": 4,
+        "persistent_industrial_source": 38,
+        "unknown_requires_verification": 18,
+        "wildfire_or_forest_fire": 23
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.5206849562342589,
+      "accuracy": 0.74,
+      "weighted_f1": 0.7762442797701489
+    },
+    "train_time_sec": 0.6507,
+    "artifact_path": "ml/models/benchmark/class_balance\\m4_e.joblib"
+  },
+  {
+    "variant_id": "M4-F",
+    "description": "Balanced class weights with bounded grid search HPO {'learning_rate': 0.04, 'l2_regularization': 0.001, 'max_depth': 4, 'class_weight': 'balanced'}",
+    "dataset_version": "41f4dc643748ef9fca85dfb4638adc0b",
+    "train_count": 1120,
+    "val_count": 280,
+    "test_count": 100,
+    "sampling_strategy": "Balanced Class Weights + Bounded Grid Search HPO",
+    "hyperparameters": {
+      "learning_rate": 0.04,
+      "l2_regularization": 0.001,
+      "max_depth": 4,
+      "class_weight": "balanced"
+    },
+    "val_metrics": {
+      "macro_f1": 0.8333333333333334,
+      "balanced_accuracy": 1.0,
+      "confusion_matrix": [
+        [
+          29,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          75,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          99
+        ]
+      ],
+      "industrial_precision": 1.0,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 1.0,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "support": {
+        "agricultural_burning": 29,
+        "industrial_fire_or_abnormal_event": 0,
+        "mining_or_other_industrial_activity": 75,
+        "persistent_industrial_source": 6,
+        "unknown_requires_verification": 71,
+        "wildfire_or_forest_fire": 99
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.001978421087303874,
+      "accuracy": 1.0,
+      "weighted_f1": 1.0
+    },
+    "eval_metrics": {
+      "macro_f1": 0.6050100992732943,
+      "balanced_accuracy": 0.6491228070175439,
+      "confusion_matrix": [
+        [
+          16,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          23,
+          15,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          18,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          23
+        ]
+      ],
+      "industrial_precision": 0.425,
+      "precision": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.08,
+        "persistent_industrial_source": 1.0,
+        "unknown_requires_verification": 0.9,
+        "wildfire_or_forest_fire": 0.9583333333333334
+      },
+      "recall": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.5,
+        "persistent_industrial_source": 0.39473684210526316,
+        "unknown_requires_verification": 1.0,
+        "wildfire_or_forest_fire": 1.0
+      },
+      "f1": {
+        "agricultural_burning": 1.0,
+        "industrial_fire_or_abnormal_event": 0.0,
+        "mining_or_other_industrial_activity": 0.13793103448275862,
+        "persistent_industrial_source": 0.5660377358490566,
+        "unknown_requires_verification": 0.9473684210526315,
+        "wildfire_or_forest_fire": 0.9787234042553191
+      },
+      "support": {
+        "agricultural_burning": 16,
+        "industrial_fire_or_abnormal_event": 1,
+        "mining_or_other_industrial_activity": 4,
+        "persistent_industrial_source": 38,
+        "unknown_requires_verification": 18,
+        "wildfire_or_forest_fire": 23
+      },
+      "false_positive_reduction": 0.0,
+      "brier_score": 0.5271392113144131,
+      "accuracy": 0.74,
+      "weighted_f1": 0.7762442797701489
+    },
+    "train_time_sec": 9.6664,
+    "artifact_path": "ml/models/benchmark/class_balance\\m4_f.joblib"
+  }
+]

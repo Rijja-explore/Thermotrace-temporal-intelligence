@@ -1,0 +1,42 @@
+{
+  "canonical_geopackage": "D:\\New folder (2)\\data\\processed\\protected_areas\\protected_areas_india.gpkg",
+  "file_size_kb": 5012.0,
+  "validation_timestamp": "2026-09-03T03:52:35.451693+00:00",
+  "validation_duration_seconds": 0.076,
+  "layers": {
+    "protected_areas_polygons": {
+      "feature_count": 63,
+      "geometry_types": {
+        "MultiPolygon": 63
+      },
+      "crs": "EPSG:4326",
+      "bounds": [
+        70.118694,
+        8.140104,
+        93.92524,
+        34.41148
+      ],
+      "verified_match_with_source": true
+    },
+    "protected_areas_points": {
+      "feature_count": 27,
+      "geometry_types": {
+        "MultiPoint": 27
+      },
+      "crs": "EPSG:4326",
+      "bounds": [
+        72.039167,
+        8.95,
+        91.65,
+        34.083333
+      ],
+      "verified_match_with_source": true
+    },
+    "protected_areas_combined": {
+      "feature_count": 90,
+      "crs": "EPSG:4326",
+      "verified_match_with_source": true
+    }
+  },
+  "validation_status": "PASSED"
+}

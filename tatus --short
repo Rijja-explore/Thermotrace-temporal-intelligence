@@ -1,0 +1,122 @@
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/README.md b/README.md[m
+[1mindex a9e5f3c..5d6b4f0 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -1,112 +1,99 @@[m
+ # ThermoTrace: Temporal & Spatial Thermal Anomaly Analytics[m
+ [m
+[31m-**Subcontinent Scale (India): Multi-Modal Geospatial Data Engineering & Feature Foundation**  [m
+[32m+[m[32m**Subcontinent Scale (India): Multi-Modal Geospatial Engineering & Machine Learning Intelligence**[m[41m  [m
+ *Repository:* [ThermoTrace Temporal Intelligence](https://github.com/Rijja-explore/Thermotrace-temporal-intelligence)  [m
+[31m-*Branch:* `member1-data-handoff`  [m
+[31m-*Lead Author:* Member 1 (Data Engineering & Geospatial Pipeline Lead)  [m
+[31m-*Status:* Phase 1 Complete (Ingestion, Canonicalization, Eventization, and Feature Engineering V1/V2 Verified)  [m
+[32m+[m[32m*Branch:* `member2-ai-ml`[m[41m  [m
+[32m+[m[32m*Lead Authors:* Member 1 (Geospatial Data Engineering) & Member 2 (Machine Learning & Classifier System Lead)[m[41m  [m
+[32m+[m[32m*Status:* Data Pipeline Complete (Layer 0-3 Verified) & ML Subsystem Verified (7-Model Benchmark, M4-B Class-Balance Selection, Independent Human Reliability Infrastructure, Empirical Human GT Benchmark — 100% Passing, 127 Unit Tests)[m
+ [m
+ ---[m
+ [m
+ ## 1. System Architecture Overview[m
+ [m
+[31m-ThermoTrace ingests, canonicalizes, clusters, and enriches satellite thermal observations and high-resolution contextual geospatial layers across the entire continental extent of India ($65^\circ\text{E} - 100^\circ\text{E}, 5^\circ\text{N} - 38^\circ\text{N}$).[m
+[32m+[m[32mThermoTrace ingests, canonicalizes, clusters, enriches, and classifies satellite thermal observations and high-resolution geospatial contextual layers across continental India ($65^\circ\text{E} - 100^\circ\text{E}, 5^\circ\text{N} - 38^\circ\text{N}$).[m
+ [m
+ ```[m
+ RAW DATA (Immutable Source Layer)[m
+[31m-├── FIRMS VIIRS/MODIS CSVs (148 files)[m
+[31m-├── OpenStreetMap India PBF (1.63 GB)[m
+[31m-├── WorldPop 2025 100m GeoTIFF (742 MB)[m
+[32m+[m[32m├── FIRMS VIIRS/MODIS CSVs (148 files, 2.47M detections)[m
+[32m+[m[32m├── OpenStreetMap India PBF (1.63 GB, 169k facilities, 1.1M infra)[m
+[32m+[m[32m├── WorldPop 2025 100m GeoTIFF (742 MB population raster)[m
+ ├── UNEP-WCMC WDPA Protected Areas (3 ZIPs)[m
+[31m-└── ESA WorldCover 10m Tiles (91 GeoTIFFs, 6.4 GB)[m
+[32m+[m[32m└── ESA WorldCover 10m Tiles (91 GeoTIFFs, 6.4 GB land cover mosaic)[m
+                            │[m
+                            ▼[m
+[31m-SOURCE-SPECIFIC CANONICAL DATASETS (Layer-1 GeoPackages & COGs)[m
+[31m-├── data/processed/osm/osm_india.gpkg (169k facilities, 1.1M infra)[m
+[31m-├── data/processed/population/population_india_100m.tif (100m COG)[m
+[31m-├── data/processed/protected_areas/protected_areas_india.gpkg (WDPA boundaries)[m
+[31m-└── data/processed/worldcover/worldcover_india_10m.tif (10m Land Cover Mosaic)[m
+[31m-                           │[m
+[31m-                           ▼[m
+[31m-FIRMS CANONICAL DETECTIONS (Layer-0)[m
+[31m-└── data/processed/firms/firms_india_canonical.parquet (2,477,543 detections)[m
+[31m-                           │[m
+[31m-                           ▼[m
+[31m-M3 THERMAL EVENT ENGINE (Layer-1)[m
+[32m+[m[32mCANONICAL DATASETS & CLUSTERING ENGINE (Layer 0 & Layer 1)[m
+[32m+[m[32m├── data/processed/firms/firms_india_canonical.parquet (2.47M points)[m
+ ├── data/processed/events/events_v0_1.parquet (996,891 clustered events)[m
+[31m-└── data/processed/events/event_detection_links.parquet (2,477,543 relational links)[m
+[32m+[m[32m└── data/processed/events/event_detection_links.parquet (2.47M relational links)[m
+                            │[m
+                            ▼[m
+[31m-EVENT-LEVEL FEATURE ENGINE (Layer-2 & Layer-3)[m
+[31m-├── data/processed/features/event_features_v1.parquet (65 canonical features)[m
+[32m+[m[32mEVENT-LEVEL FEATURE ENGINE (Layer 2 & Layer 3)[m
+ └── data/processed/features/event_features_v2.parquet (144 features + Baseline Risk)[m
+                            │[m
+                            ▼[m
+[31m-DOWNSTREAM INTELLIGENCE (Member 2: Expansion | Member 3: ML | Member 4: UI)[m
+[32m+[m[32mMACHINE LEARNING CLASSIFICATION SUBSYSTEM (Member 2 - ml/)[m
+[32m+[m[32m├── 7-Model Training & Evaluation Benchmark (M1..M7)[m
+[32m+[m[32m├── M4 Class-Balance Experiment Suite (Selected Winner: M4-B Sample Weighting)[m
+[32m+[m[32m├── Feature & Error Diagnostics Suite (N=280 Validation Set)[m
+[32m+[m[32m├── Independent Human Reliability Infrastructure (Double-Blind N=30, κ = 1.0000)[m
+[32m+[m[32m└── Empirical Human Ground-Truth Benchmark (human_ground_truth_30.json, Acc = 70.00%)[m
+ ```[m
+ [m
+ ---[m
+ [m
+[31m-## 2. The Core Parquet Handoff Datasets[m
+[32m+[m[32m## 2. Core Datasets & Feature Foundations[m
+ [m
+[31m-The analytical pipeline separates raw detection points, grouped cluster objects, and feature-enriched rows into distinct layers. **Never merge these layers into one replacement file.**[m
+[32m+[m[32mThe project strictly separates raw detections, spatio-temporal clusters, feature matrices, and target labels into distinct layers:[m
+ [m
+ ```[m
+ FIRMS DETECTION POINT (2,477,543 rows)[m
+        │[m
+[31m-       ▼ [Spatiotemporal Union-Find: <1km radius, <6h temporal window, chaining guards][m
+[32m+[m[32m       ▼ [Spatiotemporal Union-Find: <1km radius, <6h temporal window][m
+ M3 THERMAL EVENT CLUSTER (996,891 rows)[m
+        │[m
+[31m-       ▼ [Geospatial Enrichment: Population, Land Cover, Distances, Recurrence, Risk][m
+[31m-EVENT FEATURE ROW (996,891 rows, 65 V1 / 144 V2 features)[m
+[32m+[m[32m       ▼ [Geospatial Enrichment: Population, Land Cover, Infrastructure, Recurrence][m
+[32m+[m[32mEVENT FEATURE MATRIX (996,891 rows, 47 Approved ML Features)[m
+[32m+[m[32m       │[m
+[32m+[m[32m       ▼ [Chronological 80/20 Split: Cutoff 2026-04-07T20:42:00][m
+[32m+[m[32mML TRAINING CANDIDATES (N=1,120 Train / N=280 Validation)[m
+ ```[m
+ [m
+[31m-### 1. FIRMS Canonical Detections[m
+[31m-* **Path:** [`data/processed/firms/firms_india_canonical.parquet`](file:///d:/New%20folder%20(2)/data/processed/firms/firms_india_canonical.parquet)[m
+[31m-* **Size:** 67.60 MB | **Row Count:** 2,477,543 detections[m
+[31m-* **Grain:** 1 row = 1 satellite thermal detection point (VIIRS / MODIS).[m
+[31m-* **Git Status:** In Git.[m
+[31m-[m
+[31m-### 2. M3 Thermal Events[m
+[31m-* **Path:** [`data/processed/events/events_v0_1.parquet`](file:///d:/New%20folder%20(2)/data/processed/events/events_v0_1.parquet)[m
+[31m-* **Size:** 41.00 MB | **Row Count:** 996,891 events[m
+[31m-* **Grain:** 1 row = 1 spatio-temporally grouped thermal event cluster (`event_id`).[m
+[31m-* **Git Status:** In Git.[m
+[31m-[m
+[31m-### 3. Event-to-Detection Relational Bridge[m
+[31m-* **Path:** [`data/processed/events/event_detection_links.parquet`](file:///d:/New%20folder%20(2)/data/processed/events/event_detection_links.parquet)[m
+[31m-* **Size:** 33.00 MB | **Row Count:** 2,477,543 links[m
+[31m-* **Grain:** Relational join table mapping every `detection_id` to its parent `event_id`.[m
+[31m-* **Git Status:** In Git.[m
+[31m-[m
+[31m-### 4. Integrated Event Features V1[m
+[31m-* **Path:** [`data/processed/features/event_features_v1.parquet`](file:///d:/New%20folder%20(2)/data/processed/features/event_features_v1.parquet)[m
+[31m-* **Size:** 93.98 MB | **Row Count:** 996,891 rows | **Columns:** 65[m
+[31m-* **Grain:** 1 row = 1 event enriched with base thermal, temporal, population, WDPA, OSM, and WorldCover features.[m
+[31m-* **Git Status:** In Git.[m
+[31m-[m
+[31m-### 5. Advanced Event Features V2 & Baseline Risk Engine[m
+[31m-* **Path:** [`data/processed/features/event_features_v2.parquet`](file:///d:/New%20folder%20(2)/data/proc

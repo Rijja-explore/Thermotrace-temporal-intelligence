@@ -1,0 +1,438 @@
+{
+  "status": "ABLATION_BENCHMARK_COMPLETE",
+  "train_samples": 69,
+  "test_samples": 31,
+  "unseen_facility_split": true,
+  "ablations": {
+    "A": {
+      "group": "A",
+      "feature_count": 11,
+      "features": [
+        "max_frp_mw",
+        "mean_frp_mw",
+        "median_frp_mw",
+        "sum_frp_mw",
+        "spatial_extent_km",
+        "thermal_intensity",
+        "thermal_frp_variability",
+        "thermal_frp_per_detection",
+        "thermal_frp_per_hour",
+        "duration_hours",
+        "detection_count"
+      ],
+      "metrics": {
+        "macro_f1": 0.17241830065359476,
+        "balanced_accuracy": 0.1669047619047619,
+        "confusion_matrix": [
+          [
+            1,
+            0,
+            3,
+            0,
+            3
+          ],
+          [
+            0,
+            1,
+            3,
+            1,
+            1
+          ],
+          [
+            0,
+            1,
+            1,
+            1,
+            2
+          ],
+          [
+            1,
+            1,
+            2,
+            1,
+            0
+          ],
+          [
+            0,
+            3,
+            3,
+            1,
+            1
+          ]
+        ],
+        "industrial_precision": 0.13636363636363635,
+        "precision": {
+          "agricultural_burning": 0.5,
+          "industrial_fire_or_abnormal_event": 0.16666666666666666,
+          "mining_or_other_industrial_activity": 0.08333333333333333,
+          "persistent_industrial_source": 0.25,
+          "wildfire_or_forest_fire": 0.14285714285714285
+        },
+        "recall": {
+          "agricultural_burning": 0.14285714285714285,
+          "industrial_fire_or_abnormal_event": 0.16666666666666666,
+          "mining_or_other_industrial_activity": 0.2,
+          "persistent_industrial_source": 0.2,
+          "wildfire_or_forest_fire": 0.125
+        },
+        "f1": {
+          "agricultural_burning": 0.2222222222222222,
+          "industrial_fire_or_abnormal_event": 0.16666666666666666,
+          "mining_or_other_industrial_activity": 0.11764705882352941,
+          "persistent_industrial_source": 0.2222222222222222,
+          "wildfire_or_forest_fire": 0.13333333333333333
+        },
+        "support": {
+          "agricultural_burning": 7,
+          "industrial_fire_or_abnormal_event": 6,
+          "mining_or_other_industrial_activity": 5,
+          "persistent_industrial_source": 5,
+          "wildfire_or_forest_fire": 8
+        },
+        "false_positive_reduction": -0.5,
+        "brier_score": 1.0408774193548385
+      }
+    },
+    "B": {
+      "group": "B",
+      "feature_count": 27,
+      "features": [
+        "max_frp_mw",
+        "mean_frp_mw",
+        "median_frp_mw",
+        "sum_frp_mw",
+        "spatial_extent_km",
+        "thermal_intensity",
+        "thermal_frp_variability",
+        "thermal_frp_per_detection",
+        "thermal_frp_per_hour",
+        "duration_hours",
+        "detection_count",
+        "events_previous_7d",
+        "events_previous_30d",
+        "events_previous_90d",
+        "frp_previous_7d",
+        "frp_previous_30d",
+        "frp_previous_90d",
+        "active_days_previous_7d",
+        "active_days_previous_30d",
+        "active_days_previous_90d",
+        "time_since_previous_event_hours",
+        "hour_sin",
+        "hour_cos",
+        "month_sin",
+        "month_cos",
+        "day_of_week_sin",
+        "day_of_week_cos"
+      ],
+      "metrics": {
+        "macro_f1": 0.12483660130718954,
+        "balanced_accuracy": 0.13047619047619047,
+        "confusion_matrix": [
+          [
+            2,
+            1,
+            2,
+            0,
+            2
+          ],
+          [
+            0,
+            1,
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            0,
+            1,
+            0,
+            2
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            2
+          ],
+          [
+            4,
+            3,
+            0,
+            1,
+            0
+          ]
+        ],
+        "industrial_precision": 0.14285714285714285,
+        "precision": {
+          "agricultural_burning": 0.2,
+          "industrial_fire_or_abnormal_event": 0.16666666666666666,
+          "mining_or_other_industrial_activity": 0.25,
+          "persistent_industrial_source": 0.0,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "recall": {
+          "agricultural_burning": 0.2857142857142857,
+          "industrial_fire_or_abnormal_event": 0.16666666666666666,
+          "mining_or_other_industrial_activity": 0.2,
+          "persistent_industrial_source": 0.0,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "f1": {
+          "agricultural_burning": 0.23529411764705882,
+          "industrial_fire_or_abnormal_event": 0.16666666666666666,
+          "mining_or_other_industrial_activity": 0.2222222222222222,
+          "persistent_industrial_source": 0.0,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "support": {
+          "agricultural_burning": 7,
+          "industrial_fire_or_abnormal_event": 6,
+          "mining_or_other_industrial_activity": 5,
+          "persistent_industrial_source": 5,
+          "wildfire_or_forest_fire": 8
+        },
+        "false_positive_reduction": -0.75,
+        "brier_score": 0.9028129032258067
+      }
+    },
+    "C": {
+      "group": "C",
+      "feature_count": 33,
+      "features": [
+        "max_frp_mw",
+        "mean_frp_mw",
+        "median_frp_mw",
+        "sum_frp_mw",
+        "spatial_extent_km",
+        "thermal_intensity",
+        "thermal_frp_variability",
+        "thermal_frp_per_detection",
+        "thermal_frp_per_hour",
+        "duration_hours",
+        "detection_count",
+        "events_previous_7d",
+        "events_previous_30d",
+        "events_previous_90d",
+        "frp_previous_7d",
+        "frp_previous_30d",
+        "frp_previous_90d",
+        "active_days_previous_7d",
+        "active_days_previous_30d",
+        "active_days_previous_90d",
+        "time_since_previous_event_hours",
+        "hour_sin",
+        "hour_cos",
+        "month_sin",
+        "month_cos",
+        "day_of_week_sin",
+        "day_of_week_cos",
+        "forest_fraction_1km",
+        "cropland_fraction_1km",
+        "builtup_fraction_1km",
+        "grassland_fraction_1km",
+        "water_fraction_1km",
+        "natural_land_fraction"
+      ],
+      "metrics": {
+        "macro_f1": 0.11291208791208791,
+        "balanced_accuracy": 0.13523809523809524,
+        "confusion_matrix": [
+          [
+            1,
+            1,
+            1,
+            3,
+            1
+          ],
+          [
+            0,
+            2,
+            0,
+            3,
+            1
+          ],
+          [
+            2,
+            1,
+            0,
+            0,
+            2
+          ],
+          [
+            2,
+            1,
+            1,
+            1,
+            0
+          ],
+          [
+            4,
+            3,
+            0,
+            1,
+            0
+          ]
+        ],
+        "industrial_precision": 0.16666666666666666,
+        "precision": {
+          "agricultural_burning": 0.1111111111111111,
+          "industrial_fire_or_abnormal_event": 0.25,
+          "mining_or_other_industrial_activity": 0.0,
+          "persistent_industrial_source": 0.125,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "recall": {
+          "agricultural_burning": 0.14285714285714285,
+          "industrial_fire_or_abnormal_event": 0.3333333333333333,
+          "mining_or_other_industrial_activity": 0.0,
+          "persistent_industrial_source": 0.2,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "f1": {
+          "agricultural_burning": 0.125,
+          "industrial_fire_or_abnormal_event": 0.2857142857142857,
+          "mining_or_other_industrial_activity": 0.0,
+          "persistent_industrial_source": 0.15384615384615385,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "support": {
+          "agricultural_burning": 7,
+          "industrial_fire_or_abnormal_event": 6,
+          "mining_or_other_industrial_activity": 5,
+          "persistent_industrial_source": 5,
+          "wildfire_or_forest_fire": 8
+        },
+        "false_positive_reduction": 0.0,
+        "brier_score": 0.9071999999999999
+      }
+    },
+    "D": {
+      "group": "D",
+      "feature_count": 47,
+      "features": [
+        "max_frp_mw",
+        "mean_frp_mw",
+        "median_frp_mw",
+        "sum_frp_mw",
+        "spatial_extent_km",
+        "thermal_intensity",
+        "thermal_frp_variability",
+        "thermal_frp_per_detection",
+        "thermal_frp_per_hour",
+        "duration_hours",
+        "detection_count",
+        "events_previous_7d",
+        "events_previous_30d",
+        "events_previous_90d",
+        "frp_previous_7d",
+        "frp_previous_30d",
+        "frp_previous_90d",
+        "active_days_previous_7d",
+        "active_days_previous_30d",
+        "active_days_previous_90d",
+        "time_since_previous_event_hours",
+        "hour_sin",
+        "hour_cos",
+        "month_sin",
+        "month_cos",
+        "day_of_week_sin",
+        "day_of_week_cos",
+        "forest_fraction_1km",
+        "cropland_fraction_1km",
+        "builtup_fraction_1km",
+        "grassland_fraction_1km",
+        "water_fraction_1km",
+        "natural_land_fraction",
+        "distance_to_facility_km",
+        "distance_to_major_road_km",
+        "distance_to_railway_km",
+        "distance_to_power_line_km",
+        "distance_to_pipeline_km",
+        "distance_to_airport_km",
+        "distance_to_port_km",
+        "near_power_plant",
+        "near_factory",
+        "near_refinery",
+        "near_mine",
+        "near_quarry",
+        "near_storage_facility",
+        "near_substation"
+      ],
+      "metrics": {
+        "macro_f1": 0.1393939393939394,
+        "balanced_accuracy": 0.21714285714285717,
+        "confusion_matrix": [
+          [
+            2,
+            1,
+            0,
+            2,
+            2
+          ],
+          [
+            0,
+            0,
+            1,
+            5,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            0,
+            1,
+            4,
+            0
+          ],
+          [
+            1,
+            1,
+            1,
+            5,
+            0
+          ]
+        ],
+        "industrial_precision": 0.18181818181818182,
+        "precision": {
+          "agricultural_burning": 0.4,
+          "industrial_fire_or_abnormal_event": 0.0,
+          "mining_or_other_industrial_activity": 0.0,
+          "persistent_industrial_source": 0.23529411764705882,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "recall": {
+          "agricultural_burning": 0.2857142857142857,
+          "industrial_fire_or_abnormal_event": 0.0,
+          "mining_or_other_industrial_activity": 0.0,
+          "persistent_industrial_source": 0.8,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "f1": {
+          "agricultural_burning": 0.3333333333333333,
+          "industrial_fire_or_abnormal_event": 0.0,
+          "mining_or_other_industrial_activity": 0.0,
+          "persistent_industrial_source": 0.36363636363636365,
+          "wildfire_or_forest_fire": 0.0
+        },
+        "support": {
+          "agricultural_burning": 7,
+          "industrial_fire_or_abnormal_event": 6,
+          "mining_or_other_industrial_activity": 5,
+          "persistent_industrial_source": 5,
+          "wildfire_or_forest_fire": 8
+        },
+        "false_positive_reduction": 0.0,
+        "brier_score": 0.9060903225806451
+      }
+    }
+  }
+}
