@@ -402,7 +402,7 @@ def build_canonical_event(raw, is_india: bool):
 
             if "Forest" in desc or "Foothills" in desc:
                 event_class = "Forest / Wildland Biomass Fire"
-                place_name = f"Forest Range & Canopy Sector ({district}, {state})"
+                place_name = f"Forest Area ({district}, {state})"
                 land_cover = "Deciduous / Highland Forest"
                 ind_score = 10
                 op_risk = int(min(90, 40 + frp * 0.4))
@@ -410,7 +410,7 @@ def build_canonical_event(raw, is_india: bool):
                 evidence.append(f"Landscape Classification: Forest Reserve / Foothills ({desc})")
             elif "Agro" in desc or "Agricultural" in desc or "Crop" in desc or "Sugar" in desc:
                 event_class = "Agricultural Crop Residue / Biomass Burning"
-                place_name = f"Agrarian Crop Sector ({district}, {state})"
+                place_name = f"Agricultural Area ({district}, {state})"
                 land_cover = "Intensive Cropland / Irrigated Agriculture"
                 ind_score = 15
                 op_risk = int(min(85, 35 + frp * 0.35))
@@ -418,7 +418,7 @@ def build_canonical_event(raw, is_india: bool):
                 evidence.append(f"Landscape Classification: Agricultural Belt ({desc})")
             elif "Coal" in desc or "Mining" in desc:
                 event_class = "Colliery / Mining Thermal Activity"
-                place_name = f"Mineral & Mining Catchment ({district}, {state})"
+                place_name = f"Mining Area ({district}, {state})"
                 land_cover = "Mining & Mineral Basin"
                 ind_score = 75
                 op_risk = int(min(92, 55 + frp * 0.35))
@@ -426,7 +426,7 @@ def build_canonical_event(raw, is_india: bool):
                 evidence.append(f"Landscape Classification: Colliery / Mineral Basin ({desc})")
             elif "Industrial" in desc or "Refin" in desc:
                 event_class = "Industrial Catchment Heat Anomaly"
-                place_name = f"Industrial Fringe Zone ({district}, {state})"
+                place_name = f"Industrial Area ({district}, {state})"
                 land_cover = "Mixed Industrial / Semi-Urban"
                 ind_score = 65
                 op_risk = int(min(90, 50 + frp * 0.35))
@@ -434,7 +434,7 @@ def build_canonical_event(raw, is_india: bool):
                 evidence.append(f"Landscape Classification: Industrial Catchment ({desc})")
             elif frp > 35.0:
                 event_class = "High-Intensity Open Biomass Burning"
-                place_name = f"Open Biomass Anomaly Sector ({district}, {state})"
+                place_name = f"Unmapped Area ({district}, {state})"
                 land_cover = "Open Scrub / Rural"
                 ind_score = 20
                 op_risk = int(min(95, 65 + frp * 0.3))
@@ -442,7 +442,7 @@ def build_canonical_event(raw, is_india: bool):
                 evidence.append("High thermal intensity spike (>35 MW FRP)")
             else:
                 event_class = "Rural Open-Air Biomass Anomaly"
-                place_name = f"Rural Agricultural Sector ({district}, {state})"
+                place_name = f"Unmapped Area ({district}, {state})"
                 land_cover = "Rural Mixed Vegetation"
                 ind_score = 12
                 op_risk = int(min(80, 25 + frp * 0.4))
@@ -454,11 +454,10 @@ def build_canonical_event(raw, is_india: bool):
             fac_context = {
                 "name": place_name,
                 "nearby_refinery_km": dist_anchor,
-                "operator": f"State Authority ({state})",
+                "operator": "Unknown",
                 "land_cover": land_cover,
                 "state": state,
-                "district": district,
-                "population_within_5km": 15000,
+                "district": district
             }
     else:
         # ── Global Detections ──
