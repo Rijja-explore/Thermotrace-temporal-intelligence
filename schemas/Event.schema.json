@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ThermoTraceCanonicalEvent",
+  "type": "object",
+  "required": [
+    "event_id",
+    "geometry",
+    "time_window",
+    "observations",
+    "facility_context",
+    "landcover_context",
+    "satellite_context",
+    "temporal_features",
+    "classification",
+    "baseline",
+    "deviation",
+    "anomaly",
+    "industrial_likelihood",
+    "operational_risk",
+    "evidence",
+    "alert",
+    "analyst_review",
+    "status",
+    "data_version",
+    "model_version",
+    "engine_version"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Unique deterministic identifier for the thermal event cluster"
+    },
+    "geometry": {
+      "type": "object",
+      "required": ["latitude", "longitude"],
+      "properties": {
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "elevation_m": { "type": ["number", "null"] },
+        "buffer_radius_m": { "type": "number", "default": 500.0 }
+      }
+    },
+    "time_window": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "duration_hours": { "type": "number" }
+      }
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "observation_id": { "type": "string" },
+          "latitude": { "type": "number" },
+          "longitude": { "type": "number" },
+          "frp": { "type": "number" },
+          "brightness": { "type": "number" },
+          "confidence": { "type": "number" },
+          "acq_timestamp": { "type": "string", "format": "date-time" },
+          "satellite": { "type": "string" },
+          "instrument": { "type": "string" }
+        }
+      }
+    },
+    "facility_context": {
+      "type": "object",
+      "properties": {
+        "nearest_facility_id": { "type": ["string", "null"] },
+        "nearest_facility_name": { "type": ["string", "null"] },
+        "facility_type": { "type": ["string", "null"] },
+        "distance_to_facility_m": { "type": ["number", "null"] },
+        "is_within_facility_boundary": { "type": "boolean", "default": false },
+        "source": { "type": "string", "default": "OSM" }
+      }
+    },
+    "landcover_context": {
+      "type": "object",
+      "properties": {
+        "primary_class": { "type": "string" },
+        "urban_builtup_pct": { "type": "number" },
+        "forest_pct": { "type": "number" },
+        "cropland_pct": { "type": "number" },
+        "water_pct": { "type": "number" }
+      }
+    },
+    "satellite_context": {
+      "type": "object",
+      "properties": {
+        "imagery_available": { "type": "boolean" },
+        "source": { "type": "string" },
+        "scene_id": { "type": ["string", "null"] },
+        "cloud_cover_pct": { "type": ["number", "null"] },
+        "thumbnail_url": { "type": ["string", "null"] }
+      }
+    },
+    "temporal_features": {
+      "type": "object",
+      "properties": {
+        "window_7d": { "type": "object" },
+        "window_30d": { "type": "object" },
+        "window_90d": { "type": "object" },
+        "spatial_stability_m": { "type": "number" },
+        "frp_mean": { "type": "number" },
+        "frp_max": { "type": "number" }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "required": ["label", "confidence", "probabilities", "top_evidence", "evidence_against", "model_version"],
+      "properties": {
+        "label": { "type": "string" },
+        "confidence": { "type": "number" },
+        "probabilities": { "type": "object" },
+        "top_evidence": { "type": "array", "items": { "type": "string" } },
+        "evidence_against": { "type": "array", "items": { "type": "string" } },
+        "model_version": { "type": "string" }
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "properties": {
+        "facility_id": { "type": ["string", "null"] },
+        "normal_detection_frequency_per_month": { "type": "number" },
+        "normal_intensity_mean": { "type": "number" },
+        "normal_intensity_std": { "type": "number" },
+        "normal_active_hours": { "type": "array", "items": { "type": "integer" } },
+        "normal_spatial_extent_m": { "type": "number" },
+        "baseline_period_days": { "type": "integer" },
+        "history_quality": { "type": "string" }
+      }
+    },
+    "deviation": {
+      "type": "object",
+      "properties": {
+        "frp_deviation_pct": { "type": "number" },
+        "frequency_deviation_pct": { "type": "number" },
+        "is_statistically_significant": { "type": "boolean" }
+      }
+    },
+    "anomaly": {
+      "type": "object",
+      "properties": {
+        "anomaly_score": { "type": "number" },
+        "is_abnormal": { "type": "boolean" },
+        "frp_zscore": { "type": "number" },
+        "frequency_zscore": { "type": "number" },
+        "spatial_shift_m": { "type": "number" },
+        "confidence": { "type": "string" }
+      }
+    },
+    "industrial_likelihood": {
+      "type": "object",
+      "properties": {
+        "score": { "type": "number" },
+        "tier": { "type": "string" },
+        "component_scores": { "type": "object" }
+      }
+    },
+    "operational_risk": {
+      "type": "object",
+      "properties": {
+        "risk_score": { "type": "number" },
+        "risk_level": { "type": "string" },
+        "component_scores": { "type": "object" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "evidence_for": { "type": "array", "items": { "type": "string" } },
+        "evidence_against": { "type": "array", "items": { "type": "string" } },
+        "missing_evidence": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "alert": {
+      "type": "object",
+      "properties": {
+        "should_alert": { "type": "boolean" },
+        "alert_type": { "type": "string" },
+        "priority": { "type": "string" },
+        "reasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "analyst_review": {
+      "type": "object",
+      "properties": {
+        "reviewed": { "type": "boolean", "default": false },
+        "decision": { "type": ["string", "null"] },
+        "reclassified_label": { "type": ["string", "null"] },
+        "notes": { "type": ["string", "null"] },
+        "timestamp": { "type": ["string", "null"] },
+        "analyst_id": { "type": ["string", "null"] }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["NEW", "ACKNOWLEDGED", "INVESTIGATING", "CONFIRMED", "REJECTED", "RECLASSIFIED", "CLOSED"]
+    },
+    "data_version": { "type": "string" },
+    "model_version": { "type": "string" },
+    "engine_version": { "type": "string" }
+  }
+}

@@ -1,0 +1,65 @@
+# ThermoTrace Feature Engineering Configuration
+# ===============================================
+
+pipeline:
+  name: "ThermoTrace Event Feature Pipeline v1"
+  version: "1.0.0"
+  batch_size: 50000
+
+paths:
+  events_input: "data/processed/events/events_v0_1.parquet"
+  output_parquet: "data/processed/features/event_features_v1.parquet"
+  reports_dir: "reports/features"
+
+sources:
+  firms_events:
+    status: "READY"
+    path: "data/processed/events/events_v0_1.parquet"
+    key_id: "event_id"
+
+  population:
+    status: "READY"
+    path: "data/processed/population/population_india_100m.tif"
+    nodata_value: -99999.0
+    buffer_radii_km: [1.0, 5.0]
+
+  protected_areas:
+    status: "READY"
+    path: "data/processed/protected_areas/protected_areas_india.gpkg"
+    layer_polygons: "protected_areas_polygons"
+    layer_points: "protected_areas_points"
+    buffer_radii_km: [1.0, 5.0]
+
+  osm:
+    status: "READY"
+    path: "data/processed/osm/osm_india.gpkg"
+    layer_facilities: "osm_facilities"
+    layer_infrastructure: "osm_infrastructure"
+    facility_proximity_threshold_km: 2.0
+    max_search_distance_km: 50.0
+
+  worldcover:
+    status: "AUTO_DETECT"
+    path: "data/processed/worldcover/worldcover_india_10m.tif"
+    buffer_radius_km: 1.0
+
+  administrative_boundaries:
+    status: "PENDING"
+    path: "data/processed/boundaries/india_admin.gpkg"
+    reason: "Awaiting official Survey of India / Bharat Maps authoritative boundary ingestion."
+
+  weather:
+    status: "PENDING"
+    reason: "ERA5 / IMD weather ingestion scheduled for Layer-2."
+
+  sentinel2:
+    status: "PENDING"
+    reason: "High-resolution optical validation scheduled for Layer-2."
+
+  landsat:
+    status: "PENDING"
+    reason: "Thermal infrared validation scheduled for Layer-2."
+
+  m5_baseline:
+    status: "PENDING"
+    reason: "Historical multi-year thermal baseline scheduled for M5."

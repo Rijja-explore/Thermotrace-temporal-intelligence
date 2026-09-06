@@ -1,0 +1,702 @@
+[
+  {
+    "event_id": "TT-EVT-00199756",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00199756"
+  },
+  {
+    "event_id": "TT-EVT-00203868",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00203868"
+  },
+  {
+    "event_id": "TT-EVT-00205422",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00205422"
+  },
+  {
+    "event_id": "TT-EVT-00214400",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00214400"
+  },
+  {
+    "event_id": "TT-EVT-00203874",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00203874"
+  },
+  {
+    "event_id": "TT-EVT-00205423",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00205423"
+  },
+  {
+    "event_id": "TT-EVT-00355032",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00355032"
+  },
+  {
+    "event_id": "TT-EVT-00205425",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00205425"
+  },
+  {
+    "event_id": "TT-EVT-00203869",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00203869"
+  },
+  {
+    "event_id": "TT-EVT-00378258",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00378258"
+  },
+  {
+    "event_id": "TT-EVT-00205567",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00205567"
+  },
+  {
+    "event_id": "TT-EVT-00199758",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00199758"
+  },
+  {
+    "event_id": "TT-EVT-00368472",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00368472"
+  },
+  {
+    "event_id": "TT-EVT-00193110",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00193110"
+  },
+  {
+    "event_id": "TT-EVT-00208581",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00208581"
+  },
+  {
+    "event_id": "TT-EVT-00185586",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00185586"
+  },
+  {
+    "event_id": "TT-EVT-00207047",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00207047"
+  },
+  {
+    "event_id": "TT-EVT-00350261",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00350261"
+  },
+  {
+    "event_id": "TT-EVT-00208584",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00208584"
+  },
+  {
+    "event_id": "TT-EVT-00188044",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00188044"
+  },
+  {
+    "event_id": "TT-EVT-00225307",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00225307"
+  },
+  {
+    "event_id": "TT-EVT-00359635",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00359635"
+  },
+  {
+    "event_id": "TT-EVT-00207578",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00207578"
+  },
+  {
+    "event_id": "TT-EVT-00197778",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00197778"
+  },
+  {
+    "event_id": "TT-EVT-00204297",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00204297"
+  },
+  {
+    "event_id": "TT-EVT-00201898",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00201898"
+  },
+  {
+    "event_id": "TT-EVT-00214402",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00214402"
+  },
+  {
+    "event_id": "TT-EVT-00215468",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00215468"
+  },
+  {
+    "event_id": "TT-EVT-00210264",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00210264"
+  },
+  {
+    "event_id": "TT-EVT-00359634",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00359634"
+  },
+  {
+    "event_id": "TT-EVT-00207043",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00207043"
+  },
+  {
+    "event_id": "TT-EVT-00193112",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00193112"
+  },
+  {
+    "event_id": "TT-EVT-00202633",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00202633"
+  },
+  {
+    "event_id": "TT-EVT-00199100",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00199100"
+  },
+  {
+    "event_id": "TT-EVT-00195575",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00195575"
+  },
+  {
+    "event_id": "TT-EVT-00207046",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00207046"
+  },
+  {
+    "event_id": "TT-EVT-00317345",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00317345"
+  },
+  {
+    "event_id": "TT-EVT-00215470",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00215470"
+  },
+  {
+    "event_id": "TT-EVT-00216554",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00216554"
+  },
+  {
+    "event_id": "TT-EVT-00202634",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00202634"
+  },
+  {
+    "event_id": "TT-EVT-00206233",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00206233"
+  },
+  {
+    "event_id": "TT-EVT-00355034",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00355034"
+  },
+  {
+    "event_id": "TT-EVT-00198303",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00198303"
+  },
+  {
+    "event_id": "TT-EVT-00185587",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00185587"
+  },
+  {
+    "event_id": "TT-EVT-00190802",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00190802"
+  },
+  {
+    "event_id": "TT-EVT-00201901",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00201901"
+  },
+  {
+    "event_id": "TT-EVT-00218219",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00218219"
+  },
+  {
+    "event_id": "TT-EVT-00207900",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00207900"
+  },
+  {
+    "event_id": "TT-EVT-00207579",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00207579"
+  },
+  {
+    "event_id": "TT-EVT-00200759",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00200759"
+  },
+  {
+    "event_id": "TT-EVT-00893221",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00893221"
+  },
+  {
+    "event_id": "TT-EVT-00341469",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00341469"
+  },
+  {
+    "event_id": "TT-EVT-00283317",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00283317"
+  },
+  {
+    "event_id": "TT-EVT-00133957",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00133957"
+  },
+  {
+    "event_id": "TT-EVT-00654329",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00654329"
+  },
+  {
+    "event_id": "TT-EVT-00317057",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00317057"
+  },
+  {
+    "event_id": "TT-EVT-00941781",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00941781"
+  },
+  {
+    "event_id": "TT-EVT-00939435",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00939435"
+  },
+  {
+    "event_id": "TT-EVT-00854849",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00854849"
+  },
+  {
+    "event_id": "TT-EVT-00706400",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00706400"
+  },
+  {
+    "event_id": "TT-EVT-00545180",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00545180"
+  },
+  {
+    "event_id": "TT-EVT-00350859",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00350859"
+  },
+  {
+    "event_id": "TT-EVT-00577041",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00577041"
+  },
+  {
+    "event_id": "TT-EVT-00778343",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00778343"
+  },
+  {
+    "event_id": "TT-EVT-00634134",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00634134"
+  },
+  {
+    "event_id": "TT-EVT-00053108",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00053108"
+  },
+  {
+    "event_id": "TT-EVT-00896505",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00896505"
+  },
+  {
+    "event_id": "TT-EVT-00080419",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00080419"
+  },
+  {
+    "event_id": "TT-EVT-00350784",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00350784"
+  },
+  {
+    "event_id": "TT-EVT-00304666",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00304666"
+  },
+  {
+    "event_id": "TT-EVT-00895184",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00895184"
+  },
+  {
+    "event_id": "TT-EVT-00025220",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00025220"
+  },
+  {
+    "event_id": "TT-EVT-00106570",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00106570"
+  },
+  {
+    "event_id": "TT-EVT-00407443",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00407443"
+  },
+  {
+    "event_id": "TT-EVT-00675819",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00675819"
+  },
+  {
+    "event_id": "TT-EVT-00491789",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00491789"
+  },
+  {
+    "event_id": "TT-EVT-00811511",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00811511"
+  },
+  {
+    "event_id": "TT-EVT-00069369",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00069369"
+  },
+  {
+    "event_id": "TT-EVT-00190878",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00190878"
+  },
+  {
+    "event_id": "TT-EVT-00141797",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00141797"
+  },
+  {
+    "event_id": "TT-EVT-00243776",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00243776"
+  },
+  {
+    "event_id": "TT-EVT-00021055",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00021055"
+  },
+  {
+    "event_id": "TT-EVT-00874761",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00874761"
+  },
+  {
+    "event_id": "TT-EVT-00133393",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00133393"
+  },
+  {
+    "event_id": "TT-EVT-00449101",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00449101"
+  },
+  {
+    "event_id": "TT-EVT-00249708",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00249708"
+  },
+  {
+    "event_id": "TT-EVT-00475857",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00475857"
+  },
+  {
+    "event_id": "TT-EVT-00360889",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00360889"
+  },
+  {
+    "event_id": "TT-EVT-00796426",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00796426"
+  },
+  {
+    "event_id": "TT-EVT-00621457",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00621457"
+  },
+  {
+    "event_id": "TT-EVT-00755490",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00755490"
+  },
+  {
+    "event_id": "TT-EVT-00846284",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00846284"
+  },
+  {
+    "event_id": "TT-EVT-00585085",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00585085"
+  },
+  {
+    "event_id": "TT-EVT-00538703",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00538703"
+  },
+  {
+    "event_id": "TT-EVT-00502662",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00502662"
+  },
+  {
+    "event_id": "TT-EVT-00667463",
+    "final_label": "wildfire_or_forest_fire",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00667463"
+  },
+  {
+    "event_id": "TT-EVT-00575646",
+    "final_label": "agricultural_burning",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00575646"
+  },
+  {
+    "event_id": "TT-EVT-00469165",
+    "final_label": "industrial_fire_or_abnormal_event",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00469165"
+  },
+  {
+    "event_id": "TT-EVT-00713780",
+    "final_label": "persistent_industrial_source",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00713780"
+  },
+  {
+    "event_id": "TT-EVT-00395241",
+    "final_label": "mining_or_other_industrial_activity",
+    "status": "VERIFIED_LABEL",
+    "is_training_eligible": true,
+    "evidence_url": "https://api.sentinel2.mock/imagery/TT-EVT-00395241"
+  }
+]
