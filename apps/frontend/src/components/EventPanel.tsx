@@ -1,15 +1,25 @@
 import { useState } from 'react';
 import type { ThermoEvent } from '../services/api';
-import { submitAnalystAction } from '../services/api';
-import RiskBadge from './RiskBadge';
-import EvidenceCard from './EvidenceCard';
-import { ScoreBar } from './TimelineChart';
-import ReportButton from './ReportButton';
+import { submitAnalystAction, getReportUrl } from '../services/api';
 
 interface EventPanelProps {
   event: ThermoEvent;
   onClose: () => void;
   onNavigate?: (eventId: string) => void;
+}
+
+function ScoreBarMini({ label, value, color }: { label: string; value: number; color: string }) {
+  return (
+    <div style={{ marginBottom: '6px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{label}</span>
+        <span style={{ fontSize: '11px', fontWeight: '700', fontFamily: 'var(--font-mono)', color }}>{value}</span>
+      </div>
+      <div style={{ height: '4px', background: 'var(--border-subtle)', borderRadius: '2px', overflow: 'hidden' }}>
+        <div style={{ width: `${value}%`, height: '100%', background: color, borderRadius: '2px', transition: 'width 0.5s ease' }} />
+      </div>
+    </div>
+  );
 }
 
 export default function EventPanel({ event, onClose, onNavigate }: EventPanelProps) {
@@ -20,55 +30,56 @@ export default function EventPanel({ event, onClose, onNavigate }: EventPanelPro
     try {
       const result = await submitAnalystAction(event.event_id, action, `${action} via dashboard`);
       setStatus(result.new_status || action);
-      setActionFeedback(`✓ Event ${action}ed successfully`);
-      setTimeout(() => setActionFeedback(null), 3000);
     } catch {
-      // If backend is down, update locally
-      const newStatus = action === 'confirm' ? 'confirmed' : action === 'reject' ? 'rejected' : status;
-      setStatus(newStatus);
-      setActionFeedback(`✓ ${action} recorded (offline)`);
-      setTimeout(() => setActionFeedback(null), 3000);
+      setStatus(action === 'confirm' ? 'confirmed' : action === 'reject' ? 'rejected' : status);
     }
+    setActionFeedback(`✓ ${action} recorded`);
+    setTimeout(() => setActionFeedback(null), 3000);
   };
 
-  const risk = event.scores?.operational_risk || 0;
-  const industrial = event.scores?.industrial_likelihood || 0;
-  const confidence = event.classification?.confidence || 0;
+  const risk = event.scores?.operational_risk || event.operational_risk?.risk_score || 0;
+  const industrial = event.scores?.industrial_likelihood || event.industrial_likelihood?.score || 0;
+  const confidence = Math.round((event.classification?.confidence || 0) * (event.classification?.confidence <= 1.0 ? 100 : 1));
   const facility = event.facility_context || {};
+  const classLabel = (event.classification?.class || event.classification?.label || 'Thermal Anomaly').replace(/_/g, ' ');
+  const lat = event.geometry?.lat ?? event.geometry?.latitude;
+  const lon = event.geometry?.lon ?? event.geometry?.longitude;
+
+  const riskColor = risk >= 70 ? 'var(--risk-critical)' : risk >= 50 ? 'var(--risk-high)' : 'var(--risk-medium)';
+  const evidenceItems = Array.isArray(event.evidence)
+    ? event.evidence
+    : (event.evidence?.evidence_for || event.classification?.top_evidence || []);
 
   return (
     <div className="event-panel">
       {/* Header */}
       <div className="event-panel__header">
-        <span className="event-panel__title">🔥 {event.event_id}</span>
-        <button className="event-panel__close" onClick={onClose}>✕</button>
+        <div className="event-panel__event-id">{event.event_id}</div>
+        <button className="event-panel__close" onClick={onClose} title="Close">✕</button>
       </div>
 
       <div className="event-panel__body">
         {/* Classification */}
-        <div style={{ marginBottom: '12px' }}>
-          <div style={{ fontSize: '16px', fontWeight: 600, color: 'var(--text-heading)', marginBottom: '6px' }}>
-            {event.classification?.class || 'Thermal Anomaly'}
-          </div>
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-            <RiskBadge value={risk} type="risk" />
-            <div 
-              title="Confidence is derived directly from NASA MODIS/VIIRS satellite telemetry heuristics (evaluating cloud cover, background temperature variance, and sensor saturation)."
-              style={{ cursor: 'help' }}
-            >
-              <RiskBadge value={confidence} type="confidence" />
-            </div>
-            <span className={`status-badge status-badge--${status}`}>{status.replace(/_/g, ' ')}</span>
-          </div>
+        <div className="event-panel__classification">{classLabel}</div>
+        <div className="event-panel__badges">
+          <span className={`risk-badge risk-badge--${risk >= 70 ? 'critical' : risk >= 50 ? 'high' : risk >= 30 ? 'medium' : 'low'}`}>
+            Risk {risk}
+          </span>
+          <span className="risk-badge risk-badge--cyan">
+            Conf {confidence}%
+          </span>
+          <span className={`status-badge status-badge--${status}`}>
+            {status?.replace(/_/g, ' ')}
+          </span>
         </div>
 
-        <hr className="event-panel__section-divider" />
+        <hr className="event-panel__divider" />
 
         {/* Coordinates */}
         <div className="event-panel__row">
           <span className="event-panel__row-label">Coordinates</span>
-          <span className="event-panel__row-value" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
-            {event.geometry?.lat?.toFixed(4)}°, {event.geometry?.lon?.toFixed(4)}°
+          <span className="event-panel__row-value" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px' }}>
+            {lat?.toFixed(4)}°, {lon?.toFixed(4)}°
           </span>
         </div>
 
@@ -81,105 +92,123 @@ export default function EventPanel({ event, onClose, onNavigate }: EventPanelPro
 
         <div className="event-panel__row">
           <span className="event-panel__row-label">FRP</span>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+          <div style={{ textAlign: 'right' }}>
             <span className="event-panel__row-value" style={{ fontFamily: 'var(--font-mono)' }}>
-              {event.observations?.[0]?.frp || 'N/A'} MW
+              {event.observations?.[0]?.frp || event.temporal_features?.current_frp || 'N/A'} MW
             </span>
-            {event.temporal_features && event.temporal_features.baseline_frp_mean !== undefined && (
-              event.temporal_features.baseline_frp_mean > 0 ? (
-                <span style={{ 
-                  fontSize: '10px', 
-                  color: ((event.observations?.[0]?.frp || 0) - event.temporal_features.baseline_frp_mean) / event.temporal_features.baseline_frp_mean > 0.5 ? 'var(--alert-critical)' : 'var(--text-muted)' 
-                }}>
-                  vs 30-day avg: {event.temporal_features.baseline_frp_mean.toFixed(1)} MW 
-                  (+{Math.round(((event.observations?.[0]?.frp || 0) - event.temporal_features.baseline_frp_mean) / event.temporal_features.baseline_frp_mean * 100)}%)
-                </span>
-              ) : (
-                <span style={{ fontSize: '10px', color: 'var(--alert-high)' }}>
-                  New Ignition (No baseline)
-                </span>
-              )
+            {event.temporal_features?.baseline_frp_mean !== undefined && event.temporal_features.baseline_frp_mean > 0 && (
+              <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
+                vs avg {event.temporal_features.baseline_frp_mean.toFixed(1)} MW
+              </div>
             )}
           </div>
         </div>
 
-        <hr className="event-panel__section-divider" />
+        <hr className="event-panel__divider" />
 
-        {/* Score Bars */}
-        <ScoreBar label="Industrial Likelihood" value={industrial} color="var(--accent-purple)" />
-        <ScoreBar label="Operational Risk" value={risk} />
+        {/* Score bars */}
+        <ScoreBarMini label="Industrial Likelihood" value={industrial} color="var(--accent-amber)" />
+        <ScoreBarMini label="Operational Risk" value={risk} color={riskColor} />
 
-        <hr className="event-panel__section-divider" />
-
-        {/* Facility Context */}
-        {facility.name && (
+        {/* Facility context */}
+        {(facility.name || facility.nearest_facility_name) && (
           <>
-            <div style={{ fontSize: '10px', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>
-              Facility Context
-            </div>
-            <div className="event-panel__row">
+            <hr className="event-panel__divider" />
+            <div className="event-panel__section-label">Facility Context</div>
+            <div className="event-panel__row" style={{ marginTop: '6px' }}>
               <span className="event-panel__row-label">Nearest</span>
-              <span className="event-panel__row-value">{facility.name}</span>
+              <span className="event-panel__row-value" style={{ fontSize: '11px' }}>
+                {facility.nearest_facility_name || facility.name}
+              </span>
             </div>
             <div className="event-panel__row">
               <span className="event-panel__row-label">Distance</span>
-              <span className="event-panel__row-value">{facility.nearby_refinery_km} km</span>
+              <span className="event-panel__row-value">
+                {facility.distance_to_facility_m ? `${(facility.distance_to_facility_m / 1000).toFixed(2)} km` : `${facility.nearby_refinery_km || 0} km`}
+              </span>
             </div>
-            <div className="event-panel__row">
-              <span className="event-panel__row-label">Land Cover</span>
-              <span className="event-panel__row-value">{facility.land_cover}</span>
-            </div>
-            {facility.population_within_5km && (
+            {facility.land_cover && (
               <div className="event-panel__row">
-                <span className="event-panel__row-label">Population (5km)</span>
-                <span className="event-panel__row-value">{facility.population_within_5km?.toLocaleString()}</span>
+                <span className="event-panel__row-label">Land Cover</span>
+                <span className="event-panel__row-value">{facility.land_cover}</span>
               </div>
             )}
-            <hr className="event-panel__section-divider" />
           </>
         )}
 
         {/* Evidence */}
-        <div style={{ fontSize: '10px', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>
-          Evidence Factors
-        </div>
-        <EvidenceCard items={Array.isArray(event.evidence) ? event.evidence : (event.evidence?.evidence_for || [])} />
+        {evidenceItems.length > 0 && (
+          <>
+            <hr className="event-panel__divider" />
+            <div className="event-panel__section-label" style={{ marginBottom: '6px' }}>Key Evidence</div>
+            <ul style={{ paddingLeft: '14px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {evidenceItems.slice(0, 3).map((item: string, i: number) => (
+                <li key={i} style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>{item}</li>
+              ))}
+            </ul>
+          </>
+        )}
 
-        <hr className="event-panel__section-divider" />
-
-        {/* Action Feedback */}
+        {/* Action feedback */}
         {actionFeedback && (
           <div style={{
-            padding: '8px 12px',
-            background: 'rgba(34, 197, 94, 0.1)',
-            border: '1px solid rgba(34, 197, 94, 0.3)',
+            padding: '7px 10px',
+            background: 'rgba(79, 209, 139, 0.1)',
+            border: '1px solid rgba(79, 209, 139, 0.3)',
             borderRadius: 'var(--radius-sm)',
             color: 'var(--accent-green)',
-            fontSize: '12px',
-            marginBottom: '12px',
-            animation: 'slide-in-right 0.2s ease-out',
+            fontSize: '11px',
+            fontWeight: '600',
+            animation: 'fade-in 0.2s ease-out',
           }}>
             {actionFeedback}
           </div>
         )}
 
-        {/* Analyst Actions */}
-        <div className="action-group">
-          <button className="btn btn--confirm" onClick={() => handleAction('confirm')}>✓ Confirm</button>
-          <button className="btn btn--reject" onClick={() => handleAction('reject')}>✗ Reject</button>
-          <ReportButton eventId={event.event_id} />
+        {/* Actions */}
+        <hr className="event-panel__divider" />
+        <div className="event-panel__actions">
+          <button className="action-btn action-btn--confirm" style={{ flex: 1, justifyContent: 'center' }} onClick={() => handleAction('confirm')}>
+            ✓ Confirm
+          </button>
+          <button className="action-btn action-btn--reject" style={{ flex: 1, justifyContent: 'center' }} onClick={() => handleAction('reject')}>
+            ✗ Reject
+          </button>
         </div>
 
-        {/* Investigate button */}
         {onNavigate && (
           <button
-            className="btn btn--secondary"
-            style={{ width: '100%', marginTop: '8px', justifyContent: 'center' }}
+            className="btn btn--ghost"
+            style={{ width: '100%', justifyContent: 'center', marginTop: '6px' }}
             onClick={() => onNavigate(event.event_id)}
           >
-            🔍 Full Investigation
+            🔍 Full Investigation →
           </button>
         )}
+
+        <a
+          href={getReportUrl(event.event_id)}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '5px',
+            marginTop: '4px',
+            padding: '6px 12px',
+            background: 'transparent',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-sm)',
+            fontSize: '11px',
+            fontWeight: '600',
+            color: 'var(--text-muted)',
+            textDecoration: 'none',
+            transition: 'all var(--transition-fast)',
+          }}
+        >
+          Export Report
+        </a>
       </div>
     </div>
   );

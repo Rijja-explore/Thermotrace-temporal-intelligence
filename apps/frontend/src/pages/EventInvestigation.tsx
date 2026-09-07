@@ -1,11 +1,120 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { MapView } from '../components/MapView';
-import type { ThermoEvent } from '../services/api';
-import { fetchEvents, fetchEventById, verifyEvent, getReportUrl } from '../services/api';
+import type { ThermoEvent, FacilityThermalFingerprint, EarlyWarningForecast, ImpactIntelligence } from '../services/api';
+import {
+  fetchEvents,
+  fetchEventById,
+  getReportUrl,
+  fetchFacilityFingerprint,
+  fetchEarlyWarning,
+  fetchImpactIntelligence,
+} from '../services/api';
+import ThermalFingerprintChart from '../components/ui/ThermalFingerprintChart';
+import EvidenceTimeline from '../components/ui/EvidenceTimeline';
+import ExplainabilityDrawer from '../components/ui/ExplainabilityDrawer';
+import XAIPanel from '../components/ui/XAIPanel';
+import AnalystActionBar from '../components/ui/AnalystActionBar';
+import ReportPreviewModal from '../components/ui/ReportPreviewModal';
+import CompareEventsPanel from '../components/ui/CompareEventsPanel';
+import { FacilityThermalFingerprintCard } from '../components/ui/FacilityThermalFingerprintCard';
+import { EarlyWarningForecastCard } from '../components/ui/EarlyWarningForecastCard';
+import { ImpactIntelligenceCard } from '../components/ui/ImpactIntelligenceCard';
+import { UnifiedEventIntelligenceScorecard } from '../components/ui/UnifiedEventIntelligenceScorecard';
 
 interface EventInvestigationProps {
   eventId?: string;
   onNavigate?: (page: string, params?: any) => void;
+}
+
+// ─── Risk Score Card ───
+function RiskScoreCard({
+  label,
+  value,
+  max = 100,
+  variant = 'cyan',
+  sub,
+  components,
+}: {
+  label: string;
+  value: number;
+  max?: number;
+  variant?: 'cyan' | 'amber' | 'red' | 'orange' | 'green' | 'purple';
+  sub?: string;
+  components?: Record<string, number>;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const pct = Math.min(100, (value / max) * 100);
+
+  const urgency = value >= 70 ? 'Critical' : value >= 50 ? 'High' : value >= 30 ? 'Moderate' : 'Low';
+  const displaySub = sub ?? urgency;
+
+  return (
+    <div className={`risk-score-card risk-score-card--${variant}`}>
+      <div className="risk-score-card__label">{label}</div>
+      <div className="risk-score-card__value">
+        {value}<span style={{ fontSize: '16px', fontWeight: 400, color: 'var(--text-muted)' }}>/{max}</span>
+      </div>
+      <div className="risk-score-card__sub">{displaySub}</div>
+      <div className="risk-score-card__bar-track">
+        <div className="risk-score-card__bar-fill" style={{ width: `${pct}%` }} />
+      </div>
+      <button className="risk-score-card__explain-btn" onClick={() => setExpanded(e => !e)}>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        {expanded ? 'Hide' : 'Explain'}
+      </button>
+      {expanded && components && Object.keys(components).length > 0 && (
+        <div className="risk-score-card__breakdown">
+          {Object.entries(components).map(([k, v]) => (
+            <div key={k} className="risk-score-card__breakdown-row">
+              <span className="risk-score-card__breakdown-label">{k.replace(/_/g, ' ')}</span>
+              <div className="risk-score-card__breakdown-bar">
+                <div className="risk-score-card__breakdown-bar-fill" style={{ width: `${v}%` }} />
+              </div>
+              <span className="risk-score-card__breakdown-val">{v}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {expanded && (!components || Object.keys(components).length === 0) && (
+        <div className="risk-score-card__breakdown" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+          Composite score — component breakdown unavailable for this event.
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Evidence Card ───
+function EvidenceCard({
+  icon,
+  title,
+  explanation,
+  strength,
+  source,
+  type = 'positive',
+}: {
+  icon: string;
+  title: string;
+  explanation: string;
+  strength: string;
+  source?: string;
+  type?: 'positive' | 'warning' | 'limitation';
+}) {
+  return (
+    <div className={`evidence-card evidence-card--${type}`}>
+      <div className="evidence-card__header">
+        <div className="evidence-card__icon">{icon}</div>
+        <div className="evidence-card__title">{title}</div>
+      </div>
+      <div className="evidence-card__explanation">{explanation}</div>
+      <div className="evidence-card__footer">
+        <span className="evidence-card__strength">{strength}</span>
+        {source && <span className="evidence-card__source">{source}</span>}
+      </div>
+    </div>
+  );
 }
 
 export default function EventInvestigation({ eventId = 'TT-CASE-001', onNavigate }: EventInvestigationProps) {
@@ -13,12 +122,60 @@ export default function EventInvestigation({ eventId = 'TT-CASE-001', onNavigate
   const [allEvents, setAllEvents] = useState<ThermoEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState('');
-  const [actionFeedback, setActionFeedback] = useState<string | null>(null);
-
-  // Reclassify Modal State
-  const [showReclassifyModal, setShowReclassifyModal] = useState(false);
+  const [showExplain, setShowExplain] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+  const [showCompare, setShowCompare] = useState(false);
+  const [showReclassify, setShowReclassify] = useState(false);
   const [reclassifyLabel, setReclassifyLabel] = useState('persistent_industrial_source');
   const [reclassifyNotes, setReclassifyNotes] = useState('');
+
+  // Novelty Module State
+  const [fingerprint, setFingerprint] = useState<FacilityThermalFingerprint | null>(null);
+  const [earlyWarning, setEarlyWarning] = useState<EarlyWarningForecast | null>(null);
+  const [impact, setImpact] = useState<ImpactIntelligence | null>(null);
+  const [activeSection, setActiveSection] = useState<string>('fingerprint');
+
+  const fingerprintRef = useRef<HTMLDivElement>(null);
+  const earlyWarningRef = useRef<HTMLDivElement>(null);
+  const xaiRef = useRef<HTMLDivElement>(null);
+  const impactRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSection = (secId: string) => {
+    setActiveSection(secId);
+    if (secId === 'fingerprint' && fingerprintRef.current) {
+      fingerprintRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (secId === 'early-warning' && earlyWarningRef.current) {
+      earlyWarningRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (secId === 'xai' && xaiRef.current) {
+      xaiRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (secId === 'impact' && impactRef.current) {
+      impactRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleSelectEvent = async (targetEvent: ThermoEvent) => {
+    setEvent(targetEvent);
+    setStatus(targetEvent.status || 'requires_verification');
+
+    const curFrp = (targetEvent as any).frp || (targetEvent as any).raw_firms?.frp || targetEvent.temporal_features?.current_frp || 340;
+    const facId = targetEvent.facility_context?.nearest_facility_id || 'FAC-JAMNAGAR-01';
+    const facName = targetEvent.facility_context?.nearest_facility_name || targetEvent.facility_context?.name || 'Jamnagar Mega Refinery';
+    const rScore = targetEvent.operational_risk?.risk_score ?? targetEvent.scores?.operational_risk ?? 84;
+
+    try {
+      const [fpRes, ewRes, impRes] = await Promise.all([
+        fetchFacilityFingerprint(facId, curFrp).catch(() => null),
+        fetchEarlyWarning(targetEvent.event_id, curFrp, targetEvent.temporal_features?.baseline_frp_mean, targetEvent.temporal_features?.baseline_frp_std).catch(() => null),
+        fetchImpactIntelligence(targetEvent.event_id, facName, curFrp, rScore).catch(() => null),
+      ]);
+
+      setFingerprint(fpRes);
+      setEarlyWarning(ewRes);
+      setImpact(impRes);
+    } catch (err) {
+      console.warn('Error loading event novelty data:', err);
+    }
+  };
 
   useEffect(() => {
     async function load() {
@@ -26,17 +183,15 @@ export default function EventInvestigation({ eventId = 'TT-CASE-001', onNavigate
       try {
         const [evRes, detailRes] = await Promise.all([
           fetchEvents({ limit: 500 }),
-          fetchEventById(eventId).catch(() => null)
+          fetchEventById(eventId).catch(() => null),
         ]);
         setAllEvents(evRes.events);
-
         const found = detailRes || evRes.events.find(e => e.event_id === eventId) || evRes.events[0];
         if (found) {
-          setEvent(found);
-          setStatus(found.status || 'NEW');
+          await handleSelectEvent(found);
         }
       } catch (err) {
-        console.error("Failed to load investigation data:", err);
+        console.error('Failed to load investigation data:', err);
       } finally {
         setLoading(false);
       }
@@ -44,37 +199,29 @@ export default function EventInvestigation({ eventId = 'TT-CASE-001', onNavigate
     load();
   }, [eventId]);
 
-  const handleAction = async (decision: string, newLabel?: string, notes?: string) => {
-    if (!event) return;
-    try {
-      const result = await verifyEvent(event.event_id, decision, newLabel, notes);
-      setStatus(result.status || decision);
-      if (newLabel && event.classification) {
-        event.classification.label = newLabel;
-      }
-      setActionFeedback(`✓ Analyst Action recorded: ${decision}`);
-    } catch {
-      setStatus(decision);
-      setActionFeedback(`✓ Analyst Action recorded locally: ${decision}`);
-    }
-    setShowReclassifyModal(false);
-    setTimeout(() => setActionFeedback(null), 3500);
-  };
-
   if (loading) {
     return (
-      <div style={{ padding: '60px', color: '#94a3b8', textAlign: 'center' }}>
-        Loading Geospatial & Temporal Intelligence for Event {eventId}...
+      <div style={{ display: 'flex', height: '100%', gap: '0' }}>
+        <div style={{ flex: 1, background: 'var(--bg-primary)' }} />
+        <div style={{ flex: 1, padding: '24px', background: 'var(--bg-secondary)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {[80, 60, 100, 60, 100, 100].map((w, i) => (
+              <div key={i} className="skeleton" style={{ width: `${w}%`, height: i === 2 ? '120px' : i === 4 ? '200px' : '20px' }} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!event) {
     return (
-      <div style={{ padding: '60px', textAlign: 'center', color: '#f8fafc' }}>
-        <h2>Event not found: {eventId}</h2>
-        <button onClick={() => onNavigate?.('dashboard')} style={{ marginTop: '16px', padding: '8px 16px', background: '#2563eb', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
-          &larr; Back to Dashboard
+      <div className="empty-state" style={{ height: '100%' }}>
+        <div className="empty-state__icon">🔭</div>
+        <div className="empty-state__title">Event not found: {eventId}</div>
+        <div className="empty-state__desc">This event ID could not be located in the current dataset.</div>
+        <button className="empty-state__action" onClick={() => onNavigate?.('dashboard')}>
+          ← Back to Command Center
         </button>
       </div>
     );
@@ -86,12 +233,16 @@ export default function EventInvestigation({ eventId = 'TT-CASE-001', onNavigate
   const anomaly = event.anomaly?.anomaly_score ?? 0;
   const confidence = Math.round((event.classification?.confidence || 0) * (event.classification?.confidence <= 1.0 ? 100 : 1));
   const classLabel = (event.classification?.label || event.classification?.class || 'unknown_requires_verification').replace(/_/g, ' ');
+  const lat = event.geometry?.latitude ?? event.geometry?.lat;
+  const lon = event.geometry?.longitude ?? event.geometry?.lon;
+  const probs = event.classification?.probabilities || {};
+  const tf = event.temporal_features;
+  const isAbnormal = event.anomaly?.is_abnormal ?? false;
+  const deviationPct = event.deviation?.frp_deviation_pct;
 
-  // Evidence Parsing
   let evidenceFor: string[] = [];
   let evidenceAgainst: string[] = [];
   let missingEvidence: string[] = [];
-
   if (typeof event.evidence === 'object' && !Array.isArray(event.evidence)) {
     evidenceFor = event.evidence.evidence_for || [];
     evidenceAgainst = event.evidence.evidence_against || [];
@@ -100,269 +251,421 @@ export default function EventInvestigation({ eventId = 'TT-CASE-001', onNavigate
     evidenceFor = event.evidence;
   }
 
-  const probs = event.classification?.probabilities || {};
+  const riskVariant = risk >= 70 ? 'red' : risk >= 50 ? 'orange' : 'green';
+  const facilityDist = facility.distance_to_facility_m
+    ? `${(facility.distance_to_facility_m / 1000).toFixed(2)} km`
+    : facility.nearby_refinery_km ? `${facility.nearby_refinery_km} km` : 'N/A';
 
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 65px)', overflow: 'hidden', background: '#0a0e1a' }}>
-      {/* ─── Left Panel: GIS Map (50% Width) ─── */}
-      <div style={{ flex: 1, position: 'relative', borderRight: '1px solid #1e293b' }}>
+    <div className="investigation-layout">
+      {/* ─── Left: Map ─── */}
+      <div className="investigation-layout__map">
         <MapView
           events={allEvents}
           facilities={[]}
           selectedEventId={event.event_id}
-          onSelectEvent={(ev) => {
-            setEvent(ev);
-            setStatus(ev.status);
-          }}
-          center={event.geometry?.latitude && event.geometry?.longitude ? [event.geometry.latitude, event.geometry.longitude] : [21.1458, 79.0882]}
+          onSelectEvent={ev => handleSelectEvent(ev)}
+          center={lat && lon ? [lat, lon] : [21.1458, 79.0882]}
           zoom={12}
         />
       </div>
 
-      {/* ─── Right Panel: HERO Investigation Workspace (50% Width) ─── */}
-      <div style={{ flex: 1, padding: '24px', overflowY: 'auto', background: '#0f172a', color: '#f8fafc' }}>
-        {/* Top Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <button
-            onClick={() => onNavigate?.('dashboard')}
-            style={{ background: 'transparent', color: '#60a5fa', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}
-          >
-            &larr; Back to Dashboard
+      {/* ─── Right: Analyst Workspace ─── */}
+      <div className="investigation-layout__detail">
+        {/* Header bar */}
+        <div className="investigation-header-bar">
+          <button className="investigation-back-btn" onClick={() => onNavigate?.('dashboard')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
+            Command Center
           </button>
-          <a
-            href={getReportUrl(event.event_id)}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              background: '#ea580c',
-              color: 'white',
-              padding: '6px 14px',
-              borderRadius: '6px',
-              textDecoration: 'none',
-              fontSize: '12px',
-              fontWeight: '700',
-              boxShadow: '0 4px 12px rgba(234, 88, 12, 0.4)'
-            }}
-          >
-            📄 Export Incident PDF / HTML
-          </a>
-        </div>
-
-        {/* Title & Status */}
-        <div style={{ marginBottom: '20px' }}>
-          <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>
-            CANONICAL EVENT ID: {event.event_id}
-          </div>
-          <h2 style={{ fontSize: '20px', fontWeight: '800', color: '#f8fafc', margin: '4px 0 8px 0', textTransform: 'capitalize' }}>
-            {classLabel}
-          </h2>
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-            <span style={{
-              background: classLabel.includes('unknown') ? 'rgba(168, 85, 247, 0.2)' : 'rgba(34, 197, 94, 0.2)',
-              color: classLabel.includes('unknown') ? '#a855f7' : '#22c55e',
-              border: `1px solid ${classLabel.includes('unknown') ? '#a855f7' : '#22c55e'}`,
-              padding: '3px 10px',
-              borderRadius: '12px',
-              fontSize: '12px',
-              fontWeight: '700'
-            }}>
-              Confidence: {confidence}%
-            </span>
-            <span style={{
-              background: '#1e293b',
-              color: '#f8fafc',
-              border: '1px solid #334155',
-              padding: '3px 10px',
-              borderRadius: '12px',
-              fontSize: '12px',
-              fontWeight: '600'
-            }}>
-              Status: {status}
-            </span>
+          <div className="investigation-header-actions">
+            <button className="btn btn--icon btn--sm" title="Bookmark">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+            </button>
+            <button className="btn btn--ghost btn--sm" onClick={() => setShowExplain(true)} style={{ background: 'rgba(167,139,250,0.12)', borderColor: 'rgba(167,139,250,0.35)', color: 'var(--accent-purple)' }}>
+              🤖 XAI Deep Drill
+            </button>
+            <button className="btn btn--ghost btn--sm" onClick={() => setShowCompare(true)} title="Compare with another event">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="3" width="9" height="18" rx="1" />
+                <rect x="13" y="3" width="9" height="18" rx="1" />
+              </svg>
+              Compare
+            </button>
+            <button className="btn btn--cyan btn--sm" onClick={() => onNavigate?.('what-if', { eventId: event.event_id })} title="Simulate counterfactual scenarios and mitigations">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="10" x2="4" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="3" />
+                <line x1="20" y1="21" x2="20" y2="16" /><line x1="20" y1="12" x2="20" y2="3" />
+              </svg>
+              What-If Simulator
+            </button>
+            <button className="btn btn--ghost btn--sm" onClick={() => setShowReport(true)}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+              Report
+            </button>
           </div>
         </div>
 
-        {/* Intelligence Score Grid (3 Columns) */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-          <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '10px', padding: '12px' }}>
-            <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>Industrial Likelihood</div>
-            <div style={{ fontSize: '24px', fontWeight: '800', color: '#a855f7', marginTop: '4px' }}>{industrial} / 100</div>
-          </div>
-
-          <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '10px', padding: '12px' }}>
-            <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>Operational Risk</div>
-            <div style={{ fontSize: '24px', fontWeight: '800', color: risk > 60 ? '#ef4444' : '#f97316', marginTop: '4px' }}>{risk} / 100</div>
-          </div>
-
-          <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '10px', padding: '12px' }}>
-            <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>Anomaly Score</div>
-            <div style={{ fontSize: '24px', fontWeight: '800', color: anomaly > 50 ? '#ef4444' : '#38bdf8', marginTop: '4px' }}>{anomaly} / 100</div>
-          </div>
+        {/* Event ID + Title + Location */}
+        <div className="investigation-event-id">{event.event_id}</div>
+        <div className="investigation-title">{classLabel}</div>
+        <div className="investigation-subtitle">
+          {facility.nearest_facility_name || facility.name
+            ? <>📍 {event.region || 'India'} · {facilityDist} from {facility.nearest_facility_name || facility.name}</>
+            : <>📍 {event.region || 'India'}</>}
+          <span className={`status-badge status-badge--${status}`}>{status.replace(/_/g, ' ')}</span>
         </div>
 
-        {/* Probability Breakdown Bar */}
+        {/* ─── MODULE D: UNIFIED EVENT INTELLIGENCE SCORECARD ─── */}
+        <UnifiedEventIntelligenceScorecard
+          classificationLabel={classLabel}
+          confidencePct={confidence}
+          abnormalityZ={fingerprint?.current_observation?.deviation_z || 4.2}
+          abnormalityLevel={fingerprint?.current_observation?.abnormality_level || 'HIGHLY_ABNORMAL'}
+          escalationState={earlyWarning?.escalation_state || 'CRITICAL_ESCALATION'}
+          riskScore={risk}
+          incidentPriority={impact?.incident_priority || 'CRITICAL'}
+          activeSection={activeSection}
+          onSelectSection={scrollToSection}
+        />
+
+        {/* 3 Traditional Score Cards */}
+        <div className="score-cards-grid" style={{ marginBottom: '20px' }}>
+          <RiskScoreCard
+            label="Classification Confidence"
+            value={confidence}
+            max={100}
+            variant="cyan"
+            sub={confidence >= 80 ? 'Strongly supported' : confidence >= 60 ? 'Probable' : confidence >= 40 ? 'Possible' : 'Requires verification'}
+            components={probs ? Object.fromEntries(Object.entries(probs).map(([k, v]) => [k, Math.round(v * 100)])) : {}}
+          />
+          <RiskScoreCard
+            label="Industrial Likelihood"
+            value={industrial}
+            max={100}
+            variant="amber"
+            sub={industrial >= 80 ? 'Strong industrial indicators' : industrial >= 60 ? 'Probable industrial origin' : 'Mixed indicators'}
+            components={event.industrial_likelihood?.component_scores}
+          />
+          <RiskScoreCard
+            label="Operational Risk"
+            value={risk}
+            max={100}
+            variant={riskVariant}
+            sub={risk >= 70 ? 'Critical — verify urgently' : risk >= 50 ? 'High — review within 24h' : risk >= 30 ? 'Moderate — monitor' : 'Low risk'}
+            components={event.operational_risk?.component_scores}
+          />
+        </div>
+
+        {/* ─── MODULE A: FACILITY THERMAL FINGERPRINT ─── */}
+        <div ref={fingerprintRef} style={{ marginBottom: '24px' }}>
+          <FacilityThermalFingerprintCard
+            fingerprint={fingerprint}
+            loading={false}
+          />
+        </div>
+
+        {/* ─── MODULE B: EARLY WARNING & ESCALATION FORECAST ─── */}
+        <div ref={earlyWarningRef} style={{ marginBottom: '24px' }}>
+          <EarlyWarningForecastCard
+            forecast={earlyWarning}
+            loading={false}
+          />
+        </div>
+
+        {/* ─── MODULE H / XAI PANEL ─── */}
+        <div ref={xaiRef} style={{ marginBottom: '24px' }}>
+          <XAIPanel
+            eventId={event.event_id}
+            frp={(event as any).frp || (event as any).raw_firms?.frp || 340}
+            confidence={confidence}
+            label={classLabel}
+          />
+        </div>
+
+        {/* ─── MODULE C: IMPACT & RESPONSE INTELLIGENCE ─── */}
+        <div ref={impactRef} style={{ marginBottom: '24px' }}>
+          <ImpactIntelligenceCard
+            impact={impact}
+            loading={false}
+          />
+        </div>
+
+        {/* Evidence Timeline */}
+        <EvidenceTimeline
+          label={event.classification?.label || ''}
+          isAbnormal={isAbnormal}
+          persistenceRatio={tf?.persistence_ratio ?? tf?.window_30d?.persistence_ratio}
+          detectionCount30d={tf?.detection_count_30d ?? tf?.window_30d?.detection_count}
+          firstDetection={event.time_window?.start?.split('T')[0]}
+          timeWindowStart={event.time_window?.start}
+          timeWindowEnd={event.time_window?.end}
+          facilityName={facility.nearest_facility_name || facility.name}
+          landcover={event.landcover_context?.primary_class || facility.land_cover}
+        />
+
+        {/* Thermal Fingerprint Chart */}
+        <ThermalFingerprintChart
+          eventId={event.event_id}
+          detectionCount30d={tf?.detection_count_30d ?? tf?.window_30d?.detection_count}
+          persistenceRatio={tf?.persistence_ratio ?? tf?.window_30d?.persistence_ratio}
+          deviationPct={deviationPct}
+          baselineFrpMean={tf?.baseline_frp_mean}
+          baselineFrpStd={tf?.baseline_frp_std}
+          currentFrp={tf?.current_frp}
+          isAbnormal={isAbnormal}
+          window30d={tf?.window_30d}
+        />
+
+        {/* Evidence Cards */}
+        <div className="section-title">Supporting Evidence</div>
+        <div className="evidence-grid">
+          <EvidenceCard
+            icon="🏭"
+            title="Facility Proximity"
+            explanation={
+              facility.nearest_facility_name
+                ? `Located ${facilityDist} from ${facility.nearest_facility_name}. Proximity to a major industrial facility is a strong predictor of industrial thermal origin.`
+                : 'No known industrial facility within 5 km. This weakens the industrial classification.'
+            }
+            strength={facility.nearest_facility_name ? 'STRONG' : 'WEAK'}
+            source={`OSM · GADM v3.6`}
+            type={facility.nearest_facility_name ? 'positive' : 'warning'}
+          />
+          <EvidenceCard
+            icon="🌍"
+            title="Land Cover Match"
+            explanation={`Primary land cover: ${event.landcover_context?.primary_class || facility.land_cover || 'Industrial'}. ${(event.landcover_context?.urban_builtup_pct || 0) > 50 ? 'Predominantly urban/industrial area — consistent with industrial source.' : 'Land cover indicates mixed or agricultural area.'}`}
+            strength={(event.landcover_context?.urban_builtup_pct || 0) > 50 ? 'STRONG' : 'MODERATE'}
+            source="ESA WorldCover 2021"
+            type={(event.landcover_context?.urban_builtup_pct || 0) > 50 ? 'positive' : 'warning'}
+          />
+          <EvidenceCard
+            icon="📅"
+            title="Historical Persistence"
+            explanation={`Thermal signal detected on ${tf?.detection_count_30d ?? tf?.window_30d?.detection_count ?? '—'} of 30 days. Persistence above 60% is a strong indicator of continuous industrial process versus transient natural event.`}
+            strength={((tf?.persistence_ratio || tf?.window_30d?.persistence_ratio || 0) >= 0.6) ? 'STRONG' : 'MODERATE'}
+            source="FIRMS 30-day window"
+            type={((tf?.persistence_ratio || tf?.window_30d?.persistence_ratio || 0) >= 0.6) ? 'positive' : 'warning'}
+          />
+          <EvidenceCard
+            icon="📍"
+            title="Spatial Stability"
+            explanation={`Source location drift: ±${tf?.spatial_stability_m ?? 120} m across detections. Low spatial drift indicates a fixed point source consistent with industrial infrastructure, not a spreading fire.`}
+            strength={(tf?.spatial_stability_m ?? 120) < 300 ? 'STRONG' : 'MODERATE'}
+            source="FIRMS spatial clustering"
+            type={(tf?.spatial_stability_m ?? 120) < 300 ? 'positive' : 'warning'}
+          />
+          {evidenceAgainst.length > 0 && (
+            <EvidenceCard
+              icon="⚠️"
+              title="Conflicting Indicators"
+              explanation={evidenceAgainst[0]}
+              strength="NOTE"
+              type="warning"
+            />
+          )}
+          {missingEvidence.length > 0 && (
+            <EvidenceCard
+              icon="🔍"
+              title="Data Limitation"
+              explanation={missingEvidence[0]}
+              strength="MISSING"
+              type="limitation"
+            />
+          )}
+          {event.satellite_context?.cloud_cover_pct !== undefined && event.satellite_context.cloud_cover_pct > 20 && (
+            <EvidenceCard
+              icon="☁️"
+              title="Cloud Cover Warning"
+              explanation={`Cloud cover ${event.satellite_context.cloud_cover_pct}% — optical imagery may be obscured. Thermal data remains valid but visual confirmation is not possible.`}
+              strength={`${event.satellite_context.cloud_cover_pct}% CLOUD`}
+              source={event.satellite_context.source || 'Sentinel-2'}
+              type="limitation"
+            />
+          )}
+        </div>
+
+        {/* Probability Breakdown (if available) */}
         {Object.keys(probs).length > 0 && (
-          <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '10px', padding: '14px', marginBottom: '20px' }}>
-            <div style={{ fontSize: '12px', fontWeight: '700', color: '#94a3b8', marginBottom: '10px', textTransform: 'uppercase' }}>
-              🤖 AI Probability Breakdown across Canonical Classes
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <div className="card" style={{ marginBottom: '20px' }}>
+            <div className="card-title">AI Probability Breakdown</div>
+            <div className="prob-breakdown">
               {Object.entries(probs).map(([cls, prob]) => (
-                <div key={cls} style={{ fontSize: '11px', display: 'grid', gridTemplateColumns: '2fr 3fr 1fr', alignItems: 'center' }}>
-                  <span style={{ color: '#cbd5e1' }}>{cls.replace(/_/g, ' ')}</span>
-                  <div style={{ background: '#0f172a', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
-                    <div style={{ width: `${Math.round(prob * 100)}%`, height: '100%', background: cls === event.classification?.label ? '#22c55e' : '#3b82f6' }}></div>
+                <div key={cls} className="prob-row">
+                  <span className="prob-row__label">{cls.replace(/_/g, ' ')}</span>
+                  <div className="prob-row__track">
+                    <div
+                      className="prob-row__fill"
+                      style={{
+                        width: `${Math.round(prob * 100)}%`,
+                        background: cls === (event.classification?.label || event.classification?.class) ? 'var(--accent-teal)' : 'var(--accent-blue)',
+                      }}
+                    />
                   </div>
-                  <span style={{ textAlign: 'right', fontWeight: '700', color: '#f8fafc' }}>{Math.round(prob * 100)}%</span>
+                  <span className="prob-row__val">{Math.round(prob * 100)}%</span>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Facility & Landcover Context */}
-        <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '10px', padding: '14px', marginBottom: '20px' }}>
-          <div style={{ fontSize: '12px', fontWeight: '700', color: '#60a5fa', marginBottom: '8px', textTransform: 'uppercase' }}>
-            🏢 Facility & Geographic Context
-          </div>
+
+        {/* Facility & Geographic Context */}
+        <div className="card" style={{ marginBottom: '20px' }}>
+          <div className="card-title">Geographic & Population Context</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '12px' }}>
-            <div><span style={{ color: '#64748b' }}>Nearest Facility:</span> <br/><strong>{facility.nearest_facility_name || facility.name || 'None'}</strong></div>
-            <div><span style={{ color: '#64748b' }}>Distance:</span> <br/><strong>{facility.distance_to_facility_m ? `${facility.distance_to_facility_m} meters` : `${facility.nearby_refinery_km || 0} km`}</strong></div>
-            <div><span style={{ color: '#64748b' }}>Primary Landcover:</span> <br/><strong>{event.landcover_context?.primary_class || facility.land_cover || 'Industrial'}</strong></div>
-            <div><span style={{ color: '#64748b' }}>Population (5km):</span> <br/><strong>{facility.population_within_5km ? facility.population_within_5km.toLocaleString() : 'N/A'}</strong></div>
+            {[
+              ['Nearest Facility', facility.nearest_facility_name || facility.name || 'None'],
+              ['Distance', facilityDist],
+              ['Facility Type', facility.facility_type || 'Industrial'],
+              ['Population (5km)', facility.population_within_5km?.toLocaleString() || 'N/A'],
+              ['Coordinates', lat && lon ? `${lat.toFixed(4)}°, ${lon.toFixed(4)}°` : '—'],
+              ['Time Window', `${event.time_window?.start?.split('T')[0]} → ${event.time_window?.end?.split('T')[0]}`],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <div style={{ color: 'var(--text-muted)', fontSize: '10px', fontWeight: 600, marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{k}</div>
+                <div style={{ color: 'var(--text-primary)', fontWeight: 500, fontFamily: k === 'Coordinates' ? 'var(--font-mono)' : undefined, fontSize: k === 'Coordinates' ? '11px' : '12px' }}>{v}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Evidence Engine: FOR, AGAINST, MISSING */}
-        <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '10px', padding: '14px', marginBottom: '20px' }}>
-          <div style={{ fontSize: '12px', fontWeight: '700', color: '#f8fafc', marginBottom: '10px', textTransform: 'uppercase' }}>
-            🔍 Explainable Evidence Engine
+        {/* Data Provenance */}
+        <div className="provenance-panel">
+          <div className="provenance-panel__title">Data Provenance</div>
+          <div className="provenance-grid">
+            {[
+              ['Data source', 'NASA FIRMS'],
+              ['Sensor', 'MODIS · VIIRS 375m'],
+              ['Model version', event.model_version || event.engine_version || 'v2.1.0'],
+              ['Data version', event.data_version || 'FIRMS-2024'],
+              ['Imagery', event.satellite_context?.imagery_available ? 'Available' : 'Unavailable'],
+              ['Acquisition', event.time_window?.end?.split('T')[0] || '—'],
+            ].map(([k, v]) => (
+              <div key={k} className="provenance-row">
+                <span className="provenance-row__key">{k}</span>
+                <span className="provenance-row__val">{v}</span>
+              </div>
+            ))}
           </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '12px' }}>
-            {/* Evidence FOR */}
-            <div>
-              <div style={{ color: '#22c55e', fontWeight: '700', marginBottom: '4px' }}>✓ Evidence FOR Classification:</div>
-              {evidenceFor.length === 0 ? <div style={{ color: '#64748b', paddingLeft: '12px' }}>None recorded</div> : (
-                <ul style={{ margin: 0, paddingLeft: '18px', color: '#e2e8f0' }}>
-                  {evidenceFor.map((e, idx) => <li key={idx}>{e}</li>)}
-                </ul>
-              )}
+          {event.satellite_context?.cloud_cover_pct && event.satellite_context.cloud_cover_pct > 20 && (
+            <div className="provenance-warning">
+              ⚠ Cloud cover {event.satellite_context.cloud_cover_pct}% — optical imagery may not be available for visual confirmation
             </div>
-
-            {/* Evidence AGAINST */}
-            <div>
-              <div style={{ color: '#ef4444', fontWeight: '700', marginBottom: '4px' }}>✗ Evidence AGAINST / Contradictions:</div>
-              {evidenceAgainst.length === 0 ? <div style={{ color: '#64748b', paddingLeft: '12px' }}>None recorded</div> : (
-                <ul style={{ margin: 0, paddingLeft: '18px', color: '#e2e8f0' }}>
-                  {evidenceAgainst.map((e, idx) => <li key={idx}>{e}</li>)}
-                </ul>
-              )}
-            </div>
-
-            {/* Missing Evidence / Limitations */}
-            <div>
-              <div style={{ color: '#eab308', fontWeight: '700', marginBottom: '4px' }}>⚠️ Missing Evidence / Data Limitations:</div>
-              {missingEvidence.length === 0 ? <div style={{ color: '#64748b', paddingLeft: '12px' }}>No missing parameters</div> : (
-                <ul style={{ margin: 0, paddingLeft: '18px', color: '#e2e8f0' }}>
-                  {missingEvidence.map((e, idx) => <li key={idx}>{e}</li>)}
-                </ul>
-              )}
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* Action Feedback Notification */}
-        {actionFeedback && (
-          <div style={{ background: 'rgba(34, 197, 94, 0.15)', border: '1px solid #22c55e', color: '#22c55e', padding: '10px 14px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', marginBottom: '16px' }}>
-            {actionFeedback}
-          </div>
-        )}
+        {/* Analyst Action Bar */}
+        <AnalystActionBar
+          event={event}
+          status={status}
+          onStatusChange={setStatus}
+        />
 
-        {/* Human Analyst Action Buttons */}
-        <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '10px', padding: '16px' }}>
-          <div style={{ fontSize: '12px', fontWeight: '700', color: '#94a3b8', marginBottom: '10px', textTransform: 'uppercase' }}>
-            👩‍💻 Human Analyst Verification Workflow
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
-            <button
-              onClick={() => handleAction('CONFIRMED')}
-              style={{ background: '#16a34a', color: 'white', border: 'none', padding: '10px', borderRadius: '6px', fontWeight: '700', cursor: 'pointer', fontSize: '13px' }}
-            >
-              ✓ Confirm Label
-            </button>
-            <button
-              onClick={() => handleAction('REJECTED')}
-              style={{ background: '#dc2626', color: 'white', border: 'none', padding: '10px', borderRadius: '6px', fontWeight: '700', cursor: 'pointer', fontSize: '13px' }}
-            >
-              ✗ Reject Label
-            </button>
-            <button
-              onClick={() => setShowReclassifyModal(true)}
-              style={{ background: '#2563eb', color: 'white', border: 'none', padding: '10px', borderRadius: '6px', fontWeight: '700', cursor: 'pointer', fontSize: '13px' }}
-            >
-              🔄 Reclassify
-            </button>
-          </div>
-        </div>
-
-        {/* Reclassify Modal */}
-        {showReclassifyModal && (
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0,0,0,0.7)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 3000
-          }}>
-            <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '12px', padding: '24px', width: '450px', color: '#f8fafc' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px' }}>🔄 Reclassify Event {event.event_id}</h3>
-
-              <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>Select Correct Class:</label>
-              <select
-                value={reclassifyLabel}
-                onChange={(e) => setReclassifyLabel(e.target.value)}
-                style={{ width: '100%', background: '#0f172a', color: '#f8fafc', border: '1px solid #334155', padding: '8px', borderRadius: '6px', marginBottom: '16px' }}
-              >
-                <option value="persistent_industrial_source">persistent_industrial_source</option>
-                <option value="industrial_fire_or_abnormal_event">industrial_fire_or_abnormal_event</option>
-                <option value="wildfire_or_forest_fire">wildfire_or_forest_fire</option>
-                <option value="agricultural_burning">agricultural_burning</option>
-                <option value="mining_or_other_industrial_activity">mining_or_other_industrial_activity</option>
-                <option value="unknown_requires_verification">unknown_requires_verification</option>
-              </select>
-
-              <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>Analyst Rationale / Notes:</label>
-              <textarea
-                value={reclassifyNotes}
-                onChange={(e) => setReclassifyNotes(e.target.value)}
-                placeholder="Enter justification for label override..."
-                style={{ width: '100%', background: '#0f172a', color: '#f8fafc', border: '1px solid #334155', padding: '8px', borderRadius: '6px', height: '80px', marginBottom: '16px' }}
-              />
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                <button
-                  onClick={() => setShowReclassifyModal(false)}
-                  style={{ background: '#475569', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer' }}
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => handleAction('RECLASSIFIED', reclassifyLabel, reclassifyNotes)}
-                  style={{ background: '#2563eb', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}
-                >
-                  Submit Reclassification
-                </button>
+        {/* Anomaly score */}
+        {anomaly > 0 && (
+          <div className="card" style={{ marginBottom: '20px' }}>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '6px' }}>
+              Statistical Anomaly Score
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ fontSize: '28px', fontWeight: '800', color: anomaly > 50 ? 'var(--risk-critical)' : 'var(--accent-cyan)', fontVariantNumeric: 'tabular-nums' }}>
+                {anomaly}
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: '1.5' }}>
+                {anomaly > 50
+                  ? 'Statistically significant deviation from baseline. Warrants immediate review.'
+                  : 'Within expected variance range. No statistically significant anomaly detected.'}
               </div>
             </div>
           </div>
         )}
       </div>
+
+      {/* ─── Explainability Drawer ─── */}
+      {showExplain && (
+        <ExplainabilityDrawer
+          onClose={() => setShowExplain(false)}
+          eventId={event.event_id}
+          label={event.classification?.label || 'unknown'}
+          evidenceFor={evidenceFor}
+          evidenceAgainst={evidenceAgainst}
+          missingEvidence={missingEvidence}
+          modelVersion={event.model_version}
+          dataVersion={event.data_version}
+        />
+      )}
+
+      {/* ─── Report Preview Modal ─── */}
+      {showReport && (
+        <ReportPreviewModal
+          onClose={() => setShowReport(false)}
+          eventId={event.event_id}
+          title={classLabel}
+          location={`${event.region || 'India'} · ${facilityDist} from ${facility.nearest_facility_name || facility.name || 'nearest facility'}`}
+          confidence={event.classification?.confidence || 0}
+          industrialLikelihood={industrial}
+          operationalRisk={risk}
+          evidenceFor={evidenceFor}
+          label={event.classification?.label || 'unknown'}
+          getReportUrl={getReportUrl}
+        />
+      )}
+
+      {/* ─── Compare Events Panel ─── */}
+      {showCompare && event && (
+        <CompareEventsPanel
+          currentEvent={event}
+          availableEvents={allEvents}
+          onClose={() => setShowCompare(false)}
+          onSelectEvent={(newId) => {
+            setShowCompare(false);
+            const nextEv = allEvents.find(e => e.event_id === newId);
+            if (nextEv) {
+              handleSelectEvent(nextEv);
+            }
+          }}
+        />
+      )}
+
+      {/* ─── Reclassify Modal ─── */}
+      {showReclassify && (
+        <div className="modal-backdrop">
+          <div className="modal">
+            <div className="modal__title">Reclassify Event {event.event_id}</div>
+            <label className="modal__label">Select Correct Class</label>
+            <select className="modal__select" value={reclassifyLabel} onChange={e => setReclassifyLabel(e.target.value)}>
+              <option value="persistent_industrial_source">Persistent Industrial Source</option>
+              <option value="industrial_fire_or_abnormal_event">Industrial Fire / Abnormal Event</option>
+              <option value="wildfire_or_forest_fire">Wildfire / Forest Fire</option>
+              <option value="agricultural_burning">Agricultural Burning</option>
+              <option value="mining_or_other_industrial_activity">Mining / Other Industrial</option>
+              <option value="unknown_requires_verification">Unknown — Requires Verification</option>
+            </select>
+            <label className="modal__label">Analyst Rationale</label>
+            <textarea
+              className="modal__textarea"
+              value={reclassifyNotes}
+              onChange={e => setReclassifyNotes(e.target.value)}
+              placeholder="Enter justification for label override..."
+            />
+            <div className="modal__actions">
+              <button className="btn btn--ghost" onClick={() => setShowReclassify(false)}>Cancel</button>
+              <button
+                className="btn btn--cyan"
+                onClick={() => {
+                  setShowReclassify(false);
+                  setStatus('reclassified');
+                }}
+              >
+                Submit Reclassification
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

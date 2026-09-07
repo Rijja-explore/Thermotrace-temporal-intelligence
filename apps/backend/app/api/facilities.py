@@ -121,3 +121,31 @@ async def get_facility(facility_id: int):
         if f["facility_id"] == facility_id:
             return f
     return {"error": "Facility not found"}
+
+
+@router.get("/{facility_id}/thermal-fingerprint")
+async def get_facility_fingerprint(
+    facility_id: str,
+    current_frp: Optional[float] = Query(None)
+):
+    """Get learned normal thermal baseline, historical stats, and abnormality categorization."""
+    from .intelligence import compute_facility_thermal_fingerprint
+    
+    fac_name = "Jamnagar Mega Refinery Complex"
+    fac_lat = None
+    fac_lon = None
+    
+    for f in FACILITIES:
+        if str(f["facility_id"]) == str(facility_id):
+            fac_name = f["name"]
+            fac_lat = f.get("lat")
+            fac_lon = f.get("lon")
+            break
+            
+    return compute_facility_thermal_fingerprint(
+        facility_id=str(facility_id),
+        facility_name=fac_name,
+        current_frp=current_frp,
+        lat=fac_lat,
+        lon=fac_lon
+    )
