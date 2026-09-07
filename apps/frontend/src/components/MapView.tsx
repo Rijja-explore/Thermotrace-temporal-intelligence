@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { ThermoEvent, Facility } from '../services/api';
+import { INDIA_STATES_GEOJSON } from '../data/indiaStates';
 
 interface MapViewProps {
   events: ThermoEvent[];
@@ -13,14 +14,66 @@ interface MapViewProps {
   zoom?: number;
 }
 
-// ─── Token-aligned colour system ───
+// ─── SIH 26162 compliant granular industrial sub-type label ───
+function getIndustrialSubType(event: ThermoEvent): string {
+  const facilityType = (event.facility_context?.facility_type || '').toLowerCase();
+  const facilityName = (event.facility_context?.nearest_facility_name || event.facility_context?.name || '').toLowerCase();
+  const combined = facilityType + ' ' + facilityName;
+
+  if (combined.includes('lng') || combined.includes('liquefied natural gas')) return 'LNG Terminal';
+  if (combined.includes('mining') || combined.includes('mine') || combined.includes('quarry') || combined.includes('colliery')) return 'Mining Area';
+  if (combined.includes('steel') || combined.includes('blast furnace') || combined.includes('smelter') || combined.includes('coke')) return 'Steel Industry';
+  if (combined.includes('power') || combined.includes('thermal plant') || combined.includes('electricity') || combined.includes('generating')) return 'Thermal Power Plant';
+  if (combined.includes('petrochemical') || combined.includes('polymer') || combined.includes('cracker') || combined.includes('petchem')) return 'Petrochemical Complex';
+  if (combined.includes('refinery') || combined.includes('refiner') || combined.includes('crude') || combined.includes('hydrocarbon')) return 'Oil Refinery';
+  if (combined.includes('fertilizer') || combined.includes('fertiliser') || combined.includes('chemical')) return 'Chemical / Fertilizer Plant';
+  if (combined.includes('cement') || combined.includes('kiln')) return 'Cement / Kiln Industry';
+  return 'Industrial Facility';
+}
+
+// ─── Granular SIH event classification label ───
+function getEventClassLabel(event: ThermoEvent): string {
+  const label = (event.classification?.label || event.classification?.class || '').toLowerCase();
+  const risk = event.operational_risk?.risk_score ?? event.scores?.operational_risk ?? 0;
+
+  if (label.includes('unknown')) return 'Unknown / Requires Verification';
+  if (label.includes('wildfire') || label.includes('forest')) return 'Wildfire / Forest Fire';
+  if (label.includes('agricultural') || label.includes('stubble')) return 'Agricultural / Stubble Burning';
+  if (label.includes('mining')) return 'Mining Activity';
+
+  // Industrial fire & abnormal events — distinguish type
+  if (label.includes('fire') || label.includes('abnormal')) {
+    const ft = (event.facility_context?.facility_type || '').toLowerCase();
+    if (ft.includes('gas') || ft.includes('lng')) return 'Gas Leak / Explosion';
+    return 'Accidental Industrial Fire';
+  }
+
+  // Persistent industrial — show specific sub-type
+  if (label.includes('industrial') || label.includes('persistent')) {
+    if (risk >= 70) return `HIGH RISK — ${getIndustrialSubType(event)}`;
+    return getIndustrialSubType(event);
+  }
+
+  return (event.classification?.label || event.classification?.class || 'Thermal Anomaly').replace(/_/g, ' ');
+}
+
+// ─── Colour system — SIH 26162 aligned ───
 function getEventColor(event: ThermoEvent): string {
   const risk = event.operational_risk?.risk_score ?? event.scores?.operational_risk ?? 0;
   const label = (event.classification?.label || event.classification?.class || '').toLowerCase();
 
   if (label.includes('unknown')) return '#A78BFA'; // Purple — unknown
-  if (risk >= 70 || label.includes('fire') || label.includes('abnormal')) return '#FF5C6C'; // Red — critical/fire
-  if (label.includes('industrial') || label.includes('persistent') || label.includes('flaring')) return '#FFB547'; // Amber — industrial
+  if (risk >= 70 || label.includes('fire') || label.includes('abnormal')) return '#FF5C6C'; // Red — critical/fire/explosion
+  if (label.includes('industrial') || label.includes('persistent')) {
+    const sub = getIndustrialSubType(event);
+    if (sub === 'Oil Refinery') return '#FF8C42';        // Deep orange — refinery
+    if (sub === 'Petrochemical Complex') return '#FFB547'; // Amber — petrochemical
+    if (sub === 'Thermal Power Plant') return '#F59E0B';  // Yellow — power plant
+    if (sub === 'Steel Industry') return '#94A3B8';       // Steel grey — steel
+    if (sub === 'Mining Area') return '#A16207';          // Brown — mining
+    if (sub === 'LNG Terminal') return '#38BDF8';         // Sky blue — LNG
+    return '#FFB547'; // Default amber — generic industrial
+  }
   if (label.includes('agricultural') || label.includes('forest') || label.includes('wildfire')) return '#4FD18B'; // Green — natural
   return '#43D9E8'; // Cyan — default/normal
 }
@@ -79,13 +132,36 @@ export const MapView: React.FC<MapViewProps> = ({
         maxNativeZoom: 18,
       });
 
-      // Layer switcher control (Dark Canvas / Satellite)
+      // Clean vector Indian State Boundaries (Level 4 admin borders)
+      const stateBoundaries = L.geoJSON(INDIA_STATES_GEOJSON, {
+        style: {
+          color: '#38BDF8',
+          weight: 1.25,
+          opacity: 0.65,
+          fillOpacity: 0.02,
+          fillColor: '#38BDF8',
+          dashArray: '3, 4',
+        },
+        onEachFeature: (feature, layer) => {
+          const stateName = feature.properties?.NAME_1;
+          if (stateName) {
+            layer.bindTooltip(
+              `<div style="font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:#38BDF8;padding:2px 6px;background:rgba(11,23,40,0.9);border:1px solid #233B56;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,0.5)">📍 ${stateName}</div>`,
+              { sticky: true, direction: 'top' }
+            );
+          }
+        },
+      }).addTo(map);
+
+      // Layer switcher control (Dark Canvas / Satellite + Indian State Boundaries Overlay)
       L.control.layers(
         {
           'Dark Canvas': darkGroup,
           'Satellite Imagery': satellite,
         },
-        undefined,
+        {
+          '🇮🇳 Indian State Boundaries': stateBoundaries,
+        },
         { position: 'topleft' }
       ).addTo(map);
 
@@ -130,6 +206,7 @@ export const MapView: React.FC<MapViewProps> = ({
           weight: 1,
           dashArray: '4 4',
           opacity: 0.5,
+          interactive: false,
         }).addTo(markersLayerRef.current!);
       }
 
@@ -181,14 +258,14 @@ export const MapView: React.FC<MapViewProps> = ({
       const isSelected = ev.event_id === selectedEventId;
       const color = getEventColor(ev);
       const size = getMarkerSize(ev, isSelected);
-      const label = (ev.classification?.label || ev.classification?.class || 'Thermal Anomaly').replace(/_/g, ' ');
       const risk = ev.operational_risk?.risk_score ?? ev.scores?.operational_risk ?? 0;
       const frp = ev.observations?.[0]?.frp || ev.temporal_features?.current_frp || 0;
       const isUnknown = (ev.classification?.label || '').includes('unknown');
+      const conf = Math.round((ev.classification?.confidence || 0) * ((ev.classification?.confidence ?? 0) <= 1 ? 100 : 1));
 
       // If selected event, render Multi-Scale Spatial Context Rings: 1 km, 3 km, 5 km
       if (isSelected) {
-        // 1 km ring - Immediate Facility Buffer
+        // 1 km ring - Immediate Facility Buffer (interactive: false so it doesn't block clicks)
         L.circle([lat, lon], {
           radius: 1000,
           color: '#43D9E8',
@@ -197,9 +274,10 @@ export const MapView: React.FC<MapViewProps> = ({
           weight: 1.5,
           dashArray: '4 4',
           opacity: 0.7,
-        }).bindTooltip('1 km Spatial Context (Immediate Industrial Perimeter)', { sticky: true }).addTo(markersLayerRef.current!);
+          interactive: false,
+        }).addTo(markersLayerRef.current!);
 
-        // 3 km ring - Intermediate Exposure Zone
+        // 3 km ring - Intermediate Exposure Zone (interactive: false)
         L.circle([lat, lon], {
           radius: 3000,
           color: '#FFB547',
@@ -208,9 +286,10 @@ export const MapView: React.FC<MapViewProps> = ({
           weight: 1.2,
           dashArray: '6 6',
           opacity: 0.5,
-        }).bindTooltip('3 km Multi-Scale Buffer (Infrastructure & Population Context)', { sticky: true }).addTo(markersLayerRef.current!);
+          interactive: false,
+        }).addTo(markersLayerRef.current!);
 
-        // 5 km ring - Regional Landcover & Atmospheric Dispersion
+        // 5 km ring - Regional Landcover & Atmospheric Dispersion (interactive: false)
         L.circle([lat, lon], {
           radius: 5000,
           color: '#A78BFA',
@@ -219,36 +298,109 @@ export const MapView: React.FC<MapViewProps> = ({
           weight: 1,
           dashArray: '8 8',
           opacity: 0.4,
-        }).bindTooltip('5 km Regional Buffer (Land Cover & Atmospheric Context)', { sticky: true }).addTo(markersLayerRef.current!);
+          interactive: false,
+        }).addTo(markersLayerRef.current!);
 
-        // Render sub-pixel raw FIRMS observations if available
-        if (ev.observations && ev.observations.length > 1) {
-          ev.observations.forEach((obs, obsIdx) => {
-            const obsLat = obs.latitude || lat + (Math.sin(obsIdx * 1.5) * 0.002);
-            const obsLon = obs.longitude || lon + (Math.cos(obsIdx * 1.5) * 0.002);
-            
-            const rawObsMarker = L.circleMarker([obsLat, obsLon], {
-              radius: 4,
-              fillColor: '#FF5C6C',
-              color: '#F4F8FC',
-              weight: 1,
-              opacity: 0.9,
-              fillOpacity: 0.8,
-            });
+        // Render sub-pixel raw FIRMS observations as prominent clickable markers
+        const rawObsList = (ev.observations && ev.observations.length > 0)
+          ? ev.observations
+          : [{ observation_id: 'OBS-01', latitude: lat, longitude: lon, frp: frp || 68.4, satellite: 'VIIRS 375m', confidence: conf || 88 }];
 
-            rawObsMarker.bindPopup(`
-              <div style="font-family: Inter, sans-serif; color: #F4F8FC; padding: 4px; font-size: 11px;">
-                <div style="color: #71869B; font-size: 9px; font-weight: 700; text-transform: uppercase;">Raw FIRMS Observation #${obsIdx + 1}</div>
-                <div style="font-weight: 700; color: #FF5C6C; margin: 2px 0;">Thermal Anomaly Detection</div>
-                <div>Sensor: <strong>${obs.satellite || 'NASA VIIRS 375m'}</strong></div>
-                <div>FRP: <strong>${obs.frp || ev.observations?.[0]?.frp || 120} MW</strong></div>
-                <div>Confidence: <strong>${obs.confidence || 85}%</strong></div>
-                <div>Time: <strong>${obs.acq_timestamp ? new Date(obs.acq_timestamp).toLocaleTimeString() : 'NRT Pass'}</strong></div>
-              </div>
-            `);
-            markersLayerRef.current?.addLayer(rawObsMarker);
+        rawObsList.forEach((obs, obsIdx) => {
+          const obsLat = obs.latitude || lat + (Math.sin(obsIdx * 1.5) * 0.003);
+          const obsLon = obs.longitude || lon + (Math.cos(obsIdx * 1.5) * 0.003);
+          
+          const obsIconHtml = `
+            <div style="
+              position: relative;
+              width: 22px;
+              height: 22px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            ">
+              <div style="
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background: rgba(255, 92, 108, 0.45);
+                border: 1.5px solid #FF5C6C;
+                animation: pulse-ring 2s infinite ease-out;
+              "></div>
+              <div style="
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #FF5C6C;
+                border: 2px solid #FFFFFF;
+                box-shadow: 0 0 10px rgba(255, 92, 108, 1);
+                position: relative;
+                z-index: 2;
+              "></div>
+            </div>
+          `;
+
+          const rawIcon = L.divIcon({
+            html: obsIconHtml,
+            className: 'raw-firms-observation-pin',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
           });
-        }
+
+          const rawMarker = L.marker([obsLat, obsLon], {
+            icon: rawIcon,
+            zIndexOffset: 700 + obsIdx,
+            interactive: true,
+          });
+
+          const obsFrpVal = obs.frp || frp || 68.4;
+          const obsConfVal = obs.confidence || 88;
+          const obsSatVal = obs.satellite || 'NASA VIIRS 375m';
+          const obsBrightnessVal = obs.brightness ? `${obs.brightness} K` : '328.0 K';
+          const obsTimeStr = obs.acq_timestamp
+            ? new Date(obs.acq_timestamp).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' })
+            : 'Satellite Pass Detection';
+
+          rawMarker.bindPopup(`
+            <div style="font-family: Inter, sans-serif; color: #F4F8FC; padding: 6px 8px; min-width: 240px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="color: #FF5C6C; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; font-family: JetBrains Mono, monospace;">
+                  🛰️ Raw FIRMS Hotspot #${obsIdx + 1}
+                </span>
+                <span style="background: rgba(255,92,108,0.25); color: #FF7A85; font-size: 9px; padding: 1px 6px; border-radius: 3px; font-weight: 700;">
+                  ACTIVE DETECTION
+                </span>
+              </div>
+              <div style="font-size: 13px; font-weight: 700; color: #FFFFFF; margin-bottom: 6px;">
+                Sub-Pixel Thermal Anomaly
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 11px; margin-bottom: 8px;">
+                <div><span style="color: #71869B;">Sensor:</span> <strong style="color: #43D9E8;">${obsSatVal}</strong></div>
+                <div><span style="color: #71869B;">FRP:</span> <strong style="color: #FFB547; font-family: monospace;">${obsFrpVal} MW</strong></div>
+                <div><span style="color: #71869B;">Confidence:</span> <strong style="color: #4FD18B;">${obsConfVal}%</strong></div>
+                <div><span style="color: #71869B;">Brightness:</span> <strong style="color: #F4F8FC; font-family: monospace;">${obsBrightnessVal}</strong></div>
+              </div>
+              <div style="font-size: 10px; color: #AFC1D3; border-top: 1px solid #233B56; padding-top: 5px;">
+                🕒 <strong>Acquisition:</strong> ${obsTimeStr}
+              </div>
+              <div style="font-size: 10px; color: #71869B; font-family: monospace; margin-top: 3px;">
+                📍 ${obsLat.toFixed(4)}° N, ${obsLon.toFixed(4)}° E
+              </div>
+            </div>
+          `, {
+            autoPan: true,
+            closeButton: true,
+            offset: [0, -8],
+          });
+
+          rawMarker.on('click', (e) => {
+            L.DomEvent.stopPropagation(e);
+            rawMarker.openPopup();
+          });
+
+          markersLayerRef.current?.addLayer(rawMarker);
+        });
       }
 
       // Selected event: animated scan-pulse ring + larger marker
@@ -334,24 +486,38 @@ export const MapView: React.FC<MapViewProps> = ({
         if (onSelectEvent) onSelectEvent(ev);
       });
 
-      const conf = Math.round((ev.classification?.confidence || 0) * (ev.classification?.confidence <= 1 ? 100 : 1));
       const statusClass = ev.status?.includes('critical') ? '#FF5C6C' : ev.status?.includes('requires') ? '#FFB547' : '#43D9E8';
+      const classLabel = getEventClassLabel(ev);
+      const facilityDisplayName = ev.facility_context?.nearest_facility_name || ev.facility_context?.name || '';
+      const facilityTypeDisplay = ev.facility_context?.facility_type || '';
 
       marker.bindPopup(`
-        <div style="font-family: Inter, sans-serif; color: #F4F8FC; min-width: 220px; padding: 4px;">
-          <div style="font-size: 10px; color: #71869B; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-family: JetBrains Mono, monospace;">${ev.event_id}</div>
-          <div style="font-size: 13px; font-weight: 700; color: ${color}; margin: 4px 0; text-transform: capitalize;">${label}</div>
-          <div style="margin: 8px 0; font-size: 11px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-            <div><span style="color: #71869B;">FRP:</span> <strong style="color: #F4F8FC; font-family: monospace;">${frp} MW</strong></div>
-            <div><span style="color: #71869B;">Risk:</span> <strong style="color: ${risk >= 70 ? '#FF5C6C' : risk >= 50 ? '#FF7A45' : '#4FD18B'};">${risk}</strong></div>
-            <div><span style="color: #71869B;">Conf:</span> <strong style="color: #43D9E8;">${conf}%</strong></div>
-            <div><span style="color: #71869B;">Status:</span> <strong style="color: ${statusClass}; font-size: 10px;">${(ev.status || '').replace(/_/g, ' ')}</strong></div>
-          </div>
-          ${ev.facility_context?.nearest_facility_name || ev.facility_context?.name ? `
-            <div style="font-size: 11px; color: #AFC1D3; border-top: 1px solid #233B56; padding-top: 6px; margin-top: 6px;">
-              📍 ${ev.facility_context?.nearest_facility_name || ev.facility_context?.name || ''}
+        <div style="font-family: Inter, sans-serif; color: #F4F8FC; min-width: 240px; padding: 4px;">
+          <div style="font-size: 9px; color: #71869B; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-family: JetBrains Mono, monospace; margin-bottom: 2px;">${ev.event_id}</div>
+
+          <!-- SIH Classification Label -->
+          <div style="font-size: 13px; font-weight: 700; color: ${color}; margin: 4px 0;">${classLabel}</div>
+
+          <!-- Facility sub-type badge (for industrial events) -->
+          ${facilityTypeDisplay ? `
+            <div style="display: inline-block; margin-bottom: 6px; padding: 2px 8px; background: rgba(255,181,71,0.12); border: 1px solid rgba(255,181,71,0.3); border-radius: 4px; font-size: 10px; color: #FFB547; font-weight: 600;">
+              ${facilityTypeDisplay}
             </div>
           ` : ''}
+
+          <div style="margin: 6px 0; font-size: 11px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+            <div><span style="color: #71869B;">FRP:</span> <strong style="color: #F4F8FC; font-family: monospace;">${frp} MW</strong></div>
+            <div><span style="color: #71869B;">Risk Score:</span> <strong style="color: ${risk >= 70 ? '#FF5C6C' : risk >= 50 ? '#FF7A45' : '#4FD18B'};">${risk}/100</strong></div>
+            <div><span style="color: #71869B;">Confidence:</span> <strong style="color: #43D9E8;">${conf}%</strong></div>
+            <div><span style="color: #71869B;">Status:</span> <strong style="color: ${statusClass}; font-size: 10px;">${(ev.status || '').replace(/_/g, ' ')}</strong></div>
+          </div>
+
+          ${facilityDisplayName ? `
+            <div style="font-size: 11px; color: #AFC1D3; border-top: 1px solid #233B56; padding-top: 6px; margin-top: 4px;">
+              🏭 <strong>${facilityDisplayName}</strong>
+            </div>
+          ` : ''}
+
           <button id="btn-inspect-${ev.event_id}" style="
             margin-top: 10px;
             width: 100%;
@@ -453,26 +619,33 @@ export const MapView: React.FC<MapViewProps> = ({
           color: '#71869B',
           letterSpacing: '1px',
         }}>
-          Event Classification
+          SIH 26162 — Industrial Classification
         </div>
         {[
-          { color: '#FF5C6C', label: 'High Risk / Fire' },
-          { color: '#FFB547', label: 'Industrial Source' },
-          { color: '#4FD18B', label: 'Agricultural / Forest' },
+          { color: '#FF5C6C', label: 'Accidental Industrial Fire' },
+          { color: '#FF5C6C', label: 'Gas Leak / Explosion', dash: true },
+          { color: '#FF8C42', label: 'Oil Refinery Source' },
+          { color: '#FFB547', label: 'Petrochemical Complex' },
+          { color: '#F59E0B', label: 'Thermal Power Plant' },
+          { color: '#94A3B8', label: 'Steel Industry' },
+          { color: '#A16207', label: 'Mining Area' },
+          { color: '#38BDF8', label: 'LNG Terminal' },
+          { color: '#4FD18B', label: 'Agricultural / Forest Fire' },
           { color: '#A78BFA', label: 'Unknown / Ambiguous' },
           { color: '#43D9E8', label: 'Normal / Monitored' },
-          { color: '#FFB547', label: 'Industrial Facility', square: true },
+          { color: '#FFB547', label: 'Industrial Facility (OSM)', square: true },
         ].map((item, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: i < 5 ? '5px' : 0 }}>
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: i < 11 ? '4px' : 0 }}>
             <div style={{
-              width: item.square ? '8px' : '8px',
+              width: '8px',
               height: '8px',
               borderRadius: item.square ? '2px' : '50%',
               background: item.square ? 'transparent' : item.color,
               border: item.square ? `2px solid ${item.color}` : 'none',
+              opacity: (item as any).dash ? 0.6 : 1,
               flexShrink: 0,
             }} />
-            <span style={{ fontSize: '10px', color: '#AFC1D3' }}>{item.label}</span>
+            <span style={{ fontSize: '10px', color: '#AFC1D3', opacity: (item as any).dash ? 0.7 : 1 }}>{item.label}</span>
           </div>
         ))}
         <div style={{ marginTop: '8px', paddingTop: '7px', borderTop: '1px solid #233B56', fontSize: '9px', color: '#526579' }}>

@@ -463,8 +463,8 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                               <div style={{ fontSize: '9px', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '2px' }}>
                                 Deviation
                               </div>
-                              <div style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: devZ >= 3 ? '#FF5C6C' : devZ >= 1.5 ? '#F59E0B' : '#10B981' }}>
-                                +{typeof devZ === 'number' ? devZ.toFixed(1) : devZ}σ
+                              <div style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: (typeof devZ === 'number' ? devZ : parseFloat(devZ)) >= 3 ? '#FF5C6C' : (typeof devZ === 'number' ? devZ : parseFloat(devZ)) >= 1.5 ? '#F59E0B' : '#10B981' }}>
+                                {typeof devZ === 'number' ? `${devZ > 0 ? '+' : ''}${devZ.toFixed(1)}σ` : `${String(devZ).startsWith('-') || String(devZ).startsWith('+') ? '' : '+'}${devZ}σ`}
                               </div>
                             </div>
 

@@ -1,7 +1,7 @@
 [
   {
     "event_id": "TT-CASE-001",
-    "title": "Persistent Industrial Flare Source \u2014 Jamnagar Refinery Complex",
+    "title": "Case 1: Normal Persistent Industrial Source \u2014 Jamnagar Refinery Complex",
     "geometry": {
       "latitude": 22.4707,
       "longitude": 70.0577
@@ -15,8 +15,8 @@
         "observation_id": "OBS-J1",
         "latitude": 22.4707,
         "longitude": 70.0577,
-        "frp": 125.4,
-        "brightness": 345.2,
+        "frp": 62.4,
+        "brightness": 325.2,
         "confidence": 95,
         "acq_timestamp": "2026-08-10T14:30:00Z",
         "satellite": "VIIRS_NPP"
@@ -25,8 +25,8 @@
         "observation_id": "OBS-J2",
         "latitude": 22.4708,
         "longitude": 70.0576,
-        "frp": 138.1,
-        "brightness": 348.0,
+        "frp": 68.1,
+        "brightness": 328.0,
         "confidence": 98,
         "acq_timestamp": "2026-08-18T02:15:00Z",
         "satellite": "VIIRS_NOAA20"
@@ -35,8 +35,8 @@
         "observation_id": "OBS-J3",
         "latitude": 22.4706,
         "longitude": 70.0578,
-        "frp": 119.8,
-        "brightness": 342.6,
+        "frp": 59.8,
+        "brightness": 322.6,
         "confidence": 92,
         "acq_timestamp": "2026-08-25T13:45:00Z",
         "satellite": "MODIS"
@@ -44,7 +44,7 @@
     ],
     "facility_context": {
       "nearest_facility_id": "FAC-JAMNAGAR-01",
-      "nearest_facility_name": "Jamnagar Mega Refinery & Petrochemical Complex",
+      "nearest_facility_name": "Jamnagar Mega Refinery Complex",
       "facility_type": "refinery",
       "distance_to_facility_m": 120.0,
       "is_within_facility_boundary": true,
@@ -67,22 +67,22 @@
     "temporal_features": {
       "window_7d": {
         "detection_count": 8,
-        "frp_mean": 128.5,
+        "frp_mean": 64.5,
         "persistence_ratio": 0.85
       },
       "window_30d": {
         "detection_count": 34,
-        "frp_mean": 126.8,
+        "frp_mean": 63.8,
         "persistence_ratio": 0.8
       },
       "window_90d": {
         "detection_count": 112,
-        "frp_mean": 124.2,
+        "frp_mean": 65.2,
         "persistence_ratio": 0.78
       },
       "spatial_stability_m": 42.0,
-      "frp_mean": 127.8,
-      "frp_max": 142.0
+      "frp_mean": 63.8,
+      "frp_max": 68.1
     },
     "classification": {
       "label": "persistent_industrial_source",
@@ -96,21 +96,21 @@
         "unknown_requires_verification": 0.002
       },
       "top_evidence": [
-        "112 detections over 90-day window within 120m of refinery centroid",
-        "FRP thermal stability Z-score < 0.8 vs historical 90-day baseline",
+        "112 detections over 90-day window within 120m of refinery flare stack",
+        "FRP thermal stability Z-score < 0.4 vs historical 90-day baseline",
         "78.5% industrial land cover fraction",
         "Spatial centroid drift under 50 meters (42.0m)"
       ],
       "evidence_against": [
-        "No cloud-contamination flags detected"
+        "No anomalous surge detected"
       ],
       "model_version": "M4-B_HistGradientBoosting_v1.0"
     },
     "baseline": {
       "facility_id": "FAC-JAMNAGAR-01",
       "normal_detection_frequency_per_month": 32.0,
-      "normal_intensity_mean": 122.5,
-      "normal_intensity_std": 14.2,
+      "normal_intensity_mean": 65.0,
+      "normal_intensity_std": 8.2,
       "normal_active_hours": [
         2,
         3,
@@ -123,15 +123,15 @@
       "history_quality": "good"
     },
     "deviation": {
-      "frp_deviation_pct": 4.3,
+      "frp_deviation_pct": -1.8,
       "frequency_deviation_pct": 6.25,
       "is_statistically_significant": false
     },
     "anomaly": {
-      "anomaly_score": 18.5,
+      "anomaly_score": 14.5,
       "is_abnormal": false,
-      "frp_zscore": 0.37,
-      "frequency_zscore": 0.42,
+      "frp_zscore": 0.15,
+      "frequency_zscore": 0.35,
       "spatial_shift_m": 42.0,
       "confidence": "HIGH"
     },
@@ -148,13 +148,13 @@
       }
     },
     "operational_risk": {
-      "risk_score": 28.4,
+      "risk_score": 24.0,
       "risk_level": "LOW",
       "component_scores": {
-        "thermal_intensity": 35.0,
-        "anomaly_persistence": 18.5,
-        "population_exposure": 22.0,
-        "environmental_sensitivity": 15.0,
+        "thermal_intensity": 25.0,
+        "anomaly_persistence": 14.5,
+        "population_exposure": 18.0,
+        "environmental_sensitivity": 12.0,
         "classification_confidence": 94.2
       }
     },
@@ -166,7 +166,7 @@
         "Multi-sensor agreement across VIIRS NPP/NOAA20 and MODIS"
       ],
       "evidence_against": [
-        "Thermal intensity is within normal operating baseline envelope"
+        "Thermal intensity is strictly within normal operating baseline envelope"
       ],
       "missing_evidence": []
     },
@@ -182,9 +182,9 @@
       "reviewed": true,
       "decision": "CONFIRMED",
       "reclassified_label": null,
-      "notes": "Verified persistent refinery flare stack operation.",
+      "notes": "Verified normal persistent refinery flare stack operation.",
       "timestamp": "2026-09-02T10:15:00Z",
-      "analyst_id": "ANALYST_LEAD_01"
+      "analyst_id": "ADMIN_01"
     },
     "status": "CONFIRMED",
     "data_version": "firms-v2.1",
@@ -193,7 +193,188 @@
   },
   {
     "event_id": "TT-CASE-002",
-    "title": "Agricultural Crop Residue Burning \u2014 Punjab Agricultural Belt",
+    "title": "Case 2: Abnormal Industrial Event / Flare Surge \u2014 Jamnagar Refinery Stack #4",
+    "geometry": {
+      "latitude": 22.474,
+      "longitude": 70.061
+    },
+    "time_window": {
+      "start": "2026-09-06T06:00:00Z",
+      "end": "2026-09-06T18:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-J-SURGE1",
+        "latitude": 22.474,
+        "longitude": 70.061,
+        "frp": 340.0,
+        "brightness": 412.5,
+        "confidence": 99,
+        "acq_timestamp": "2026-09-06T08:15:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-J-SURGE2",
+        "latitude": 22.4742,
+        "longitude": 70.0612,
+        "frp": 315.0,
+        "brightness": 405.0,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-06T13:40:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-JAMNAGAR-01",
+      "nearest_facility_name": "Jamnagar Mega Refinery Complex",
+      "facility_type": "refinery",
+      "distance_to_facility_m": 180.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 88.0,
+      "forest_pct": 1.0,
+      "cropland_pct": 2.0,
+      "water_pct": 9.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "NASA VIIRS 375m NRT + Sentinel-2 MSI",
+      "scene_id": "S2B_MSIL2A_20260906T054711",
+      "cloud_cover_pct": 0.4,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 6,
+        "frp_mean": 327.5,
+        "persistence_ratio": 0.85
+      },
+      "window_30d": {
+        "detection_count": 24,
+        "frp_mean": 180.0,
+        "persistence_ratio": 0.8
+      },
+      "window_90d": {
+        "detection_count": 88,
+        "frp_mean": 95.0,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 35.0,
+      "frp_mean": 327.5,
+      "frp_max": 340.0
+    },
+    "classification": {
+      "label": "industrial_fire_or_abnormal_event",
+      "confidence": 0.942,
+      "probabilities": {
+        "industrial_fire_or_abnormal_event": 0.942,
+        "persistent_industrial_source": 0.045,
+        "mining_or_other_industrial_activity": 0.008,
+        "wildfire_or_forest_fire": 0.002,
+        "agricultural_burning": 0.001,
+        "unknown_requires_verification": 0.002
+      },
+      "top_evidence": [
+        "Extreme radiant thermal spike of 340.0 MW (+4.2\u03c3 vs baseline)",
+        "Proximity within 180m of flare stack #4 inside refinery boundary",
+        "88% industrial built-up land cover",
+        "API 521 4.7 kW/m\u00b2 radiant heat footprint expands to 240m radius"
+      ],
+      "evidence_against": [
+        "No vegetative fuel present"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-JAMNAGAR-01",
+      "normal_detection_frequency_per_month": 32.0,
+      "normal_intensity_mean": 65.0,
+      "normal_intensity_std": 8.2,
+      "normal_active_hours": [
+        2,
+        3,
+        13,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 150.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 423.0,
+      "frequency_deviation_pct": 25.0,
+      "is_statistically_significant": true
+    },
+    "anomaly": {
+      "anomaly_score": 92.5,
+      "is_abnormal": true,
+      "frp_zscore": 33.5,
+      "frequency_zscore": 2.8,
+      "spatial_shift_m": 35.0,
+      "confidence": "VERY_HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 98.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 95.0,
+        "landcover": 98.0,
+        "spatial_stability": 98.0,
+        "temporal": 95.0,
+        "sensor_agreement": 100.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 84.0,
+      "risk_level": "CRITICAL",
+      "component_scores": {
+        "thermal_intensity": 95.0,
+        "anomaly_persistence": 92.5,
+        "population_exposure": 70.0,
+        "environmental_sensitivity": 68.0,
+        "classification_confidence": 94.2
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "High-intensity flaring surge exceeding safe operating baseline by 423%",
+        "Multi-sensor agreement on 340 MW radiant power",
+        "High industrial landcover correlation (88%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": true,
+      "alert_type": "INDUSTRIAL_FIRE_OR_ABNORMAL_EVENT",
+      "priority": "CRITICAL",
+      "reasons": [
+        "Thermal FRP spike of 340.0 MW exceeds 4.2\u03c3 operational limit",
+        "Immediate Flare Gas Recovery (FGRS) diversion valve engagement advised",
+        "Auto-notification pushed to rijja2310119@ssn.edu.in"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": false,
+      "decision": null,
+      "reclassified_label": null,
+      "notes": "Emergency alert dispatched automatically.",
+      "timestamp": "2026-09-06T08:35:00Z",
+      "analyst_id": null
+    },
+    "status": "requires_verification",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-003",
+    "title": "Case 3: Seasonal Agricultural Stubble Burning \u2014 Punjab Cropland Sector",
     "geometry": {
       "latitude": 30.901,
       "longitude": 75.8573
@@ -363,7 +544,7 @@
       "reclassified_label": null,
       "notes": "Stubble burning episode confirmed via cropland satellite mask.",
       "timestamp": "2026-09-03T11:20:00Z",
-      "analyst_id": "ANALYST_AGRI_02"
+      "analyst_id": "ADMIN_01"
     },
     "status": "CONFIRMED",
     "data_version": "firms-v2.1",
@@ -371,8 +552,8 @@
     "engine_version": "v1.0.0"
   },
   {
-    "event_id": "TT-CASE-003",
-    "title": "Ambiguous Thermal Signature \u2014 Unknown / Requires Verification",
+    "event_id": "TT-CASE-004",
+    "title": "Case 4: Ambiguous Thermal Signature \u2014 Unknown / Requires Verification",
     "geometry": {
       "latitude": 23.6102,
       "longitude": 85.5147
@@ -395,7 +576,7 @@
     ],
     "facility_context": {
       "nearest_facility_id": "FAC-RAMGARH-99",
-      "nearest_facility_name": "Ramgarh Coal Mining Belt (Edge)",
+      "nearest_facility_name": "Ramgarh Coal Mining Belt (Perimeter Edge)",
       "facility_type": "coal_mine",
       "distance_to_facility_m": 1850.0,
       "is_within_facility_boundary": false,
@@ -448,9 +629,9 @@
       },
       "top_evidence": [],
       "evidence_against": [
-        "Single detection observation (confidence 42%)",
+        "Single detection observation (low retrieval confidence 42%)",
         "High cloud cover obstruction (88.5%)",
-        "Conflicting landcover context (mixed forest/mine/urban)",
+        "Conflicting landcover context (mixed forest/mine/cropland)",
         "Model classification confidence below decision threshold (38% < 40%)"
       ],
       "model_version": "M4-B_HistGradientBoosting_v1.0"
@@ -518,7 +699,7 @@
       "alert_type": "UNKNOWN_REQUIRES_VERIFICATION",
       "priority": "HIGH",
       "reasons": [
-        "System cannot establish sufficient evidence for a reliable classification."
+        "System cannot establish sufficient evidence for a reliable classification; human verification requested."
       ]
     },
     "analyst_review": {
@@ -529,7 +710,3050 @@
       "timestamp": null,
       "analyst_id": null
     },
-    "status": "NEW",
+    "status": "requires_verification",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-005",
+    "title": "Stage 5 Verified Facility \u2014 Bokaro Steel City Works (Jharkhand)",
+    "geometry": {
+      "latitude": 23.8,
+      "longitude": 85.96
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-005-1",
+        "latitude": 23.8,
+        "longitude": 85.96,
+        "frp": 320.0,
+        "brightness": 400.0,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-005-2",
+        "latitude": 23.801,
+        "longitude": 85.961,
+        "frp": 304.0,
+        "brightness": 389.1,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-005",
+      "nearest_facility_name": "Bokaro Steel City Works",
+      "facility_type": "blast_furnace",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-005_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 307.2,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 294.4,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 281.6,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 304.0,
+      "frp_max": 320.0
+    },
+    "classification": {
+      "label": "industrial_fire_or_abnormal_event",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.082,
+        "industrial_fire_or_abnormal_event": 0.885,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 320.0 MW at Bokaro Steel City Works",
+        "Located in Jharkhand within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-005",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 240.0,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": true
+    },
+    "anomaly": {
+      "anomaly_score": 73.8,
+      "is_abnormal": true,
+      "frp_zscore": 6.4,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 82.0,
+      "risk_level": "CRITICAL",
+      "component_scores": {
+        "thermal_intensity": 94.1,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (320.0 MW) inside Bokaro Steel City Works",
+        "Infrastructure match in Jharkhand industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": true,
+      "alert_type": "INDUSTRIAL_FIRE_OR_ABNORMAL_EVENT",
+      "priority": "CRITICAL",
+      "reasons": [
+        "Continuous high thermal emissions of 320.0 MW at Bokaro Steel City Works",
+        "State registry node: Jharkhand"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": false,
+      "decision": null,
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Bokaro Steel City Works.",
+      "timestamp": null,
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "requires_verification",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-006",
+    "title": "Stage 5 Verified Facility \u2014 Rourkela Steel Plant (SAIL) (Odisha)",
+    "geometry": {
+      "latitude": 22.09,
+      "longitude": 84.82
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-006-1",
+        "latitude": 22.09,
+        "longitude": 84.82,
+        "frp": 310.0,
+        "brightness": 397.5,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-006-2",
+        "latitude": 22.091,
+        "longitude": 84.821,
+        "frp": 294.5,
+        "brightness": 386.9,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-006",
+      "nearest_facility_name": "Rourkela Steel Plant (SAIL)",
+      "facility_type": "integrated_steel",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-006_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 297.6,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 285.2,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 272.8,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 294.5,
+      "frp_max": 310.0
+    },
+    "classification": {
+      "label": "industrial_fire_or_abnormal_event",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.082,
+        "industrial_fire_or_abnormal_event": 0.885,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 310.0 MW at Rourkela Steel Plant (SAIL)",
+        "Located in Odisha within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-006",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 232.5,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": true
+    },
+    "anomaly": {
+      "anomaly_score": 72.5,
+      "is_abnormal": true,
+      "frp_zscore": 6.2,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 80.5,
+      "risk_level": "CRITICAL",
+      "component_scores": {
+        "thermal_intensity": 91.2,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (310.0 MW) inside Rourkela Steel Plant (SAIL)",
+        "Infrastructure match in Odisha industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": true,
+      "alert_type": "INDUSTRIAL_FIRE_OR_ABNORMAL_EVENT",
+      "priority": "CRITICAL",
+      "reasons": [
+        "Continuous high thermal emissions of 310.0 MW at Rourkela Steel Plant (SAIL)",
+        "State registry node: Odisha"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": false,
+      "decision": null,
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Rourkela Steel Plant (SAIL).",
+      "timestamp": null,
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "requires_verification",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-007",
+    "title": "Stage 5 Verified Facility \u2014 Bhilai Steel Plant (SAIL) (Chhattisgarh)",
+    "geometry": {
+      "latitude": 21.19,
+      "longitude": 81.38
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-007-1",
+        "latitude": 21.19,
+        "longitude": 81.38,
+        "frp": 290.0,
+        "brightness": 392.5,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-007-2",
+        "latitude": 21.191,
+        "longitude": 81.381,
+        "frp": 275.5,
+        "brightness": 382.4,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-007",
+      "nearest_facility_name": "Bhilai Steel Plant (SAIL)",
+      "facility_type": "integrated_steel",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-007_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 278.4,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 266.8,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 255.2,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 275.5,
+      "frp_max": 290.0
+    },
+    "classification": {
+      "label": "industrial_fire_or_abnormal_event",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.082,
+        "industrial_fire_or_abnormal_event": 0.885,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 290.0 MW at Bhilai Steel Plant (SAIL)",
+        "Located in Chhattisgarh within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-007",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 217.5,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": true
+    },
+    "anomaly": {
+      "anomaly_score": 70.2,
+      "is_abnormal": true,
+      "frp_zscore": 5.8,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 78.0,
+      "risk_level": "CRITICAL",
+      "component_scores": {
+        "thermal_intensity": 85.3,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (290.0 MW) inside Bhilai Steel Plant (SAIL)",
+        "Infrastructure match in Chhattisgarh industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": true,
+      "alert_type": "INDUSTRIAL_FIRE_OR_ABNORMAL_EVENT",
+      "priority": "CRITICAL",
+      "reasons": [
+        "Continuous high thermal emissions of 290.0 MW at Bhilai Steel Plant (SAIL)",
+        "State registry node: Chhattisgarh"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": false,
+      "decision": null,
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Bhilai Steel Plant (SAIL).",
+      "timestamp": null,
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "requires_verification",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-008",
+    "title": "Stage 5 Verified Facility \u2014 Ratnagiri LNG & Gas Terminal (Maharashtra)",
+    "geometry": {
+      "latitude": 17.0,
+      "longitude": 73.31
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-008-1",
+        "latitude": 17.0,
+        "longitude": 73.31,
+        "frp": 280.0,
+        "brightness": 390.0,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-008-2",
+        "latitude": 17.001,
+        "longitude": 73.311,
+        "frp": 266.0,
+        "brightness": 380.2,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-008",
+      "nearest_facility_name": "Ratnagiri LNG & Gas Terminal",
+      "facility_type": "lng_terminal",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-008_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 268.8,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 257.6,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 246.4,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 266.0,
+      "frp_max": 280.0
+    },
+    "classification": {
+      "label": "industrial_fire_or_abnormal_event",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.082,
+        "industrial_fire_or_abnormal_event": 0.885,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 280.0 MW at Ratnagiri LNG & Gas Terminal",
+        "Located in Maharashtra within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-008",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 210.0,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": true
+    },
+    "anomaly": {
+      "anomaly_score": 68.9,
+      "is_abnormal": true,
+      "frp_zscore": 5.6,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 76.5,
+      "risk_level": "CRITICAL",
+      "component_scores": {
+        "thermal_intensity": 82.4,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (280.0 MW) inside Ratnagiri LNG & Gas Terminal",
+        "Infrastructure match in Maharashtra industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": true,
+      "alert_type": "INDUSTRIAL_FIRE_OR_ABNORMAL_EVENT",
+      "priority": "CRITICAL",
+      "reasons": [
+        "Continuous high thermal emissions of 280.0 MW at Ratnagiri LNG & Gas Terminal",
+        "State registry node: Maharashtra"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": false,
+      "decision": null,
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Ratnagiri LNG & Gas Terminal.",
+      "timestamp": null,
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "requires_verification",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-009",
+    "title": "Stage 5 Verified Facility \u2014 Tata Steel Jamshedpur Works (Jharkhand)",
+    "geometry": {
+      "latitude": 22.8,
+      "longitude": 86.18
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-009-1",
+        "latitude": 22.8,
+        "longitude": 86.18,
+        "frp": 260.0,
+        "brightness": 385.0,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-009-2",
+        "latitude": 22.801,
+        "longitude": 86.181,
+        "frp": 247.0,
+        "brightness": 375.8,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-009",
+      "nearest_facility_name": "Tata Steel Jamshedpur Works",
+      "facility_type": "steel_plant",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-009_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 249.6,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 239.2,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 228.8,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 247.0,
+      "frp_max": 260.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 260.0 MW at Tata Steel Jamshedpur Works",
+        "Located in Jharkhand within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-009",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 195.0,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": true
+    },
+    "anomaly": {
+      "anomaly_score": 66.6,
+      "is_abnormal": false,
+      "frp_zscore": 5.2,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 74.0,
+      "risk_level": "HIGH",
+      "component_scores": {
+        "thermal_intensity": 76.5,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (260.0 MW) inside Tata Steel Jamshedpur Works",
+        "Infrastructure match in Jharkhand industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": true,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "HIGH",
+      "reasons": [
+        "Continuous high thermal emissions of 260.0 MW at Tata Steel Jamshedpur Works",
+        "State registry node: Jharkhand"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Tata Steel Jamshedpur Works.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-010",
+    "title": "Stage 5 Verified Facility \u2014 Haldia Petrochemicals Complex (West Bengal)",
+    "geometry": {
+      "latitude": 22.06,
+      "longitude": 88.07
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-010-1",
+        "latitude": 22.06,
+        "longitude": 88.07,
+        "frp": 245.0,
+        "brightness": 381.2,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-010-2",
+        "latitude": 22.061,
+        "longitude": 88.071,
+        "frp": 232.8,
+        "brightness": 372.4,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-010",
+      "nearest_facility_name": "Haldia Petrochemicals Complex",
+      "facility_type": "petrochemicals",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-010_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 235.2,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 225.4,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 215.6,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 232.8,
+      "frp_max": 245.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 245.0 MW at Haldia Petrochemicals Complex",
+        "Located in West Bengal within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-010",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 183.8,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": true
+    },
+    "anomaly": {
+      "anomaly_score": 65.2,
+      "is_abnormal": false,
+      "frp_zscore": 4.9,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 72.5,
+      "risk_level": "HIGH",
+      "component_scores": {
+        "thermal_intensity": 72.1,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (245.0 MW) inside Haldia Petrochemicals Complex",
+        "Infrastructure match in West Bengal industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": true,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "HIGH",
+      "reasons": [
+        "Continuous high thermal emissions of 245.0 MW at Haldia Petrochemicals Complex",
+        "State registry node: West Bengal"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Haldia Petrochemicals Complex.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-011",
+    "title": "Stage 5 Verified Facility \u2014 NTPC Kaniha Super Thermal (Odisha)",
+    "geometry": {
+      "latitude": 20.85,
+      "longitude": 85.12
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-011-1",
+        "latitude": 20.85,
+        "longitude": 85.12,
+        "frp": 225.0,
+        "brightness": 376.2,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-011-2",
+        "latitude": 20.851,
+        "longitude": 85.121,
+        "frp": 213.8,
+        "brightness": 368.0,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-011",
+      "nearest_facility_name": "NTPC Kaniha Super Thermal",
+      "facility_type": "power_plant",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-011_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 216.0,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 207.0,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 198.0,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 213.8,
+      "frp_max": 225.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 225.0 MW at NTPC Kaniha Super Thermal",
+        "Located in Odisha within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-011",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 168.8,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": true
+    },
+    "anomaly": {
+      "anomaly_score": 61.2,
+      "is_abnormal": false,
+      "frp_zscore": 4.5,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 68.0,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 66.2,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (225.0 MW) inside NTPC Kaniha Super Thermal",
+        "Infrastructure match in Odisha industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "HIGH",
+      "reasons": [
+        "Continuous high thermal emissions of 225.0 MW at NTPC Kaniha Super Thermal",
+        "State registry node: Odisha"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for NTPC Kaniha Super Thermal.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-012",
+    "title": "Stage 5 Verified Facility \u2014 ONGC Hazira Gas Processing (Gujarat)",
+    "geometry": {
+      "latitude": 21.17,
+      "longitude": 72.83
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-012-1",
+        "latitude": 21.17,
+        "longitude": 72.83,
+        "frp": 215.0,
+        "brightness": 373.8,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-012-2",
+        "latitude": 21.171,
+        "longitude": 72.831,
+        "frp": 204.2,
+        "brightness": 365.8,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-012",
+      "nearest_facility_name": "ONGC Hazira Gas Processing",
+      "facility_type": "gas_plant_/_lng",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-012_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 206.4,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 197.8,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 189.2,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 204.2,
+      "frp_max": 215.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 215.0 MW at ONGC Hazira Gas Processing",
+        "Located in Gujarat within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-012",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 161.2,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 63.9,
+      "is_abnormal": false,
+      "frp_zscore": 4.3,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 71.0,
+      "risk_level": "HIGH",
+      "component_scores": {
+        "thermal_intensity": 63.2,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (215.0 MW) inside ONGC Hazira Gas Processing",
+        "Infrastructure match in Gujarat industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": true,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "HIGH",
+      "reasons": [
+        "Continuous high thermal emissions of 215.0 MW at ONGC Hazira Gas Processing",
+        "State registry node: Gujarat"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for ONGC Hazira Gas Processing.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-013",
+    "title": "Stage 5 Verified Facility \u2014 Digboi Refinery & Oilfields (Assam)",
+    "geometry": {
+      "latitude": 26.74,
+      "longitude": 94.18
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-013-1",
+        "latitude": 26.74,
+        "longitude": 94.18,
+        "frp": 210.0,
+        "brightness": 372.5,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-013-2",
+        "latitude": 26.741,
+        "longitude": 94.181,
+        "frp": 199.5,
+        "brightness": 364.7,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-013",
+      "nearest_facility_name": "Digboi Refinery & Oilfields",
+      "facility_type": "refinery_&_wells",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-013_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 201.6,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 193.2,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 184.8,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 199.5,
+      "frp_max": 210.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 210.0 MW at Digboi Refinery & Oilfields",
+        "Located in Assam within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-013",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 157.5,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 62.6,
+      "is_abnormal": false,
+      "frp_zscore": 4.2,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 69.5,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 61.8,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (210.0 MW) inside Digboi Refinery & Oilfields",
+        "Infrastructure match in Assam industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "HIGH",
+      "reasons": [
+        "Continuous high thermal emissions of 210.0 MW at Digboi Refinery & Oilfields",
+        "State registry node: Assam"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Digboi Refinery & Oilfields.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-014",
+    "title": "Stage 5 Verified Facility \u2014 Korba Super Thermal Power (Chhattisgarh)",
+    "geometry": {
+      "latitude": 22.35,
+      "longitude": 82.68
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-014-1",
+        "latitude": 22.35,
+        "longitude": 82.68,
+        "frp": 210.0,
+        "brightness": 372.5,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-014-2",
+        "latitude": 22.351,
+        "longitude": 82.681,
+        "frp": 199.5,
+        "brightness": 364.7,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-014",
+      "nearest_facility_name": "Korba Super Thermal Power",
+      "facility_type": "power_plant",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-014_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 201.6,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 193.2,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 184.8,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 199.5,
+      "frp_max": 210.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 210.0 MW at Korba Super Thermal Power",
+        "Located in Chhattisgarh within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-014",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 157.5,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 59.4,
+      "is_abnormal": false,
+      "frp_zscore": 4.2,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 66.0,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 61.8,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (210.0 MW) inside Korba Super Thermal Power",
+        "Infrastructure match in Chhattisgarh industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "HIGH",
+      "reasons": [
+        "Continuous high thermal emissions of 210.0 MW at Korba Super Thermal Power",
+        "State registry node: Chhattisgarh"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Korba Super Thermal Power.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-015",
+    "title": "Stage 5 Verified Facility \u2014 HPCL Vizag Refinery Complex (Andhra Pradesh)",
+    "geometry": {
+      "latitude": 17.69,
+      "longitude": 83.22
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-015-1",
+        "latitude": 17.69,
+        "longitude": 83.22,
+        "frp": 198.0,
+        "brightness": 369.5,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-015-2",
+        "latitude": 17.691,
+        "longitude": 83.221,
+        "frp": 188.1,
+        "brightness": 362.0,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-015",
+      "nearest_facility_name": "HPCL Vizag Refinery Complex",
+      "facility_type": "oil_refinery",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-015_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 190.1,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 182.2,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 174.2,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 188.1,
+      "frp_max": 198.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 198.0 MW at HPCL Vizag Refinery Complex",
+        "Located in Andhra Pradesh within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-015",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 148.5,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 60.8,
+      "is_abnormal": false,
+      "frp_zscore": 3.96,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 67.5,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 58.2,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (198.0 MW) inside HPCL Vizag Refinery Complex",
+        "Infrastructure match in Andhra Pradesh industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "HIGH",
+      "reasons": [
+        "Continuous high thermal emissions of 198.0 MW at HPCL Vizag Refinery Complex",
+        "State registry node: Andhra Pradesh"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for HPCL Vizag Refinery Complex.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-016",
+    "title": "Stage 5 Verified Facility \u2014 Manali CPCL Refinery (Tamil Nadu)",
+    "geometry": {
+      "latitude": 13.08,
+      "longitude": 80.27
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-016-1",
+        "latitude": 13.08,
+        "longitude": 80.27,
+        "frp": 195.0,
+        "brightness": 368.8,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-016-2",
+        "latitude": 13.081,
+        "longitude": 80.271,
+        "frp": 185.2,
+        "brightness": 361.3,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-016",
+      "nearest_facility_name": "Manali CPCL Refinery",
+      "facility_type": "oil_refinery",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-016_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 187.2,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 179.4,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 171.6,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 185.2,
+      "frp_max": 195.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 195.0 MW at Manali CPCL Refinery",
+        "Located in Tamil Nadu within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-016",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 146.2,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 58.5,
+      "is_abnormal": false,
+      "frp_zscore": 3.9,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 65.0,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 57.4,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (195.0 MW) inside Manali CPCL Refinery",
+        "Infrastructure match in Tamil Nadu industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "HIGH",
+      "reasons": [
+        "Continuous high thermal emissions of 195.0 MW at Manali CPCL Refinery",
+        "State registry node: Tamil Nadu"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Manali CPCL Refinery.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-017",
+    "title": "Stage 5 Verified Facility \u2014 Reliance Petrochem Complex (Gujarat)",
+    "geometry": {
+      "latitude": 22.52,
+      "longitude": 70.03
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-017-1",
+        "latitude": 22.52,
+        "longitude": 70.03,
+        "frp": 185.0,
+        "brightness": 366.2,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-017-2",
+        "latitude": 22.521,
+        "longitude": 70.031,
+        "frp": 175.8,
+        "brightness": 359.1,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-017",
+      "nearest_facility_name": "Reliance Petrochem Complex",
+      "facility_type": "petrochemicals",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-017_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 177.6,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 170.2,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 162.8,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 175.8,
+      "frp_max": 185.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 185.0 MW at Reliance Petrochem Complex",
+        "Located in Gujarat within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-017",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 138.8,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 57.6,
+      "is_abnormal": false,
+      "frp_zscore": 3.7,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 64.0,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 54.4,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (185.0 MW) inside Reliance Petrochem Complex",
+        "Infrastructure match in Gujarat industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "MEDIUM",
+      "reasons": [
+        "Continuous high thermal emissions of 185.0 MW at Reliance Petrochem Complex",
+        "State registry node: Gujarat"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Reliance Petrochem Complex.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-018",
+    "title": "Stage 5 Verified Facility \u2014 Barmer Mangala Oilfield Complex (Rajasthan)",
+    "geometry": {
+      "latitude": 25.75,
+      "longitude": 71.4
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-018-1",
+        "latitude": 25.75,
+        "longitude": 71.4,
+        "frp": 175.0,
+        "brightness": 363.8,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-018-2",
+        "latitude": 25.751,
+        "longitude": 71.401,
+        "frp": 166.2,
+        "brightness": 356.9,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-018",
+      "nearest_facility_name": "Barmer Mangala Oilfield Complex",
+      "facility_type": "oil_&_gas_field",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-018_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 168.0,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 161.0,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 154.0,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 166.2,
+      "frp_max": 175.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 175.0 MW at Barmer Mangala Oilfield Complex",
+        "Located in Rajasthan within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-018",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 131.2,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 55.4,
+      "is_abnormal": false,
+      "frp_zscore": 3.5,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 61.5,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 51.5,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (175.0 MW) inside Barmer Mangala Oilfield Complex",
+        "Infrastructure match in Rajasthan industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "MEDIUM",
+      "reasons": [
+        "Continuous high thermal emissions of 175.0 MW at Barmer Mangala Oilfield Complex",
+        "State registry node: Rajasthan"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Barmer Mangala Oilfield Complex.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-019",
+    "title": "Stage 5 Verified Facility \u2014 Durgapur Steel Plant (SAIL) (West Bengal)",
+    "geometry": {
+      "latitude": 23.48,
+      "longitude": 87.32
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-019-1",
+        "latitude": 23.48,
+        "longitude": 87.32,
+        "frp": 175.0,
+        "brightness": 363.8,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-019-2",
+        "latitude": 23.481,
+        "longitude": 87.321,
+        "frp": 166.2,
+        "brightness": 356.9,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-019",
+      "nearest_facility_name": "Durgapur Steel Plant (SAIL)",
+      "facility_type": "steel_plant",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-019_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 168.0,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 161.0,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 154.0,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 166.2,
+      "frp_max": 175.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 175.0 MW at Durgapur Steel Plant (SAIL)",
+        "Located in West Bengal within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-019",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 131.2,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 55.8,
+      "is_abnormal": false,
+      "frp_zscore": 3.5,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 62.0,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 51.5,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (175.0 MW) inside Durgapur Steel Plant (SAIL)",
+        "Infrastructure match in West Bengal industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "MEDIUM",
+      "reasons": [
+        "Continuous high thermal emissions of 175.0 MW at Durgapur Steel Plant (SAIL)",
+        "State registry node: West Bengal"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Durgapur Steel Plant (SAIL).",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-020",
+    "title": "Stage 5 Verified Facility \u2014 MRPL Mangalore Refinery (Karnataka)",
+    "geometry": {
+      "latitude": 12.87,
+      "longitude": 74.84
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-020-1",
+        "latitude": 12.87,
+        "longitude": 74.84,
+        "frp": 165.0,
+        "brightness": 361.2,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-020-2",
+        "latitude": 12.871,
+        "longitude": 74.841,
+        "frp": 156.8,
+        "brightness": 354.7,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-020",
+      "nearest_facility_name": "MRPL Mangalore Refinery",
+      "facility_type": "oil_refinery",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-020_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 158.4,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 151.8,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 145.2,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 156.8,
+      "frp_max": 165.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 165.0 MW at MRPL Mangalore Refinery",
+        "Located in Karnataka within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-020",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 123.8,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 53.1,
+      "is_abnormal": false,
+      "frp_zscore": 3.3,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 59.0,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 48.5,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (165.0 MW) inside MRPL Mangalore Refinery",
+        "Infrastructure match in Karnataka industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "MEDIUM",
+      "reasons": [
+        "Continuous high thermal emissions of 165.0 MW at MRPL Mangalore Refinery",
+        "State registry node: Karnataka"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for MRPL Mangalore Refinery.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
+    "data_version": "firms-v2.1",
+    "model_version": "M4-B_v1.0",
+    "engine_version": "v1.0.0"
+  },
+  {
+    "event_id": "TT-CASE-021",
+    "title": "Stage 5 Verified Facility \u2014 Guru Gobind Bathinda Refinery (Punjab)",
+    "geometry": {
+      "latitude": 30.15,
+      "longitude": 74.95
+    },
+    "time_window": {
+      "start": "2026-09-01T00:00:00Z",
+      "end": "2026-09-07T12:00:00Z"
+    },
+    "observations": [
+      {
+        "observation_id": "OBS-TT-CASE-021-1",
+        "latitude": 30.15,
+        "longitude": 74.95,
+        "frp": 160.0,
+        "brightness": 360.0,
+        "confidence": 96,
+        "acq_timestamp": "2026-09-06T14:30:00Z",
+        "satellite": "VIIRS_NPP"
+      },
+      {
+        "observation_id": "OBS-TT-CASE-021-2",
+        "latitude": 30.151,
+        "longitude": 74.951,
+        "frp": 152.0,
+        "brightness": 353.6,
+        "confidence": 98,
+        "acq_timestamp": "2026-09-07T02:15:00Z",
+        "satellite": "VIIRS_NOAA20"
+      }
+    ],
+    "facility_context": {
+      "nearest_facility_id": "FAC-TT-CASE-021",
+      "nearest_facility_name": "Guru Gobind Bathinda Refinery",
+      "facility_type": "oil_refinery",
+      "distance_to_facility_m": 85.0,
+      "is_within_facility_boundary": true,
+      "source": "OSM Infrastructure Registry"
+    },
+    "landcover_context": {
+      "primary_class": "Industrial Built-up",
+      "urban_builtup_pct": 82.0,
+      "forest_pct": 2.0,
+      "cropland_pct": 4.0,
+      "water_pct": 12.0
+    },
+    "satellite_context": {
+      "imagery_available": true,
+      "source": "Sentinel-2 MSI + VIIRS 375m",
+      "scene_id": "S2_TT-CASE-021_20260906",
+      "cloud_cover_pct": 0.8,
+      "thumbnail_url": null
+    },
+    "temporal_features": {
+      "window_7d": {
+        "detection_count": 7,
+        "frp_mean": 153.6,
+        "persistence_ratio": 0.82
+      },
+      "window_30d": {
+        "detection_count": 28,
+        "frp_mean": 147.2,
+        "persistence_ratio": 0.78
+      },
+      "window_90d": {
+        "detection_count": 92,
+        "frp_mean": 140.8,
+        "persistence_ratio": 0.75
+      },
+      "spatial_stability_m": 38.0,
+      "frp_mean": 152.0,
+      "frp_max": 160.0
+    },
+    "classification": {
+      "label": "persistent_industrial_source",
+      "confidence": 0.935,
+      "probabilities": {
+        "persistent_industrial_source": 0.885,
+        "industrial_fire_or_abnormal_event": 0.082,
+        "mining_or_other_industrial_activity": 0.021,
+        "wildfire_or_forest_fire": 0.005,
+        "agricultural_burning": 0.004,
+        "unknown_requires_verification": 0.003
+      },
+      "top_evidence": [
+        "Multi-pixel thermal complex measuring 160.0 MW at Guru Gobind Bathinda Refinery",
+        "Located in Punjab within verified industrial polygon",
+        "High temporal persistence (>75% active days over 90 days)",
+        "82% Industrial built-up land cover classification"
+      ],
+      "evidence_against": [
+        "No agricultural vegetation signature"
+      ],
+      "model_version": "M4-B_HistGradientBoosting_v1.0"
+    },
+    "baseline": {
+      "facility_id": "FAC-TT-CASE-021",
+      "normal_detection_frequency_per_month": 28.0,
+      "normal_intensity_mean": 120.0,
+      "normal_intensity_std": 12.5,
+      "normal_active_hours": [
+        2,
+        3,
+        14,
+        22
+      ],
+      "normal_spatial_extent_m": 160.0,
+      "baseline_period_days": 90,
+      "history_quality": "good"
+    },
+    "deviation": {
+      "frp_deviation_pct": 33.3,
+      "frequency_deviation_pct": 12.0,
+      "is_statistically_significant": false
+    },
+    "anomaly": {
+      "anomaly_score": 52.2,
+      "is_abnormal": false,
+      "frp_zscore": 3.2,
+      "frequency_zscore": 1.2,
+      "spatial_shift_m": 38.0,
+      "confidence": "HIGH"
+    },
+    "industrial_likelihood": {
+      "score": 95.0,
+      "tier": "VERY_HIGH",
+      "component_scores": {
+        "facility_proximity": 100.0,
+        "persistence": 94.0,
+        "landcover": 92.0,
+        "spatial_stability": 96.0,
+        "temporal": 92.0,
+        "sensor_agreement": 98.0
+      }
+    },
+    "operational_risk": {
+      "risk_score": 58.0,
+      "risk_level": "MEDIUM",
+      "component_scores": {
+        "thermal_intensity": 47.1,
+        "anomaly_persistence": 78.0,
+        "population_exposure": 55.0,
+        "environmental_sensitivity": 50.0,
+        "classification_confidence": 93.5
+      }
+    },
+    "evidence": {
+      "evidence_for": [
+        "Sustained high thermal power (160.0 MW) inside Guru Gobind Bathinda Refinery",
+        "Infrastructure match in Punjab industrial registry",
+        "High multi-satellite retrieval confidence (96-98%)"
+      ],
+      "evidence_against": [],
+      "missing_evidence": []
+    },
+    "alert": {
+      "should_alert": false,
+      "alert_type": "PERSISTENT_INDUSTRIAL_SOURCE",
+      "priority": "MEDIUM",
+      "reasons": [
+        "Continuous high thermal emissions of 160.0 MW at Guru Gobind Bathinda Refinery",
+        "State registry node: Punjab"
+      ]
+    },
+    "analyst_review": {
+      "reviewed": true,
+      "decision": "CONFIRMED",
+      "reclassified_label": null,
+      "notes": "Automated monitoring node verified for Guru Gobind Bathinda Refinery.",
+      "timestamp": "2026-09-06T10:00:00Z",
+      "analyst_id": "SYS_AUTO"
+    },
+    "status": "CONFIRMED",
     "data_version": "firms-v2.1",
     "model_version": "M4-B_v1.0",
     "engine_version": "v1.0.0"

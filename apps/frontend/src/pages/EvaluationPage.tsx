@@ -1045,53 +1045,63 @@ export const EvaluationPage: React.FC = () => {
         </div>
 
         {/* ─── SECTION 8: RISK VS ABNORMALITY SCATTER PLOT ─── */}
-        <div className="card" style={{ marginBottom: '24px' }}>
-          <div className="card-title flex items-center justify-between">
+        {/* ─── SECTION 8: RISK VS ABNORMALITY SCATTER PLOT ─── */}
+        <div className="card" style={{ marginBottom: '28px', clear: 'both', overflow: 'hidden' }}>
+          <div className="card-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span>Risk Score vs Facility Abnormality (Deviation Z-Score)</span>
             <span style={{ fontSize: '10px', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>PROTOTYPE HEURISTIC DISTRIBUTION</span>
           </div>
-          <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '14px' }}>
+          <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '16px' }}>
             Multi-dimensional correlation demonstrating how facility-specific standard deviation spikes (X-axis) drive operational incident risk (Y-axis).
           </div>
 
-          <div style={{ width: '100%', height: '220px', background: '#0B111E', border: '1px solid #1E293B', borderRadius: '8px', padding: '16px', position: 'relative' }}>
-            <svg viewBox="0 0 500 180" className="w-full h-full select-none">
+          <div style={{ width: '100%', height: '260px', background: '#0B111E', border: '1px solid #1E293B', borderRadius: '8px', padding: '16px 20px', position: 'relative', boxSizing: 'border-box' }}>
+            <svg viewBox="0 0 520 200" style={{ width: '100%', height: '100%', display: 'block' }}>
               {/* Grid lines */}
               {[0.25, 0.5, 0.75, 1.0].map((r, i) => (
                 <g key={i}>
-                  <line x1="40" y1={160 - r * 140} x2="480" y2={160 - r * 140} stroke="#1E293B" strokeDasharray="3 3" />
-                  <text x="35" y={160 - r * 140 + 3} fill="#64748B" fontSize="9" textAnchor="end" fontFamily="monospace">
+                  <line x1="45" y1={150 - r * 130} x2="495" y2={150 - r * 130} stroke="#1E293B" strokeDasharray="3 3" />
+                  <text x="38" y={150 - r * 130 + 3} fill="#64748B" fontSize="9" textAnchor="end" fontFamily="monospace">
                     {Math.round(r * 100)}
                   </text>
                 </g>
               ))}
+              {/* X baseline axis line */}
+              <line x1="45" y1="150" x2="495" y2="150" stroke="#334155" strokeWidth="1.5" />
+              <text x="38" y="153" fill="#64748B" fontSize="9" textAnchor="end" fontFamily="monospace">0</text>
+
               {[1, 2, 3, 4, 5].map((z, i) => (
                 <g key={i}>
-                  <line x1={40 + (z / 5) * 440} y1="20" x2={40 + (z / 5) * 440} y2="160" stroke="#1E293B" strokeDasharray="3 3" />
-                  <text x={40 + (z / 5) * 440} y="174" fill="#64748B" fontSize="9" textAnchor="middle" fontFamily="monospace">
+                  <line x1={45 + (z / 5) * 440} y1="15" x2={45 + (z / 5) * 440} y2="150" stroke="#1E293B" strokeDasharray="3 3" />
+                  <text x={45 + (z / 5) * 440} y="166" fill="#64748B" fontSize="9" textAnchor="middle" fontFamily="monospace">
                     +{z}σ
                   </text>
                 </g>
               ))}
 
+              {/* X Axis Label */}
+              <text x="270" y="188" fill="#475569" fontSize="10" textAnchor="middle" fontFamily="sans-serif">
+                Facility Thermal Baseline Deviation (+σ Spike)
+              </text>
+
               {/* Sample points */}
               {[
-                { z: 4.2, r: 84, color: '#FF5C6C', name: 'Jamnagar Flare Surge (TT-CASE-001)', priority: 'CRITICAL' },
-                { z: 3.8, r: 78, color: '#FF5C6C', name: 'Hazira Chemical Spill (TT-CASE-002)', priority: 'CRITICAL' },
-                { z: 2.7, r: 62, color: '#F59E0B', name: 'Paradip Header Leak', priority: 'HIGH' },
-                { z: 2.1, r: 54, color: '#F59E0B', name: 'Manali Flare Maintenance', priority: 'HIGH' },
-                { z: 1.4, r: 42, color: '#FCD34D', name: 'Kochi Atmospheric Vent', priority: 'MEDIUM' },
-                { z: 0.9, r: 35, color: '#FCD34D', name: 'Barauni Steady Vent', priority: 'MEDIUM' },
-                { z: 0.4, r: 18, color: '#10B981', name: 'Numaligarh Normal Cycle', priority: 'LOW' },
-                { z: 0.2, r: 12, color: '#10B981', name: 'Panipat Pilot Light', priority: 'LOW' },
+                { z: 4.2, r: 84, color: '#FF5C6C', name: 'Jamnagar (84)', priority: 'CRITICAL' },
+                { z: 3.8, r: 78, color: '#FF5C6C', name: 'Hazira (78)', priority: 'CRITICAL' },
+                { z: 2.7, r: 62, color: '#F59E0B', name: 'Paradip (62)', priority: 'HIGH' },
+                { z: 2.1, r: 54, color: '#F59E0B', name: 'Manali (54)', priority: 'HIGH' },
+                { z: 1.4, r: 42, color: '#FCD34D', name: 'Kochi (42)', priority: 'MEDIUM' },
+                { z: 0.9, r: 35, color: '#FCD34D', name: 'Barauni (35)', priority: 'MEDIUM' },
+                { z: 0.4, r: 18, color: '#10B981', name: 'Numaligarh (18)', priority: 'LOW' },
+                { z: 0.2, r: 12, color: '#10B981', name: 'Panipat (12)', priority: 'LOW' },
               ].map((pt, i) => {
-                const cx = 40 + (pt.z / 5) * 440;
-                const cy = 160 - (pt.r / 100) * 140;
+                const cx = 45 + (pt.z / 5) * 440;
+                const cy = 150 - (pt.r / 100) * 130;
                 return (
                   <g key={i}>
                     <circle cx={cx} cy={cy} r={pt.priority === 'CRITICAL' ? 6 : 4.5} fill={pt.color} stroke="#0B111E" strokeWidth="2" />
-                    <text x={cx + 8} y={cy + 3} fill="#94A3B8" fontSize="8" fontFamily="monospace">
-                      {pt.name.split(' ')[0]} ({pt.r})
+                    <text x={cx + 8} y={cy + 3} fill="#CBD5E1" fontSize="9" fontFamily="monospace" fontWeight="500">
+                      {pt.name}
                     </text>
                   </g>
                 );
@@ -1107,7 +1117,9 @@ export const EvaluationPage: React.FC = () => {
             border: '1px solid rgba(255, 181, 71, 0.25)',
             borderRadius: 'var(--radius-md)',
             padding: '16px 20px',
-            marginBottom: '20px',
+            marginBottom: '24px',
+            clear: 'both',
+            position: 'relative',
           }}
         >
           <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--accent-amber)', marginBottom: '8px' }}>

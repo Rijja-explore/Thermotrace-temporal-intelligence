@@ -39,7 +39,15 @@ export const FacilityProfile: React.FC<FacilityProfileProps> = ({ facilityId, on
         setSelectedFacility(chosen);
 
         if (chosen) {
-          const fp = await fetchFacilityFingerprint(chosen.facility_id, 340.0).catch(() => null);
+          const matchingEvent = evRes.events.find(e => {
+            const fn = (e.facility_context?.nearest_facility_name || e.facility_context?.name || '').toLowerCase();
+            return chosen && (fn.includes(chosen.name.toLowerCase()) || chosen.name.toLowerCase().includes(fn));
+          });
+          const facFrp = matchingEvent?.observations?.[0]?.frp
+            ?? matchingEvent?.temporal_features?.current_frp
+            ?? (chosen.facility_type?.toLowerCase().includes('steel') ? 220.0 : chosen.facility_type?.toLowerCase().includes('power') ? 180.0 : 75.0);
+
+          const fp = await fetchFacilityFingerprint(chosen.facility_id, facFrp).catch(() => null);
           setFingerprint(fp);
         }
       } catch (err) {
@@ -54,7 +62,15 @@ export const FacilityProfile: React.FC<FacilityProfileProps> = ({ facilityId, on
   const handleSelectFacility = async (fac: Facility) => {
     setSelectedFacility(fac);
     try {
-      const fp = await fetchFacilityFingerprint(fac.facility_id, 340.0).catch(() => null);
+      const matchingEvent = events.find(e => {
+        const fn = (e.facility_context?.nearest_facility_name || e.facility_context?.name || '').toLowerCase();
+        return fn.includes(fac.name.toLowerCase()) || fac.name.toLowerCase().includes(fn);
+      });
+      const facFrp = matchingEvent?.observations?.[0]?.frp
+        ?? matchingEvent?.temporal_features?.current_frp
+        ?? (fac.facility_type?.toLowerCase().includes('steel') ? 220.0 : fac.facility_type?.toLowerCase().includes('power') ? 180.0 : 75.0);
+
+      const fp = await fetchFacilityFingerprint(fac.facility_id, facFrp).catch(() => null);
       setFingerprint(fp);
     } catch {
       // ignore

@@ -45,26 +45,89 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
     setTimeout(() => setFeedback(null), 3500);
   };
 
+  const label = (event.classification?.label || event.classification?.class || '').toLowerCase();
+  const isAgricultural = label.includes('agri');
+  const isWildfire = label.includes('wildfire') || label.includes('forest');
+  const isIndustrialFire = label.includes('fire') || label.includes('abnormal');
+
   return (
     <div className="analyst-action-bar">
       <div className="analyst-action-bar__title">Analyst Workflow</div>
 
       <div className="analyst-action-bar__actions">
-        <button className="action-btn action-btn--confirm" onClick={() => doAction('CONFIRMED')}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-          Confirm Industrial
-        </button>
-        <button className="action-btn action-btn--reject" onClick={() => doAction('REJECTED')}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-          Mark Non-Industrial
-        </button>
-        <button className="action-btn action-btn--amber" onClick={() => doAction('INVESTIGATING')}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-          Mark Investigating
-        </button>
-        <button className="action-btn action-btn--primary" onClick={() => doAction('CONFIRMED', 'persistent_industrial_source')}>
-          Verified Industrial
-        </button>
+        {isAgricultural ? (
+          <>
+            <button className="action-btn action-btn--confirm" onClick={() => doAction('CONFIRMED', 'agricultural_burning')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+              Confirm Agricultural Burning
+            </button>
+            <button className="action-btn action-btn--reject" onClick={() => doAction('RECLASSIFIED', 'industrial_fire_or_abnormal_event')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              Reclassify as Industrial Fire
+            </button>
+            <button className="action-btn action-btn--amber" onClick={() => doAction('INVESTIGATING')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+              Mark Investigating
+            </button>
+            <button className="action-btn action-btn--primary" onClick={() => doAction('VERIFIED', 'agricultural_burning')}>
+              Verified Agricultural
+            </button>
+          </>
+        ) : isWildfire ? (
+          <>
+            <button className="action-btn action-btn--confirm" onClick={() => doAction('CONFIRMED', 'wildfire_or_forest_fire')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+              Confirm Forest Fire / Wildfire
+            </button>
+            <button className="action-btn action-btn--reject" onClick={() => doAction('RECLASSIFIED', 'industrial_fire_or_abnormal_event')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              Reclassify as Industrial Fire
+            </button>
+            <button className="action-btn action-btn--amber" onClick={() => doAction('INVESTIGATING')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+              Mark Investigating
+            </button>
+            <button className="action-btn action-btn--primary" onClick={() => doAction('VERIFIED', 'wildfire_or_forest_fire')}>
+              Verified Wildfire
+            </button>
+          </>
+        ) : isIndustrialFire ? (
+          <>
+            <button className="action-btn action-btn--confirm" style={{ background: '#FF5C6C', borderColor: '#FF5C6C', color: '#FFF' }} onClick={() => doAction('CONFIRMED', 'industrial_fire_or_abnormal_event')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+              Confirm Industrial Fire
+            </button>
+            <button className="action-btn action-btn--reject" onClick={() => doAction('RECLASSIFIED', 'agricultural_burning')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              Mark Non-Industrial (False Alarm)
+            </button>
+            <button className="action-btn action-btn--amber" onClick={() => doAction('INVESTIGATING')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+              Mark Investigating
+            </button>
+            <button className="action-btn action-btn--primary" onClick={() => doAction('DISPATCH_EMERGENCY', 'industrial_fire_or_abnormal_event')}>
+              Dispatch Response Team
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="action-btn action-btn--confirm" onClick={() => doAction('CONFIRMED', 'persistent_industrial_source')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+              Confirm Industrial Source
+            </button>
+            <button className="action-btn action-btn--reject" onClick={() => doAction('REJECTED', 'agricultural_burning')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              Mark Non-Industrial
+            </button>
+            <button className="action-btn action-btn--amber" onClick={() => doAction('INVESTIGATING')}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+              Mark Investigating
+            </button>
+            <button className="action-btn action-btn--primary" onClick={() => doAction('VERIFIED', 'persistent_industrial_source')}>
+              Verified Industrial
+            </button>
+          </>
+        )}
         <button className="action-btn action-btn--neutral" onClick={() => setShowNote(s => !s)}>
           {showNote ? 'Cancel Note' : '+ Add Note'}
         </button>
