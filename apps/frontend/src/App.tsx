@@ -3,7 +3,6 @@ import Dashboard from './pages/Dashboard';
 import EventInvestigation from './pages/EventInvestigation';
 import Alerts from './pages/Alerts';
 import { FacilityProfile } from './pages/FacilityProfile';
-import { EvaluationPage } from './pages/EvaluationPage';
 import AuthPage from './pages/AuthPage';
 import WhatIfSimulator from './pages/WhatIfSimulator';
 import GuidedDemoOverlay from './components/ui/GuidedDemoOverlay';
@@ -12,7 +11,7 @@ import Methodology from './pages/Methodology';
 import { AuthProvider, useAuth } from './services/AuthContext';
 
 // ─── Page type ───────────────────────────────────────────────────────────────
-type Page = 'dashboard' | 'investigation' | 'alerts' | 'facilities' | 'analytics' | 'what-if' | 'reduction' | 'methodology';
+type Page = 'dashboard' | 'investigation' | 'alerts' | 'facilities' | 'what-if' | 'reduction' | 'methodology';
 
 // ─── Nav items ───────────────────────────────────────────────────────────────
 const NAV_ITEMS: { id: Page; label: string; icon: React.ReactNode }[] = [
@@ -69,15 +68,6 @@ const NAV_ITEMS: { id: Page; label: string; icon: React.ReactNode }[] = [
     ),
   },
   {
-    id: 'analytics',
-    label: 'Thermal Analytics',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-      </svg>
-    ),
-  },
-  {
     id: 'reduction',
     label: 'Data Reduction',
     icon: (
@@ -109,7 +99,6 @@ const PAGE_TITLES: Record<Page, string> = {
   'what-if': 'Incident Scenario Modeler & Threat Simulator',
   alerts: 'Alert Center',
   facilities: 'Facilities',
-  analytics: 'Thermal Analytics',
   reduction: 'NASA FIRMS Data Reduction — Live Demo',
   methodology: 'System Methodology & Intelligence Pipeline',
 };
@@ -375,7 +364,6 @@ function AppContent() {
           {page === 'facilities' && (
             <FacilityProfile facilityId={pageParams.facilityId} onNavigate={navigate} />
           )}
-          {page === 'analytics' && <EvaluationPage />}
           {page === 'reduction' && <DataReductionVisualizer />}
           {page === 'methodology' && <Methodology />}
         </main>
