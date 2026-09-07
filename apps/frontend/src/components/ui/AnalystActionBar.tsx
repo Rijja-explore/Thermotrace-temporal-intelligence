@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { ThermoEvent } from '../../services/api';
 import { verifyEvent } from '../../services/api';
+import { sendAlertEmail } from '../../services/alertEmail';
 
 interface AnalystActionBarProps {
   event: ThermoEvent;
@@ -33,13 +34,30 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
       onStatusChange(action.toLowerCase());
     }
 
+    // Auto-dispatch confirmation email to anagesh842005@gmail.com
+    if (action.includes('CONFIRM') || action.includes('DISPATCH') || action.includes('VERIF')) {
+      const risk = (event as any).operational_risk?.risk_score ?? event.scores?.operational_risk ?? 75;
+      const frpVal = event.observations?.[0]?.frp ?? 180.0;
+      const hazardRadius = (event as any).impact?.hazard_radius_m ?? 240;
+      sendAlertEmail({
+        eventId: event.event_id,
+        facilityName: event.facility_context?.nearest_facility_name ?? event.facility_context?.name ?? 'Industrial Installation',
+        frpMw: frpVal,
+        riskScore: risk,
+        threatTier: risk >= 80 ? 'CRITICAL' : 'HIGH',
+        hazardRadiusM: hazardRadius,
+        customNotes: `Analyst Confirmation Notice: Event ${event.event_id} has been officially ${action} as ${label || event.classification?.class || 'Confirmed Event'}. Rationale: ${note || 'Confirmed via forensic multi-modal analysis'}.`,
+        forceSend: true,
+      });
+    }
+
     const newEntry: AuditEntry = {
       action: label ? `Reclassified → ${label.replace(/_/g, ' ')}` : action,
       analyst: 'Analyst Lead',
       time: timeStr,
     };
     setAuditLog(prev => [newEntry, ...prev]);
-    setFeedback(`✓ ${action} recorded successfully`);
+    setFeedback(`✓ ${action} recorded & notified to anagesh842005@gmail.com`);
     setNote('');
     setShowNote(false);
     setTimeout(() => setFeedback(null), 3500);

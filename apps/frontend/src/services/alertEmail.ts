@@ -1,9 +1,9 @@
 /**
  * Shared utility to dispatch alert emails automatically
- * to rijja2310119@ssn.edu.in when a critical thermal event or demo is run.
+ * to anagesh842005@gmail.com when a critical thermal event, confirmation, or simulation SOP is run.
  */
 
-const ALERT_EMAIL = 'rijja2310119@ssn.edu.in';
+const ALERT_EMAIL = 'anagesh842005@gmail.com';
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
 
 // Track which events we've already emailed about (per session)

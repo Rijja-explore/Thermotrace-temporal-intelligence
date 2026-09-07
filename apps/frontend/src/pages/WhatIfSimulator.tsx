@@ -149,6 +149,18 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
     setSopExecutionStep(1);
     setSopCompleted(false);
 
+    // Auto-dispatch alert email to anagesh842005@gmail.com on SOP trigger
+    sendAlertEmail({
+      eventId: eventId || 'TT-SIM-SOP-' + Date.now().toString().slice(-4),
+      facilityName: facilityName,
+      frpMw: simulatedFRP,
+      riskScore: result?.simulated_risk_score ?? 85,
+      threatTier: (result?.simulated_risk_score ?? 85) >= 80 ? 'CRITICAL' : 'HIGH',
+      hazardRadiusM: result?.thermal_hazard_radius_m ?? 280,
+      customNotes: `SIMULATION SOP TRIGGERED: Mitigation SOP execution initialized for ${facilityName}. Actions: Flare Gas Recovery (FGRS) diversion, perimeter water deluge curtain activation, and NDRF emergency standby advisory. Sent to anagesh842005@gmail.com.`,
+      forceSend: true,
+    });
+
     // Step 1: Engage FGRS & Drone
     setTimeout(() => {
       setMitigationUAV(true);

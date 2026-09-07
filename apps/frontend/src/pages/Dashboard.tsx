@@ -63,30 +63,15 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
   const [showEmailToast, setShowEmailToast] = useState(false);
 
   const [viewMode, setViewMode] = useState<'map' | 'intelligence'>('map');
-
-  // Filters
-  const [filterRegion, setFilterRegion] = useState('India');
-  const [filterStatus, setFilterStatus] = useState('');
-  const [filterRisk, setFilterRisk] = useState('');
-  const [filterClass, setFilterClass] = useState('');
-  const [filterEscalation, setFilterEscalation] = useState('');
-  const [filterPriority, setFilterPriority] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [timeRange, setTimeRange] = useState('30D');
   const [showPipelineModal, setShowPipelineModal] = useState(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const params: any = { region: filterRegion };
-      if (filterStatus) params.status = filterStatus;
-      if (filterRisk) params.risk_min = parseInt(filterRisk);
-      if (filterClass) params.event_class = filterClass;
-
       const [eventsRes, summaryRes, alertsRes] = await Promise.all([
-        fetchEvents(params),
-        fetchSummary(filterRegion),
-        fetchAlerts(undefined, filterRegion),
+        fetchEvents({ region: 'India' }),
+        fetchSummary('India'),
+        fetchAlerts(undefined, 'India'),
       ]);
 
       setEvents(eventsRes.events);
@@ -95,7 +80,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
       setAlerts(alertsRes.alerts.slice(0, 15));
     } catch {
       console.warn('[Dashboard] Backend unavailable, using local data');
-      const localEvents = await fetchEventsFromJson(filterRegion);
+      const localEvents = await fetchEventsFromJson('India');
       setEvents(localEvents);
       (window as any).__lastLoadedEvents = localEvents;
       setSummary({
@@ -122,7 +107,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
       setShowEmailToast(true);
       setTimeout(() => setShowEmailToast(false), 5000);
     }
-  }, [filterRegion, filterStatus, filterRisk, filterClass]);
+  }, []);
 
   useEffect(() => {
     loadData();
@@ -130,25 +115,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
     return () => clearInterval(interval);
   }, [loadData]);
 
-  const displayedEvents = events.filter(e => {
-    if (searchQuery) {
-      const match =
-        e.event_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (e.classification?.class || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (e.facility_context?.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (e.facility_context?.nearest_facility_name || '').toLowerCase().includes(searchQuery.toLowerCase());
-      if (!match) return false;
-    }
-    if (filterPriority) {
-      const p = e.incident_priority || ((e.operational_risk?.risk_score ?? e.scores?.operational_risk ?? 0) >= 75 ? 'CRITICAL' : (e.operational_risk?.risk_score ?? e.scores?.operational_risk ?? 0) >= 50 ? 'HIGH' : 'MEDIUM');
-      if (p !== filterPriority) return false;
-    }
-    if (filterEscalation) {
-      const esc = e.early_warning?.escalation_state || ((e.operational_risk?.risk_score ?? e.scores?.operational_risk ?? 0) >= 75 ? 'CRITICAL_ESCALATION' : (e.operational_risk?.risk_score ?? e.scores?.operational_risk ?? 0) >= 50 ? 'ESCALATING' : 'STABLE');
-      if (esc !== filterEscalation) return false;
-    }
-    return true;
-  });
+  const displayedEvents = events;
 
   const criticalAlerts = alerts.filter(a => a.severity === 'critical');
   const highAlerts = alerts.filter(a => a.severity === 'high');
@@ -177,7 +144,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               Alert Email Auto-Dispatched
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              {autoEmailCount} critical event{autoEmailCount > 1 ? 's' : ''} notified to rijja2310119@ssn.edu.in
+              {autoEmailCount} critical event{autoEmailCount > 1 ? 's' : ''} notified to anagesh842005@gmail.com
             </div>
           </div>
         </div>
@@ -240,7 +207,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
           {/* Map Toolbar */}
           <div className="dashboard-map-toolbar">
             <div className="dashboard-map-toolbar__title">
-              {filterRegion} <span>· thermal event map</span>
+              India <span>· thermal event map</span>
             </div>
 
             {/* Mode Switcher */}
@@ -261,108 +228,6 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                 ⚡ Intelligence Mode
               </button>
             </div>
-
-            {/* Time range */}
-            <div className="toolbar-btn-group">
-              {['7D', '30D', '90D'].map(r => (
-                <button
-                  key={r}
-                  className={`toolbar-btn ${timeRange === r ? 'toolbar-btn--active' : ''}`}
-                  onClick={() => setTimeRange(r)}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-
-            {/* Region filter */}
-            <div className="toolbar-filter-group">
-              <span className="toolbar-label">Region</span>
-              <select className="toolbar-select" value={filterRegion} onChange={e => setFilterRegion(e.target.value)}>
-                <optgroup label="Broad">
-                  <option value="India">🇮🇳 India</option>
-                  <option value="Global">🌍 Global</option>
-                  <option value="All">🌐 All</option>
-                </optgroup>
-                <optgroup label="Indian States">
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Odisha">Odisha</option>
-                  <option value="West Bengal">West Bengal</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
-                  <option value="Jharkhand">Jharkhand</option>
-                  <option value="Assam">Assam</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Kerala">Kerala</option>
-                  <option value="Andhra Pradesh">Andhra Pradesh</option>
-                </optgroup>
-              </select>
-            </div>
-
-            {/* Priority filter */}
-            <div className="toolbar-filter-group">
-              <span className="toolbar-label">Priority</span>
-              <select className="toolbar-select" value={filterPriority} onChange={e => setFilterPriority(e.target.value)}>
-                <option value="">All Priorities</option>
-                <option value="CRITICAL">🔴 Critical</option>
-                <option value="HIGH">🟠 High</option>
-                <option value="MEDIUM">🟡 Medium</option>
-                <option value="LOW">🟢 Low</option>
-              </select>
-            </div>
-
-            {/* Escalation filter */}
-            <div className="toolbar-filter-group">
-              <span className="toolbar-label">Escalation</span>
-              <select className="toolbar-select" value={filterEscalation} onChange={e => setFilterEscalation(e.target.value)}>
-                <option value="">All Escalation</option>
-                <option value="CRITICAL_ESCALATION">Critical Escalation</option>
-                <option value="ESCALATING">Escalating</option>
-                <option value="WATCH">Watch</option>
-                <option value="STABLE">Stable</option>
-              </select>
-            </div>
-
-            {/* Status filter */}
-            <div className="toolbar-filter-group">
-              <span className="toolbar-label">Status</span>
-              <select className="toolbar-select" value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
-                <option value="">All Statuses</option>
-                <option value="requires_verification">Needs Verification</option>
-                <option value="critical_alert">Critical Alert</option>
-                <option value="monitored">Monitored</option>
-                <option value="confirmed">Confirmed</option>
-              </select>
-            </div>
-
-            {/* NASA Layer-by-Layer Pipeline Inspector Button */}
-            <button
-              className="toolbar-btn"
-              style={{
-                background: 'rgba(67, 217, 232, 0.15)',
-                color: 'var(--accent-cyan)',
-                borderColor: 'rgba(67, 217, 232, 0.4)',
-                fontWeight: '700',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}
-              onClick={() => setShowPipelineModal(true)}
-              title="Inspect the 7-layer data processing pipeline from NASA satellites to ground sectors"
-            >
-              <span>🛰️</span> NASA Pipeline Layers
-            </button>
-
-            {/* Search */}
-            <div className="toolbar-search">
-              <span className="toolbar-search__icon">🔍</span>
-              <input
-                type="text"
-                placeholder="Search event ID, facility..."
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-              />
-            </div>
           </div>
 
           {/* Map or Intelligence Grid */}
@@ -375,9 +240,9 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               <div className="empty-state" style={{ height: '100%' }}>
                 <div className="empty-state__icon">🗺️</div>
                 <div className="empty-state__title">No events match the current filters</div>
-                <div className="empty-state__desc">Try expanding the time range or resetting priority/escalation filters.</div>
-                <button className="empty-state__action" onClick={() => { setFilterStatus(''); setFilterRisk(''); setFilterClass(''); setFilterEscalation(''); setFilterPriority(''); setSearchQuery(''); }}>
-                  Reset Filters
+                <div className="empty-state__desc">No active events detected. Refresh to reload live data.</div>
+                <button className="empty-state__action" onClick={() => loadData()}>
+                  Refresh Data
                 </button>
               </div>
             ) : viewMode === 'map' ? (
