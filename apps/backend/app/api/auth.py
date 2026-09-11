@@ -46,22 +46,53 @@ def verify_password(plain_password: str, hashed_str: str) -> bool:
 # AUTHORIZED USERS DIRECTORY (RBAC)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# Default password for all initial operational accounts: "ThermoTrace2026!"
-INITIAL_HASH = hash_password("ThermoTrace2026!")
+# Default password hashes
+ADMIN_HASH = hash_password("admin")
+ANALYST_HASH = hash_password("analyst")
+OFFICIAL_HASH = hash_password("official")
+DEFAULT_HASH = hash_password("ThermoTrace2026!")
 
 USERS_DATABASE: Dict[str, Dict[str, Any]] = {
-    "anagesh2410198@ssn.edu.in": {
+    "admin": {
+        "user_id": "USR-ADMIN-00",
+        "email": "admin@thermotrace.gov.in",
+        "username": "admin",
+        "name": "Command Administrator",
+        "role": "ADMIN",
+        "badge": "AD",
+        "clearance_level": "Level 4 — Orbital Top Secret (System Administrator)",
+        "clearance_code": "SEC-CLR-L4-ADMIN",
+        "agency": "ThermoTrace Mission Control",
+        "station": "Central GeoAI Server Terminal",
+        "password_hash": ADMIN_HASH,
+        "notification_email": "admin@thermotrace.gov.in",
+        "permissions": [
+            "admin:all",
+            "users:manage",
+            "events:all",
+            "model:retrain",
+            "pipeline:nrt_poll",
+            "audit:read",
+            "config:manage"
+        ],
+        "avatar_gradient": "linear-gradient(135deg, #43D9E8 0%, #1D4ED8 100%)",
+        "is_active": True,
+        "created_at": "2026-09-01T00:00:00Z",
+        "last_login": "2026-09-11T13:00:00Z"
+    },
+    "analyst": {
         "user_id": "USR-ANALYST-01",
-        "email": "anagesh2410198@ssn.edu.in",
-        "username": "anagesh_analyst",
-        "name": "Anagesh V (Thermal Analyst)",
+        "email": "analyst@thermotrace.gov.in",
+        "username": "analyst",
+        "name": "Lead Thermal Analyst",
         "role": "ANALYST",
         "badge": "AN",
         "clearance_level": "Level 3 — Geospatial Intelligence Analyst",
         "clearance_code": "SEC-CLR-L3-ANALYST",
         "agency": "ISRO / GeoAI Space Applications Centre",
         "station": "SAC Ahmedabad / Analyst Console 02",
-        "password_hash": INITIAL_HASH,
+        "password_hash": ANALYST_HASH,
+        "notification_email": "anagesh2410198@ssn.edu.in",
         "permissions": [
             "events:read",
             "events:investigate",
@@ -78,18 +109,76 @@ USERS_DATABASE: Dict[str, Dict[str, Any]] = {
         "created_at": "2026-09-01T00:00:00Z",
         "last_login": "2026-09-11T12:00:00Z"
     },
-    "rijja2310119@ssn.edu.in": {
+    "official": {
         "user_id": "USR-OFFICIAL-01",
-        "email": "rijja2310119@ssn.edu.in",
-        "username": "rijja_official",
-        "name": "Rijja M (Emergency Response Official)",
+        "email": "official@thermotrace.gov.in",
+        "username": "official",
+        "name": "Incident Command Official",
         "role": "OFFICIAL",
         "badge": "OF",
         "clearance_level": "Level 4 — Incident Command Official",
         "clearance_code": "SEC-CLR-L4-OFFICIAL",
         "agency": "National Disaster Management Authority (NDMA / MoEFCC)",
         "station": "Emergency Operations Center, New Delhi",
-        "password_hash": INITIAL_HASH,
+        "password_hash": OFFICIAL_HASH,
+        "notification_email": "rijja2310119@ssn.edu.in",
+        "permissions": [
+            "events:read",
+            "alerts:read",
+            "dossier:view",
+            "hazard:view",
+            "plume:view",
+            "sop:read",
+            "incident:track",
+            "reports:export"
+        ],
+        "avatar_gradient": "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
+        "is_active": True,
+        "created_at": "2026-09-01T00:00:00Z",
+        "last_login": "2026-09-11T12:30:00Z"
+    },
+    "analyst@thermotrace.gov.in": {
+        "user_id": "USR-ANALYST-01",
+        "email": "analyst@thermotrace.gov.in",
+        "username": "analyst",
+        "name": "Lead Thermal Analyst",
+        "role": "ANALYST",
+        "badge": "AN",
+        "clearance_level": "Level 3 — Geospatial Intelligence Analyst",
+        "clearance_code": "SEC-CLR-L3-ANALYST",
+        "agency": "ISRO / GeoAI Space Applications Centre",
+        "station": "SAC Ahmedabad / Analyst Console 02",
+        "password_hash": ANALYST_HASH,
+        "notification_email": "anagesh2410198@ssn.edu.in",
+        "permissions": [
+            "events:read",
+            "events:investigate",
+            "events:verify",
+            "events:reclassify",
+            "evidence:review",
+            "baseline:view",
+            "xai:view",
+            "lstm:evaluate",
+            "feedback:submit"
+        ],
+        "avatar_gradient": "linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)",
+        "is_active": True,
+        "created_at": "2026-09-01T00:00:00Z",
+        "last_login": "2026-09-11T12:00:00Z"
+    },
+    "official@thermotrace.gov.in": {
+        "user_id": "USR-OFFICIAL-01",
+        "email": "official@thermotrace.gov.in",
+        "username": "official",
+        "name": "Incident Command Official",
+        "role": "OFFICIAL",
+        "badge": "OF",
+        "clearance_level": "Level 4 — Incident Command Official",
+        "clearance_code": "SEC-CLR-L4-OFFICIAL",
+        "agency": "National Disaster Management Authority (NDMA / MoEFCC)",
+        "station": "Emergency Operations Center, New Delhi",
+        "password_hash": OFFICIAL_HASH,
+        "notification_email": "rijja2310119@ssn.edu.in",
         "permissions": [
             "events:read",
             "alerts:read",
@@ -116,7 +205,8 @@ USERS_DATABASE: Dict[str, Dict[str, Any]] = {
         "clearance_code": "SEC-CLR-L4-ADMIN",
         "agency": "ThermoTrace Mission Control",
         "station": "Central GeoAI Server Terminal",
-        "password_hash": INITIAL_HASH,
+        "password_hash": ADMIN_HASH,
+        "notification_email": "admin@thermotrace.gov.in",
         "permissions": [
             "admin:all",
             "users:manage",
@@ -180,18 +270,18 @@ def get_current_authenticated_user(authorization: Optional[str] = Header(None)) 
     Rejects unauthorized / expired sessions.
     """
     if not authorization:
-        # Fallback to Analyst for backward-compatible smooth judging if header omitted
-        return USERS_DATABASE["anagesh2410198@ssn.edu.in"]
+        # Fallback to Analyst if header omitted
+        return USERS_DATABASE["analyst"]
 
     token = authorization.replace("Bearer ", "").strip()
     session = ACTIVE_SESSIONS.get(token)
     
     if not session:
-        # Fallback to Analyst if token format matches demo
+        # Fallback to matching user_id if token format matches
         for email, u in USERS_DATABASE.items():
             if token.startswith(f"tt_token_{u['user_id']}"):
                 return u
-        return USERS_DATABASE["anagesh2410198@ssn.edu.in"]
+        return USERS_DATABASE["analyst"]
 
     # Check expiration
     if datetime.now(timezone.utc) > session["expires_at"]:
@@ -199,7 +289,7 @@ def get_current_authenticated_user(authorization: Optional[str] = Header(None)) 
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Session expired. Please log in again.")
 
     user_email = session["user_email"]
-    return USERS_DATABASE.get(user_email, USERS_DATABASE["anagesh2410198@ssn.edu.in"])
+    return USERS_DATABASE.get(user_email, USERS_DATABASE["analyst"])
 
 
 def require_role(allowed_roles: List[str]):

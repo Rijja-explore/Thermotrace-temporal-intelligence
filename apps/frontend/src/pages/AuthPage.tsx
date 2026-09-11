@@ -6,17 +6,33 @@ interface AuthPageProps {
 }
 
 export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
-  const { loginWithCredentials, enterDemoMode } = useAuth();
+  const { loginWithCredentials } = useAuth();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('analyst');
+  const [password, setPassword] = useState('analyst');
+  const [selectedRole, setSelectedRole] = useState<'ADMIN' | 'ANALYST' | 'OFFICIAL'>('ANALYST');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDemoSubmitting, setIsDemoSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [forgotMsg, setForgotMsg] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleRoleSelect = (role: 'ADMIN' | 'ANALYST' | 'OFFICIAL') => {
+    setSelectedRole(role);
+    setError(null);
+    setForgotMsg(false);
+    if (role === 'ADMIN') {
+      setEmail('admin');
+      setPassword('admin');
+    } else if (role === 'ANALYST') {
+      setEmail('analyst');
+      setPassword('analyst');
+    } else if (role === 'OFFICIAL') {
+      setEmail('official');
+      setPassword('official');
+    }
+  };
+
+  const handleLogin = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError(null);
     setForgotMsg(false);
 
@@ -24,7 +40,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
     const cleanPassword = password.trim();
 
     if (!cleanEmail || !cleanPassword) {
-      setError('Please enter both email and password.');
+      setError('Please enter both username/email and password.');
       return;
     }
 
@@ -39,24 +55,20 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
     }
   };
 
-  const handleEnterDemo = async () => {
-    setError(null);
-    setForgotMsg(false);
-    setIsDemoSubmitting(true);
-    const res = await enterDemoMode();
-    setIsDemoSubmitting(false);
-    if (res.success) {
+  const handleQuickLogin = async (role: 'ADMIN' | 'ANALYST' | 'OFFICIAL') => {
+    handleRoleSelect(role);
+    const userVal = role === 'ADMIN' ? 'admin' : role === 'ANALYST' ? 'analyst' : 'official';
+    const passVal = userVal;
+    
+    setIsSubmitting(true);
+    const result = await loginWithCredentials(userVal, passVal);
+    setIsSubmitting(false);
+
+    if (result.success) {
       onNavigate('dashboard');
     } else {
-      setError('Failed to enter demo mode.');
+      setError(result.error || 'Login failed.');
     }
-  };
-
-  const handleQuickSelect = (selEmail: string) => {
-    setEmail(selEmail);
-    setPassword('ThermoTrace2026!');
-    setError(null);
-    setForgotMsg(false);
   };
 
   return (
@@ -91,83 +103,103 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
           <div className="auth-login-card__header" style={{ marginBottom: '16px' }}>
             <div className="auth-login-card__title">Sign In</div>
             <div className="auth-login-card__sub">
-              Access the ThermoTrace Operational Intelligence Platform
+              Select an operational role or enter your credentials
             </div>
           </div>
 
-          {/* Quick Account Switcher for judging */}
-          <div style={{ marginBottom: '14px' }}>
-            <div style={{ fontSize: '10.5px', color: '#64748B', textTransform: 'uppercase', fontWeight: 700, marginBottom: '6px' }}>
-              Operational Roles (Autofill):
+          {/* 1-Click Role Selection Cards */}
+          <div style={{ marginBottom: '16px' }}>
+            <div style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Select Operational Role (1-Click Auto-Fill):
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+              {/* ADMIN */}
               <button
                 type="button"
-                onClick={() => handleQuickSelect('anagesh2410198@ssn.edu.in')}
+                onClick={() => handleRoleSelect('ADMIN')}
+                onDoubleClick={() => handleQuickLogin('ADMIN')}
                 style={{
-                  padding: '6px 2px',
-                  background: email === 'anagesh2410198@ssn.edu.in' ? 'rgba(56, 189, 248, 0.2)' : '#0F172A',
-                  border: `1px solid ${email === 'anagesh2410198@ssn.edu.in' ? '#38BDF8' : '#1E293B'}`,
-                  borderRadius: '4px',
-                  color: email === 'anagesh2410198@ssn.edu.in' ? '#38BDF8' : '#94A3B8',
-                  fontSize: '10.5px',
-                  fontWeight: 600,
+                  padding: '10px 6px',
+                  background: selectedRole === 'ADMIN' ? 'rgba(67, 217, 232, 0.18)' : '#0B132B',
+                  border: `1.5px solid ${selectedRole === 'ADMIN' ? '#43D9E8' : '#1E293B'}`,
+                  borderRadius: '6px',
+                  color: selectedRole === 'ADMIN' ? '#43D9E8' : '#94A3B8',
+                  fontSize: '11.5px',
+                  fontWeight: 700,
                   cursor: 'pointer',
                   textAlign: 'center',
+                  transition: 'all 0.15s ease',
+                  boxShadow: selectedRole === 'ADMIN' ? '0 0 10px rgba(67, 217, 232, 0.25)' : 'none',
                 }}
               >
-                🔬 ANALYST
+                <div style={{ fontSize: '14px', marginBottom: '2px' }}>⚡</div>
+                <div>ADMIN</div>
+                <div style={{ fontSize: '9.5px', opacity: 0.8, marginTop: '2px', fontFamily: 'monospace' }}>admin / admin</div>
               </button>
+
+              {/* ANALYST */}
               <button
                 type="button"
-                onClick={() => handleQuickSelect('rijja2310119@ssn.edu.in')}
+                onClick={() => handleRoleSelect('ANALYST')}
+                onDoubleClick={() => handleQuickLogin('ANALYST')}
                 style={{
-                  padding: '6px 2px',
-                  background: email === 'rijja2310119@ssn.edu.in' ? 'rgba(245, 158, 11, 0.2)' : '#0F172A',
-                  border: `1px solid ${email === 'rijja2310119@ssn.edu.in' ? '#F59E0B' : '#1E293B'}`,
-                  borderRadius: '4px',
-                  color: email === 'rijja2310119@ssn.edu.in' ? '#F59E0B' : '#94A3B8',
-                  fontSize: '10.5px',
-                  fontWeight: 600,
+                  padding: '10px 6px',
+                  background: selectedRole === 'ANALYST' ? 'rgba(56, 189, 248, 0.18)' : '#0B132B',
+                  border: `1.5px solid ${selectedRole === 'ANALYST' ? '#38BDF8' : '#1E293B'}`,
+                  borderRadius: '6px',
+                  color: selectedRole === 'ANALYST' ? '#38BDF8' : '#94A3B8',
+                  fontSize: '11.5px',
+                  fontWeight: 700,
                   cursor: 'pointer',
                   textAlign: 'center',
+                  transition: 'all 0.15s ease',
+                  boxShadow: selectedRole === 'ANALYST' ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none',
                 }}
               >
-                🛡️ OFFICIAL
+                <div style={{ fontSize: '14px', marginBottom: '2px' }}>🔬</div>
+                <div>ANALYST</div>
+                <div style={{ fontSize: '9.5px', opacity: 0.8, marginTop: '2px', fontFamily: 'monospace' }}>analyst / analyst</div>
               </button>
+
+              {/* OFFICIAL */}
               <button
                 type="button"
-                onClick={() => handleQuickSelect('admin@thermotrace.gov.in')}
+                onClick={() => handleRoleSelect('OFFICIAL')}
+                onDoubleClick={() => handleQuickLogin('OFFICIAL')}
                 style={{
-                  padding: '6px 2px',
-                  background: email === 'admin@thermotrace.gov.in' ? 'rgba(67, 217, 232, 0.2)' : '#0F172A',
-                  border: `1px solid ${email === 'admin@thermotrace.gov.in' ? '#43D9E8' : '#1E293B'}`,
-                  borderRadius: '4px',
-                  color: email === 'admin@thermotrace.gov.in' ? '#43D9E8' : '#94A3B8',
-                  fontSize: '10.5px',
-                  fontWeight: 600,
+                  padding: '10px 6px',
+                  background: selectedRole === 'OFFICIAL' ? 'rgba(245, 158, 11, 0.18)' : '#0B132B',
+                  border: `1.5px solid ${selectedRole === 'OFFICIAL' ? '#F59E0B' : '#1E293B'}`,
+                  borderRadius: '6px',
+                  color: selectedRole === 'OFFICIAL' ? '#F59E0B' : '#94A3B8',
+                  fontSize: '11.5px',
+                  fontWeight: 700,
                   cursor: 'pointer',
                   textAlign: 'center',
+                  transition: 'all 0.15s ease',
+                  boxShadow: selectedRole === 'OFFICIAL' ? '0 0 10px rgba(245, 158, 11, 0.25)' : 'none',
                 }}
               >
-                ⚡ ADMIN
+                <div style={{ fontSize: '14px', marginBottom: '2px' }}>🛡️</div>
+                <div>OFFICIAL</div>
+                <div style={{ fontSize: '9.5px', opacity: 0.8, marginTop: '2px', fontFamily: 'monospace' }}>official / official</div>
               </button>
             </div>
           </div>
 
           <form onSubmit={handleLogin} autoComplete="off">
             <div className="auth-login-field">
-              <label className="auth-login-label" htmlFor="tt-email">Email</label>
+              <label className="auth-login-label" htmlFor="tt-email">Username or Email</label>
               <input
                 id="tt-email"
                 type="text"
                 className={`auth-login-input${error ? ' auth-login-input--error' : ''}`}
-                placeholder="e.g. anagesh2410198@ssn.edu.in"
+                placeholder="e.g. admin, analyst, official"
                 value={email}
                 onChange={(e) => { setEmail(e.target.value); setError(null); }}
                 autoFocus
-                autoComplete="email"
-                disabled={isSubmitting || isDemoSubmitting}
+                autoComplete="username"
+                disabled={isSubmitting}
               />
             </div>
 
@@ -186,11 +218,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                 id="tt-password"
                 type="password"
                 className={`auth-login-input${error ? ' auth-login-input--error' : ''}`}
-                placeholder="Enter password"
+                placeholder="e.g. admin, analyst, official"
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); setError(null); }}
                 autoComplete="current-password"
-                disabled={isSubmitting || isDemoSubmitting}
+                disabled={isSubmitting}
               />
             </div>
 
@@ -202,55 +234,48 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
 
             {forgotMsg && (
               <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '4px', padding: '8px 10px', fontSize: '11px', color: '#38BDF8', marginTop: '8px' }}>
-                Evaluation standard password is: <strong>ThermoTrace2026!</strong>
+                Standard account passwords match their role: <strong>admin</strong>, <strong>analyst</strong>, <strong>official</strong>.
               </div>
             )}
 
             <button
               type="submit"
               className="auth-login-submit"
-              disabled={isSubmitting || isDemoSubmitting}
-              style={{ marginTop: '16px', width: '100%', height: '40px', fontWeight: 700 }}
+              disabled={isSubmitting}
+              style={{
+                marginTop: '16px',
+                width: '100%',
+                height: '42px',
+                fontWeight: 800,
+                fontSize: '13px',
+                letterSpacing: '0.04em',
+                background: selectedRole === 'ADMIN'
+                  ? 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)'
+                  : selectedRole === 'OFFICIAL'
+                  ? 'linear-gradient(135deg, #D97706 0%, #B45309 100%)'
+                  : 'linear-gradient(135deg, #0284C7 0%, #2563EB 100%)',
+              }}
             >
-              {isSubmitting ? 'AUTHENTICATING...' : 'LOGIN'}
+              {isSubmitting ? 'AUTHENTICATING...' : `SIGN IN AS ${selectedRole}`}
             </button>
           </form>
 
-          {/* Divider */}
-          <div style={{ display: 'flex', alignItems: 'center', margin: '16px 0 12px', color: '#475569', fontSize: '11px', fontWeight: 700 }}>
-            <div style={{ flex: 1, height: '1px', background: '#1E293B' }} />
-            <span style={{ padding: '0 10px', letterSpacing: '0.1em' }}>OR</span>
-            <div style={{ flex: 1, height: '1px', background: '#1E293B' }} />
-          </div>
-
-          {/* Prominent SIH DEMO MODE Button */}
-          <button
-            type="button"
-            onClick={handleEnterDemo}
-            disabled={isSubmitting || isDemoSubmitting}
-            style={{
-              width: '100%',
-              height: '42px',
-              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.3) 100%)',
-              border: '1px solid #10B981',
-              borderRadius: '6px',
-              color: '#34D399',
-              fontSize: '13px',
-              fontWeight: 800,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              boxShadow: '0 4px 12px rgba(16, 185, 129, 0.15)',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            <span>🎯</span>
-            <span>{isDemoSubmitting ? 'INITIALIZING DEMO...' : 'ENTER SIH DEMO'}</span>
-          </button>
-          <div style={{ fontSize: '10px', color: '#64748B', textAlign: 'center', marginTop: '6px' }}>
-            Instant Read-Only Demonstration Session for SIH 2026 Evaluation Panel
+          {/* Alert Notification Recipients note */}
+          <div style={{
+            fontSize: '10.5px',
+            color: '#64748B',
+            background: '#0B132B',
+            border: '1px solid #1E293B',
+            borderRadius: '6px',
+            padding: '8px 10px',
+            marginTop: '14px',
+            lineHeight: 1.5,
+          }}>
+            <div style={{ color: '#94A3B8', fontWeight: 700, marginBottom: '2px' }}>
+              📧 Automated Alert Notification Endpoints:
+            </div>
+            <div>• Analyst Alert Feed: <code style={{ color: '#38BDF8' }}>anagesh2410198@ssn.edu.in</code></div>
+            <div>• Official Incident Feed: <code style={{ color: '#F59E0B' }}>rijja2310119@ssn.edu.in</code></div>
           </div>
         </div>
 

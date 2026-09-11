@@ -192,44 +192,6 @@ function AppContent() {
 
   return (
     <div className="app-shell">
-      {/* ─── SIH Demonstration Mode Persistent Banner ─── */}
-      {currentUser?.role === 'DEMO' && (
-        <div style={{
-          background: 'linear-gradient(90deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%)',
-          color: '#FFFFFF',
-          padding: '6px 16px',
-          fontSize: '12px',
-          fontWeight: 800,
-          letterSpacing: '0.04em',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          borderBottom: '1px solid rgba(16, 185, 129, 0.5)',
-          zIndex: 1000,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span>🎯</span>
-            <span>SIH DEMONSTRATION MODE — READ ONLY</span>
-            <span style={{ fontSize: '11px', fontWeight: 500, opacity: 0.9 }}>· Safe interactive review session for SIH 2026 Evaluation Panel</span>
-          </div>
-          <button
-            onClick={() => logout()}
-            style={{
-              background: 'rgba(0,0,0,0.25)',
-              border: '1px solid rgba(255,255,255,0.4)',
-              borderRadius: '4px',
-              color: '#FFFFFF',
-              fontSize: '11px',
-              padding: '2px 8px',
-              cursor: 'pointer',
-              fontWeight: 700
-            }}
-          >
-            Exit Demo
-          </button>
-        </div>
-      )}
-
       {/* ─── Top Header ─── */}
       <header className="top-header">
         <div className="top-header__logo-zone" onClick={() => navigate('dashboard')} title="ThermoTrace">

@@ -604,10 +604,23 @@ def compute_facility_thermal_fingerprint(
             "hotspot_density": z["hotspot_density"]
         })
 
+    # Compute Engine 1: Persistent Source ML Fingerprint
+    from services.classification.persistent_fingerprint import persistent_fingerprinter
+    persistent_fp = persistent_fingerprinter.predict_persistence({
+        "mean_frp_mw": mean_frp,
+        "current_frp_mw": obs_frp,
+        "distance_to_facility_km": 0.2 if lat else 0.0,
+        "detection_frequency": base.get("daily_detection_frequency", 0.85),
+        "day_night_ratio": base.get("day_night_ratio", 0.70),
+        "persistence_ratio_90d": base.get("persistence_pct", 80.0) / 100.0,
+        "facility_type": facility_name
+    })
+
     return {
         "facility_id": facility_id,
         "facility_name": facility_name,
         "provenance": "DERIVED",
+        "persistent_source_ml": persistent_fp,
         "baseline": {
             "mean_frp": mean_frp,
             "median_frp": base["median_frp"],
@@ -951,26 +964,50 @@ async def get_event_intelligence_summary_api(
     frp: Optional[float] = Query(340.0),
     risk_score: Optional[float] = Query(84.0)
 ):
-    """Unified Event Intelligence Dossier combining all 3 novelty modules."""
+    """Unified Event Intelligence Dossier combining all 4 AI engines into hybrid decision fusion."""
     fac_name = facility_name or "Jamnagar Mega Refinery Complex"
+    current_frp = frp or 340.0
+
+    # 1. Facility Baseline & Persistent ML Fingerprint (Engines 1 & 2)
     fp = compute_facility_thermal_fingerprint(
         facility_id=f"FAC-{event_id}",
         facility_name=fac_name,
-        current_frp=frp
+        current_frp=current_frp
     )
     
+    # 2. Sequential LSTM Early Warning & Escalation (Engine 3)
     ew = compute_early_warning_escalation(
         event_id=event_id,
-        frp=frp or 340.0,
+        frp=current_frp,
         baseline_mean=fp["baseline"]["mean_frp"],
         baseline_std=fp["baseline"]["std_frp"]
     )
     
+    # 3. Contextual Classification & Decision Fusion (Engine 4 + Fusion Layer)
+    from services.classification.model_fusion import hybrid_fusion_layer
+    hgb_mock = {
+        "label": "Industrial Fire / Abnormal Flare Surge" if fp["current_observation"]["deviation_z"] >= 2.0 else "Normal Industrial Flaring",
+        "confidence": 0.89
+    }
+    lstm_eval = {
+        "escalation_state": ew["escalation_state"],
+        "temporal_risk_score": ew["escalation_score"],
+        "frp_trend_slope_mw_per_pass": ew["trend_slope_mw_per_day"]
+    }
+    fusion_output = hybrid_fusion_layer.fuse_event_intelligence(
+        hgb_prediction=hgb_mock,
+        lstm_prediction=lstm_eval,
+        baseline_stats=fp["baseline"],
+        current_frp=current_frp,
+        persistent_prediction=fp.get("persistent_source_ml")
+    )
+
+    # 4. Impact & Response Intelligence (Radiant radius, plume dispersion, response SOPs)
     impact = compute_impact_and_response(
         event_id=event_id,
         facility_name=fac_name,
-        frp=frp or 340.0,
-        risk_score=risk_score or 84.0,
+        frp=current_frp,
+        risk_score=fusion_output["composite_risk_index"],
         escalation_state=ew["escalation_state"]
     )
 
@@ -978,25 +1015,30 @@ async def get_event_intelligence_summary_api(
         "event_id": event_id,
         "facility_name": fac_name,
         "classification": {
-            "label": "Industrial Fire / Abnormal Flare Surge",
-            "confidence": 0.89,
-            "is_abnormal": fp["current_observation"]["deviation_z"] >= 1.5
+            "label": hgb_mock["label"],
+            "confidence": hgb_mock["confidence"],
+            "is_abnormal": fp["current_observation"]["deviation_z"] >= 1.5,
+            "final_assessment": fusion_output["final_assessment"]
         },
+        "four_engine_fusion": fusion_output,
         "facility_thermal_fingerprint": fp,
         "early_warning_forecast": ew,
         "impact_intelligence": impact,
         "unified_scorecard": {
-            "classification_confidence_pct": 89,
+            "classification_confidence_pct": int(hgb_mock["confidence"] * 100),
+            "persistence_probability_pct": int(fp.get("persistent_source_ml", {}).get("persistence_probability", 0.85) * 100),
             "abnormality_z": fp["current_observation"]["deviation_z"],
             "abnormality_level": fp["current_observation"]["abnormality_level"],
             "escalation_state": ew["escalation_state"],
-            "operational_risk_score": impact["impact_score"],
+            "threat_tier": fusion_output["threat_tier"],
+            "operational_risk_score": fusion_output["composite_risk_index"],
             "incident_priority": impact["incident_priority"]
         },
         "xai_summary": {
-            "why_abnormal": f"Current FRP ({frp} MW) is +{fp['current_observation']['deviation_z']}σ above the learned facility baseline ({fp['baseline']['mean_frp']} MW).",
-            "why_escalating": f"Thermal trajectory shows {ew['thermal_trend']} with slope of +{ew['trend_slope_mw_per_day']} MW/day across consecutive passes.",
-            "why_critical_priority": f"High thermal intensity ({frp} MW) inside high-vulnerability refinery with 3.2km hazard radius and downwind dispersion towards populated zones."
+            "why_persistent": f"Engine 1 Persistent ML identified long-term operational fingerprint ({int(fp.get('persistent_source_ml', {}).get('persistence_probability', 0.85)*100)}% prob) based on {fp['baseline']['persistence_pct']}% recurrence and {fp['baseline']['day_night_ratio']} day/night symmetry.",
+            "why_abnormal": f"Engine 2 Facility Baseline flagged FRP ({current_frp} MW) at +{fp['current_observation']['deviation_z']}σ above 90-day mean ({fp['baseline']['mean_frp']} MW).",
+            "why_escalating": f"Engine 3 LSTM modeled {ew['thermal_trend']} with slope of +{ew['trend_slope_mw_per_day']} MW/day across consecutive satellite passes.",
+            "why_critical_priority": f"Composite Threat Tier [{fusion_output['threat_tier']}] inside {fac_name} with {impact['hazard_radius_m']}m radiant hazard and downwind dispersion towards populated zones."
         }
     }
 

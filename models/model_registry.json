@@ -1,11 +1,11 @@
 {
-  "active_model": "M4-B_HistGradientBoosting_v1.6.0-Adaptive",
-  "active_version": "1.6.0-Adaptive",
+  "active_model": "M4-B_HistGradientBoosting_v1.17.0-Adaptive",
+  "active_version": "1.17.0-Adaptive",
   "champion_metrics": {
     "macro_f1": 0.85,
-    "accuracy": 0.82,
+    "accuracy": 0.88,
     "industrial_precision": 0.92,
-    "industrial_recall": 0.816
+    "industrial_recall": 0.85
   },
   "history": [
     {
@@ -72,6 +72,127 @@
         "accuracy": 0.8,
         "industrial_precision": 0.92,
         "industrial_recall": 0.798
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.6.0-Adaptive",
+      "previous_version": "1.6.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T15:00:50.231297+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.82,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.816
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.7.0-Adaptive",
+      "previous_version": "1.7.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T15:02:04.515213+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.84,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.834
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.8.0-Adaptive",
+      "previous_version": "1.8.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T15:50:52.463684+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.86,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.9.0-Adaptive",
+      "previous_version": "1.9.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T16:01:04.201123+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.10.0-Adaptive",
+      "previous_version": "1.10.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T16:32:50.547241+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.11.0-Adaptive",
+      "previous_version": "1.11.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T16:33:02.235264+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.12.0-Adaptive",
+      "previous_version": "1.12.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T16:33:49.515616+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.13.0-Adaptive",
+      "previous_version": "1.13.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T16:37:03.821552+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.14.0-Adaptive",
+      "previous_version": "1.14.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T16:38:32.537715+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.15.0-Adaptive",
+      "previous_version": "1.15.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T16:44:25.580879+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.16.0-Adaptive",
+      "previous_version": "1.16.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T16:52:16.049338+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
       }
     }
   ]

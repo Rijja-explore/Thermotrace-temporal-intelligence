@@ -115,6 +115,47 @@ export const FacilityThermalFingerprintCard: React.FC<FacilityThermalFingerprint
         </div>
       </div>
 
+      {/* ── Engine 1: Persistent Source ML Fingerprint Banner ── */}
+      {fp.persistent_source_ml && (
+        <div style={{
+          background: 'rgba(56, 189, 248, 0.08)',
+          border: '1px solid rgba(56, 189, 248, 0.25)',
+          borderRadius: 'var(--radius-sm)',
+          padding: '8px 12px',
+          marginBottom: '14px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '8px',
+          fontSize: '11px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '13px' }}>🤖</span>
+            <div>
+              <strong style={{ color: '#38BDF8' }}>Engine 1 — Persistent Source ML Fingerprint:</strong>{' '}
+              <span style={{ color: 'var(--text-primary)' }}>
+                {Math.round(fp.persistent_source_ml.persistence_probability * 100)}% Probability ({fp.persistent_source_ml.persistence_category})
+              </span>
+              <div style={{ color: 'var(--text-muted)', fontSize: '10px', marginTop: '1px' }}>
+                {fp.persistent_source_ml.category_description}
+              </div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', fontFamily: 'var(--font-mono)', fontSize: '10px' }}>
+            <span style={{ background: '#0F172A', padding: '2px 6px', borderRadius: '3px', color: '#94A3B8', border: '1px solid #1E293B' }}>
+              Recurrence: {baseline.persistence_pct}%
+            </span>
+            <span style={{ background: '#0F172A', padding: '2px 6px', borderRadius: '3px', color: '#94A3B8', border: '1px solid #1E293B' }}>
+              Day/Night: {(baseline.day_night_ratio * 100).toFixed(0)}%
+            </span>
+            <span style={{ background: '#0F172A', padding: '2px 6px', borderRadius: '3px', color: '#38BDF8', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+              Stack Stationary: &lt;50m
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* ── Key Metrics Strip ── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '16px' }}>
         <div style={{ padding: '10px 12px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>

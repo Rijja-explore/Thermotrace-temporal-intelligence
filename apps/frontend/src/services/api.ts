@@ -3,7 +3,7 @@
  * Standardized to Canonical ThermoTrace Data Contract.
  */
 
-export const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
+export const API_BASE = import.meta.env.VITE_API_BASE || import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 interface FetchOptions {
   method?: string;
@@ -179,6 +179,18 @@ export interface FacilityThermalFingerprint {
   facility_id: string;
   facility_name: string;
   provenance: 'LIVE' | 'DERIVED' | 'SIMULATED' | 'DEMO';
+  persistent_source_ml?: {
+    model_architecture: string;
+    persistence_probability: number;
+    persistence_category: 'NON_PERSISTENT' | 'POSSIBLE' | 'PROBABLE' | 'PERSISTENT';
+    category_description: string;
+    confidence_score: number;
+    driving_features?: {
+      top_evidence_for: string[];
+      top_evidence_against: string[];
+    };
+    features_summary?: Record<string, number>;
+  };
   baseline: {
     mean_frp: number;
     median_frp: number;
@@ -278,19 +290,34 @@ export interface IntelligenceSummary {
     label: string;
     confidence: number;
     is_abnormal: boolean;
+    final_assessment?: string;
+  };
+  four_engine_fusion?: {
+    fusion_architecture: string;
+    threat_tier: string;
+    operational_status: string;
+    final_assessment: string;
+    composite_risk_index: number;
+    baseline_deviation_z: number;
+    temporal_escalation_state: string;
+    persistence_probability: number;
+    explainable_fusion_dossier: string;
   };
   facility_thermal_fingerprint: FacilityThermalFingerprint;
   early_warning_forecast: EarlyWarningForecast;
   impact_intelligence: ImpactIntelligence;
   unified_scorecard: {
     classification_confidence_pct: number;
+    persistence_probability_pct?: number;
     abnormality_z: number;
     abnormality_level: string;
     escalation_state: string;
+    threat_tier?: string;
     operational_risk_score: number;
     incident_priority: string;
   };
   xai_summary: {
+    why_persistent?: string;
     why_abnormal: string;
     why_escalating: string;
     why_critical_priority: string;
