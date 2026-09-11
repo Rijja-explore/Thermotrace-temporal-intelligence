@@ -4057,51 +4057,105 @@ class AnalystVerification(BaseModel):
     decision: str  # CONFIRMED, REJECTED, RECLASSIFIED, INVESTIGATING
     reclassified_label: Optional[str] = None
     notes: Optional[str] = None
-    analyst_id: str = "ANALYST_DEMO"
+    analyst_id: str = "anagesh2410198@ssn.edu.in"
 
 
 @router.post("/{event_id}/verify")
-async def verify_event(event_id: str, body: AnalystVerification):
-    """Record analyst verification decision preserving audit trail."""
+async def verify_event(
+    event_id: str,
+    body: AnalystVerification,
+    user: Dict[str, Any] = Depends(get_current_authenticated_user)
+):
+    """Record analyst verification decision preserving audit trail and RBAC."""
+    # Ensure role is ANALYST or ADMIN
+    user_role = user.get("role", "ANALYST").upper()
+    if user_role not in ["ANALYST", "ADMIN"]:
+        raise HTTPException(
+            status_code=403,
+            detail=f"Access Denied: Role '{user_role}' cannot perform analyst verification. Requires ANALYST or ADMIN."
+        )
+
     events = _load_all_events()
     for ev in events:
         if ev.get("event_id") == event_id:
             ev["status"] = body.decision.upper()
+            actor_name = user.get("name", "Anagesh V (Analyst)")
+            actor_email = user.get("email", body.analyst_id)
+            
             ev["analyst_review"] = {
                 "reviewed": True,
                 "decision": body.decision.upper(),
                 "reclassified_label": body.reclassified_label if body.decision.upper() == "RECLASSIFIED" else None,
                 "notes": body.notes,
                 "timestamp": datetime.utcnow().isoformat() + "Z",
-                "analyst_id": body.analyst_id
+                "analyst_id": actor_email,
+                "analyst_name": actor_name
             }
             if body.decision.upper() == "RECLASSIFIED" and body.reclassified_label:
                 ev["classification"]["label"] = body.reclassified_label
             
-            # Feed into Closed-Loop Adaptive Ground Truth Collector
+            # 1. Log to Security Audit Trail
+            from .auth import SECURITY_AUDIT_LOGS
+            SECURITY_AUDIT_LOGS.insert(0, {
+                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "user_email": actor_email,
+                "actor": actor_name,
+                "role": user_role,
+                "action": f"EVENT_VERIFICATION_{body.decision.upper()}",
+                "ip": "Analyst Secure Console",
+                "status": "RECORDED",
+                "details": f"Event {event_id} verified as {body.decision.upper()}. Notes: {body.notes or 'None'}"
+            })
+
+            # 2. Feed into Closed-Loop Adaptive Ground Truth Collector
             try:
                 from services.classification.feedback_collector import record_analyst_decision
                 record_analyst_decision(
                     event_id=event_id,
                     action=body.decision.upper(),
-                    analyst_id=body.analyst_id,
+                    analyst_id=actor_email,
                     original_label=ev.get("classification", {}).get("label", "industrial"),
                     corrected_label=body.reclassified_label or ev.get("classification", {}).get("label", "industrial"),
                     confidence=float(ev.get("classification", {}).get("confidence", 0.9)),
                     notes=body.notes,
                     features=ev.get("feature_vector", {})
                 )
-            except Exception as feedback_err:
+            except Exception:
                 pass
+
+            # 3. If CONFIRMED, automatically generate official notification for Official (rijja2310119@ssn.edu.in)
+            notification_dispatched = False
+            if body.decision.upper() == "CONFIRMED":
+                try:
+                    from .notifications import dispatch_notification, NotificationDispatchRequest
+                    dispatch_notification(NotificationDispatchRequest(
+                        event_id=event_id,
+                        facility_name=ev.get("facility", {}).get("name", "Jamnagar Mega Refinery Complex"),
+                        facility_distance_km=float(ev.get("facility", {}).get("distance_km", 0.18)),
+                        frp_mw=float(ev.get("frp", {}).get("max", 340.0)),
+                        baseline_mw="82 ± 18.5 MW",
+                        baseline_deviation_sigma=13.95,
+                        threat_tier="CONFIRMED",
+                        risk_score=float(ev.get("risk_score", 84.0)),
+                        hazard_radius_m=350.0,
+                        plume_corridor="8.6 km NE",
+                        population_exposure=123
+                    ), user=user)
+                    notification_dispatched = True
+                except Exception:
+                    pass
                 
             return {
                 "success": True,
                 "event_id": event_id,
                 "status": ev["status"],
                 "analyst_review": ev["analyst_review"],
+                "audit_logged": True,
+                "official_notification_dispatched": notification_dispatched,
                 "closed_loop_feedback": "LOGGED_TO_GROUND_TRUTH"
             }
     raise HTTPException(status_code=404, detail=f"Event {event_id} not found")
+
 
 
 
