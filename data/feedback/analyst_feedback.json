@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "last_updated_utc": "2026-09-11T18:11:25.840597+00:00",
-  "total_feedbacks": 11,
+  "last_updated_utc": "2026-09-11T18:23:50.189674+00:00",
+  "total_feedbacks": 13,
   "verified_ground_truth": [
     {
       "feedback_id": "FB-20260911132742-TT-CASE-",
@@ -14,7 +14,7 @@
       "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
       "features": {},
       "timestamp_utc": "2026-09-11T13:27:42.900538+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911132849-TT-CASE-",
@@ -27,7 +27,7 @@
       "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
       "features": {},
       "timestamp_utc": "2026-09-11T13:28:49.079808+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911133104-TT-CASE-",
@@ -40,7 +40,7 @@
       "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
       "features": {},
       "timestamp_utc": "2026-09-11T13:31:04.359028+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911133135-TT-CASE-",
@@ -53,7 +53,7 @@
       "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
       "features": {},
       "timestamp_utc": "2026-09-11T13:31:35.738979+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911141344-TT-CASE-",
@@ -66,7 +66,7 @@
       "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
       "features": {},
       "timestamp_utc": "2026-09-11T14:13:44.099062+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911144522-TT-CASE-",
@@ -79,7 +79,7 @@
       "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
       "features": {},
       "timestamp_utc": "2026-09-11T14:45:22.890158+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911150204-TT-CASE-",
@@ -92,7 +92,7 @@
       "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
       "features": {},
       "timestamp_utc": "2026-09-11T15:02:04.481786+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911163302-TT-CASE-",
@@ -105,7 +105,7 @@
       "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
       "features": {},
       "timestamp_utc": "2026-09-11T16:33:02.220795+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911163832-TT-CASE-",
@@ -118,7 +118,7 @@
       "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
       "features": {},
       "timestamp_utc": "2026-09-11T16:38:32.500320+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911175542-TT-CASE-",
@@ -131,7 +131,7 @@
       "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
       "features": {},
       "timestamp_utc": "2026-09-11T17:55:42.304767+00:00",
-      "used_in_retraining": false
+      "used_in_retraining": true
     },
     {
       "feedback_id": "FB-20260911181125-TT-CASE-",
@@ -144,6 +144,36 @@
       "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
       "features": {},
       "timestamp_utc": "2026-09-11T18:11:25.840597+00:00",
+      "used_in_retraining": true
+    },
+    {
+      "feedback_id": "FB-20260911182226-TT-TEST-",
+      "event_id": "TT-TEST-CL-001",
+      "action": "CONFIRM",
+      "analyst_id": "anagesh2410198@ssn.edu.in",
+      "original_label": "persistent_industrial_source",
+      "corrected_label": "persistent_industrial_source",
+      "confidence": 0.96,
+      "notes": "Verified refinery flare stack operation.",
+      "features": {
+        "max_frp_mw": 85.0,
+        "distance_to_facility_km": 0.15,
+        "forest_fraction_1km": 0.05
+      },
+      "timestamp_utc": "2026-09-11T18:22:26.429692+00:00",
+      "used_in_retraining": true
+    },
+    {
+      "feedback_id": "FB-20260911182350-TT-CASE-",
+      "event_id": "TT-CASE-001",
+      "action": "CONFIRMED",
+      "analyst_id": "anagesh2410198@ssn.edu.in",
+      "original_label": "persistent_industrial_source",
+      "corrected_label": "persistent_industrial_source",
+      "confidence": 0.942,
+      "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
+      "features": {},
+      "timestamp_utc": "2026-09-11T18:23:50.189674+00:00",
       "used_in_retraining": false
     }
   ]

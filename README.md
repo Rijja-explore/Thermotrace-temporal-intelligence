@@ -209,6 +209,9 @@ ThermoTrace features real backend PBKDF2-HMAC-SHA256 authentication with role-ba
 
 ### 1. Backend Setup & Test
 ```bash
+# Run continuous learning validation suite (Tests all 16 ML retraining & gate criteria)
+python scratch/test_continuous_learning.py
+
 # Run verification suite (Tests all 6 subsystems & 4 AI engines)
 python scratch/test_full_system.py
 
@@ -241,11 +244,12 @@ Thermotrace-temporal-intelligence/
 │   │   ├── lstm_temporal.py         # Engine 3: Sequential PyTorch LSTM Engine
 │   │   ├── models.py                # Engine 4: Contextual HistGradientBoosting
 │   │   ├── model_fusion.py          # Unified 4-Engine Decision Intelligence Fusion Layer
-│   │   ├── retraining_gate.py       # Closed-loop validation gate
+│   │   ├── retraining_gate.py       # Closed-loop validation gate & genuine ML retraining
 │   │   └── feedback_collector.py    # Human-in-the-loop ground truth collector
 │   ├── data_pipeline/               # NASA FIRMS NRT poller and ingestion
 │   └── temporal_intelligence/       # Clustering, physical hazard & plume dispersion
 ├── scratch/
+│   ├── test_continuous_learning.py  # 16-point forensic continuous learning test suite
 │   ├── test_full_system.py          # Master verification test suite
 │   └── test_api_flow.py             # End-to-end REST API validation test
 └── README.md                        # Documentation & Architecture Guide

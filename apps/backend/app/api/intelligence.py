@@ -1073,6 +1073,13 @@ def get_continuous_learning_status():
     }
 
 
+@router.get("/continuous-learning/registry")
+def get_model_registry_history():
+    """Returns full model registry lineage and promotion history."""
+    from services.classification.retraining_gate import _get_registry
+    return _get_registry()
+
+
 @router.post("/continuous-learning/feedback")
 def submit_analyst_feedback(payload: Dict[str, Any]):
     """Records human-supervised audit decision (CONFIRM/REJECT/RECLASSIFY) into ground-truth storage."""
@@ -1081,8 +1088,8 @@ def submit_analyst_feedback(payload: Dict[str, Any]):
         event_id=payload.get("event_id", "TT-CASE-001"),
         action=payload.get("action", "CONFIRM"),
         analyst_id=payload.get("analyst_id", "admin_analyst_01"),
-        original_label=payload.get("original_label", "industrial_flaring"),
-        corrected_label=payload.get("corrected_label", "abnormal_industrial_fire"),
+        original_label=payload.get("original_label", "persistent_industrial_source"),
+        corrected_label=payload.get("corrected_label", "industrial_fire_or_abnormal_event"),
         confidence=float(payload.get("confidence", 0.95)),
         notes=payload.get("notes", "Human analyst verified via satellite spectral indices"),
         features=payload.get("features", {})
@@ -1090,8 +1097,28 @@ def submit_analyst_feedback(payload: Dict[str, Any]):
 
 
 @router.post("/continuous-learning/retrain-and-validate")
-def retrain_candidate_model(verified_count: int = Query(15, ge=1)):
-    """Triggers candidate retraining and enforces the validation gate before model promotion."""
+def retrain_candidate_model(
+    min_macro_f1_threshold: float = Query(0.70, ge=0.0, le=1.0),
+    force_promote: bool = Query(False)
+):
+    """
+    Triggers genuine supervised machine learning training on accumulated ground truth & analyst feedback.
+    Evaluates Candidate against Champion on held-out validation data using scikit-learn metrics.
+    Enforces validation gate (Macro-F1 >= Champion & Precision >= 65%) before model promotion.
+    """
     from services.classification.retraining_gate import evaluate_and_promote_candidate
-    return evaluate_and_promote_candidate(simulated_verified_count=verified_count)
+    return evaluate_and_promote_candidate(
+        min_macro_f1_threshold=min_macro_f1_threshold,
+        force_promote=force_promote
+    )
+
+
+@router.post("/continuous-learning/models/{version}/rollback")
+def rollback_model_version(version: str):
+    """
+    Rolls back the active champion model to a historical version from registry.
+    Restores the previous model artifact and updates active model pointers.
+    """
+    from services.classification.retraining_gate import rollback_to_previous_champion
+    return rollback_to_previous_champion(target_version=version)
 

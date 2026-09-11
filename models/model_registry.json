@@ -1,11 +1,84 @@
 {
-  "active_model": "M4-B_HistGradientBoosting_v1.22.0-Adaptive",
-  "active_version": "1.22.0-Adaptive",
+  "active_model": "M4-B_HistGradientBoosting_v1.26.0-Adaptive",
+  "active_version": "1.26.0-Adaptive",
   "champion_metrics": {
-    "macro_f1": 0.85,
-    "accuracy": 0.88,
-    "industrial_precision": 0.92,
-    "industrial_recall": 0.85
+    "accuracy": 0.9565,
+    "macro_f1": 0.74,
+    "weighted_f1": 0.9357,
+    "industrial_precision": 0.7308,
+    "industrial_recall": 0.75,
+    "classification_report": {
+      "agricultural_burning": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "mining_or_other_industrial_activity": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "persistent_industrial_source": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1-score": 0.96,
+        "support": 12.0
+      },
+      "wildfire_or_forest_fire": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 9.0
+      },
+      "accuracy": 0.9565217391304348,
+      "macro avg": {
+        "precision": 0.7307692307692308,
+        "recall": 0.75,
+        "f1-score": 0.74,
+        "support": 23.0
+      },
+      "weighted avg": {
+        "precision": 0.9163879598662207,
+        "recall": 0.9565217391304348,
+        "f1-score": 0.9356521739130435,
+        "support": 23.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        12,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        9
+      ]
+    ],
+    "classes": [
+      "agricultural_burning",
+      "industrial_fire_or_abnormal_event",
+      "mining_or_other_industrial_activity",
+      "persistent_industrial_source",
+      "wildfire_or_forest_fire"
+    ]
   },
   "history": [
     {
@@ -249,6 +322,200 @@
         "industrial_precision": 0.92,
         "industrial_recall": 0.85
       }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.22.0-Adaptive",
+      "previous_version": "1.22.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T18:22:26.852255+00:00",
+      "metrics": {
+        "macro_f1": 0.85,
+        "accuracy": 0.88,
+        "industrial_precision": 0.92,
+        "industrial_recall": 0.85
+      },
+      "artifact_path": "D:\\Thermotrace-temporal-intelligence\\services\\classification\\..\\..\\models\\trained\\m4_hgb_v1.23.0-Adaptive.joblib",
+      "training_samples": 67,
+      "validation_samples": 23
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.23.0-Adaptive",
+      "previous_version": "1.23.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T18:22:27.365381+00:00",
+      "metrics": {
+        "accuracy": 0.9565,
+        "macro_f1": 0.74,
+        "weighted_f1": 0.9357,
+        "industrial_precision": 0.7308,
+        "industrial_recall": 0.75,
+        "classification_report": {
+          "agricultural_burning": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1.0
+          },
+          "mining_or_other_industrial_activity": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 1.0
+          },
+          "persistent_industrial_source": {
+            "precision": 0.9230769230769231,
+            "recall": 1.0,
+            "f1-score": 0.96,
+            "support": 12.0
+          },
+          "wildfire_or_forest_fire": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 9.0
+          },
+          "accuracy": 0.9565217391304348,
+          "macro avg": {
+            "precision": 0.7307692307692308,
+            "recall": 0.75,
+            "f1-score": 0.74,
+            "support": 23.0
+          },
+          "weighted avg": {
+            "precision": 0.9163879598662207,
+            "recall": 0.9565217391304348,
+            "f1-score": 0.9356521739130435,
+            "support": 23.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            12,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            9
+          ]
+        ],
+        "classes": [
+          "agricultural_burning",
+          "industrial_fire_or_abnormal_event",
+          "mining_or_other_industrial_activity",
+          "persistent_industrial_source",
+          "wildfire_or_forest_fire"
+        ]
+      },
+      "artifact_path": "D:\\Thermotrace-temporal-intelligence\\services\\classification\\..\\..\\models\\trained\\m4_hgb_v1.24.0-Adaptive.joblib",
+      "training_samples": 67,
+      "validation_samples": 23
+    },
+    {
+      "action": "ROLLBACK",
+      "from_version": "1.24.0-Adaptive",
+      "restored_version": "1.23.0-Adaptive",
+      "restored_at_utc": "2026-09-11T18:22:27.504820+00:00"
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.23.0-Adaptive",
+      "previous_version": "1.23.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T18:23:23.097844+00:00",
+      "metrics": {
+        "accuracy": 0.9565,
+        "macro_f1": 0.74,
+        "weighted_f1": 0.9357,
+        "industrial_precision": 0.7308,
+        "industrial_recall": 0.75,
+        "classification_report": {
+          "agricultural_burning": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1.0
+          },
+          "mining_or_other_industrial_activity": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 1.0
+          },
+          "persistent_industrial_source": {
+            "precision": 0.9230769230769231,
+            "recall": 1.0,
+            "f1-score": 0.96,
+            "support": 12.0
+          },
+          "wildfire_or_forest_fire": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 9.0
+          },
+          "accuracy": 0.9565217391304348,
+          "macro avg": {
+            "precision": 0.7307692307692308,
+            "recall": 0.75,
+            "f1-score": 0.74,
+            "support": 23.0
+          },
+          "weighted avg": {
+            "precision": 0.9163879598662207,
+            "recall": 0.9565217391304348,
+            "f1-score": 0.9356521739130435,
+            "support": 23.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            12,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            9
+          ]
+        ],
+        "classes": [
+          "agricultural_burning",
+          "industrial_fire_or_abnormal_event",
+          "mining_or_other_industrial_activity",
+          "persistent_industrial_source",
+          "wildfire_or_forest_fire"
+        ]
+      },
+      "artifact_path": "D:\\Thermotrace-temporal-intelligence\\services\\classification\\..\\..\\models\\trained\\m4_hgb_v1.26.0-Adaptive.joblib",
+      "training_samples": 67,
+      "validation_samples": 23
     }
   ]
 }
