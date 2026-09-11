@@ -2,7 +2,7 @@
 ThermoTrace Centralized Multi-Tier Notification Engine.
 Dispatches formatted incident dossiers and operational alerts across configured recipient roles.
 
-Recipient Identities:
+Recipient Identities (Institutional SIH Configuration):
 - ANALYST: anagesh2410198@ssn.edu.in (Detailed investigation brief + XAI + Verification actions)
 - OFFICIAL: rijja2310119@ssn.edu.in (Operational response notice + Hazard perimeter + SOP directives)
 
@@ -28,7 +28,7 @@ from .auth import get_current_authenticated_user
 logger = logging.getLogger("thermotrace.notifications")
 router = APIRouter()
 
-# Default Standard Operational Recipients
+# Default Standard Operational Recipients (Institutional SIH Configuration)
 RECIPIENT_ANALYST = "anagesh2410198@ssn.edu.in"
 RECIPIENT_OFFICIAL = "rijja2310119@ssn.edu.in"
 
@@ -301,7 +301,7 @@ def dispatch_notification(
         "threat_tier": tier,
         "dispatched_count": len(dispatched_items),
         "dispatches": dispatched_items,
-        "workflow": "Centralized Multi-Tier Routing (Analyst: anagesh2410198@ssn.edu.in | Official: rijja2310119@ssn.edu.in)"
+        "workflow": f"Centralized Multi-Tier Routing (Analyst: {RECIPIENT_ANALYST} | Official: {RECIPIENT_OFFICIAL})"
     }
 
 

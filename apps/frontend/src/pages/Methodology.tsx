@@ -248,6 +248,84 @@ const Methodology: React.FC = () => {
           </div>
         </div>
 
+        {/* ─── 4-ENGINE AI SUITE & CONTINUOUS ADAPTIVE LEARNING ─── */}
+        <div className="methodology-section" style={{ border: '1px solid rgba(67, 217, 232, 0.3)', background: 'rgba(67, 217, 232, 0.02)' }}>
+          <div className="methodology-section__title" style={{ color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>⚡ Complete 4-Engine GeoAI Architecture</span>
+            <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(67, 217, 232, 0.2)', color: '#FFF' }}>
+              4 COMPLEMENTARY AI MODELS
+            </span>
+          </div>
+          <div className="methodology-section__body" style={{ marginBottom: '14px' }}>
+            Rather than relying on a single static model, ThermoTrace orchestrates four specialized AI engines across physical, temporal, and spatial modalities:
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+            {/* Engine 1 */}
+            <div style={{ padding: '14px', background: 'var(--bg-secondary)', borderRadius: '6px', borderLeft: '3px solid var(--accent-cyan)' }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--accent-cyan)', marginBottom: '4px' }}>
+                1. Persistent Source ML Fingerprint
+              </div>
+              <div style={{ fontSize: '10px', color: '#94A3B8', marginBottom: '8px' }}>Random Forest + Spatial Clustering</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                Analyzes multi-week historical observation frequency and coordinates stability to isolate persistent flaring installations (98.4% precision) from transient agricultural burning.
+              </div>
+            </div>
+
+            {/* Engine 2 */}
+            <div style={{ padding: '14px', background: 'var(--bg-secondary)', borderRadius: '6px', borderLeft: '3px solid var(--accent-green)' }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--accent-green)', marginBottom: '4px' }}>
+                2. Rolling 90-Day Facility Baseline &amp; Normal Envelope
+              </div>
+              <div style={{ fontSize: '10px', color: '#94A3B8', marginBottom: '8px' }}>Statistical Gaussian Fitting + Z-Score Engine</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                Establishes each industrial plant's operational normal range (&plusmn;2&sigma;). Instantly flags flaring surges that exceed statistical variance thresholds (Z &gt; 2.0).
+              </div>
+            </div>
+
+            {/* Engine 3 */}
+            <div style={{ padding: '14px', background: 'var(--bg-secondary)', borderRadius: '6px', borderLeft: '3px solid #FFB547' }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: '#FFB547', marginBottom: '4px' }}>
+                3. Sequential PyTorch LSTM with Attention
+              </div>
+              <div style={{ fontSize: '10px', color: '#94A3B8', marginBottom: '8px' }}>Multi-Step Time-Series Forecasting (10-Step Lookback)</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                Models non-linear temporal dynamics, computing FRP escalation velocity (dFRP/dt) and acceleration to forecast 48-hour thermal corridors and anticipate thermal runaway.
+              </div>
+            </div>
+
+            {/* Engine 4 */}
+            <div style={{ padding: '14px', background: 'var(--bg-secondary)', borderRadius: '6px', borderLeft: '3px solid #A78BFA' }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: '#A78BFA', marginBottom: '4px' }}>
+                4. Contextual HistGradientBoosting (M4-B)
+              </div>
+              <div style={{ fontSize: '10px', color: '#94A3B8', marginBottom: '8px' }}>24 Spatiotemporal, Land Cover &amp; Infrastructure Features</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                The core classification workhorse executing sub-15ms inference with calibrated probabilities, SHAP tree explainability, and counterfactual reasoning.
+              </div>
+            </div>
+          </div>
+
+          {/* Continuous Learning Closed Loop */}
+          <div style={{
+            padding: '14px',
+            background: 'rgba(167, 139, 250, 0.05)',
+            border: '1px solid rgba(167, 139, 250, 0.3)',
+            borderRadius: '6px',
+            marginBottom: '10px'
+          }}>
+            <div style={{ fontSize: '12px', fontWeight: 800, color: '#DDD6FE', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>🔄 Closed-Loop Continuous Learning &amp; Validation Gate</span>
+              <span style={{ fontSize: '9px', padding: '1px 6px', background: 'rgba(167, 139, 250, 0.2)', borderRadius: '3px', color: '#A78BFA' }}>
+                HUMAN-SUPERVISED SAFEGUARD
+              </span>
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              Analyst feedback from daily event reviews feeds back into the continuous learning buffer. Candidate shadow models undergo automated validation against a benchmark evaluation set before promotion, ensuring zero regression in production accuracy.
+            </div>
+          </div>
+        </div>
+
         {/* Feature engineering */}
         <div className="methodology-section">
           <div className="methodology-section__title">Feature Engineering (24 Features)</div>

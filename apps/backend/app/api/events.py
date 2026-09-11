@@ -382,7 +382,7 @@ DEMO_EVENTS = [
             "reasons": [
                 "Thermal FRP spike of 340.0 MW exceeds 4.2\u03c3 operational limit",
                 "Immediate Flare Gas Recovery (FGRS) diversion valve engagement advised",
-                "Auto-notification pushed to rijja2310119@ssn.edu.in"
+                "Auto-notification pushed to official@thermotrace.gov.in"
             ]
         },
         "analyst_review": {
@@ -4059,7 +4059,7 @@ class AnalystVerification(BaseModel):
     decision: str  # CONFIRMED, REJECTED, RECLASSIFIED, INVESTIGATING
     reclassified_label: Optional[str] = None
     notes: Optional[str] = None
-    analyst_id: str = "anagesh2410198@ssn.edu.in"
+    analyst_id: str = "analyst@thermotrace.gov.in"
 
 
 @router.post("/{event_id}/verify")
@@ -4081,7 +4081,7 @@ async def verify_event(
     for ev in events:
         if ev.get("event_id") == event_id:
             ev["status"] = body.decision.upper()
-            actor_name = user.get("name", "Anagesh V (Analyst)")
+            actor_name = user.get("name", "Lead Thermal Analyst")
             actor_email = user.get("email", body.analyst_id)
             
             ev["analyst_review"] = {
@@ -4125,7 +4125,7 @@ async def verify_event(
             except Exception:
                 pass
 
-            # 3. If CONFIRMED, automatically generate official notification for Official (rijja2310119@ssn.edu.in)
+            # 3. If CONFIRMED, automatically generate official notification for Official (official@thermotrace.gov.in)
             notification_dispatched = False
             if body.decision.upper() == "CONFIRMED":
                 try:

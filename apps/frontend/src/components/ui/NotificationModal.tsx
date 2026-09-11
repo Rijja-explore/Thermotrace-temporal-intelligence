@@ -32,7 +32,7 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
   // Form state
   const [recipientEmail, setRecipientEmail] = useState<string>(currentUser?.email || 'rijja2310119@ssn.edu.in');
   const [recipientPhone, setRecipientPhone] = useState<string>('+91 98200 12345');
-  const [recipientName, setRecipientName] = useState<string>(currentUser?.name || 'Rijja (Lead GeoAI Commander)');
+  const [recipientName, setRecipientName] = useState<string>(currentUser?.name || 'Chief Industrial Safety Officer');
   const [sendEmail, setSendEmail] = useState<boolean>(true);
   const [sendSms, setSendSms] = useState<boolean>(true);
   const [severity, setSeverity] = useState<'CRITICAL' | 'HIGH' | 'MEDIUM'>('CRITICAL');

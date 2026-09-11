@@ -213,13 +213,13 @@ export const PIPELINE_LAYERS: PipelineLayer[] = [
       'Event telemetry snapshot and SOP protocol guide'
     ],
     processingSteps: [
-      'Dynamic HTML incident brief synthesis with interactive telemetry links',
+      'Dynamic PDF incident brief synthesis from thermotrace.india@gmail.com',
       'DLT-compliant high-priority SMS formatting (Sender ID: VM-THRMTR)',
       'Multi-channel dispatch execution (Email, SMS, and WhatsApp alerts)',
       'Immutable security audit logging of carrier delivery handshake receipts'
     ],
     outputs: [
-      'Direct email notification sent to rijja2310119@ssn.edu.in',
+      'Direct PDF report sent from thermotrace.india@gmail.com to rijja2310119@ssn.edu.in',
       'SMS text delivered to emergency coordinator mobile phone',
       'Verified delivery receipt and audit trail record'
     ],

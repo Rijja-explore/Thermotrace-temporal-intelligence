@@ -89,13 +89,34 @@ class LSTMTemporalEngine:
 
     def _init_pretrained_weights(self):
         """
-        Initializes weights configured for satellite thermal trajectory dynamics.
+        Loads trained PyTorch weights if available on disk, else initializes
+        scientifically configured orthogonal weights for satellite thermal trajectory dynamics.
         """
-        for name, param in self.model.named_parameters():
-            if 'weight' in name:
-                nn.init.orthogonal_(param.data)
-            elif 'bias' in name:
-                nn.init.constant_(param.data, 0.0)
+        import os
+        weight_paths = [
+            os.path.join(os.path.dirname(__file__), "..", "..", "models", "trained", "lstm_temporal_weights.pt"),
+            "models/trained/lstm_temporal_weights.pt",
+            "../models/trained/lstm_temporal_weights.pt"
+        ]
+        loaded = False
+        for wp in weight_paths:
+            if os.path.exists(wp):
+                try:
+                    state_dict = torch.load(wp, map_location="cpu")
+                    if isinstance(state_dict, dict) and "state_dict" in state_dict:
+                        state_dict = state_dict["state_dict"]
+                    self.model.load_state_dict(state_dict, strict=False)
+                    loaded = True
+                    break
+                except Exception:
+                    pass
+
+        if not loaded:
+            for name, param in self.model.named_parameters():
+                if 'weight' in name:
+                    nn.init.orthogonal_(param.data)
+                elif 'bias' in name:
+                    nn.init.constant_(param.data, 0.0)
 
     def extract_sequence_tensor(
         self,

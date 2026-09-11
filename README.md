@@ -63,7 +63,7 @@ NASA FIRMS provides satellite thermal anomaly / active-fire observations from VI
                                          ↓
               Candidate Retraining & Validation Gate (Macro F1 ≥ 0.82)
                                          ↓
-                            Autonomous Model Promotion
+              Controlled Candidate-Model Promotion (Model Registry)
 ```
 
 ---
@@ -75,9 +75,17 @@ Instead of using one model to answer all questions or relying on brittle manual 
 | Engine | Technical Subsystem | Core Question Answered | Key Indicators & Math |
 | :--- | :--- | :--- | :--- |
 | **Engine 1** | **Persistent Source ML Fingerprinter** | *"What type of behavioural source is this?"* | Detection frequency ($>85\%$), Centroid drift ($<50\text{m}$), Day/Night symmetry ($>0.70$), OSM polygon containment $\to P_{\text{persistent}} \in [0.0, 1.0]$ |
-| **Engine 2** | **Rolling 90-Day Facility Baseline** | *"Is the current intensity statistically abnormal for this facility?"* | Historical operating envelope $\to Z = \frac{\text{FRP} - \mu_{90d}}{\sigma_{90d}}$ |
-| **Engine 3** | **Sequential PyTorch LSTM** | *"Is the thermal trajectory accelerating / escalating over time?"* | Multi-pass hidden state sequence $\to \text{STABLE} \to \text{WATCH} \to \text{ESCALATING} \to \text{CRITICAL\_ESCALATION}$ ($\frac{d\text{FRP}}{dt}$) |
-| **Engine 4** | **Contextual HistGradientBoosting** | *"What is the macro environmental and infrastructure context?"* | Distance to facility, high-voltage lines, pipelines, land-cover fractions ($P_{\text{HGB}}$) |
+| **Engine 2** | **Rolling 90-Day Facility Baseline** | *"Is the current intensity statistically abnormal for this facility?"* | Historical operating envelope $\to Z = \frac{\text{FRP} - \mu_{90d}}{\sigma_{90d}}$ and robust $Z_{\text{MAD}}$ |
+| **Engine 3** | **Sequential PyTorch LSTM** | *"Is the thermal trajectory accelerating / escalating over time?"* | Multi-pass hidden state sequence $\to \text{STABLE} \to \text{WATCH} \to \text{ESCALATING} \to \text{CRITICAL\_ESCALATION}$ ($\frac{d\text{FRP}}{dt}, \frac{d^2\text{FRP}}{dt^2}$) |
+| **Engine 4** | **Contextual HistGradientBoosting** | *"What is the environmental and infrastructure context?"* | Distance to facility, high-voltage lines, pipelines, land-cover fractions ($P_{\text{HGB}}$ across 6-class operational taxonomy) |
+
+### Implemented 6-Class Operational Taxonomy:
+1. `persistent_industrial_source` (Refinery flare stack, steel smelter kiln, industrial chimney)
+2. `industrial_fire_or_abnormal_event` (Accidental industrial explosion, tank farm blaze, uncontrolled flare surge)
+3. `wildfire_or_forest_fire` (Vegetation, scrub, or canopy wildfire)
+4. `agricultural_burning` (Stubble / crop residue burning)
+5. `mining_or_other_industrial_activity` (Coal seam, open cast mining, slag heaps)
+6. `unknown_requires_verification` (Ambiguous thermal signature requiring analyst inspection)
 
 ---
 
@@ -136,9 +144,9 @@ ThermoTrace features real backend PBKDF2-HMAC-SHA256 authentication with role-ba
 
 | Role | 1-Click Login Username | Login Password | Alert Notification Recipient *(Alerts Dispatched Here)* | Scope & Permissions |
 | :--- | :--- | :--- | :--- | :--- |
-| ⚡ **Admin** | `admin` *(or `admin@thermotrace.gov.in`)* | `admin` *(or `ThermoTrace2026!`)* | `admin@thermotrace.gov.in` | Command Administrator — User management, continuous learning retraining gate, NRT satellite poller controls, immutable security audit logs |
-| 🔬 **Analyst** | `analyst` *(or `analyst@thermotrace.gov.in`)* | `analyst` *(or `ThermoTrace2026!`)* | `anagesh2410198@ssn.edu.in` | Lead Thermal Analyst (ISRO SAC) — Incident investigation, 4-engine dossier review, XAI, incident confirmation/reclassification |
-| 🛡️ **Official** | `official` *(or `official@thermotrace.gov.in`)* | `official` *(or `ThermoTrace2026!`)* | `rijja2310119@ssn.edu.in` | Incident Command Official (NDMA / MoEFCC) — Official emergency response alerts, confirmed disaster dossiers, radiant safety contours ($350\text{ m}$), downwind evacuation plume directives |
+| ⚡ **Admin** | `admin` | `admin` *(or `ThermoTrace2026!`)* | `admin@thermotrace.gov.in` | Command Administrator — User management, continuous learning retraining gate, NRT satellite poller controls, immutable security audit logs |
+| 🔬 **Analyst** | `analyst` | `analyst` *(or `ThermoTrace2026!`)* | `anagesh2410198@ssn.edu.in` | Lead Thermal Analyst (ISRO SAC) — Incident investigation, 4-engine dossier review, XAI, incident confirmation/reclassification |
+| 🛡️ **Official** | `official` | `official` *(or `ThermoTrace2026!`)* | `rijja2310119@ssn.edu.in` | Incident Command Official (NDMA / MoEFCC) — Official emergency response alerts dispatched from `thermotrace.india@gmail.com`, confirmed disaster dossiers, radiant safety contours ($350\text{ m}$), downwind evacuation plume directives |
 
 ---
 
@@ -150,16 +158,16 @@ ThermoTrace features real backend PBKDF2-HMAC-SHA256 authentication with role-ba
 | 🟡 **WATCH** | $0.8 \le Z < 1.8$ | Dashboard Monitoring | Status Advisory Badge |
 | 🟠 **HIGH** | $Z \ge 1.8$ or Escalating | `anagesh2410198@ssn.edu.in` (Analyst) | Detailed Investigation Brief |
 | 🔴 **CRITICAL** | $Z \ge 3.0$ + Critical Escalation | `anagesh2410198@ssn.edu.in` (Analyst) | Critical Incident Dossier |
-| 🚨 **CONFIRMED** | Analyst Human Confirmation | `rijja2310119@ssn.edu.in` (Official) | Official Emergency Response Directive |
+| 🚨 **CONFIRMED** | Analyst Human Confirmation | `rijja2310119@ssn.edu.in` (Official) | Official Emergency Response Directive & Formatted PDF Dossier |
 
 ---
 
 ## 🔄 Complete End-to-End Operational Flow
 
 ```text
-[Step 1: Telemetry Ingestion]
- NASA FIRMS VIIRS & MODIS NRT passes ingested every 15 minutes.
- Hotspots clustered spatially and temporally via DBSCAN.
+[Step 1: Near-Real-Time Telemetry Ingestion]
+ NASA FIRMS VIIRS & MODIS NRT passes ingested with deduplication and quality filtering.
+ Hotspots clustered spatially via Haversine DBSCAN into composite thermal events.
 
 [Step 2: 4-Engine Multi-Modal AI Evaluation]
  • Engine 1 computes P(persistent) = 0.99 (Confirms stationary refinery flare).
@@ -173,22 +181,22 @@ ThermoTrace features real backend PBKDF2-HMAC-SHA256 authentication with role-ba
  → Automatically routes High-Priority Investigation Alert to Analyst (anagesh2410198@ssn.edu.in).
 
 [Step 4: Physical Hazard & Plume Modeling]
- • Radiant Heat Contour: R = 348m at 4.7 kW/m² (escape threshold).
- • Plume Dispersion: Gaussian downwind dispersion extending 3.2km downwind towards SW.
- • Population Exposure: Estimated 2,400 residents in dispersion corridor.
+ • Radiant Heat Contour: R = 350m at 4.7 kW/m² (API 521 escape threshold).
+ • Plume Dispersion: Gaussian downwind dispersion extending along wind vector.
+ • Population Exposure: Surrounding residential buffer estimation.
 
 [Step 5: Human-in-the-Loop Analyst Verification]
  Analyst logs into Console, reviews multi-spectral imagery, XAI explanations, and clicks CONFIRM.
- An immutable cryptographic audit record is logged: ACTION: CONFIRMED by anagesh_analyst.
+ An immutable audit record is logged: ACTION: CONFIRMED by Lead Thermal Analyst.
 
-[Step 6: Official Emergency Alert Dispatch]
- High-priority emergency directive is dispatched to Official (rijja2310119@ssn.edu.in).
+[Step 6: Official Emergency Alert & Formatted PDF Dispatch]
+ High-priority emergency directive & formatted PDF dossier dispatched from thermotrace.india@gmail.com to Official (rijja2310119@ssn.edu.in).
  Response SOP triggered: FGRS diversion, boundary deluge curtain, and DDMA standby.
 
 [Step 7: Closed-Loop Continuous Learning Gate]
  Confirmed audit sample is added to the ground-truth training set.
- Continuous learning gate triggers retraining:
- Macro F1 (0.85) >= 0.82 gate threshold → Candidate model promoted autonomously to production!
+ Continuous learning gate triggers candidate evaluation:
+ Macro F1 >= 0.82 gate threshold → Candidate model registered in model_registry.json for controlled deployment.
 ```
 
 ---

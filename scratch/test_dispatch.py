@@ -3,7 +3,7 @@ import json
 
 payload = {
     "recipient_name": "Rijja (Lead Incident Commander)",
-    "recipient_email": "rijja2310119@ssn.edu.in",
+    "recipient_email": "official@thermotrace.gov.in",
     "recipient_phone": "+919876543210",
     "channels": ["EMAIL", "SMS"],
     "event_id": "TT-CASE-001",

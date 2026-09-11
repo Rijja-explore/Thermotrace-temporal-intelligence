@@ -276,7 +276,7 @@ function AppContent() {
 
                 <div style={{ padding: '8px 12px', fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.5' }}>
                   <div style={{ color: 'var(--accent-cyan)', fontWeight: '700', marginBottom: '2px' }}>Role: {currentUser?.role || 'ANALYST'}</div>
-                  <div>Recipient: <strong>{currentUser?.email || 'anagesh2410198@ssn.edu.in'}</strong></div>
+                  <div>Recipient: <strong>{currentUser?.email || 'rijja2310119@ssn.edu.in'}</strong></div>
                 </div>
 
 

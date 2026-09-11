@@ -82,7 +82,7 @@ USERS_DATABASE: Dict[str, Dict[str, Any]] = {
     },
     "analyst": {
         "user_id": "USR-ANALYST-01",
-        "email": "analyst@thermotrace.gov.in",
+        "email": "anagesh2410198@ssn.edu.in",
         "username": "analyst",
         "name": "Lead Thermal Analyst",
         "role": "ANALYST",
@@ -111,7 +111,7 @@ USERS_DATABASE: Dict[str, Dict[str, Any]] = {
     },
     "official": {
         "user_id": "USR-OFFICIAL-01",
-        "email": "official@thermotrace.gov.in",
+        "email": "rijja2310119@ssn.edu.in",
         "username": "official",
         "name": "Incident Command Official",
         "role": "OFFICIAL",
@@ -137,9 +137,9 @@ USERS_DATABASE: Dict[str, Dict[str, Any]] = {
         "created_at": "2026-09-01T00:00:00Z",
         "last_login": "2026-09-11T12:30:00Z"
     },
-    "analyst@thermotrace.gov.in": {
+    "anagesh2410198@ssn.edu.in": {
         "user_id": "USR-ANALYST-01",
-        "email": "analyst@thermotrace.gov.in",
+        "email": "anagesh2410198@ssn.edu.in",
         "username": "analyst",
         "name": "Lead Thermal Analyst",
         "role": "ANALYST",
@@ -166,9 +166,9 @@ USERS_DATABASE: Dict[str, Dict[str, Any]] = {
         "created_at": "2026-09-01T00:00:00Z",
         "last_login": "2026-09-11T12:00:00Z"
     },
-    "official@thermotrace.gov.in": {
+    "rijja2310119@ssn.edu.in": {
         "user_id": "USR-OFFICIAL-01",
-        "email": "official@thermotrace.gov.in",
+        "email": "rijja2310119@ssn.edu.in",
         "username": "official",
         "name": "Incident Command Official",
         "role": "OFFICIAL",
@@ -495,22 +495,25 @@ def get_standard_accounts_info():
     """Returns non-sensitive metadata on standard accounts for SIH evaluation."""
     return {
         "analyst_account": {
+            "username": "analyst",
             "email": "anagesh2410198@ssn.edu.in",
             "role": "ANALYST",
-            "name": "Anagesh V (Thermal Analyst)",
-            "scope": "Event Investigation, HGB+LSTM Review, Verification, Feedback"
+            "name": "Lead Thermal Analyst",
+            "scope": "Event Investigation, 4-Engine Review, Verification, Feedback"
         },
         "official_account": {
+            "username": "official",
             "email": "rijja2310119@ssn.edu.in",
             "role": "OFFICIAL",
-            "name": "Rijja M (Emergency Response Official)",
+            "name": "Incident Command Official",
             "scope": "Official Alerts, Confirmed Dossiers, Hazard & Plume Exposure"
         },
         "admin_account": {
+            "username": "admin",
             "email": "admin@thermotrace.gov.in",
             "role": "ADMIN",
             "name": "Command Administrator",
             "scope": "System Management, Retraining Validation Gate, Audit Logs"
         },
-        "default_password": "ThermoTrace2026!"
+        "demo_credentials_hint": "Usernames: admin / analyst / official | Passwords match role name or 'ThermoTrace2026!'"
     }
