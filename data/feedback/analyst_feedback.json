@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "last_updated_utc": "2026-09-11T13:31:35.738979+00:00",
-  "total_feedbacks": 4,
+  "last_updated_utc": "2026-09-11T14:45:22.890158+00:00",
+  "total_feedbacks": 6,
   "verified_ground_truth": [
     {
       "feedback_id": "FB-20260911132742-TT-CASE-",
@@ -53,6 +53,32 @@
       "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
       "features": {},
       "timestamp_utc": "2026-09-11T13:31:35.738979+00:00",
+      "used_in_retraining": false
+    },
+    {
+      "feedback_id": "FB-20260911141344-TT-CASE-",
+      "event_id": "TT-CASE-001",
+      "action": "CONFIRMED",
+      "analyst_id": "anagesh2410198@ssn.edu.in",
+      "original_label": "persistent_industrial_source",
+      "corrected_label": "persistent_industrial_source",
+      "confidence": 0.942,
+      "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
+      "features": {},
+      "timestamp_utc": "2026-09-11T14:13:44.099062+00:00",
+      "used_in_retraining": false
+    },
+    {
+      "feedback_id": "FB-20260911144522-TT-CASE-",
+      "event_id": "TT-CASE-001",
+      "action": "CONFIRMED",
+      "analyst_id": "anagesh2410198@ssn.edu.in",
+      "original_label": "persistent_industrial_source",
+      "corrected_label": "persistent_industrial_source",
+      "confidence": 0.942,
+      "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
+      "features": {},
+      "timestamp_utc": "2026-09-11T14:45:22.890158+00:00",
       "used_in_retraining": false
     }
   ]

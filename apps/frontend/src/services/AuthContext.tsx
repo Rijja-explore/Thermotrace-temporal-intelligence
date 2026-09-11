@@ -34,7 +34,9 @@ interface AuthContextType {
   authToken: string | null;
   isAuthenticated: boolean;
   loginWithCredentials: (emailOrUsername: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  enterDemoMode: () => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
+
   hasPermission: (permission: string) => boolean;
   hasRole: (roles: string[]) => boolean;
   auditLogs: AuditLogItem[];
@@ -110,7 +112,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const enterDemoMode = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/demo-login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!res.ok) {
+        return { success: false, error: 'Failed to initialize demonstration session.' };
+      }
+
+      const session = await res.json();
+      setCurrentUser(session.user);
+      setAuthToken(session.token);
+
+      localStorage.setItem(USER_KEY, JSON.stringify(session.user));
+      localStorage.setItem(TOKEN_KEY, session.token);
+
+      return { success: true };
+    } catch (err: any) {
+      // Fallback local demo user for offline resilience
+      const fallbackDemo: UserPersona = {
+        user_id: 'USR-DEMO-SIH',
+        email: 'judge.demo@sih2026.gov.in',
+        username: 'sih_judge_demo',
+        name: 'SIH Evaluation Judge',
+        role: 'DEMO',
+        badge: 'SIH',
+        clearance_level: 'SIH Demonstration — Read-Only Access',
+        clearance_code: 'SEC-CLR-DEMO-READONLY',
+        agency: 'Smart India Hackathon 2026 Evaluation Panel',
+        station: 'Interactive Review Console',
+        permissions: ['events:read', 'dossier:view', 'ai:view', 'hgb:view', 'lstm:view', 'baseline:view', 'xai:view', 'hazard:view', 'plume:view', 'notifications:preview'],
+        avatar_gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+        is_active: true,
+      };
+      setCurrentUser(fallbackDemo);
+      setAuthToken('tt_token_demo_local');
+      localStorage.setItem(USER_KEY, JSON.stringify(fallbackDemo));
+      localStorage.setItem(TOKEN_KEY, 'tt_token_demo_local');
+      return { success: true };
+    }
+  };
+
   const logout = () => {
+
     if (authToken) {
       fetch(`${API_BASE}/api/auth/logout`, {
         method: 'POST',
@@ -156,7 +203,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         authToken,
         isAuthenticated: !!currentUser,
         loginWithCredentials,
+        enterDemoMode,
         logout,
+
         hasPermission,
         hasRole,
         auditLogs,

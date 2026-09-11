@@ -6,11 +6,12 @@ interface AuthPageProps {
 }
 
 export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
-  const { loginWithCredentials } = useAuth();
+  const { loginWithCredentials, enterDemoMode } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDemoSubmitting, setIsDemoSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [forgotMsg, setForgotMsg] = useState(false);
 
@@ -35,6 +36,19 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
       onNavigate('dashboard');
     } else {
       setError(result.error || 'Invalid credentials. Please verify your password.');
+    }
+  };
+
+  const handleEnterDemo = async () => {
+    setError(null);
+    setForgotMsg(false);
+    setIsDemoSubmitting(true);
+    const res = await enterDemoMode();
+    setIsDemoSubmitting(false);
+    if (res.success) {
+      onNavigate('dashboard');
+    } else {
+      setError('Failed to enter demo mode.');
     }
   };
 
@@ -81,22 +95,22 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* Quick Account Switcher Pills for Judging / Presentation */}
-          <div style={{ marginBottom: '18px' }}>
-            <div style={{ fontSize: '11px', color: '#64748B', textTransform: 'uppercase', fontWeight: 700, marginBottom: '8px' }}>
-              Select Operational Role Profile:
+          {/* Quick Account Switcher for judging */}
+          <div style={{ marginBottom: '14px' }}>
+            <div style={{ fontSize: '10.5px', color: '#64748B', textTransform: 'uppercase', fontWeight: 700, marginBottom: '6px' }}>
+              Operational Roles (Autofill):
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px' }}>
               <button
                 type="button"
                 onClick={() => handleQuickSelect('anagesh2410198@ssn.edu.in')}
                 style={{
-                  padding: '8px 4px',
+                  padding: '6px 2px',
                   background: email === 'anagesh2410198@ssn.edu.in' ? 'rgba(56, 189, 248, 0.2)' : '#0F172A',
                   border: `1px solid ${email === 'anagesh2410198@ssn.edu.in' ? '#38BDF8' : '#1E293B'}`,
-                  borderRadius: '5px',
+                  borderRadius: '4px',
                   color: email === 'anagesh2410198@ssn.edu.in' ? '#38BDF8' : '#94A3B8',
-                  fontSize: '11px',
+                  fontSize: '10.5px',
                   fontWeight: 600,
                   cursor: 'pointer',
                   textAlign: 'center',
@@ -108,12 +122,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                 type="button"
                 onClick={() => handleQuickSelect('rijja2310119@ssn.edu.in')}
                 style={{
-                  padding: '8px 4px',
+                  padding: '6px 2px',
                   background: email === 'rijja2310119@ssn.edu.in' ? 'rgba(245, 158, 11, 0.2)' : '#0F172A',
                   border: `1px solid ${email === 'rijja2310119@ssn.edu.in' ? '#F59E0B' : '#1E293B'}`,
-                  borderRadius: '5px',
+                  borderRadius: '4px',
                   color: email === 'rijja2310119@ssn.edu.in' ? '#F59E0B' : '#94A3B8',
-                  fontSize: '11px',
+                  fontSize: '10.5px',
                   fontWeight: 600,
                   cursor: 'pointer',
                   textAlign: 'center',
@@ -125,12 +139,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                 type="button"
                 onClick={() => handleQuickSelect('admin@thermotrace.gov.in')}
                 style={{
-                  padding: '8px 4px',
+                  padding: '6px 2px',
                   background: email === 'admin@thermotrace.gov.in' ? 'rgba(67, 217, 232, 0.2)' : '#0F172A',
                   border: `1px solid ${email === 'admin@thermotrace.gov.in' ? '#43D9E8' : '#1E293B'}`,
-                  borderRadius: '5px',
+                  borderRadius: '4px',
                   color: email === 'admin@thermotrace.gov.in' ? '#43D9E8' : '#94A3B8',
-                  fontSize: '11px',
+                  fontSize: '10.5px',
                   fontWeight: 600,
                   cursor: 'pointer',
                   textAlign: 'center',
@@ -153,7 +167,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                 onChange={(e) => { setEmail(e.target.value); setError(null); }}
                 autoFocus
                 autoComplete="email"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isDemoSubmitting}
               />
             </div>
 
@@ -176,7 +190,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); setError(null); }}
                 autoComplete="current-password"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isDemoSubmitting}
               />
             </div>
 
@@ -188,23 +202,60 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
 
             {forgotMsg && (
               <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '4px', padding: '8px 10px', fontSize: '11px', color: '#38BDF8', marginTop: '8px' }}>
-                Default judging evaluation password is: <strong>ThermoTrace2026!</strong>
+                Evaluation standard password is: <strong>ThermoTrace2026!</strong>
               </div>
             )}
 
             <button
               type="submit"
               className="auth-login-submit"
-              disabled={isSubmitting}
-              style={{ marginTop: '18px', width: '100%', height: '42px', fontWeight: 700 }}
+              disabled={isSubmitting || isDemoSubmitting}
+              style={{ marginTop: '16px', width: '100%', height: '40px', fontWeight: 700 }}
             >
               {isSubmitting ? 'AUTHENTICATING...' : 'LOGIN'}
             </button>
           </form>
+
+          {/* Divider */}
+          <div style={{ display: 'flex', alignItems: 'center', margin: '16px 0 12px', color: '#475569', fontSize: '11px', fontWeight: 700 }}>
+            <div style={{ flex: 1, height: '1px', background: '#1E293B' }} />
+            <span style={{ padding: '0 10px', letterSpacing: '0.1em' }}>OR</span>
+            <div style={{ flex: 1, height: '1px', background: '#1E293B' }} />
+          </div>
+
+          {/* Prominent SIH DEMO MODE Button */}
+          <button
+            type="button"
+            onClick={handleEnterDemo}
+            disabled={isSubmitting || isDemoSubmitting}
+            style={{
+              width: '100%',
+              height: '42px',
+              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.3) 100%)',
+              border: '1px solid #10B981',
+              borderRadius: '6px',
+              color: '#34D399',
+              fontSize: '13px',
+              fontWeight: 800,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              boxShadow: '0 4px 12px rgba(16, 185, 129, 0.15)',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <span>🎯</span>
+            <span>{isDemoSubmitting ? 'INITIALIZING DEMO...' : 'ENTER SIH DEMO'}</span>
+          </button>
+          <div style={{ fontSize: '10px', color: '#64748B', textAlign: 'center', marginTop: '6px' }}>
+            Instant Read-Only Demonstration Session for SIH 2026 Evaluation Panel
+          </div>
         </div>
 
-        <div style={{ marginTop: '16px', fontSize: '11px', color: '#64748B', textAlign: 'center' }}>
-          ThermoTrace Operational Security · Defense Clearance Level Gateway
+        <div style={{ marginTop: '14px', fontSize: '11px', color: '#64748B', textAlign: 'center' }}>
+          ThermoTrace Operational Security · Defense Clearance Gateway
         </div>
       </div>
     </div>

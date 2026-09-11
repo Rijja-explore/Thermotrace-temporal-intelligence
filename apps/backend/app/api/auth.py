@@ -292,6 +292,76 @@ def login(req: LoginRequest):
     )
 
 
+@router.post("/demo-login", response_model=SessionResponse)
+def demo_login():
+    """
+    Creates an isolated, restricted read-only demonstration session for SIH judges.
+    Allows full read-only exploration of all maps, dossiers, AI results, and notification previews.
+    Denies production mutations, password changes, and administrative actions.
+    """
+    demo_user = {
+        "user_id": "USR-DEMO-SIH",
+        "email": "judge.demo@sih2026.gov.in",
+        "username": "sih_judge_demo",
+        "name": "SIH Evaluation Judge / Guest Evaluator",
+        "role": "DEMO",
+        "badge": "SIH",
+        "clearance_level": "SIH Demonstration — Read-Only Access",
+        "clearance_code": "SEC-CLR-DEMO-READONLY",
+        "agency": "Smart India Hackathon 2026 Evaluation Panel",
+        "station": "Interactive Review Console",
+        "password_hash": "RESTRICTED_DEMO_NO_PASSWORD",
+        "permissions": [
+            "events:read",
+            "dossier:view",
+            "ai:view",
+            "hgb:view",
+            "lstm:view",
+            "baseline:view",
+            "xai:view",
+            "hazard:view",
+            "plume:view",
+            "notifications:preview",
+            "demo:explore"
+        ],
+        "avatar_gradient": "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+        "is_active": True,
+        "created_at": "2026-09-11T00:00:00Z",
+        "last_login": datetime.now(timezone.utc).isoformat()
+    }
+
+    token = f"tt_token_demo_{secrets.token_hex(12)}"
+    expires_at = datetime.now(timezone.utc) + timedelta(hours=12)
+
+    ACTIVE_SESSIONS[token] = {
+        "user_email": demo_user["email"],
+        "expires_at": expires_at,
+        "created_at": datetime.now(timezone.utc),
+        "is_demo": True
+    }
+
+    # Record demo session start in audit log with explicit actor_type
+    SECURITY_AUDIT_LOGS.insert(0, {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "user_email": demo_user["email"],
+        "actor": demo_user["name"],
+        "actor_type": "DEMO",
+        "role": "DEMO",
+        "action": "SIH_DEMO_SESSION_STARTED",
+        "ip": "Judge Evaluation Terminal",
+        "status": "AUTHORIZED_DEMO",
+        "details": "Judge entered restricted read-only demonstration mode"
+    })
+
+    return SessionResponse(
+        token=token,
+        user=demo_user,
+        role=demo_user["role"],
+        session_expires_at=expires_at.isoformat(),
+        authorized_permissions=demo_user["permissions"]
+    )
+
+
 @router.post("/logout")
 def logout(authorization: Optional[str] = Header(None)):
     """Terminates active session and records logout audit log."""
@@ -299,18 +369,18 @@ def logout(authorization: Optional[str] = Header(None)):
         token = authorization.replace("Bearer ", "").strip()
         session = ACTIVE_SESSIONS.pop(token, None)
         if session:
-            user = USERS_DATABASE.get(session["user_email"])
-            if user:
-                SECURITY_AUDIT_LOGS.insert(0, {
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "user_email": user["email"],
-                    "actor": user["name"],
-                    "role": user["role"],
-                    "action": "AUTH_LOGOUT",
-                    "ip": "Client Remote Browser",
-                    "status": "TERMINATED",
-                    "details": "Session ended by user"
-                })
+            user_email = session.get("user_email")
+            SECURITY_AUDIT_LOGS.insert(0, {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "user_email": user_email,
+                "actor": "Demo Judge" if session.get("is_demo") else (USERS_DATABASE.get(user_email, {}).get("name", user_email)),
+                "actor_type": "DEMO" if session.get("is_demo") else "AUTHENTICATED",
+                "role": "DEMO" if session.get("is_demo") else USERS_DATABASE.get(user_email, {}).get("role", "ANALYST"),
+                "action": "AUTH_LOGOUT",
+                "ip": "Client Remote Browser",
+                "status": "TERMINATED",
+                "details": "Session ended by user"
+            })
     return {"status": "LOGGED_OUT"}
 
 
@@ -318,6 +388,7 @@ def logout(authorization: Optional[str] = Header(None)):
 def get_current_user_profile(user: Dict[str, Any] = Depends(get_current_authenticated_user)):
     """Returns active authenticated user profile."""
     return user
+
 
 
 @router.get("/audit-logs")

@@ -2,9 +2,11 @@
 Events API — list, search, detail, timeline, evidence, verification, reclassification & live refresh.
 Enriched with Member 2 AI Classification & Member 3 Temporal Intelligence Engine.
 """
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
+from .auth import get_current_authenticated_user
+
 import json
 import os
 import sys
