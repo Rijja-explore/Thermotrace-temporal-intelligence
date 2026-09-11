@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-from .api import events, facilities, alerts, reports, auth, simulation, notifications, intelligence
+from .api import events, facilities, alerts, reports, auth, simulation, notifications, intelligence, admin
 
 app = FastAPI(
     title="ThermoTrace Backend API",
@@ -26,6 +26,7 @@ app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(simulation.router, prefix="/api/simulation", tags=["simulation"])
 app.include_router(notifications.router, prefix="/api/notifications", tags=["notifications"])
 app.include_router(intelligence.router, prefix="/api/intelligence", tags=["intelligence"])
+app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 
 
 @app.get("/health")

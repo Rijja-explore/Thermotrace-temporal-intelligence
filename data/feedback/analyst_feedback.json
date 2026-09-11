@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "last_updated_utc": "2026-09-11T18:23:50.189674+00:00",
-  "total_feedbacks": 13,
+  "last_updated_utc": "2026-09-11T18:54:12.438694+00:00",
+  "total_feedbacks": 14,
   "verified_ground_truth": [
     {
       "feedback_id": "FB-20260911132742-TT-CASE-",
@@ -174,6 +174,19 @@
       "notes": "Analyst verified +13.95\u03c3 thermal escalation via multi-sensor FIRMS pass.",
       "features": {},
       "timestamp_utc": "2026-09-11T18:23:50.189674+00:00",
+      "used_in_retraining": false
+    },
+    {
+      "feedback_id": "FB-20260911185412-TT-CASE-",
+      "event_id": "TT-CASE-001",
+      "action": "CONFIRMED",
+      "analyst_id": "anagesh2410198@ssn.edu.in",
+      "original_label": "persistent_industrial_source",
+      "corrected_label": "persistent_industrial_source",
+      "confidence": 0.942,
+      "notes": "Automated RBAC Test Verification",
+      "features": {},
+      "timestamp_utc": "2026-09-11T18:54:12.438694+00:00",
       "used_in_retraining": false
     }
   ]

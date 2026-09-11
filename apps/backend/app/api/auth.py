@@ -482,8 +482,8 @@ def get_current_user_profile(user: Dict[str, Any] = Depends(get_current_authenti
 
 
 @router.get("/audit-logs")
-def get_security_audit_logs(user: Dict[str, Any] = Depends(get_current_authenticated_user)):
-    """Returns security audit trail logs."""
+def get_security_audit_logs(user: Dict[str, Any] = Depends(require_role(["ADMIN"]))):
+    """Returns security audit trail logs. Protected: Requires role ADMIN."""
     return {
         "total": len(SECURITY_AUDIT_LOGS),
         "logs": SECURITY_AUDIT_LOGS[:50]

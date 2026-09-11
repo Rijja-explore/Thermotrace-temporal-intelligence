@@ -80,10 +80,10 @@ export function generateEventShapFeatures(event?: any, frp = 65.0, _confidence =
       {
         feature: 'Optical Cloud Cover Contamination',
         category: 'Satellite Quality · Sentinel-2',
-        value: `${event?.satellite_context?.cloud_cover_pct ?? 88.5}% Cloud Obscured`,
+        value: `${event?.satellite_context?.cloud_cover_pct ?? 14.2}% Cloud Mask`,
         shapWeight: 0.38,
         impact: 'elevates_risk',
-        description: 'Heavy cloud cover prevents optical high-resolution MSI confirmation. Confidence degraded below decision threshold.'
+        description: 'Optical high-resolution MSI imagery has partial atmospheric interference. Thermal IR channels remain calibrated.'
       },
       {
         feature: 'Single Satellite Pass Observation',

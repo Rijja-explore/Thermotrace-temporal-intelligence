@@ -12,7 +12,7 @@ import {
   sendReportEmail,
 } from '../services/api';
 import { useAuth } from '../services/AuthContext';
-import { sendAlertEmail } from '../services/alertEmail';
+import { sendAlertEmail, dispatchOfficialConfirmedEmail, RECIPIENT_OFFICIAL } from '../services/alertEmail';
 
 interface WhatIfSimulatorProps {
   eventId?: string;
@@ -147,21 +147,32 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
 
   // Execute Automated SOP Sequence
   const handleExecuteSOP = () => {
+    // If already completed, reset first to give fresh animated feedback
+    setMitigationFGRS(false);
+    setMitigationDeluge(false);
+    setMitigationEvac(false);
+    setMitigationUAV(false);
+
     setIsExecutingSOP(true);
     setSopExecutionStep(1);
     setSopCompleted(false);
 
-    // Auto-dispatch alert email to anagesh842005@gmail.com on SOP trigger
-    sendAlertEmail({
+    // Auto-dispatch Official Confirmed Directive on SOP execution
+    dispatchOfficialConfirmedEmail({
       eventId: eventId || 'TT-SIM-SOP-' + Date.now().toString().slice(-4),
       facilityName: facilityName,
       frpMw: simulatedFRP,
       riskScore: result?.simulated_risk_score ?? 85,
-      threatTier: (result?.simulated_risk_score ?? 85) >= 80 ? 'CRITICAL' : 'HIGH',
-      hazardRadiusM: result?.thermal_hazard_radius_m ?? 280,
-      customNotes: `SIMULATION SOP TRIGGERED: Mitigation SOP execution initialized for ${facilityName}. Actions: Flare Gas Recovery (FGRS) diversion, perimeter water deluge curtain activation, and NDRF emergency standby advisory. Sent to anagesh842005@gmail.com.`,
+      threatTier: 'CONFIRMED',
+      hazardRadiusM: result?.thermal_hazard_radius_m ?? 350,
+      plumeCorridor: `${result?.plume_dispersion_length_km?.toFixed(1) || '8.6'} km ${cardinalDirection} corridor`,
+      populationExposure: result?.population_threat_index ? Math.round(result.population_threat_index * 1.5) : 123,
+      customNotes: `SIMULATION SOP TRIGGERED: Automated emergency response protocols deployed for ${facilityName}. Actions engaged: Flare Gas Recovery (FGRS) diversion, perimeter water deluge curtain, and inter-agency disaster standby advisory. Dispatched to Incident Command Official (${RECIPIENT_OFFICIAL}).`,
       forceSend: true,
     });
+
+    setExportedNotice(`🚨 Automated SOP Initialized — Emergency Directive dispatched to Incident Command Official (${RECIPIENT_OFFICIAL})`);
+    setTimeout(() => setExportedNotice(null), 5000);
 
     // Step 1: Engage FGRS & Drone
     setTimeout(() => {
@@ -169,14 +180,14 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
       setMitigationFGRS(true);
       setSopExecutionStep(2);
       addAuditLog('SOP_EXECUTE_PHASE_1', 'Automated FGRS valve diversion and drone re-tasking initialized.');
-    }, 900);
+    }, 700);
 
     // Step 2: Trigger Deluge
     setTimeout(() => {
       setMitigationDeluge(true);
       setSopExecutionStep(3);
       addAuditLog('SOP_EXECUTE_PHASE_2', 'Perimeter water deluge curtain engaged to limit radiant envelope.');
-    }, 1800);
+    }, 1400);
 
     // Step 3: Evacuation Advisory if risk > 50
     setTimeout(() => {
@@ -185,14 +196,14 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
       }
       setSopExecutionStep(4);
       addAuditLog('SOP_EXECUTE_PHASE_3', 'Inter-agency CPCB and NDRF disaster advisory issued.');
-    }, 2700);
+    }, 2100);
 
     // Step 4: Finalize
     setTimeout(() => {
       setIsExecutingSOP(false);
       setSopCompleted(true);
       addAuditLog('SOP_EXECUTE_COMPLETE', 'Full emergency containment protocols successfully deployed.');
-    }, 3400);
+    }, 2800);
   };
 
   const [showEmailModal, setShowEmailModal] = useState<boolean>(false);

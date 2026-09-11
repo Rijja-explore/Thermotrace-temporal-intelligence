@@ -106,12 +106,12 @@ const RAW_INDIA_POINTS: RawPoint[] = [
   { id: 'PT-RAJ-01', lat: 25.75, lon: 71.40, frp: 175, name: 'Barmer Mangala Oilfield Complex', state: 'Rajasthan', facility_type: 'Oil & Gas Field' },
   { id: 'PT-RAJ-02', lat: 25.18, lon: 75.83, frp: 95, name: 'Kota Thermal Power Station', state: 'Rajasthan', facility_type: 'Power Plant' },
 
-  // ── Noise / Agricultural / Cloud Edge Artifacts (To be filtered) ──
+  // ── Noise / Agricultural / Ephemeral Sensor Artifacts (To be filtered) ──
   { id: 'PT-NSE-01', lat: 24.58, lon: 73.68, frp: 18, name: 'Rural Udaipur Forest Edge', state: 'Rajasthan', facility_type: 'Natural/Vegetation', noise: true },
   { id: 'PT-NSE-02', lat: 28.63, lon: 77.22, frp: 16, name: 'Delhi NCR Urban Scatter', state: 'Uttar Pradesh', facility_type: 'Urban Clutter', noise: true },
   { id: 'PT-NSE-03', lat: 26.85, lon: 80.95, frp: 14, name: 'Lucknow Rural Field Burn', state: 'Uttar Pradesh', facility_type: 'Crop Residue', noise: true },
   { id: 'PT-NSE-04', lat: 25.31, lon: 82.97, frp: 12, name: 'Varanasi Agricultural Patch', state: 'Uttar Pradesh', facility_type: 'Agricultural', noise: true },
-  { id: 'PT-NSE-05', lat: 22.72, lon: 75.87, frp: 15, name: 'Malwa Plateau Transient Flare', state: 'Madhya Pradesh', facility_type: 'Transient Cloud', noise: true },
+  { id: 'PT-NSE-05', lat: 22.72, lon: 75.87, frp: 15, name: 'Malwa Plateau Low-Confidence Detection', state: 'Madhya Pradesh', facility_type: 'Ephemeral Anomaly', noise: true },
   { id: 'PT-NSE-06', lat: 23.26, lon: 77.41, frp: 11, name: 'Bhopal Ridge Glint Artifact', state: 'Madhya Pradesh', facility_type: 'Solar Glint', noise: true },
   { id: 'PT-NSE-07', lat: 19.99, lon: 73.79, frp: 9, name: 'Nashik Scrubland Pixel', state: 'Maharashtra', facility_type: 'Vegetation', noise: true },
   { id: 'PT-NSE-08', lat: 15.34, lon: 75.13, frp: 14, name: 'Hubli Field Clearing', state: 'Karnataka', facility_type: 'Agricultural', noise: true },
@@ -356,9 +356,15 @@ export default function DataReductionVisualizer() {
       attributionControl: false,
     });
 
+    // Clean Esri World Dark Gray Base + Reference (Zero watermark, high performance)
     L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-      { maxZoom: 18, subdomains: 'abcd' }
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+      { maxZoom: 16, attribution: '© Esri' }
+    ).addTo(map);
+
+    L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+      { maxZoom: 16, opacity: 0.6 }
     ).addTo(map);
 
     // Add India state outlines
@@ -509,7 +515,7 @@ export default function DataReductionVisualizer() {
             )}
           </div>
           <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
-            NASA FIRMS (Suomi-NPP / NOAA-20 VIIRS 375m &amp; MODIS) $\to$ Automated SNR Denoising $\to$ PostGIS Spatial Aggregation $\to$ 4-Engine GeoAI Alarms.
+            NASA FIRMS (Suomi-NPP / NOAA-20 VIIRS 375m &amp; MODIS) → Automated SNR Denoising → PostGIS Spatial Aggregation → 4-Engine GeoAI Alarms.
           </div>
         </div>
 
@@ -730,8 +736,8 @@ export default function DataReductionVisualizer() {
         {/* Right Panel: Live Feed or Stage Breakdown */}
         <div style={{
           width: '340px', flexShrink: 0,
-          background: 'var(--bg-primary)',
-          borderLeft: '1px solid rgba(255,255,255,0.06)',
+          background: '#0B1321',
+          borderLeft: '1px solid #1E293B',
           overflowY: 'auto',
           padding: '16px',
           display: 'flex', flexDirection: 'column', gap: '14px',

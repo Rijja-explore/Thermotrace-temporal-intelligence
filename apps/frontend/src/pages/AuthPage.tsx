@@ -107,8 +107,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
 
           {/* 1-Click Operational Roles Header */}
           <div style={{ marginBottom: '16px' }}>
-            <div style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              SELECT SIH DEMO ACCOUNT:
+            <div style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'flex', justifyContent: 'space-between' }}>
+              <span>SELECT OPERATIONAL ROLE:</span>
+              <span style={{ fontSize: '10px', color: '#38BDF8', fontWeight: 600 }}>Multi-Tier Workflow</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
               {/* ANALYST */}
@@ -129,8 +130,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                   boxShadow: selectedRole === 'ANALYST' ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none',
                 }}
               >
-                <div style={{ fontSize: '13px', marginBottom: '2px' }}>🔬</div>
+                <div style={{ fontSize: '14px', marginBottom: '2px' }}>🔬</div>
                 <div>ANALYST</div>
+                <div style={{ fontSize: '9px', opacity: 0.7, marginTop: '2px', fontWeight: 500 }}>Investigator</div>
               </button>
 
               {/* OFFICIAL */}
@@ -151,8 +153,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                   boxShadow: selectedRole === 'OFFICIAL' ? '0 0 10px rgba(245, 158, 11, 0.25)' : 'none',
                 }}
               >
-                <div style={{ fontSize: '13px', marginBottom: '2px' }}>🛡️</div>
+                <div style={{ fontSize: '14px', marginBottom: '2px' }}>🛡️</div>
                 <div>OFFICIAL</div>
+                <div style={{ fontSize: '9px', opacity: 0.7, marginTop: '2px', fontWeight: 500 }}>Commander</div>
               </button>
 
               {/* ADMIN */}
@@ -173,9 +176,43 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                   boxShadow: selectedRole === 'ADMIN' ? '0 0 10px rgba(67, 217, 232, 0.25)' : 'none',
                 }}
               >
-                <div style={{ fontSize: '13px', marginBottom: '2px' }}>⚡</div>
+                <div style={{ fontSize: '14px', marginBottom: '2px' }}>⚡</div>
                 <div>ADMIN</div>
+                <div style={{ fontSize: '9px', opacity: 0.7, marginTop: '2px', fontWeight: 500 }}>System Gate</div>
               </button>
+            </div>
+
+            {/* Role Responsibility & Email Matrix Callout */}
+            <div style={{
+              marginTop: '10px',
+              padding: '8px 10px',
+              borderRadius: '6px',
+              background: 'rgba(15, 23, 42, 0.8)',
+              border: '1px solid #1E293B',
+              fontSize: '10.5px',
+              lineHeight: 1.4,
+              color: '#94A3B8'
+            }}>
+              {selectedRole === 'ANALYST' && (
+                <div>
+                  <strong style={{ color: '#38BDF8' }}>🔬 Analyst Scope (anagesh2410198@ssn.edu.in):</strong>
+                  <div>• Receives automated email alerts when thermal anomalies are detected.</div>
+                  <div>• Forensically examines XAI attribution, LSTM curves &amp; triggers Confirmations.</div>
+                </div>
+              )}
+              {selectedRole === 'OFFICIAL' && (
+                <div>
+                  <strong style={{ color: '#F59E0B' }}>🛡️ Incident Command Scope (rijja2310119@ssn.edu.in):</strong>
+                  <div>• Receives official emergency response directives when Analyst confirms incident.</div>
+                  <div>• Governs radiant hazard cordon (API 521), evacuation, and mitigation SOPs.</div>
+                </div>
+              )}
+              {selectedRole === 'ADMIN' && (
+                <div>
+                  <strong style={{ color: '#43D9E8' }}>⚡ System Admin Scope (admin@thermotrace.gov.in):</strong>
+                  <div>• Oversees NASA LANCE telemetry pipelines, email gateway keys &amp; audit history.</div>
+                </div>
+              )}
             </div>
           </div>
 
