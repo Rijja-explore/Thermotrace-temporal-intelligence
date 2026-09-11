@@ -69,16 +69,29 @@ DISPATCH_HISTORY: List[Dict[str, Any]] = [
 ]
 
 class EmailDispatchRequest(BaseModel):
-    recipient_email: str
-    recipient_name: Optional[str] = "Authorized Stakeholder"
+    recipient_email: str = "thermotrace.india@gmail.com"
+    recipient_name: Optional[str] = "ThermoTrace Duty Officer / Incident Coordinator"
     subject: Optional[str] = None
     event_id: str = "TT-CASE-001"
     facility_name: str = "Jamnagar Mega Refinery Complex"
+    facility_distance_km: float = 0.18
     frp_mw: float = 340.0
-    risk_score: float = 84.0
+    baseline_mw: str = "82 ± 18.5 MW"
+    baseline_deviation_sigma: float = 13.95
+    escalation_tier: str = "CRITICAL_ESCALATION"
+    frp_trend_mw_day: float = 42.5
+    forecast_t24_mw: float = 374.0
+    forecast_t48_mw: float = 400.0
+    ai_confidence_pct: float = 94.0
     threat_tier: str = "CRITICAL"
-    hazard_radius_m: float = 240.0
+    risk_score: float = 84.0
+    hazard_radius_m: float = 350.0
+    plume_corridor: str = "8.6 km NE"
+    wind_vector: str = "25 km/h SW (210°)"
+    population_exposure: int = 123
     custom_notes: Optional[str] = None
+    verification_status: str = "REQUIRES_VERIFICATION"
+
 
 class SmsDispatchRequest(BaseModel):
     recipient_phone: str
@@ -88,21 +101,23 @@ class SmsDispatchRequest(BaseModel):
     frp_mw: float = 340.0
     risk_score: float = 84.0
     threat_tier: str = "CRITICAL"
-    hazard_radius_m: float = 240.0
+    hazard_radius_m: float = 350.0
+
 
 class MultiChannelDispatchRequest(BaseModel):
-    recipient_email: Optional[str] = None
+    recipient_email: Optional[str] = "thermotrace.india@gmail.com"
     recipient_phone: Optional[str] = None
-    recipient_name: str = "Primary Incident Coordinator"
+    recipient_name: str = "ThermoTrace Incident Coordinator"
     channels: List[str] = Field(default_factory=lambda: ["EMAIL", "SMS"])
     event_id: str = "TT-CASE-001"
     facility_name: str = "Jamnagar Mega Refinery Complex"
     frp_mw: float = 340.0
     risk_score: float = 84.0
     threat_tier: str = "CRITICAL"
-    hazard_radius_m: float = 240.0
+    hazard_radius_m: float = 350.0
     wind_vector: str = "210° SW at 25 km/h"
     mitigation_notes: Optional[str] = None
+
 
 class GatewayConfigUpdate(BaseModel):
     smtp_user: Optional[str] = None
@@ -119,68 +134,87 @@ class GatewayConfigUpdate(BaseModel):
 
 
 def _format_html_email(req: EmailDispatchRequest) -> str:
+
+    tier_color = "#FF5C6C" if req.threat_tier == "CRITICAL" else ("#FFB547" if req.threat_tier == "HIGH" else "#43D9E8")
     return f"""<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <style>
-  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; background-color: #07111F; color: #F4F8FC; }}
-  .container {{ max-width: 600px; margin: 20px auto; background-color: #0B1728; border: 1px solid #233B56; border-radius: 8px; overflow: hidden; }}
-  .header {{ background: linear-gradient(135deg, #101F33 0%, #14263D 100%); padding: 24px; border-bottom: 2px solid #43D9E8; }}
-  .badge {{ display: inline-block; padding: 4px 10px; font-size: 11px; font-weight: bold; border-radius: 4px; background: #FF5C6C; color: #fff; text-transform: uppercase; }}
-  .title {{ font-size: 20px; font-weight: 800; margin: 12px 0 4px; color: #F4F8FC; }}
-  .subtitle {{ font-size: 13px; color: #AFC1D3; margin: 0; }}
-  .content {{ padding: 24px; }}
-  .stat-grid {{ display: table; width: 100%; margin: 16px 0; border-collapse: collapse; }}
-  .stat-col {{ display: table-cell; width: 33%; padding: 12px; background: #101F33; border: 1px solid #233B56; text-align: center; }}
-  .stat-label {{ font-size: 10px; color: #71869B; text-transform: uppercase; }}
-  .stat-val {{ font-size: 18px; font-weight: 800; color: #FFB547; margin-top: 4px; }}
-  .alert-box {{ background: rgba(255, 92, 108, 0.1); border-left: 4px solid #FF5C6C; padding: 14px; margin: 16px 0; font-size: 13px; line-height: 1.5; }}
-  .sop-title {{ font-size: 13px; font-weight: bold; color: #43D9E8; margin-bottom: 6px; }}
-  .footer {{ padding: 16px 24px; background: #07111F; font-size: 11px; color: #526579; text-align: center; border-top: 1px solid #233B56; }}
-  .btn {{ display: inline-block; background: #43D9E8; color: #07111F; font-weight: bold; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-top: 12px; }}
+  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: #050C16; color: #E2E8F0; }}
+  .wrapper {{ max-width: 650px; margin: 24px auto; background-color: #0A1626; border: 1px solid #1E293B; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }}
+  .header {{ background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); padding: 24px 30px; border-bottom: 2px solid {tier_color}; }}
+  .badge {{ display: inline-block; padding: 4px 12px; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; border-radius: 4px; background: {tier_color}; color: #000; text-transform: uppercase; }}
+  .title {{ font-size: 20px; font-weight: 800; margin: 12px 0 4px; color: #F8FAFC; }}
+  .subtitle {{ font-size: 13px; color: #94A3B8; margin: 0; }}
+  .content {{ padding: 28px 30px; }}
+  .alert-banner {{ background: rgba(255, 92, 108, 0.12); border-left: 4px solid {tier_color}; padding: 14px 16px; margin: 16px 0 24px; border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.6; }}
+  .section-title {{ font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #38BDF8; margin: 20px 0 10px; border-bottom: 1px solid #1E293B; padding-bottom: 4px; }}
+  .dossier-table {{ width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }}
+  .dossier-table td {{ padding: 8px 12px; border-bottom: 1px solid #1E293B; }}
+  .dossier-table td.label {{ width: 40%; color: #94A3B8; font-weight: 500; }}
+  .dossier-table td.val {{ color: #F8FAFC; font-weight: 600; }}
+  .stat-grid {{ display: flex; gap: 12px; margin: 16px 0; }}
+  .stat-card {{ flex: 1; padding: 12px; background: #0F172A; border: 1px solid #1E293B; border-radius: 6px; text-align: center; }}
+  .stat-lbl {{ font-size: 10px; color: #64748B; text-transform: uppercase; font-weight: 700; }}
+  .stat-num {{ font-size: 17px; font-weight: 800; margin-top: 4px; }}
+  .actions-list {{ margin: 10px 0 20px; padding-left: 20px; font-size: 12.5px; line-height: 1.7; color: #CBD5E1; }}
+  .footer {{ padding: 18px 30px; background: #050C16; font-size: 11px; color: #64748B; text-align: center; border-top: 1px solid #1E293B; }}
+  .btn {{ display: inline-block; background: #0284C7; color: #FFFFFF !important; font-weight: 700; font-size: 13px; padding: 12px 24px; text-decoration: none; border-radius: 6px; }}
 </style>
 </head>
 <body>
-  <div class="container">
+  <div class="wrapper">
     <div class="header">
-      <span class="badge">{req.threat_tier} ALERT</span>
-      <div class="title">THERMOTRACE GEOAI SATELLITE DISPATCH</div>
-      <div class="subtitle">Official Emergency Alert Notice · Event Ref: {req.event_id}</div>
+      <span class="badge">🔴 {req.threat_tier} ALERT</span>
+      <div class="title">THERMOTRACE UNIFIED EVENT INTELLIGENCE BRIEF</div>
+      <div class="subtitle">Event ID: {req.event_id} · Target: {req.facility_name}</div>
     </div>
     <div class="content">
-      <p>Dear {req.recipient_name},</p>
-      <div class="alert-box">
-        <strong>CRITICAL THERMAL ANOMALY DETECTED:</strong> High-intensity radiant thermal surge detected at <strong>{req.facility_name}</strong> via multi-sensor satellite Earth Observation (VIIRS / MODIS).
+      <div class="alert-banner">
+        <strong>OPERATIONAL ALERT:</strong> High-intensity radiant thermal anomaly detected at <strong>{req.facility_name}</strong> ({req.facility_distance_km} km facility proximity). Human Analyst verification required prior to agency escalation.
       </div>
-      <div class="stat-grid">
-        <div class="stat-col">
-          <div class="stat-label">Fire Radiative Power</div>
-          <div class="stat-val">{req.frp_mw:.1f} MW</div>
-        </div>
-        <div class="stat-col">
-          <div class="stat-label">Operational Risk</div>
-          <div class="stat-val" style="color:#FF5C6C;">{req.risk_score:.0f}/100</div>
-        </div>
-        <div class="stat-col">
-          <div class="stat-label">4.7 kW/m² Radius</div>
-          <div class="stat-val" style="color:#43D9E8;">{req.hazard_radius_m:.0f} m</div>
-        </div>
-      </div>
-      <div class="sop-title">MANDATORY PROTOCOL DIRECTIVE:</div>
-      <p style="font-size:12px; color:#AFC1D3; line-height:1.6;">
-        {req.custom_notes or "Engage Flare Gas Recovery Unit (FGRS) diversion valve immediately and alert plant fire department."}
-      </p>
-      <center>
-        <a href="http://localhost:5173" class="btn">Open Telemetry in Command Center →</a>
+
+      <div class="section-title">1. Real-Time Telemetry & Baseline Comparison</div>
+      <table class="dossier-table">
+        <tr><td class="label">Status:</td><td class="val"><span style="color:#FBBF24;">{req.verification_status}</span></td></tr>
+        <tr><td class="label">Classification:</td><td class="val">Industrial Thermal Anomaly (AI Conf: {req.ai_confidence_pct}%)</td></tr>
+        <tr><td class="label">Observed Peak FRP:</td><td class="val"><strong style="color:#FF5C6C;">{req.frp_mw:.1f} MW</strong></td></tr>
+        <tr><td class="label">Rolling 90-Day Baseline:</td><td class="val">{req.baseline_mw}</td></tr>
+        <tr><td class="label">Baseline Deviation:</td><td class="val"><strong style="color:#FF5C6C;">+{req.baseline_deviation_sigma:.2f}σ (Extreme Outlier)</strong></td></tr>
+        <tr><td class="label">Temporal Escalation:</td><td class="val">{req.escalation_tier} (+{req.frp_trend_mw_day:.1f} MW/day)</td></tr>
+        <tr><td class="label">Forecast Horizon:</td><td class="val">T+24h: {req.forecast_t24_mw:.0f} MW | T+48h: {req.forecast_t48_mw:.0f} MW</td></tr>
+      </table>
+
+      <div class="section-title">2. Operational Impact & Perimeter Risk</div>
+      <table class="dossier-table">
+        <tr><td class="label">Operational Risk Score:</td><td class="val"><strong>{req.risk_score:.0f} / 100</strong></td></tr>
+        <tr><td class="label">4.7 kW/m² Radiant Hazard:</td><td class="val">{req.hazard_radius_m:.0f} meters radius</td></tr>
+        <tr><td class="label">Gaussian Plume Corridor:</td><td class="val">{req.plume_corridor} ({req.wind_vector})</td></tr>
+        <tr><td class="label">Estimated Pop. Exposure:</td><td class="val">{req.population_exposure} residents within impact corridor</td></tr>
+      </table>
+
+      <div class="section-title">3. Recommended Standard Operating Procedures</div>
+      <ol class="actions-list">
+        <li><strong>Verify High-Resolution Imagery:</strong> Cross-reference with Sentinel-2 STAC / PlanetScope pass.</li>
+        <li><strong>Notify Facility Safety Cell:</strong> Advise industrial team to verify stack / flare gas recovery unit (FGRS).</li>
+        <li><strong>Monitor Radiant Hazard:</strong> Maintain safety cordon at {req.hazard_radius_m:.0f}m perimeter.</li>
+        <li><strong>Track Downwind Corridor:</strong> Monitor plume dispersal toward {req.plume_corridor}.</li>
+        <li><strong>Place First Responders on Standby:</strong> Emergency response units pre-alerted pending confirmation.</li>
+      </ol>
+
+      <center style="margin: 28px 0 10px;">
+        <a href="https://thermotrace.vercel.app" class="btn">Access Event Dossier in ThermoTrace Command Center →</a>
       </center>
     </div>
     <div class="footer">
-      ThermoTrace Automated Alert Gateway · Space Applications Centre & Central Pollution Control Board
+      ThermoTrace Operational Intelligence Gateway · Near-Real-Time Satellite GeoAI Pipeline<br>
+      Automated dispatch copy forwarded to <strong>{req.recipient_email}</strong>
     </div>
   </div>
 </body>
 </html>"""
+
 
 
 def _format_sms_text(req: SmsDispatchRequest) -> str:

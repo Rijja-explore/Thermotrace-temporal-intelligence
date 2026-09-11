@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { INDIA_STATES_GEOJSON } from '../data/indiaStates';
+import { API_BASE } from '../services/api';
 
 // ─── Realistic Industrial Hotspots across India's Major States ─────────────────
 export interface RawPoint {
@@ -387,7 +388,7 @@ export default function DataReductionVisualizer() {
     // Stage 4: Auto-dispatch emergency alert
     if (nextStage === 4 && !emailSent) {
       setEmailSent(true);
-      fetch('http://localhost:8000/api/notifications/email', {
+      fetch(`${API_BASE}/api/notifications/email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

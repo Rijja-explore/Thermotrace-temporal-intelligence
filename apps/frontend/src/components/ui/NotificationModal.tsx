@@ -3,6 +3,7 @@ import {
   dispatchMultiChannel,
   fetchNotificationHistory,
   type NotificationRecord,
+  API_BASE,
 } from '../../services/api';
 import { useAuth } from '../../services/AuthContext';
 
@@ -65,7 +66,7 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
 
   const loadConfig = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/notifications/config');
+      const res = await fetch(`${API_BASE}/api/notifications/config`);
       if (res.ok) {
         const data = await res.json();
         if (data.smtp_user) setSmtpUser(data.smtp_user);
@@ -78,7 +79,7 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
   const handleSaveConfig = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:8000/api/notifications/config', {
+      const res = await fetch(`${API_BASE}/api/notifications/config`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

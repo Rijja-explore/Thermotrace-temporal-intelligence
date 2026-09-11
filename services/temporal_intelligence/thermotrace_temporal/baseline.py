@@ -271,3 +271,59 @@ def compute_deviation(
         "spatial_deviation": safe_diff(current_spatial_extent, baseline.spatial_extent_mean),
         "notes": notes,
     }
+
+
+def update_rolling_90d_baseline(
+    historical_observations: list[Observation],
+    new_observations: list[Observation],
+    reference_time: Optional[datetime] = None,
+    window_days: int = 90,
+    facility_id: Optional[str] = None
+) -> dict:
+    """
+    Computes a self-updating rolling 90-day facility thermal fingerprint baseline.
+    Appends new observations, purges observations older than `window_days`,
+    and re-computes robust rolling statistics (mean, std, MAD, persistence).
+    """
+    from datetime import timedelta
+    ref = reference_time or datetime.utcnow()
+    cutoff = ref - timedelta(days=window_days)
+
+    def get_ts(obs):
+        return getattr(obs, "timestamp_utc", getattr(obs, "timestamp", None))
+
+    all_obs = [obs for obs in (historical_observations + new_observations) if get_ts(obs) and get_ts(obs) >= cutoff]
+    frp_vals = [obs.frp for obs in all_obs if obs.frp is not None]
+
+
+    if not frp_vals or len(frp_vals) < 3:
+        return {
+            "status": "INSUFFICIENT_WINDOW_DATA",
+            "facility_id": facility_id,
+            "window_days": window_days,
+            "observations_in_window": len(frp_vals),
+            "rolling_frp_mean": round(float(np.mean(frp_vals)), 2) if frp_vals else 0.0,
+            "rolling_frp_std": round(float(np.std(frp_vals)), 2) if len(frp_vals) > 1 else 0.0,
+        }
+
+    frp_array = np.array(frp_vals, dtype=float)
+    mean_val = float(np.mean(frp_array))
+    std_val = float(np.std(frp_array))
+    median_val = float(np.median(frp_array))
+    mad_val = float(np.median(np.abs(frp_array - median_val)))
+    p95_val = float(np.percentile(frp_array, 95))
+
+    return {
+        "status": "DYNAMIC_ROLLING_ACTIVE",
+        "facility_id": facility_id,
+        "window_days": window_days,
+        "observations_in_window": len(frp_vals),
+        "rolling_frp_mean": round(mean_val, 2),
+        "rolling_frp_std": round(std_val, 2),
+        "rolling_frp_median": round(median_val, 2),
+        "rolling_frp_mad": round(mad_val, 2),
+        "rolling_p95": round(p95_val, 2),
+        "baseline_mode": "ROLLING_ADAPTIVE_90D",
+        "last_recalculated_utc": ref.isoformat() if hasattr(ref, "isoformat") else str(ref),
+    }
+

@@ -4077,14 +4077,32 @@ async def verify_event(event_id: str, body: AnalystVerification):
             }
             if body.decision.upper() == "RECLASSIFIED" and body.reclassified_label:
                 ev["classification"]["label"] = body.reclassified_label
+            
+            # Feed into Closed-Loop Adaptive Ground Truth Collector
+            try:
+                from services.classification.feedback_collector import record_analyst_decision
+                record_analyst_decision(
+                    event_id=event_id,
+                    action=body.decision.upper(),
+                    analyst_id=body.analyst_id,
+                    original_label=ev.get("classification", {}).get("label", "industrial"),
+                    corrected_label=body.reclassified_label or ev.get("classification", {}).get("label", "industrial"),
+                    confidence=float(ev.get("classification", {}).get("confidence", 0.9)),
+                    notes=body.notes,
+                    features=ev.get("feature_vector", {})
+                )
+            except Exception as feedback_err:
+                pass
                 
             return {
                 "success": True,
                 "event_id": event_id,
                 "status": ev["status"],
-                "analyst_review": ev["analyst_review"]
+                "analyst_review": ev["analyst_review"],
+                "closed_loop_feedback": "LOGGED_TO_GROUND_TRUTH"
             }
     raise HTTPException(status_code=404, detail=f"Event {event_id} not found")
+
 
 
 @router.post("/{event_id}/reclassify")

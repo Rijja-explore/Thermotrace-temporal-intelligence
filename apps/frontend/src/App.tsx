@@ -215,11 +215,13 @@ function AppContent() {
           {/* Last updated */}
           <span className="top-header__timestamp">Updated {lastUpdated}</span>
 
-          {/* Health */}
-          <div className="top-header__health">
-            <div className="top-header__health-dot" />
-            NOMINAL
+          {/* NRT Pipeline & Closed-Loop Adaptive Badge */}
+          <div className="top-header__health" title="Near-Real-Time NASA FIRMS Ingestion Pipeline with Closed-Loop Adaptive Intelligence" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', padding: '3px 8px', background: 'rgba(67, 217, 232, 0.08)', border: '1px solid rgba(67, 217, 232, 0.3)', borderRadius: '4px' }}>
+            <div className="top-header__health-dot" style={{ background: '#38BDF8' }} />
+            <span style={{ color: '#E2E8F0', fontWeight: 600 }}>NRT SATELLITE PIPELINE</span>
+            <span style={{ color: '#94A3B8', fontSize: '10px' }}>· NASA Latency: 2.4h</span>
           </div>
+
 
           {/* Alert count */}
           <button

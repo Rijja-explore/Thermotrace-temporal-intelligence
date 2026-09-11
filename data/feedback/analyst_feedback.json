@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "last_updated_utc": "2026-09-11T13:31:35.738979+00:00",
+  "total_feedbacks": 4,
+  "verified_ground_truth": [
+    {
+      "feedback_id": "FB-20260911132742-TT-CASE-",
+      "event_id": "TT-CASE-001",
+      "action": "CONFIRM",
+      "analyst_id": "ANALYST_CHIEF_01",
+      "original_label": "industrial_flare",
+      "corrected_label": "abnormal_industrial_fire",
+      "confidence": 0.96,
+      "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
+      "features": {},
+      "timestamp_utc": "2026-09-11T13:27:42.900538+00:00",
+      "used_in_retraining": false
+    },
+    {
+      "feedback_id": "FB-20260911132849-TT-CASE-",
+      "event_id": "TT-CASE-001",
+      "action": "CONFIRM",
+      "analyst_id": "ANALYST_CHIEF_01",
+      "original_label": "industrial_flare",
+      "corrected_label": "abnormal_industrial_fire",
+      "confidence": 0.96,
+      "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
+      "features": {},
+      "timestamp_utc": "2026-09-11T13:28:49.079808+00:00",
+      "used_in_retraining": false
+    },
+    {
+      "feedback_id": "FB-20260911133104-TT-CASE-",
+      "event_id": "TT-CASE-001",
+      "action": "CONFIRM",
+      "analyst_id": "ANALYST_CHIEF_01",
+      "original_label": "industrial_flare",
+      "corrected_label": "abnormal_industrial_fire",
+      "confidence": 0.96,
+      "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
+      "features": {},
+      "timestamp_utc": "2026-09-11T13:31:04.359028+00:00",
+      "used_in_retraining": false
+    },
+    {
+      "feedback_id": "FB-20260911133135-TT-CASE-",
+      "event_id": "TT-CASE-001",
+      "action": "CONFIRM",
+      "analyst_id": "ANALYST_CHIEF_01",
+      "original_label": "industrial_flare",
+      "corrected_label": "abnormal_industrial_fire",
+      "confidence": 0.96,
+      "notes": "High-intensity flare spike exceeding 13.9 sigma baseline threshold.",
+      "features": {},
+      "timestamp_utc": "2026-09-11T13:31:35.738979+00:00",
+      "used_in_retraining": false
+    }
+  ]
+}

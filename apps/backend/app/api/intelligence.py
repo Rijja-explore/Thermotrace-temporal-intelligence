@@ -999,3 +999,57 @@ async def get_event_intelligence_summary_api(
             "why_critical_priority": f"High thermal intensity ({frp} MW) inside high-vulnerability refinery with 3.2km hazard radius and downwind dispersion towards populated zones."
         }
     }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CLOSED-LOOP ADAPTIVE INTELLIGENCE & NRT TELEMETRY ENDPOINTS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@router.get("/nrt-status")
+def get_nrt_pipeline_status():
+    """Returns Near-Real-Time NASA FIRMS ingestion status, sync timestamp & latency breakdown."""
+    from services.data_pipeline.firms.nrt_poller import nrt_poller
+    return nrt_poller.client.get_pipeline_telemetry()
+
+
+@router.post("/nrt-poll-now")
+def trigger_nrt_polling_cycle():
+    """Manual or scheduled polling trigger to ingest fresh satellite passes."""
+    from services.data_pipeline.firms.nrt_poller import nrt_poller
+    return nrt_poller.poll_and_deduplicate()
+
+
+@router.get("/continuous-learning/status")
+def get_continuous_learning_status():
+    """Returns the active AI model version, champion metrics, and verified feedback status."""
+    from services.classification.retraining_gate import get_current_model_status
+    from services.classification.feedback_collector import get_feedback_statistics
+    return {
+        "model_status": get_current_model_status(),
+        "feedback_stats": get_feedback_statistics(),
+        "workflow": "Continuous Analyst Ground-Truth Feedback -> Validation Gate Check -> Model Promotion"
+    }
+
+
+@router.post("/continuous-learning/feedback")
+def submit_analyst_feedback(payload: Dict[str, Any]):
+    """Records human-supervised audit decision (CONFIRM/REJECT/RECLASSIFY) into ground-truth storage."""
+    from services.classification.feedback_collector import record_analyst_decision
+    return record_analyst_decision(
+        event_id=payload.get("event_id", "TT-CASE-001"),
+        action=payload.get("action", "CONFIRM"),
+        analyst_id=payload.get("analyst_id", "admin_analyst_01"),
+        original_label=payload.get("original_label", "industrial_flaring"),
+        corrected_label=payload.get("corrected_label", "abnormal_industrial_fire"),
+        confidence=float(payload.get("confidence", 0.95)),
+        notes=payload.get("notes", "Human analyst verified via satellite spectral indices"),
+        features=payload.get("features", {})
+    )
+
+
+@router.post("/continuous-learning/retrain-and-validate")
+def retrain_candidate_model(verified_count: int = Query(15, ge=1)):
+    """Triggers candidate retraining and enforces the validation gate before model promotion."""
+    from services.classification.retraining_gate import evaluate_and_promote_candidate
+    return evaluate_and_promote_candidate(simulated_verified_count=verified_count)
+

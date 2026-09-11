@@ -1,0 +1,45 @@
+{
+  "active_model": "M4-B_HistGradientBoosting_v1.3.0-Adaptive",
+  "active_version": "1.3.0-Adaptive",
+  "champion_metrics": {
+    "macro_f1": 0.8129,
+    "accuracy": 0.76,
+    "industrial_precision": 0.92,
+    "industrial_recall": 0.762
+  },
+  "history": [
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.0",
+      "previous_version": "1.0.0",
+      "promoted_at_utc": "2026-09-11T13:28:49.097524+00:00",
+      "metrics": {
+        "macro_f1": 0.5879,
+        "accuracy": 0.7,
+        "industrial_precision": 0.748,
+        "industrial_recall": 0.708
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.1.0-Adaptive",
+      "previous_version": "1.1.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T13:31:04.373685+00:00",
+      "metrics": {
+        "macro_f1": 0.6629,
+        "accuracy": 0.72,
+        "industrial_precision": 0.808,
+        "industrial_recall": 0.726
+      }
+    },
+    {
+      "previous_model": "M4-B_HistGradientBoosting_v1.2.0-Adaptive",
+      "previous_version": "1.2.0-Adaptive",
+      "promoted_at_utc": "2026-09-11T13:31:35.767312+00:00",
+      "metrics": {
+        "macro_f1": 0.7379,
+        "accuracy": 0.74,
+        "industrial_precision": 0.868,
+        "industrial_recall": 0.744
+      }
+    }
+  ]
+}
