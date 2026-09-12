@@ -12,7 +12,7 @@ import {
   sendReportEmail,
 } from '../services/api';
 import { useAuth } from '../services/AuthContext';
-import { sendAlertEmail, dispatchOfficialConfirmedEmail, RECIPIENT_OFFICIAL } from '../services/alertEmail';
+import { sendAlertEmail, DEFAULT_RECIPIENT, DEFAULT_SENDER } from '../services/alertEmail';
 
 interface WhatIfSimulatorProps {
   eventId?: string;
@@ -157,8 +157,8 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
     setSopExecutionStep(1);
     setSopCompleted(false);
 
-    // Auto-dispatch Official Confirmed Directive on SOP execution
-    dispatchOfficialConfirmedEmail({
+    // Auto-dispatch Simulation Directive on SOP execution
+    sendAlertEmail({
       eventId: eventId || 'TT-SIM-SOP-' + Date.now().toString().slice(-4),
       facilityName: facilityName,
       frpMw: simulatedFRP,
@@ -167,11 +167,12 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
       hazardRadiusM: result?.thermal_hazard_radius_m ?? 350,
       plumeCorridor: `${result?.plume_dispersion_length_km?.toFixed(1) || '8.6'} km ${cardinalDirection} corridor`,
       populationExposure: result?.population_threat_index ? Math.round(result.population_threat_index * 1.5) : 123,
-      customNotes: `SIMULATION SOP TRIGGERED: Automated emergency response protocols deployed for ${facilityName}. Actions engaged: Flare Gas Recovery (FGRS) diversion, perimeter water deluge curtain, and inter-agency disaster standby advisory. Dispatched to Incident Command Official (${RECIPIENT_OFFICIAL}).`,
+      customNotes: `SIMULATION SOP TRIGGERED: Automated emergency response protocols deployed for ${facilityName}. Actions engaged: Flare Gas Recovery (FGRS) diversion, perimeter water deluge curtain, and inter-agency disaster standby advisory. Dispatched to Incident Command (${DEFAULT_RECIPIENT}) from ${DEFAULT_SENDER}.`,
       forceSend: true,
+      recipientEmail: DEFAULT_RECIPIENT,
     });
 
-    setExportedNotice(`🚨 Automated SOP Initialized — Emergency Directive dispatched to Incident Command Official (${RECIPIENT_OFFICIAL})`);
+    setExportedNotice(`🚨 Automated SOP Initialized — Emergency Simulation Directive dispatched to Incident Command (${DEFAULT_RECIPIENT})`);
     setTimeout(() => setExportedNotice(null), 5000);
 
     // Step 1: Engage FGRS & Drone

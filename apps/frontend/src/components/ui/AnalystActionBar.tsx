@@ -60,22 +60,22 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
       if (emailRes?.email_sent || emailRes?.delivery_status === 'DELIVERED') {
         setApprovalResult({
           success: true,
-          msg: `✓ Report generated\n✓ Report sent successfully\nDestination: ${RECIPIENT_CENTRAL}`,
+          msg: `✓ Report generated\n✓ Report sent\n\nFrom:\nthermotrace.india@gmail.com\n\nTo:\nrijja2310119@ssn.edu.in`,
         });
-        setFeedback(`✓ Event APPROVED — Complete report generated & delivered to ${RECIPIENT_CENTRAL}`);
+        setFeedback(`✓ Event APPROVED — Complete report sent to rijja2310119@ssn.edu.in`);
       } else {
-        const errMsg = emailRes?.error || 'SMTP credentials not configured (Demo Mode recorded)';
+        const errMsg = emailRes?.error || 'SMTP credentials not configured (MAIL_USERNAME / MAIL_PASSWORD environment variables not set)';
         setApprovalResult({
           success: false,
-          msg: `✓ Report generated\n⚠️ EMAIL DELIVERY FAILED: ${errMsg}\nDestination: ${RECIPIENT_CENTRAL}`,
+          msg: `✓ Report generated\n\n✕ Email delivery failed\n\nReason:\n${errMsg}`,
           err: errMsg,
         });
-        setFeedback(`✓ Report generated · Email status: ${errMsg}`);
+        setFeedback(`✓ Report generated · Email delivery status: ${errMsg}`);
       }
     } catch (err: any) {
       setApprovalResult({
         success: false,
-        msg: `✓ Report generated\n⚠️ EMAIL DELIVERY FAILED: ${err?.message || 'Network error'}\nDestination: ${RECIPIENT_CENTRAL}`,
+        msg: `✓ Report generated\n\n✕ Email delivery failed\n\nReason:\n${err?.message || 'Network connection failed'}`,
         err: err?.message,
       });
       setFeedback(`✓ Report generated · Email delivery failed`);

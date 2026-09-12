@@ -27,11 +27,13 @@ from .notifications import DISPATCH_HISTORY, SMTP_CONFIG, _build_thermotrace_htm
 logger = logging.getLogger("thermotrace.reports")
 router = APIRouter()
 
-THERMOTRACE_DISPATCH_EMAIL = "thermotrace.india@gmail.com"
+THERMOTRACE_SENDER_EMAIL = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or "thermotrace.india@gmail.com"
+DEFAULT_RECIPIENT_EMAIL = os.getenv("MAIL_TO") or "rijja2310119@ssn.edu.in"
+THERMOTRACE_DISPATCH_EMAIL = DEFAULT_RECIPIENT_EMAIL
 
 
 class EmailReportRequest(BaseModel):
-    target_email: str = THERMOTRACE_DISPATCH_EMAIL
+    target_email: str = DEFAULT_RECIPIENT_EMAIL
     notes: Optional[str] = "Official Incident Dossier dispatched from ThermoTrace Analyst Console"
 
 
@@ -40,7 +42,7 @@ MAIL_HOST = os.getenv("MAIL_HOST") or os.getenv("SMTP_HOST") or "smtp.gmail.com"
 MAIL_PORT = int(os.getenv("MAIL_PORT") or os.getenv("SMTP_PORT") or "587")
 MAIL_USERNAME = os.getenv("MAIL_USERNAME") or os.getenv("SMTP_USER") or os.getenv("SMTP_USERNAME") or SMTP_CONFIG.get("user")
 MAIL_PASSWORD = os.getenv("MAIL_PASSWORD") or os.getenv("SMTP_PASSWORD") or SMTP_CONFIG.get("password")
-MAIL_FROM = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or SMTP_CONFIG.get("from_email") or "thermotrace.india@gmail.com"
+MAIL_FROM = THERMOTRACE_SENDER_EMAIL
 
 
 def _send_real_smtp_email_with_pdf(to_email: str, subject: str, text_body: str, html_body: str, pdf_bytes: bytes, filename: str) -> tuple[bool, Optional[str]]:
@@ -53,10 +55,58 @@ def _send_real_smtp_email_with_pdf(to_email: str, subject: str, text_body: str, 
     pwd = os.getenv("MAIL_PASSWORD") or os.getenv("SMTP_PASSWORD") or SMTP_CONFIG.get("password")
     host = os.getenv("MAIL_HOST") or os.getenv("SMTP_HOST") or "smtp.gmail.com"
     port = int(os.getenv("MAIL_PORT") or os.getenv("SMTP_PORT") or "587")
-    from_email = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or "thermotrace.india@gmail.com"
+    from_email = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or THERMOTRACE_SENDER_EMAIL
 
-    logger.info(f"[MAIL] Preparing message with subject: {subject}")
-    logger.info(f"[MAIL] Recipient = {to_email}")
+    logger.info("[MAIL] Preparing email")
+    logger.info(f"[MAIL] From: {from_email}")
+    logger.info(f"[MAIL] To: {to_email}")
+
+    if not user or not pwd:
+        err_msg = "SMTP credentials not configured (MAIL_USERNAME / MAIL_PASSWORD environment variables not set)"
+        logger.warning(f"[MAIL] ERROR: {err_msg}")
+        return False, err_msg
+
+    try:
+        msg = MIMEMultipart("mixed")
+        msg["Subject"] = subject
+        msg["From"] = from_email
+        msg["To"] = to_email
+
+        # Attach text and html alternative parts
+        msg_alternative = MIMEMultipart("alternative")
+        msg_alternative.attach(MIMEText(text_body, "plain"))
+        if html_body:
+            msg_alternative.attach(MIMEText(html_body, "html"))
+        msg.attach(msg_alternative)
+
+        # Attach PDF
+        part = MIMEApplication(pdf_bytes, Name=filename)
+        part['Content-Disposition'] = f'attachment; filename="{filename}"'
+        msg.attach(part)
+
+        logger.info(f"[MAIL] Connecting to mail provider {host}:{port}...")
+        with smtplib.SMTP(host, port, timeout=10) as server:
+            server.starttls()
+            server.login(user, pwd)
+            logger.info("[MAIL] Authentication successful")
+            logger.info("[MAIL] Sending report")
+            server.sendmail(from_email, [to_email], msg.as_string())
+            logger.info("[MAIL] Provider accepted message")
+
+        logger.info(f"✓ Real SMTP email with PDF attachment successfully delivered to {to_email}")
+        return True, None
+    except smtplib.SMTPAuthenticationError as e:
+        err_msg = f"SMTP authentication failed ({e.smtp_error.decode('utf-8', errors='ignore') if hasattr(e, 'smtp_error') and isinstance(e.smtp_error, bytes) else str(e)})"
+        logger.error(f"[MAIL] ERROR: {err_msg}")
+        return False, err_msg
+    except smtplib.SMTPConnectError as e:
+        err_msg = f"SMTP connection failed ({str(e)})"
+        logger.error(f"[MAIL] ERROR: {err_msg}")
+        return False, err_msg
+    except Exception as e:
+        err_msg = f"Mail provider error ({type(e).__name__}: {str(e)})"
+        logger.error(f"[MAIL] ERROR: {err_msg}")
+        return False, err_msg
 
     if not user or not pwd:
         err_msg = "SMTP credentials not configured (MAIL_USERNAME / MAIL_PASSWORD environment variables not set)"
@@ -372,7 +422,8 @@ async def dispatch_report_email(event_id: str, req: Optional[EmailReportRequest]
     req_target = req.target_email if req and req.target_email else THERMOTRACE_DISPATCH_EMAIL
     target_email = req_target or THERMOTRACE_DISPATCH_EMAIL
 
-    logger.info(f"[REPORT] Approval received for event {event_id}")
+    logger.info(f"[APPROVAL] Event approved: {event_id}")
+    logger.info(f"[REPORT] Generating report for {event_id}")
 
     found_event = None
     for event in _get_all_events():
@@ -392,11 +443,9 @@ async def dispatch_report_email(event_id: str, req: Optional[EmailReportRequest]
             "temporal_features": {"current_frp": 340.0, "baseline_frp_mean": 82.0, "baseline_frp_std": 18.5, "deviation_sigma": 13.95}
         }
 
-    logger.info(f"[REPORT] Report data extracted for {event_id}")
-
     pdf_bytes = _build_report_pdf(found_event)
-    filename = f"ThermoTrace_{event_id}_Report.pdf"
-    logger.info(f"[REPORT] Attachment generated: {filename} ({len(pdf_bytes)} bytes)")
+    filename = f"ThermoTrace_{event_id}_Complete_Report.pdf"
+    logger.info(f"[REPORT] Report generated successfully: {filename} ({len(pdf_bytes)} bytes)")
 
     facility_name = found_event.get('facility_context', {}).get('name', 'Industrial Facility')
     cls_name = found_event.get('classification', {}).get('class', 'Industrial Thermal Event')
@@ -407,9 +456,9 @@ async def dispatch_report_email(event_id: str, req: Optional[EmailReportRequest]
     timestamp_val = found_event.get('timestamp', datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'))
 
     text_body = f"""THERMOTRACE
-Industrial Thermal Intelligence
+Industrial Thermal Intelligence Platform
 
-An event has been reviewed and approved by the Analyst.
+An event has been reviewed and approved by the ThermoTrace Analyst.
 
 Event ID: {event_id}
 Classification: {cls_name}
@@ -423,7 +472,7 @@ Hazard Radius: 350m
 
 The complete ThermoTrace intelligence dossier is attached.
 
-This report was generated by the ThermoTrace SIH 26162 system.
+ThermoTrace — SIH 26162
 """
 
     dispatch_req = NotificationDispatchRequest(
@@ -445,9 +494,9 @@ This report was generated by the ThermoTrace SIH 26162 system.
     dispatch_record = {
         "id": f"MSG-PDF-EML-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
         "channel": "EMAIL_PDF_ATTACHMENT",
-        "sender": THERMOTRACE_DISPATCH_EMAIL,
+        "sender": THERMOTRACE_SENDER_EMAIL,
         "recipient": target_email,
-        "recipient_name": "ThermoTrace Central Feed",
+        "recipient_name": "Incident Command Official",
         "role": "ANALYST",
         "subject": subject,
         "status": "DELIVERED" if smtp_sent else "FAILED",
@@ -456,24 +505,25 @@ This report was generated by the ThermoTrace SIH 26162 system.
         "timestamp": now_utc,
         "notes": req.notes if req else None,
         "error": smtp_err,
-        "preview": f"PDF Incident Dossier dispatched to {target_email}. Attachment: {filename}"
+        "preview": f"PDF Incident Dossier dispatched from {THERMOTRACE_SENDER_EMAIL} to {target_email}. Attachment: {filename}"
     }
     DISPATCH_HISTORY.insert(0, dispatch_record)
 
     return {
         "report_generated": True,
         "email_sent": smtp_sent,
+        "sender": THERMOTRACE_SENDER_EMAIL,
+        "recipient": target_email,
         "delivery_status": "DELIVERED" if smtp_sent else "FAILED",
         "status": "DELIVERED" if smtp_sent else "REPORT_GENERATED",
         "error": smtp_err,
-        "recipient": target_email,
-        "from": THERMOTRACE_DISPATCH_EMAIL,
+        "from": THERMOTRACE_SENDER_EMAIL,
         "to": target_email,
         "event_id": event_id,
         "attachment": filename,
         "smtp_sent": smtp_sent,
         "timestamp_utc": now_utc,
-        "message": f"Complete incident dossier & PDF report sent to {target_email}." if smtp_sent else f"Report generated successfully. Email delivery status: {smtp_err or 'Demo Mode logged'}."
+        "message": f"Complete incident dossier & PDF report sent from {THERMOTRACE_SENDER_EMAIL} to {target_email}." if smtp_sent else f"Report generated successfully. Email delivery status: {smtp_err or 'Demo Mode logged'}."
     }
 
 

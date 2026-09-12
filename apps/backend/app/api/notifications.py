@@ -17,18 +17,17 @@ from pydantic import BaseModel, Field
 
 from .auth import get_current_authenticated_user
 
-logger = logging.getLogger("thermotrace.notifications")
-router = APIRouter()
-
-# Single Official Destination Email
-THERMOTRACE_CENTRAL_EMAIL = "thermotrace.india@gmail.com"
+# Mail Identity Configuration
+THERMOTRACE_SENDER_EMAIL = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or "thermotrace.india@gmail.com"
+DEFAULT_RECIPIENT_EMAIL = os.getenv("MAIL_TO") or "rijja2310119@ssn.edu.in"
+THERMOTRACE_CENTRAL_EMAIL = DEFAULT_RECIPIENT_EMAIL
 
 SMTP_CONFIG = {
-    "host": os.getenv("SMTP_HOST", "smtp.gmail.com"),
-    "port": int(os.getenv("SMTP_PORT", "587")),
-    "user": os.getenv("SMTP_USER", ""),
-    "password": os.getenv("SMTP_PASSWORD", ""),
-    "from_email": os.getenv("SMTP_FROM", "thermotrace.india@gmail.com"),
+    "host": os.getenv("MAIL_HOST") or os.getenv("SMTP_HOST") or "smtp.gmail.com",
+    "port": int(os.getenv("MAIL_PORT") or os.getenv("SMTP_PORT") or "587"),
+    "user": os.getenv("MAIL_USERNAME") or os.getenv("SMTP_USER") or "",
+    "password": os.getenv("MAIL_PASSWORD") or os.getenv("SMTP_PASSWORD") or "",
+    "from_email": THERMOTRACE_SENDER_EMAIL,
 }
 
 def _send_real_smtp_email(to_email: str, subject: str, html_body: str) -> bool:

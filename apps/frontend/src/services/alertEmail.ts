@@ -1,13 +1,15 @@
 /**
  * ThermoTrace Central Mail & Report Dispatch Engine
  *
- * Route: All approved intelligence reports and notifications
- * are dispatched exclusively to thermotrace.india@gmail.com.
+ * Sender: thermotrace.india@gmail.com
+ * Recipient: rijja2310119@ssn.edu.in
  */
 
-export const RECIPIENT_CENTRAL = 'thermotrace.india@gmail.com';
-export const RECIPIENT_OFFICIAL = RECIPIENT_CENTRAL;
-export const DEFAULT_REPORT_EMAIL = RECIPIENT_CENTRAL;
+export const DEFAULT_SENDER = 'thermotrace.india@gmail.com';
+export const DEFAULT_RECIPIENT = 'rijja2310119@ssn.edu.in';
+export const RECIPIENT_CENTRAL = DEFAULT_RECIPIENT;
+export const RECIPIENT_OFFICIAL = DEFAULT_RECIPIENT;
+export const DEFAULT_REPORT_EMAIL = DEFAULT_RECIPIENT;
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
 

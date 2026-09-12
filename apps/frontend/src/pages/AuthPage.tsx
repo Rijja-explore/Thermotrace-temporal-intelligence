@@ -30,7 +30,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
     setIsSubmitting(false);
 
     if (result.success) {
-      onNavigate('/analyst');
+      onNavigate('/command-center');
     } else {
       setError(result.error || 'Invalid credentials. Demo mode password: analyst');
     }

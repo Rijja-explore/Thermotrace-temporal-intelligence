@@ -30,7 +30,7 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
 
   const [downloading, setDownloading] = useState(false);
   const [showEmailSection, setShowEmailSection] = useState(false);
-  const [recipientEmail, setRecipientEmail] = useState('thermotrace.india@gmail.com');
+  const [recipientEmail, setRecipientEmail] = useState('rijja2310119@ssn.edu.in');
   const [analystNotes, setAnalystNotes] = useState('Official thermal intelligence dossier generated for operational review.');
   const [emailSending, setEmailSending] = useState(false);
   const [emailStatus, setEmailStatus] = useState<{ success: boolean; msg: string } | null>(null);
@@ -68,14 +68,21 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
     setEmailStatus(null);
     try {
       const res = await sendReportEmail(eventId, recipientEmail, analystNotes);
-      setEmailStatus({
-        success: true,
-        msg: res.message || `PDF Intelligence Dossier successfully dispatched to ${recipientEmail}`,
-      });
+      if (res?.email_sent || res?.delivery_status === 'DELIVERED') {
+        setEmailStatus({
+          success: true,
+          msg: `✓ Report generated & sent successfully\nFrom: thermotrace.india@gmail.com\nTo: ${recipientEmail}`,
+        });
+      } else {
+        setEmailStatus({
+          success: false,
+          msg: `✓ Report generated\n✕ Email delivery failed: ${res?.error || 'SMTP credentials not configured (MAIL_USERNAME / MAIL_PASSWORD environment variables not set)'}`,
+        });
+      }
     } catch (err: any) {
       setEmailStatus({
         success: false,
-        msg: err.message || 'Failed to dispatch email. Please verify network connection.',
+        msg: `✓ Report generated\n✕ Email delivery failed: ${err?.message || 'Network connection error'}`,
       });
     } finally {
       setEmailSending(false);
