@@ -1,10 +1,14 @@
 """
-Reports API — Generate high-resolution PDF incident reports and dispatch emails from thermotrace.india@gmail.com.
+Reports API — Generate high-resolution PDF incident reports and dispatch emails to thermotrace.india@gmail.com.
 """
 import io
 import os
 import json
 import logging
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 from datetime import datetime, timezone
 from typing import Optional, Dict, Any
 
@@ -18,7 +22,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
 
 from .events import _get_all_events
-from .notifications import DISPATCH_HISTORY
+from .notifications import DISPATCH_HISTORY, SMTP_CONFIG, _build_thermotrace_html_email, NotificationDispatchRequest
 
 logger = logging.getLogger("thermotrace.reports")
 router = APIRouter()
@@ -27,8 +31,38 @@ THERMOTRACE_DISPATCH_EMAIL = "thermotrace.india@gmail.com"
 
 
 class EmailReportRequest(BaseModel):
-    target_email: str = "rijja2310119@ssn.edu.in"
-    notes: Optional[str] = "Official Incident Dossier dispatched from ThermoTrace Command Center"
+    target_email: str = THERMOTRACE_DISPATCH_EMAIL
+    notes: Optional[str] = "Official Incident Dossier dispatched from ThermoTrace Analyst Console"
+
+
+def _send_real_smtp_email_with_pdf(to_email: str, subject: str, html_body: str, pdf_bytes: bytes, filename: str) -> bool:
+    """Attempts to send an email with PDF attachment via configured SMTP environment credentials."""
+    user = SMTP_CONFIG.get("user")
+    pwd = SMTP_CONFIG.get("password")
+    if not user or not pwd:
+        logger.info(f"[Demo Mail Mode] SMTP credentials not set. Report logged in dispatch ledger for {to_email}.")
+        return False
+    try:
+        msg = MIMEMultipart()
+        msg["Subject"] = subject
+        msg["From"] = SMTP_CONFIG["from_email"]
+        msg["To"] = to_email
+
+        msg.attach(MIMEText(html_body, "html"))
+
+        part = MIMEApplication(pdf_bytes, Name=filename)
+        part['Content-Disposition'] = f'attachment; filename="{filename}"'
+        msg.attach(part)
+
+        with smtplib.SMTP(SMTP_CONFIG["host"], SMTP_CONFIG["port"], timeout=5) as server:
+            server.starttls()
+            server.login(user, pwd)
+            server.sendmail(SMTP_CONFIG["from_email"], [to_email], msg.as_string())
+        logger.info(f"✓ Real SMTP email with PDF attachment successfully delivered to {to_email}")
+        return True
+    except Exception as e:
+        logger.warning(f"SMTP dispatch attempt to {to_email} encountered error: {e}")
+        return False
 
 
 def _build_report_pdf(event: dict) -> bytes:
@@ -185,7 +219,6 @@ def _build_report_pdf(event: dict) -> bytes:
         ('TOPPADDING', (0,0), (-1,-1), 5),
         ('BOTTOMPADDING', (0,0), (-1,-1), 5),
     ]))
-    # Set header text color
     for i in range(3):
         engine_rows[0][i].style.textColor = colors.white
     elements.append(t_eng)
@@ -240,7 +273,7 @@ def _build_report_pdf(event: dict) -> bytes:
 
     # 6. Audit Provenance & Sign-off
     elements.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor('#CBD5E1'), spaceBefore=6, spaceAfter=8))
-    footer_text = f"ThermoTrace Intelligence Platform · Problem Statement SIH26162 · Official Dispatch from: <b>{THERMOTRACE_DISPATCH_EMAIL}</b> · Generated: {datetime.now(timezone.utc).isoformat()}"
+    footer_text = f"ThermoTrace Intelligence Platform · SIH26162 · Destination: <b>{THERMOTRACE_DISPATCH_EMAIL}</b> · Generated: {datetime.now(timezone.utc).isoformat()}"
     elements.append(Paragraph(footer_text, subtitle_style))
 
     doc.build(elements)
@@ -265,7 +298,6 @@ async def download_report_pdf(event_id: str):
             break
 
     if not found_event:
-        # Fallback dummy event structure for seamless export
         found_event = {
             "event_id": event_id,
             "lat": 22.47,
@@ -292,9 +324,9 @@ async def download_report_pdf(event_id: str):
 @router.post("/{event_id}/email")
 async def dispatch_report_email(event_id: str, req: EmailReportRequest):
     """
-    Dispatches the formatted incident dossier and PDF from thermotrace.india@gmail.com
-    to the target recipient.
+    Dispatches the formatted incident dossier and PDF attachment to thermotrace.india@gmail.com.
     """
+    target_email = req.target_email or THERMOTRACE_DISPATCH_EMAIL
     found_event = None
     for event in _get_all_events():
         if event.get("event_id") == event_id:
@@ -312,43 +344,53 @@ async def dispatch_report_email(event_id: str, req: EmailReportRequest):
             "temporal_features": {"current_frp": 340.0, "baseline_frp_mean": 82.0, "baseline_frp_std": 18.5, "deviation_sigma": 13.95}
         }
 
+    pdf_bytes = _build_report_pdf(found_event)
+    filename = f"thermotrace_incident_{event_id}.pdf"
+
+    dispatch_req = NotificationDispatchRequest(
+        event_id=event_id,
+        facility_name=found_event.get('facility_context', {}).get('name', 'Industrial Installation'),
+        frp_mw=found_event.get('temporal_features', {}).get('current_frp', 340.0),
+        risk_score=85.0,
+        threat_tier="CONFIRMED",
+        hazard_radius_m=350.0,
+        custom_notes=req.notes or "Analyst verified and confirmed industrial thermal excursion. Full PDF dossier generated.",
+        target_override_email=target_email
+    )
+    html_body = _build_thermotrace_html_email(dispatch_req)
+    subject = f"[THERMOTRACE COMPLETE REPORT] Approved Incident Dossier — {dispatch_req.facility_name} ({event_id})"
+
+    smtp_sent = _send_real_smtp_email_with_pdf(target_email, subject, html_body, pdf_bytes, filename)
     now_utc = datetime.now(timezone.utc).isoformat()
+
     dispatch_record = {
         "id": f"MSG-PDF-EML-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
         "channel": "EMAIL_PDF_ATTACHMENT",
         "sender": THERMOTRACE_DISPATCH_EMAIL,
-        "recipient": req.target_email,
-        "recipient_name": "Official Incident Desk" if "official" in req.target_email else "Authorized Recipient",
-        "role": "OFFICIAL",
-        "subject": f"[THERMOTRACE OFFICIAL PDF] Incident Dossier for {found_event.get('facility_context', {}).get('name', 'Industrial Site')} ({event_id})",
-        "status": "DISPATCHED",
+        "recipient": target_email,
+        "recipient_name": "ThermoTrace Central Feed",
+        "role": "ANALYST",
+        "subject": subject,
+        "status": "DELIVERED" if smtp_sent else "DISPATCHED_DEMO_MODE",
         "event_id": event_id,
-        "severity": "CRITICAL",
+        "severity": "CONFIRMED",
         "timestamp": now_utc,
         "notes": req.notes,
-        "preview": f"PDF Incident Dossier dispatched from {THERMOTRACE_DISPATCH_EMAIL} to {req.target_email}. Attachment: thermotrace_incident_{event_id}.pdf"
+        "preview": f"PDF Incident Dossier dispatched to {target_email}. Attachment: {filename}"
     }
     DISPATCH_HISTORY.insert(0, dispatch_record)
 
     return {
-        "status": "DISPATCHED",
+        "status": "DELIVERED" if smtp_sent else "REPORT_GENERATED",
+        "delivery_status": "DELIVERED" if smtp_sent else "REPORT_GENERATED",
         "from": THERMOTRACE_DISPATCH_EMAIL,
-        "to": req.target_email,
+        "to": target_email,
         "event_id": event_id,
-        "attachment": f"thermotrace_incident_{event_id}.pdf",
+        "attachment": filename,
+        "smtp_sent": smtp_sent,
         "timestamp_utc": now_utc,
-        "message": f"Incident PDF dossier dispatched from {THERMOTRACE_DISPATCH_EMAIL} to {req.target_email} successfully."
+        "message": f"Complete incident dossier & PDF report sent to {target_email}." if smtp_sent else f"Complete incident dossier & PDF report generated for {target_email} (Demo Mode log recorded)."
     }
-
-
-@router.get("/{event_id}")
-async def generate_report_html_endpoint(event_id: str):
-    """Generate an HTML incident report for the given event."""
-    for event in _get_all_events():
-        if event.get("event_id") == event_id:
-            html = _build_report_html(event)
-            return HTMLResponse(content=html)
-    raise HTTPException(status_code=404, detail=f"Event {event_id} not found")
 
 
 @router.get("/{event_id}/json")

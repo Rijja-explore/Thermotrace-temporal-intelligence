@@ -1,17 +1,6 @@
 """
-ThermoTrace Centralized Multi-Tier Notification Engine.
-Dispatches formatted incident dossiers and operational alerts across configured recipient roles.
-
-Recipient Identities (Institutional SIH Configuration):
-- ANALYST: anagesh2410198@ssn.edu.in (Detailed investigation brief + XAI + Verification actions)
-- OFFICIAL: rijja2310119@ssn.edu.in (Operational response notice + Hazard perimeter + SOP directives)
-
-Severity Routing Rules:
-- NORMAL: Dashboard only (No notification dispatched)
-- WATCH: Dashboard monitoring notice
-- HIGH: Dispatched to Analyst (anagesh2410198@ssn.edu.in)
-- CRITICAL: Dispatched to Analyst (anagesh2410198@ssn.edu.in) & Official (rijja2310119@ssn.edu.in)
-- CONFIRMED: Official Emergency Response Alert to Official (rijja2310119@ssn.edu.in)
+ThermoTrace Centralized Notification & Mail Engine.
+Dispatches full intelligence dossiers and operational alerts to thermotrace.india@gmail.com.
 """
 import os
 import json
@@ -31,9 +20,8 @@ from .auth import get_current_authenticated_user
 logger = logging.getLogger("thermotrace.notifications")
 router = APIRouter()
 
-# Default Standard Operational Recipients (Institutional SIH Configuration)
-RECIPIENT_ANALYST = "anagesh2410198@ssn.edu.in"
-RECIPIENT_OFFICIAL = "rijja2310119@ssn.edu.in"
+# Single Official Destination Email
+THERMOTRACE_CENTRAL_EMAIL = "thermotrace.india@gmail.com"
 
 SMTP_CONFIG = {
     "host": os.getenv("SMTP_HOST", "smtp.gmail.com"),
@@ -44,11 +32,11 @@ SMTP_CONFIG = {
 }
 
 def _send_real_smtp_email(to_email: str, subject: str, html_body: str) -> bool:
-    """Attempts to send a real email via configured SMTP credentials."""
+    """Attempts to send a real email via configured SMTP environment credentials."""
     user = SMTP_CONFIG.get("user")
     pwd = SMTP_CONFIG.get("password")
     if not user or not pwd:
-        logger.info(f"[SMTP Notice] Direct SMTP credentials not set. Email logged in dispatch ledger for {to_email}.")
+        logger.info(f"[Demo Mail Mode] SMTP credentials not set. Report logged to dispatch ledger for {to_email}.")
         return False
     try:
         msg = MIMEMultipart("alternative")
@@ -72,28 +60,15 @@ DISPATCH_HISTORY: List[Dict[str, Any]] = [
     {
         "id": "MSG-EML-2026-0901",
         "channel": "EMAIL",
-        "recipient": RECIPIENT_ANALYST,
-        "recipient_name": "Lead Thermal Analyst",
+        "recipient": THERMOTRACE_CENTRAL_EMAIL,
+        "recipient_name": "ThermoTrace Central Intelligence Feed",
         "role": "ANALYST",
-        "subject": "[THERMOTRACE ANALYST BRIEF] CRITICAL Flaring Surge at Jamnagar Refinery (TT-CASE-001)",
+        "subject": "[THERMOTRACE DOSSIER] CRITICAL Flaring Surge at Jamnagar Refinery (TT-CASE-001)",
         "status": "DISPATCHED",
         "event_id": "TT-CASE-001",
         "severity": "CRITICAL",
-        "timestamp": "2026-09-11T12:35:00Z",
-        "preview": "HGB+LSTM detected +13.95σ baseline surge (340 MW). Verification required."
-    },
-    {
-        "id": "MSG-EML-2026-0902",
-        "channel": "EMAIL",
-        "recipient": RECIPIENT_OFFICIAL,
-        "recipient_name": "Incident Command Official",
-        "role": "OFFICIAL",
-        "subject": "[THERMOTRACE OFFICIAL NOTICE] Confirmed Industrial Anomaly — Jamnagar Sector 4",
-        "status": "DISPATCHED",
-        "event_id": "TT-CASE-001",
-        "severity": "CONFIRMED",
-        "timestamp": "2026-09-11T12:40:00Z",
-        "preview": "Confirmed incident at Jamnagar Refinery. Hazard radius: 350m. Plume heading NE."
+        "timestamp": "2026-09-12T00:00:00Z",
+        "preview": "HGB+LSTM detected +13.95σ baseline surge (340 MW). Complete dossier generated."
     }
 ]
 
@@ -139,11 +114,11 @@ class NotificationRecord(BaseModel):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# HTML TEMPLATE BUILDERS
+# HTML TEMPLATE BUILDER
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def _build_analyst_html_email(req: NotificationDispatchRequest) -> str:
-    """Detailed technical incident dossier for Analyst review."""
+def _build_thermotrace_html_email(req: NotificationDispatchRequest) -> str:
+    """Comprehensive executive intelligence dossier sent on approval."""
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -166,102 +141,40 @@ def _build_analyst_html_email(req: NotificationDispatchRequest) -> str:
 <body>
   <div class="box">
     <div class="hdr">
-      <span class="badge">ANALYST INVESTIGATION BRIEF</span>
-      <div class="title">THERMOTRACE INCIDENT DOSSIER: {req.event_id}</div>
-      <div style="font-size:12px; color:#94A3B8;">Target: {req.facility_name}</div>
+      <span class="badge">THERMOTRACE · APPROVED INCIDENT DOSSIER</span>
+      <div class="title">THERMAL INTELLIGENCE REPORT: {req.event_id}</div>
+      <div style="font-size:12px; color:#94A3B8;">Facility Target: {req.facility_name}</div>
     </div>
     <div class="body">
-      <p>Dear <strong>Analyst</strong> (<code>{RECIPIENT_ANALYST}</code>),</p>
-      <p>The ThermoTrace Hybrid AI Engine (HistGradientBoosting + LSTM Temporal Engine) has isolated a significant thermal anomaly requiring human analyst verification.</p>
+      <p>An authorized ThermoTrace Analyst has reviewed and approved the thermal intelligence dossier for <strong>{req.facility_name}</strong>.</p>
       
       <table class="tbl">
         <tr><td class="lbl">Event Identifier:</td><td class="val">{req.event_id}</td></tr>
         <tr><td class="lbl">Facility Association:</td><td class="val">{req.facility_name} ({req.facility_distance_km} km)</td></tr>
-        <tr><td class="lbl">HGB Classification:</td><td class="val">Industrial Thermal Anomaly (AI Conf: {req.ai_confidence_pct}%)</td></tr>
-        <tr><td class="lbl">Observed Peak FRP:</td><td class="val"><span style="color:#FF5C6C;">{req.frp_mw:.1f} MW</span></td></tr>
-        <tr><td class="lbl">90-Day Rolling Baseline:</td><td class="val">{req.baseline_mw}</td></tr>
+        <tr><td class="lbl">Classification:</td><td class="val">Industrial Thermal Anomaly (AI Confidence: {req.ai_confidence_pct}%)</td></tr>
+        <tr><td class="lbl">Observed Peak FRP:</td><td class="val"><span style="color:#FF5C6C; font-weight:700;">{req.frp_mw:.1f} MW</span></td></tr>
+        <tr><td class="lbl">Facility Baseline:</td><td class="val">{req.baseline_mw}</td></tr>
         <tr><td class="lbl">Baseline Deviation:</td><td class="val"><strong style="color:#FF5C6C;">+{req.baseline_deviation_sigma:.2f}σ</strong></td></tr>
         <tr><td class="lbl">LSTM Escalation State:</td><td class="val">{req.escalation_tier} (+{req.frp_trend_mw_day:.1f} MW/day)</td></tr>
-        <tr><td class="lbl">LSTM Forecast:</td><td class="val">T+24h: {req.forecast_t24_mw:.0f} MW | T+48h: {req.forecast_t48_mw:.0f} MW</td></tr>
-        <tr><td class="lbl">Radiant Hazard (API 521):</td><td class="val">{req.hazard_radius_m:.0f} meters</td></tr>
-        <tr><td class="lbl">Plume Dispersal:</td><td class="val">{req.plume_corridor} ({req.wind_vector})</td></tr>
-        <tr><td class="lbl">Population Exposure:</td><td class="val">{req.population_exposure} residents</td></tr>
+        <tr><td class="lbl">Trajectory Forecast:</td><td class="val">T+24h: {req.forecast_t24_mw:.0f} MW | T+48h: {req.forecast_t48_mw:.0f} MW</td></tr>
+        <tr><td class="lbl">Radiant Hazard (API 521):</td><td class="val">{req.hazard_radius_m:.0f} meters safety perimeter</td></tr>
+        <tr><td class="lbl">Gaussian Plume Corridor:</td><td class="val">{req.plume_corridor} ({req.wind_vector})</td></tr>
+        <tr><td class="lbl">Population Exposure:</td><td class="val">{req.population_exposure} residents within impact sector</td></tr>
+        <tr><td class="lbl">Operational Risk Score:</td><td class="val"><strong style="color:#FF5C6C;">{req.risk_score:.0f} / 100 [{req.threat_tier}]</strong></td></tr>
       </table>
 
-      <div style="background:rgba(56,189,248,0.1); border-left:3px solid #38BDF8; padding:10px 14px; margin:14px 0;">
-        <strong>REQUIRED ANALYST ACTION:</strong> Review satellite observations, examine LSTM trajectory & XAI evidence, and execute <code>CONFIRM</code>, <code>REJECT</code>, or <code>RECLASSIFY</code>.
+      {f'<div style="background:rgba(56,189,248,0.1); border-left:3px solid #38BDF8; padding:10px 14px; margin:14px 0;"><strong>ANALYST DECISION NOTES:</strong> {req.custom_notes}</div>' if req.custom_notes else ''}
+
+      <div style="background:rgba(239,68,68,0.1); border-left:3px solid #EF4444; padding:10px 14px; margin:14px 0;">
+        <strong>RECOMMENDED ACTION:</strong> Engage Flare Gas Recovery (FGRS) diversion, establish {req.hazard_radius_m:.0f}m cordon, and monitor downwind corridor ({req.plume_corridor}).
       </div>
 
       <center>
-        <a href="https://thermotrace.vercel.app" class="btn">Open Event Investigation in ThermoTrace →</a>
+        <a href="https://thermotrace.vercel.app" class="btn">View Live Dossier in ThermoTrace Console →</a>
       </center>
     </div>
     <div class="ftr">
-      ThermoTrace Automated Dispatch · Forwarded to Analyst Inbox: <strong>{RECIPIENT_ANALYST}</strong>
-    </div>
-  </div>
-</body>
-</html>"""
-
-
-def _build_official_html_email(req: NotificationDispatchRequest) -> str:
-    """Concise operational incident notice for Emergency Officials."""
-    return f"""<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin:0; padding:0; background-color:#050C16; color:#E2E8F0; }}
-  .box {{ max-width:640px; margin:20px auto; background-color:#0B1626; border:1px solid #1E293B; border-radius:8px; overflow:hidden; }}
-  .hdr {{ background:linear-gradient(135deg, #0F172A 0%, #1E293B 100%); padding:20px 24px; border-bottom:2px solid #FF5C6C; }}
-  .badge {{ display:inline-block; padding:4px 10px; font-size:11px; font-weight:800; border-radius:4px; background:#FF5C6C; color:#000; text-transform:uppercase; }}
-  .title {{ font-size:18px; font-weight:800; margin:10px 0 2px; color:#F8FAFC; }}
-  .body {{ padding:24px; font-size:13px; line-height:1.6; }}
-  .tbl {{ width:100%; border-collapse:collapse; margin:14px 0; }}
-  .tbl td {{ padding:7px 10px; border-bottom:1px solid #1E293B; font-size:12.5px; }}
-  .lbl {{ color:#94A3B8; width:38%; }}
-  .val {{ color:#F8FAFC; font-weight:600; }}
-  .btn {{ display:inline-block; background:#DC2626; color:#FFFFFF !important; font-weight:700; padding:10px 20px; text-decoration:none; border-radius:5px; margin-top:16px; }}
-  .ftr {{ padding:14px 24px; background:#050C16; font-size:11px; color:#64748B; text-align:center; border-top:1px solid #1E293B; }}
-</style>
-</head>
-<body>
-  <div class="box">
-    <div class="hdr">
-      <span class="badge">🚨 OFFICIAL EMERGENCY RESPONSE DIRECTIVE</span>
-      <div class="title">THERMOTRACE CONFIRMED INCIDENT NOTICE: {req.event_id}</div>
-      <div style="font-size:12px; color:#94A3B8;">Target Location: {req.facility_name}</div>
-    </div>
-    <div class="body">
-      <p>Dear <strong>Emergency Response Official</strong> (<code>{RECIPIENT_OFFICIAL}</code>),</p>
-      <p>This is an official advisory regarding a confirmed high-severity industrial thermal event at <strong>{req.facility_name}</strong>.</p>
-      
-      <table class="tbl">
-        <tr><td class="lbl">Incident Ref:</td><td class="val">{req.event_id}</td></tr>
-        <tr><td class="lbl">Facility / Location:</td><td class="val">{req.facility_name}</td></tr>
-        <tr><td class="lbl">Current Thermal Intensity:</td><td class="val"><strong style="color:#FF5C6C;">{req.frp_mw:.1f} MW ({req.baseline_deviation_sigma:.1f}σ anomaly)</strong></td></tr>
-        <tr><td class="lbl">Operational Risk Score:</td><td class="val">{req.risk_score:.0f} / 100 [CRITICAL]</td></tr>
-        <tr><td class="lbl">4.7 kW/m² Radiant Hazard:</td><td class="val">{req.hazard_radius_m:.0f} meters perimeter</td></tr>
-        <tr><td class="lbl">Atmospheric Plume Corridor:</td><td class="val">{req.plume_corridor} ({req.wind_vector})</td></tr>
-        <tr><td class="lbl">Estimated Population Exposure:</td><td class="val">{req.population_exposure} residents</td></tr>
-      </table>
-
-      <div style="background:rgba(239,68,68,0.12); border-left:3px solid #EF4444; padding:12px 14px; margin:14px 0;">
-        <strong>RECOMMENDED RESPONSE DIRECTIVES:</strong>
-        <ul style="margin:6px 0 0; padding-left:18px;">
-          <li>Alert plant industrial safety team & activate Flare Gas Recovery Diversion.</li>
-          <li>Establish public safety cordon at {req.hazard_radius_m:.0f}m radius.</li>
-          <li>Monitor downwind corridor ({req.plume_corridor}) for potential emissions.</li>
-          <li>Notify District Emergency Response & Fire Liaison units.</li>
-        </ul>
-      </div>
-
-      <center>
-        <a href="https://thermotrace.vercel.app" class="btn">View Official Incident Dossier →</a>
-      </center>
-    </div>
-    <div class="ftr">
-      ThermoTrace Emergency Response Gateway · Forwarded to Official Inbox: <strong>{RECIPIENT_OFFICIAL}</strong>
+      ThermoTrace Automated Intelligence Feed · Dispatched to: <strong>{THERMOTRACE_CENTRAL_EMAIL}</strong>
     </div>
   </div>
 </body>
@@ -278,74 +191,46 @@ def dispatch_notification(
     user: Dict[str, Any] = Depends(get_current_authenticated_user)
 ):
     """
-    Centralized notification dispatcher.
-    Evaluates threat tier and dispatches formatted HTML incident briefs to target roles.
+    Dispatches full ThermoTrace report briefing to thermotrace.india@gmail.com.
     """
     tier = req.threat_tier.upper()
-    dispatched_items = []
+    target_email = req.target_override_email or THERMOTRACE_CENTRAL_EMAIL
     now_utc = datetime.now(timezone.utc).isoformat()
 
-    # Determine recipient targets based on severity workflow
-    targets = []
-    if req.target_override_email:
-        targets.append({"email": req.target_override_email, "role": "CUSTOM", "template": "analyst"})
-    elif tier in ["CONFIRMED"]:
-        targets.append({"email": RECIPIENT_OFFICIAL, "role": "OFFICIAL", "template": "official"})
-    elif tier in ["CRITICAL"]:
-        targets.append({"email": RECIPIENT_ANALYST, "role": "ANALYST", "template": "analyst"})
-        targets.append({"email": RECIPIENT_OFFICIAL, "role": "OFFICIAL", "template": "official"})
-    elif tier in ["HIGH"]:
-        targets.append({"email": RECIPIENT_ANALYST, "role": "ANALYST", "template": "analyst"})
-    else:
-        # WATCH / NORMAL: Dashboard log only
-        return {
-            "status": "LOGGED_DASHBOARD_ONLY",
-            "threat_tier": tier,
-            "message": f"Tier '{tier}' is below external email threshold. Logged to Command Center dashboard."
-        }
+    html_content = _build_thermotrace_html_email(req)
+    subject = f"[THERMOTRACE REPORT] {tier} — {req.facility_name} ({req.event_id})"
 
-    for t in targets:
-        html_content = _build_official_html_email(req) if t["template"] == "official" else _build_analyst_html_email(req)
-        subject = f"[THERMOTRACE {'OFFICIAL DIRECTIVE' if t['template'] == 'official' else 'ANALYST BRIEF'}] {tier} — {req.facility_name} ({req.event_id})"
-        
-        # Attempt real SMTP dispatch if configured
-        smtp_sent = _send_real_smtp_email(t["email"], subject, html_content)
+    smtp_sent = _send_real_smtp_email(target_email, subject, html_content)
 
-        record = {
-            "id": f"MSG-EML-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}-{secrets.token_hex(3)}",
-            "channel": "EMAIL",
-            "recipient": t["email"],
-            "recipient_name": "Incident Command Official" if t["role"] == "OFFICIAL" else "Lead Thermal Analyst",
-            "role": t["role"],
-            "subject": subject,
-            "status": "DELIVERED" if smtp_sent else "DISPATCHED",
-            "event_id": req.event_id,
-            "severity": tier,
-            "timestamp": now_utc,
-            "preview": f"{tier} alert for {req.facility_name}. FRP {req.frp_mw:.1f}MW (+{req.baseline_deviation_sigma:.1f}σ).",
-            "rendered_html": html_content
-        }
-        DISPATCH_HISTORY.insert(0, record)
-        dispatched_items.append({
-            "id": record["id"],
-            "recipient": t["email"],
-            "role": t["role"],
-            "subject": subject,
-            "status": "DELIVERED" if smtp_sent else "DISPATCHED"
-        })
+    record = {
+        "id": f"MSG-EML-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}-{secrets.token_hex(3)}",
+        "channel": "EMAIL",
+        "recipient": target_email,
+        "recipient_name": "ThermoTrace Central Feed",
+        "role": "ANALYST",
+        "subject": subject,
+        "status": "DELIVERED" if smtp_sent else "DISPATCHED_DEMO_MODE",
+        "event_id": req.event_id,
+        "severity": tier,
+        "timestamp": now_utc,
+        "preview": f"{tier} dossier for {req.facility_name}. FRP {req.frp_mw:.1f}MW (+{req.baseline_deviation_sigma:.1f}σ).",
+        "rendered_html": html_content
+    }
+    DISPATCH_HISTORY.insert(0, record)
 
     return {
         "status": "SUCCESS",
+        "delivery_status": "DELIVERED" if smtp_sent else "REPORT_GENERATED",
         "threat_tier": tier,
-        "dispatched_count": len(dispatched_items),
-        "dispatches": dispatched_items,
-        "workflow": f"Centralized Multi-Tier Routing (Analyst: {RECIPIENT_ANALYST} | Official: {RECIPIENT_OFFICIAL})"
+        "recipient": target_email,
+        "smtp_sent": smtp_sent,
+        "message": f"Report generated and dispatched to {target_email}." if smtp_sent else f"Report generated successfully for {target_email} (Demo Mode log recorded)."
     }
 
 
 class DirectEmailRequest(BaseModel):
-    recipient_email: str
-    recipient_name: Optional[str] = "Stakeholder"
+    recipient_email: str = THERMOTRACE_CENTRAL_EMAIL
+    recipient_name: Optional[str] = "ThermoTrace Central Feed"
     event_id: str = "TT-CASE-001"
     facility_name: str = "Industrial Facility"
     frp_mw: float = 340.0
@@ -357,7 +242,8 @@ class DirectEmailRequest(BaseModel):
 
 @router.post("/email")
 def send_direct_email(req: DirectEmailRequest):
-    """Direct email endpoint."""
+    """Direct email endpoint targeting thermotrace.india@gmail.com."""
+    target_email = req.recipient_email or THERMOTRACE_CENTRAL_EMAIL
     dispatch_req = NotificationDispatchRequest(
         event_id=req.event_id,
         facility_name=req.facility_name,
@@ -366,20 +252,20 @@ def send_direct_email(req: DirectEmailRequest):
         threat_tier=req.threat_tier,
         hazard_radius_m=req.hazard_radius_m,
         custom_notes=req.custom_notes,
-        target_override_email=req.recipient_email,
+        target_override_email=target_email,
     )
-    html_body = _build_official_html_email(dispatch_req) if "CONFIRM" in req.threat_tier.upper() or "OFFICIAL" in req.recipient_name.upper() else _build_analyst_html_email(dispatch_req)
+    html_body = _build_thermotrace_html_email(dispatch_req)
     subj = f"[THERMOTRACE {req.threat_tier}] {req.facility_name} ({req.event_id})"
-    smtp_sent = _send_real_smtp_email(req.recipient_email, subj, html_body)
+    smtp_sent = _send_real_smtp_email(target_email, subj, html_body)
 
     record = {
         "id": f"MSG-EML-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}-{secrets.token_hex(3)}",
         "channel": "EMAIL",
-        "recipient": req.recipient_email,
-        "recipient_name": req.recipient_name or "Stakeholder",
+        "recipient": target_email,
+        "recipient_name": req.recipient_name or "ThermoTrace Central Feed",
         "role": "DIRECT",
         "subject": subj,
-        "status": "DELIVERED" if smtp_sent else "DISPATCHED",
+        "status": "DELIVERED" if smtp_sent else "DISPATCHED_DEMO_MODE",
         "event_id": req.event_id,
         "severity": req.threat_tier,
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -390,8 +276,9 @@ def send_direct_email(req: DirectEmailRequest):
     return {
         "status": "SUCCESS",
         "message_id": record["id"],
-        "recipient": req.recipient_email,
+        "recipient": target_email,
         "delivery_status": record["status"],
+        "smtp_sent": smtp_sent
     }
 
 
@@ -408,16 +295,9 @@ def get_notification_history():
 def get_notification_routing_config():
     """Returns centralized recipient routing rules."""
     return {
-        "analyst_recipient": RECIPIENT_ANALYST,
-        "official_recipient": RECIPIENT_OFFICIAL,
+        "central_recipient": THERMOTRACE_CENTRAL_EMAIL,
         "smtp_user": SMTP_CONFIG.get("user") or None,
-        "routing_matrix": {
-            "NORMAL": "Dashboard Only",
-            "WATCH": "Dashboard Monitoring",
-            "HIGH": f"Analyst ({RECIPIENT_ANALYST})",
-            "CRITICAL": f"Analyst ({RECIPIENT_ANALYST}) + Official ({RECIPIENT_OFFICIAL})",
-            "CONFIRMED": f"Official Response Directive ({RECIPIENT_OFFICIAL})"
-        }
+        "smtp_configured": bool(SMTP_CONFIG.get("user") and SMTP_CONFIG.get("password")),
     }
 
 

@@ -144,7 +144,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               Alert Email Auto-Dispatched
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              {autoEmailCount} critical event{autoEmailCount > 1 ? 's' : ''} notified to anagesh842005@gmail.com
+              {autoEmailCount} critical event{autoEmailCount > 1 ? 's' : ''} notified to thermotrace.india@gmail.com
             </div>
           </div>
         </div>

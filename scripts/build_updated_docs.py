@@ -8,7 +8,7 @@ Incorporates:
 - Exact UI layout: Mode switchers only (Map Mode & Intelligence Mode)
 - Full methodology contents (Data Sources, Benchmarks, 24 Features, Confidence Labels, Limitations)
 - Real Sector-Specific Industrial Mitigation Protocols (API 521, OISD, NFPA, IS standards)
-- Direct Email Dispatch to anagesh842005@gmail.com on Event Confirmation & Simulation SOP trigger
+- Direct Email Dispatch to thermotrace.india@gmail.com on Event Confirmation & Simulation SOP trigger
 - 12-Class Industrial Taxonomy & 21-Facility Baseline Catalog
 """
 
@@ -151,7 +151,7 @@ def build_master_doc():
         "• Expected Deliverables:\n"
         "    i. Classification and segregation of Industrial fires from forest fires and other natural/agricultural fires.\n"
         "    ii. GIS-based solution for data storage, visualization of the output as an overlay over interactive maps.\n"
-        "• Production Stack: NASA FIRMS Telemetry Ingestion (VIIRS 375m & MODIS 1km) + Multi-Modal Geospatial Fusion (OSM Industrial Polygons / ESA WorldCover 10m) + HistGradientBoosting M4-B (24 Engineered Features) + Learned 90-Day Operational Baseline Engine + API 521 Physical Radiant Safety & Gaussian Plume Dispersion + Real-Time Automated Emergency Email Dispatch to anagesh842005@gmail.com.\n"
+        "• Production Stack: NASA FIRMS Telemetry Ingestion (VIIRS 375m & MODIS 1km) + Multi-Modal Geospatial Fusion (OSM Industrial Polygons / ESA WorldCover 10m) + HistGradientBoosting M4-B (24 Engineered Features) + Learned 90-Day Operational Baseline Engine + API 521 Physical Radiant Safety & Gaussian Plume Dispersion + Real-Time Automated Emergency Email Dispatch to thermotrace.india@gmail.com.\n"
         "• Implementation Status: 100% Implemented, Verified & Benchmark-Validated.")
 
     # 1. Executive Summary & SIH Novelty Differentiation
@@ -173,7 +173,7 @@ def build_master_doc():
         "⭐ Module 2: Early Warning & Temporal Escalation — Quantifies rate-of-change (dFRP/dt in MW/day) and acceleration across consecutive orbital passes, driving an early warning state machine (STABLE -> WATCH -> ESCALATING -> CRITICAL_ESCALATION) with T+24h / T+48h forecasting.\n"
         "⭐ Module 3: Explainable AI (XAI) Suite — Delivers dynamic TreeSHAP feature attributions, counterfactual reasoning simulation, and temporal attention weights with zero hardcoded stubs.\n"
         "⭐ Module 4: Impact & Atmospheric Plume Dispersion — Computes API 521 radiant heat exclusion boundaries and Gaussian downwind plume dispersion corridors with real-time surface wind integration.\n"
-        "⭐ Module 5: Real Mitigation Protocols & Automated Emergency Dispatch — Executes sector-specific industrial Standard Operating Procedures (SOPs) and dispatches certified incident dossiers directly to anagesh842005@gmail.com upon analyst confirmation or simulation SOP execution."
+        "⭐ Module 5: Real Mitigation Protocols & Automated Emergency Dispatch — Executes sector-specific industrial Standard Operating Procedures (SOPs) and dispatches certified incident dossiers directly to thermotrace.india@gmail.com upon analyst confirmation or simulation SOP execution."
     )
 
     # 2. End-to-End Pipeline Architecture (7 Implemented Stages)
@@ -232,7 +232,7 @@ def build_master_doc():
          "    where q_crit = 4.7 kW/m² (maximum radiant intensity safe for personnel in protective clothing).\n"
          "2. Atmospheric Gaussian Plume Dispersion: Integrates local surface wind vectors to compute downwind plume centerline heading and dispersion length.\n"
          "3. Real Sector Mitigation Protocols: Synthesizes targeted Standard Operating Procedures (SOPs) across refineries, petrochemicals, steel, power, and LNG terminals.\n"
-         "4. Automated Real-Time Emergency Email Dispatch: Dispatches certified HTML incident dossiers containing event ID, facility, FRP, Z-score, hazard radius, and SOPs directly to anagesh842005@gmail.com upon analyst confirmation or simulation SOP execution.",
+         "4. Automated Real-Time Emergency Email Dispatch: Dispatches certified HTML incident dossiers containing event ID, facility, FRP, Z-score, hazard radius, and SOPs directly to thermotrace.india@gmail.com upon analyst confirmation or simulation SOP execution.",
          "Converts spaceborne telemetry into actionable, life-saving physical intelligence directly usable by National Disaster Management Authority (NDMA), SPCBs, and plant safety directors.")
     ]
 
@@ -388,7 +388,7 @@ def build_master_doc():
         "    • Boil-Off Gas (BOG) Compression: Modulate cryogenic compressors to stabilize storage tank headspace pressure.\n"
         "    • High-Expansion Foam Blanketing: Blanket LNG containment impoundment basins with high-expansion foam, reducing vaporization rates by over 90%.\n\n"
         "6. Automated Emergency Email Dispatch Gateway:\n"
-        "    • Direct Stakeholder Push: Automatically dispatches structured HTML incident briefs containing Event ID, Facility Name, Live FRP (MW), Baseline Z-Score (+Zσ), Radiant Hazard Exclusion Radius (meters), and Emergency SOP Directives directly to anagesh842005@gmail.com upon analyst confirmation or simulation SOP execution."
+        "    • Direct Stakeholder Push: Automatically dispatches structured HTML incident briefs containing Event ID, Facility Name, Live FRP (MW), Baseline Z-Score (+Zσ), Radiant Hazard Exclusion Radius (meters), and Emergency SOP Directives directly to thermotrace.india@gmail.com upon analyst confirmation or simulation SOP execution."
     )
 
     # 5. UI Architecture & Interactive Controls
@@ -403,7 +403,7 @@ def build_master_doc():
         "    - '⚡ Intelligence Mode': High-density tabular matrix view displaying all monitored facilities, sector risk scores, baseline envelopes, and live statuses.\n"
         "• Real-Time KPI Metric Strip: Displays Total Anomalies, Industrial Sources, Persistent Sources, Abnormal Events, and High-Risk Alerts with live trend indicators.\n"
         "• Side Event Panel / Drawer: Quick inspection drawer detailing FRP, confidence, risk score, and 1-click 'Investigate Event →' deep dive.\n"
-        "• Automated Email Dispatch Notification: Instant toast confirmation displaying real-time email push to anagesh842005@gmail.com."
+        "• Automated Email Dispatch Notification: Instant toast confirmation displaying real-time email push to thermotrace.india@gmail.com."
     )
 
     add_styled_heading(doc, "5.2 Forensic Event Investigation Dossier (EventInvestigation.tsx)", 2)
@@ -415,7 +415,7 @@ def build_master_doc():
         "• Module B (Early Warning & Escalation Forecast Card): Multi-pass satellite trend slope (MW/day), consecutive anomaly count, forecast confidence, and T+24h / T+48h predictive thermal trajectories.\n"
         "• Module C (Impact & Emergency Response Intelligence Card): Physical hazard radius (meters), atmospheric plume dispersion heading (wind vector), population exposure within buffer, facility vulnerability assessment, and step-by-step Standard Operating Procedure directives.\n"
         "• Evidence Timeline & Supporting Evidence Grid: Multi-sensor acquisition history, 30-day persistence ratio, facility proximity, land-cover fraction (ESA WorldCover), and centroid drift stability.\n"
-        "• Analyst Audit & Verification Action Bar: Interactive buttons allowing the analyst to CONFIRM, REJECT, or RECLASSIFY the AI decision. Triggering 'Confirm' automatically transmits an emergency incident notification to anagesh842005@gmail.com."
+        "• Analyst Audit & Verification Action Bar: Interactive buttons allowing the analyst to CONFIRM, REJECT, or RECLASSIFY the AI decision. Triggering 'Confirm' automatically transmits an emergency incident notification to thermotrace.india@gmail.com."
     )
 
     add_styled_heading(doc, "5.3 Dynamic Explainable AI Suite (XAIPanel.tsx)", 2)
@@ -435,7 +435,7 @@ def build_master_doc():
     p.add_run(
         "• Real-Time Parameter Sliders: Fire Radiative Power (0-500 MW), Proximity (0-25,000m), Land Cover Fractions (Urban/Cropland 0-100%), Wind Speed & Direction, and Temporal Persistence.\n"
         "• Real-Time Re-Inference: Live recalculation of ML classification probabilities, industrial likelihood, and operational risk score at 60 FPS.\n"
-        "• Automated Mitigation SOP Sequence: Interactive 'Execute Mitigation SOP' trigger that automates FGRS valve diversion, perimeter water deluge curtains, and emergency notifications, instantly dispatching an incident email to anagesh842005@gmail.com."
+        "• Automated Mitigation SOP Sequence: Interactive 'Execute Mitigation SOP' trigger that automates FGRS valve diversion, perimeter water deluge curtains, and emergency notifications, instantly dispatching an incident email to thermotrace.india@gmail.com."
     )
 
     add_styled_heading(doc, "5.5 Additional Interactive Modules", 2)
@@ -525,7 +525,7 @@ def build_master_doc():
         "• Production Bundle Compilation: Full Vite production build succeeded in 2.27s with 0 TypeScript compilation errors.\n"
         "• Real-Time Inference Latency: The HistGradientBoosting model executes in 12ms per event, enabling real-time classification across entire satellite passes in <1.5s.\n"
         "• Spatial Query Performance: Sub-10ms point-in-polygon queries across 169,000+ OpenStreetMap industrial vector geometries.\n"
-        "• Automated Email Dispatch: Verified real-time email delivery to anagesh842005@gmail.com on event confirmation and simulation SOP trigger.\n"
+        "• Automated Email Dispatch: Verified real-time email delivery to thermotrace.india@gmail.com on event confirmation and simulation SOP trigger.\n"
         "• 100% Implemented & Verified: Zero placeholder stubs, production-grade dual-engine AI, Leaflet geospatial visualization, and end-to-end decision support."
     )
 
@@ -576,7 +576,7 @@ def build_defense_doc():
          "  3. API 521 Physical Radiant Safety & Gaussian Plume Modeling: Converts space data into physical 4.7 kW/m² exclusion zones and directional downwind toxic smoke dispersion corridors.\n"
          "  4. Dual-Engine Classification: Combines HistGradientBoosting M4-B (24 features) with empirical baseline Z-scores, achieving 98.4% industrial precision and -82.5% false alarm reduction.\n"
          "  5. Transparent Explainable AI (XAI): Real-time TreeSHAP feature attributions, counterfactual reasoning, and temporal attention weights.\n"
-         "  6. Real Sector Mitigation Protocols & Email Push: Automated SOP execution with direct HTML incident dispatch to anagesh842005@gmail.com."),
+         "  6. Real Sector Mitigation Protocols & Email Push: Automated SOP execution with direct HTML incident dispatch to thermotrace.india@gmail.com."),
 
         ("Criterion 2: Complexity",
          "The level of technical and conceptual challenge involved in the proposed solution.",
@@ -598,7 +598,7 @@ def build_defense_doc():
         ("Criterion 5: Practicability",
          "How realistically the proposed solution could address the identified problem if implemented.",
          "• Direct Integration with Disaster Management: Generates standardized incident dossiers with API 521 hazard radii and real sector-specific SOPs (FGRS diversion, deluge curtains, ESD shutdown) directly usable by NDMA, SPCBs, and plant safety managers.\n"
-         "• Automated Emergency Alerting: Dispatches instant HTML email alerts upon critical thermal excursion (+Zσ ≥ 3.0) or simulation SOP execution to anagesh842005@gmail.com."),
+         "• Automated Emergency Alerting: Dispatches instant HTML email alerts upon critical thermal excursion (+Zσ ≥ 3.0) or simulation SOP execution to thermotrace.india@gmail.com."),
 
         ("Criterion 6: Sustainability",
          "The potential of the proposed solution to remain useful and viable over the long term.",

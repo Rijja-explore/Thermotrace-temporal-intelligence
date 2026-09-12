@@ -119,7 +119,7 @@ const GuidedDemoOverlay: React.FC<GuidedDemoOverlayProps> = ({ onClose, onNaviga
             gap: '6px',
             fontFamily: 'var(--font-mono)'
           }}>
-            <span>✉</span> Auto-Dispatched Alert Email → <strong>rijja2310119@ssn.edu.in</strong>
+            <span>✉</span> Auto-Dispatched Alert Email → <strong>thermotrace.india@gmail.com</strong>
           </div>
         )}
 

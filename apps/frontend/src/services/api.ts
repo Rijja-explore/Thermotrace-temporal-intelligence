@@ -1070,7 +1070,7 @@ export async function downloadReportPdf(eventId: string): Promise<void> {
   }
 }
 
-export async function sendReportEmail(eventId: string, targetEmail: string = 'rijja2310119@ssn.edu.in', notes?: string): Promise<any> {
+export async function sendReportEmail(eventId: string, targetEmail: string = 'thermotrace.india@gmail.com', notes?: string): Promise<any> {
   try {
     return await apiFetch(`/api/reports/${eventId}/email`, {
       method: 'POST',

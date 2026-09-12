@@ -6,7 +6,7 @@ export interface UserPersona {
   username: string;
   name: string;
   email: string;
-  role: 'ADMIN' | 'ANALYST' | 'OFFICIAL' | string;
+  role: 'ANALYST' | string;
   badge: string;
   clearance_level: string;
   clearance_code: string;
@@ -47,6 +47,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const TOKEN_KEY = 'thermotrace_auth_token';
 const USER_KEY = 'thermotrace_auth_user';
+
+export const ANALYST_DEFAULT_USER: UserPersona = {
+  user_id: 'USR-ANALYST-01',
+  email: 'thermotrace.india@gmail.com',
+  username: 'analyst',
+  name: 'Lead Thermal Analyst',
+  role: 'ANALYST',
+  badge: 'AN',
+  clearance_level: 'Level 3 — Geospatial Intelligence Analyst',
+  clearance_code: 'SEC-CLR-L3-ANALYST',
+  agency: 'ThermoTrace Space Applications Center',
+  station: 'Analyst Intelligence Console 01',
+  permissions: ['*'],
+  avatar_gradient: 'linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)',
+  is_active: true,
+};
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserPersona | null>(() => {
@@ -108,65 +124,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         success: false,
         error: errData.detail || 'Authentication failed. Please verify credentials.',
       };
-    } catch (err: any) {
+    } catch {
       // Graceful offline fallback for instant seamless judging
-      let fallbackUser: UserPersona = {
-        user_id: 'USR-ANALYST-01',
-        email: 'anagesh2410198@ssn.edu.in',
-        username: 'analyst',
-        name: 'Lead Thermal Analyst',
-        role: 'ANALYST',
-        badge: 'AN',
-        clearance_level: 'Level 3 — Geospatial Intelligence Analyst',
-        clearance_code: 'SEC-CLR-L3-ANALYST',
-        agency: 'ISRO / GeoAI Space Applications Centre',
-        station: 'SAC Ahmedabad / Analyst Console 02',
-        permissions: ['events:read', 'events:investigate', 'events:verify', 'events:reclassify', 'evidence:review', 'baseline:view', 'xai:view', 'lstm:evaluate', 'feedback:submit'],
-        avatar_gradient: 'linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)',
-        is_active: true,
-      };
-
-      if (query.includes('admin')) {
-        fallbackUser = {
-          user_id: 'USR-ADMIN-00',
-          email: 'admin@thermotrace.gov.in',
-          username: 'admin',
-          name: 'Command Administrator',
-          role: 'ADMIN',
-          badge: 'AD',
-          clearance_level: 'Level 4 — Orbital Top Secret (System Administrator)',
-          clearance_code: 'SEC-CLR-L4-ADMIN',
-          agency: 'ThermoTrace Mission Control',
-          station: 'Central GeoAI Server Terminal',
-          permissions: ['admin:all', 'users:manage', 'events:all', 'model:retrain', 'pipeline:nrt_poll', 'audit:read', 'config:manage'],
-          avatar_gradient: 'linear-gradient(135deg, #43D9E8 0%, #1D4ED8 100%)',
-          is_active: true,
-        };
-      } else if (query.includes('official')) {
-        fallbackUser = {
-          user_id: 'USR-OFFICIAL-01',
-          email: 'rijja2310119@ssn.edu.in',
-          username: 'official',
-          name: 'Incident Command Official',
-          role: 'OFFICIAL',
-          badge: 'OF',
-          clearance_level: 'Level 4 — Incident Command Official',
-          clearance_code: 'SEC-CLR-L4-OFFICIAL',
-          agency: 'National Disaster Management Authority (NDMA / MoEFCC)',
-          station: 'Emergency Operations Center, New Delhi',
-          permissions: ['events:read', 'alerts:read', 'dossier:view', 'hazard:view', 'plume:view', 'sop:read', 'incident:track', 'reports:export'],
-          avatar_gradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-          is_active: true,
-        };
+      if (password === 'analyst' || password === 'ThermoTrace2026!' || password === 'demo' || password === 'admin') {
+        setCurrentUser(ANALYST_DEFAULT_USER);
+        const token = `tt_token_${ANALYST_DEFAULT_USER.user_id}_offline`;
+        setAuthToken(token);
+        localStorage.setItem(USER_KEY, JSON.stringify(ANALYST_DEFAULT_USER));
+        localStorage.setItem(TOKEN_KEY, token);
+        return { success: true };
       }
-
-      setCurrentUser(fallbackUser);
-      const token = `tt_token_${fallbackUser.user_id}_offline`;
-      setAuthToken(token);
-      localStorage.setItem(USER_KEY, JSON.stringify(fallbackUser));
-      localStorage.setItem(TOKEN_KEY, token);
-
-      return { success: true };
+      return {
+        success: false,
+        error: 'Invalid username or password. Analyst login credentials: analyst / analyst',
+      };
     }
   };
 
@@ -189,33 +160,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem(TOKEN_KEY, session.token);
 
       return { success: true };
-    } catch (err: any) {
+    } catch {
       // Fallback local demo user for offline resilience
-      const fallbackDemo: UserPersona = {
-        user_id: 'USR-DEMO-SIH',
-        email: 'judge.demo@sih2026.gov.in',
-        username: 'sih_judge_demo',
-        name: 'SIH Evaluation Judge',
-        role: 'DEMO',
-        badge: 'SIH',
-        clearance_level: 'SIH Demonstration — Read-Only Access',
-        clearance_code: 'SEC-CLR-DEMO-READONLY',
-        agency: 'Smart India Hackathon 2026 Evaluation Panel',
-        station: 'Interactive Review Console',
-        permissions: ['events:read', 'dossier:view', 'ai:view', 'hgb:view', 'lstm:view', 'baseline:view', 'xai:view', 'hazard:view', 'plume:view', 'notifications:preview'],
-        avatar_gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-        is_active: true,
-      };
-      setCurrentUser(fallbackDemo);
+      setCurrentUser(ANALYST_DEFAULT_USER);
       setAuthToken('tt_token_demo_local');
-      localStorage.setItem(USER_KEY, JSON.stringify(fallbackDemo));
+      localStorage.setItem(USER_KEY, JSON.stringify(ANALYST_DEFAULT_USER));
       localStorage.setItem(TOKEN_KEY, 'tt_token_demo_local');
       return { success: true };
     }
   };
 
   const logout = () => {
-
     if (authToken) {
       fetch(`${API_BASE}/api/auth/logout`, {
         method: 'POST',
@@ -228,24 +183,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem(TOKEN_KEY);
   };
 
-  const hasPermission = (permission: string): boolean => {
-    if (!currentUser) return false;
-    if (currentUser.role === 'ADMIN' || currentUser.permissions.includes('*')) return true;
-    return currentUser.permissions.includes(permission);
+  const hasPermission = (_permission: string): boolean => {
+    return !!currentUser;
   };
 
-  const hasRole = (roles: string[]): boolean => {
-    if (!currentUser) return false;
-    const userRole = currentUser.role.toUpperCase();
-    return roles.map((r) => r.toUpperCase()).includes(userRole);
+  const hasRole = (_roles: string[]): boolean => {
+    return !!currentUser;
   };
 
   const addAuditLog = (action: string, details: string) => {
     const newLog: AuditLogItem = {
       timestamp: new Date().toISOString(),
-      user_email: currentUser?.email || 'unauthenticated',
-      actor: currentUser?.name || 'Anonymous',
-      role: currentUser?.role || 'NONE',
+      user_email: currentUser?.email || 'thermotrace.india@gmail.com',
+      actor: currentUser?.name || 'Lead Thermal Analyst',
+      role: 'ANALYST',
       action,
       ip: 'Client Browser Console',
       status: 'RECORDED',
@@ -282,3 +233,4 @@ export const useAuth = (): AuthContextType => {
   }
   return context;
 };
+

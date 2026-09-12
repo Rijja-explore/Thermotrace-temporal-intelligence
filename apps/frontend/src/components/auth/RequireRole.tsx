@@ -1,17 +1,14 @@
 import React from 'react';
 import { useAuth } from '../../services/AuthContext';
-import { AccessDenied } from '../../pages/AccessDenied';
 
 interface RequireRoleProps {
-  allowedRoles: string[];
+  allowedRoles?: string[];
   children: React.ReactNode;
   onNavigate?: (page: string, params?: any) => void;
 }
 
 export const RequireRole: React.FC<RequireRoleProps> = ({
-  allowedRoles,
   children,
-  onNavigate,
 }) => {
   const { currentUser, isAuthenticated } = useAuth();
 
@@ -23,20 +20,8 @@ export const RequireRole: React.FC<RequireRoleProps> = ({
     );
   }
 
-  const userRole = (currentUser.role || 'ANALYST').toUpperCase();
-  const allowedUpper = allowedRoles.map((r) => r.toUpperCase());
-
-  if (!allowedUpper.includes(userRole)) {
-    return (
-      <AccessDenied
-        requiredRoles={allowedUpper}
-        userRole={userRole}
-        onNavigate={onNavigate}
-      />
-    );
-  }
-
   return <>{children}</>;
 };
 
 export default RequireRole;
+

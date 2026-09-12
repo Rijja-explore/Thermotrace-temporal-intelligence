@@ -43,57 +43,29 @@ def verify_password(plain_password: str, hashed_str: str) -> bool:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# AUTHORIZED USERS DIRECTORY (RBAC)
+# AUTHORIZED USERS DIRECTORY (ANALYST ONLY)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # Default password hashes
-ADMIN_HASH = hash_password("admin")
 ANALYST_HASH = hash_password("analyst")
-OFFICIAL_HASH = hash_password("official")
 DEFAULT_HASH = hash_password("ThermoTrace2026!")
 
 USERS_DATABASE: Dict[str, Dict[str, Any]] = {
-    "admin": {
-        "user_id": "USR-ADMIN-00",
-        "email": "admin@thermotrace.gov.in",
-        "username": "admin",
-        "name": "Command Administrator",
-        "role": "ADMIN",
-        "badge": "AD",
-        "clearance_level": "Level 4 — Orbital Top Secret (System Administrator)",
-        "clearance_code": "SEC-CLR-L4-ADMIN",
-        "agency": "ThermoTrace Mission Control",
-        "station": "Central GeoAI Server Terminal",
-        "password_hash": ADMIN_HASH,
-        "notification_email": "admin@thermotrace.gov.in",
-        "permissions": [
-            "admin:all",
-            "users:manage",
-            "events:all",
-            "model:retrain",
-            "pipeline:nrt_poll",
-            "audit:read",
-            "config:manage"
-        ],
-        "avatar_gradient": "linear-gradient(135deg, #43D9E8 0%, #1D4ED8 100%)",
-        "is_active": True,
-        "created_at": "2026-09-01T00:00:00Z",
-        "last_login": "2026-09-11T13:00:00Z"
-    },
     "analyst": {
         "user_id": "USR-ANALYST-01",
-        "email": "anagesh2410198@ssn.edu.in",
+        "email": "thermotrace.india@gmail.com",
         "username": "analyst",
         "name": "Lead Thermal Analyst",
         "role": "ANALYST",
         "badge": "AN",
         "clearance_level": "Level 3 — Geospatial Intelligence Analyst",
         "clearance_code": "SEC-CLR-L3-ANALYST",
-        "agency": "ISRO / GeoAI Space Applications Centre",
-        "station": "SAC Ahmedabad / Analyst Console 02",
+        "agency": "ThermoTrace Space Applications Center",
+        "station": "Analyst Intelligence Console 01",
         "password_hash": ANALYST_HASH,
-        "notification_email": "anagesh2410198@ssn.edu.in",
+        "notification_email": "thermotrace.india@gmail.com",
         "permissions": [
+            "*",
             "events:read",
             "events:investigate",
             "events:verify",
@@ -102,55 +74,33 @@ USERS_DATABASE: Dict[str, Dict[str, Any]] = {
             "baseline:view",
             "xai:view",
             "lstm:evaluate",
-            "feedback:submit"
+            "feedback:submit",
+            "reports:generate",
+            "reports:dispatch",
+            "hazard:view",
+            "plume:view",
+            "admin:all"
         ],
         "avatar_gradient": "linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)",
         "is_active": True,
         "created_at": "2026-09-01T00:00:00Z",
-        "last_login": "2026-09-11T12:00:00Z"
+        "last_login": "2026-09-12T00:00:00Z"
     },
-    "official": {
-        "user_id": "USR-OFFICIAL-01",
-        "email": "rijja2310119@ssn.edu.in",
-        "username": "official",
-        "name": "Incident Command Official",
-        "role": "OFFICIAL",
-        "badge": "OF",
-        "clearance_level": "Level 4 — Incident Command Official",
-        "clearance_code": "SEC-CLR-L4-OFFICIAL",
-        "agency": "National Disaster Management Authority (NDMA / MoEFCC)",
-        "station": "Emergency Operations Center, New Delhi",
-        "password_hash": OFFICIAL_HASH,
-        "notification_email": "rijja2310119@ssn.edu.in",
-        "permissions": [
-            "events:read",
-            "alerts:read",
-            "dossier:view",
-            "hazard:view",
-            "plume:view",
-            "sop:read",
-            "incident:track",
-            "reports:export"
-        ],
-        "avatar_gradient": "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
-        "is_active": True,
-        "created_at": "2026-09-01T00:00:00Z",
-        "last_login": "2026-09-11T12:30:00Z"
-    },
-    "anagesh2410198@ssn.edu.in": {
+    "thermotrace.india@gmail.com": {
         "user_id": "USR-ANALYST-01",
-        "email": "anagesh2410198@ssn.edu.in",
+        "email": "thermotrace.india@gmail.com",
         "username": "analyst",
         "name": "Lead Thermal Analyst",
         "role": "ANALYST",
         "badge": "AN",
         "clearance_level": "Level 3 — Geospatial Intelligence Analyst",
         "clearance_code": "SEC-CLR-L3-ANALYST",
-        "agency": "ISRO / GeoAI Space Applications Centre",
-        "station": "SAC Ahmedabad / Analyst Console 02",
+        "agency": "ThermoTrace Space Applications Center",
+        "station": "Analyst Intelligence Console 01",
         "password_hash": ANALYST_HASH,
-        "notification_email": "anagesh2410198@ssn.edu.in",
+        "notification_email": "thermotrace.india@gmail.com",
         "permissions": [
+            "*",
             "events:read",
             "events:investigate",
             "events:verify",
@@ -159,67 +109,17 @@ USERS_DATABASE: Dict[str, Dict[str, Any]] = {
             "baseline:view",
             "xai:view",
             "lstm:evaluate",
-            "feedback:submit"
+            "feedback:submit",
+            "reports:generate",
+            "reports:dispatch",
+            "hazard:view",
+            "plume:view",
+            "admin:all"
         ],
         "avatar_gradient": "linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)",
         "is_active": True,
         "created_at": "2026-09-01T00:00:00Z",
-        "last_login": "2026-09-11T12:00:00Z"
-    },
-    "rijja2310119@ssn.edu.in": {
-        "user_id": "USR-OFFICIAL-01",
-        "email": "rijja2310119@ssn.edu.in",
-        "username": "official",
-        "name": "Incident Command Official",
-        "role": "OFFICIAL",
-        "badge": "OF",
-        "clearance_level": "Level 4 — Incident Command Official",
-        "clearance_code": "SEC-CLR-L4-OFFICIAL",
-        "agency": "National Disaster Management Authority (NDMA / MoEFCC)",
-        "station": "Emergency Operations Center, New Delhi",
-        "password_hash": OFFICIAL_HASH,
-        "notification_email": "rijja2310119@ssn.edu.in",
-        "permissions": [
-            "events:read",
-            "alerts:read",
-            "dossier:view",
-            "hazard:view",
-            "plume:view",
-            "sop:read",
-            "incident:track",
-            "reports:export"
-        ],
-        "avatar_gradient": "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
-        "is_active": True,
-        "created_at": "2026-09-01T00:00:00Z",
-        "last_login": "2026-09-11T12:30:00Z"
-    },
-    "admin@thermotrace.gov.in": {
-        "user_id": "USR-ADMIN-00",
-        "email": "admin@thermotrace.gov.in",
-        "username": "admin",
-        "name": "Command Administrator",
-        "role": "ADMIN",
-        "badge": "AD",
-        "clearance_level": "Level 4 — Orbital Top Secret (System Administrator)",
-        "clearance_code": "SEC-CLR-L4-ADMIN",
-        "agency": "ThermoTrace Mission Control",
-        "station": "Central GeoAI Server Terminal",
-        "password_hash": ADMIN_HASH,
-        "notification_email": "admin@thermotrace.gov.in",
-        "permissions": [
-            "admin:all",
-            "users:manage",
-            "events:all",
-            "model:retrain",
-            "pipeline:nrt_poll",
-            "audit:read",
-            "config:manage"
-        ],
-        "avatar_gradient": "linear-gradient(135deg, #43D9E8 0%, #1D4ED8 100%)",
-        "is_active": True,
-        "created_at": "2026-09-01T00:00:00Z",
-        "last_login": "2026-09-11T13:00:00Z"
+        "last_login": "2026-09-12T00:00:00Z"
     }
 }
 
@@ -229,14 +129,14 @@ ACTIVE_SESSIONS: Dict[str, Dict[str, Any]] = {}
 # Security Audit Trail
 SECURITY_AUDIT_LOGS: List[Dict[str, Any]] = [
     {
-        "timestamp": "2026-09-11T13:00:00Z",
-        "user_email": "admin@thermotrace.gov.in",
-        "actor": "Command Administrator",
-        "role": "ADMIN",
+        "timestamp": "2026-09-12T00:00:00Z",
+        "user_email": "thermotrace.india@gmail.com",
+        "actor": "Lead Thermal Analyst",
+        "role": "ANALYST",
         "action": "SYSTEM_STARTUP",
         "ip": "127.0.0.1 (Localhost Gateway)",
         "status": "AUTHORIZED",
-        "details": "ThermoTrace Unified RBAC Subsystem Initialized"
+        "details": "ThermoTrace Unified Analyst Platform Initialized"
     }
 ]
 
@@ -292,17 +192,11 @@ def get_current_authenticated_user(authorization: Optional[str] = Header(None)) 
     return USERS_DATABASE.get(user_email, USERS_DATABASE["analyst"])
 
 
-def require_role(allowed_roles: List[str]):
+def require_role(allowed_roles: Optional[List[str]] = None):
     """
-    RBAC dependency factory. Ensures current user possesses one of the allowed roles.
+    Authorization dependency. In single-user Analyst mode, all authenticated users are authorized.
     """
     def role_checker(user: Dict[str, Any] = Depends(get_current_authenticated_user)):
-        user_role = user.get("role", "ANALYST").upper()
-        if user_role not in [r.upper() for r in allowed_roles]:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Access Denied: Role '{user_role}' lacks permission. Required: {allowed_roles}"
-            )
         return user
     return role_checker
 
@@ -326,12 +220,12 @@ def login(req: LoginRequest):
             user = u_data
             break
 
-    # Also support demo passwords for standard accounts for ease of evaluation
+    # Also support demo password for analyst for ease of evaluation
     valid_auth = False
     if user:
         if verify_password(req.password, user["password_hash"]):
             valid_auth = True
-        elif req.password in ["admin", "ThermoTrace2026!", "demo", "analyst", "official", "123456"]:
+        elif req.password in ["analyst", "ThermoTrace2026!", "demo", "admin", "123456"]:
             valid_auth = True
 
     if not valid_auth or not user:
@@ -348,7 +242,7 @@ def login(req: LoginRequest):
         })
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid email/username or password. Default evaluation password: 'ThermoTrace2026!'"
+            detail="Invalid username or password. Analyst login credentials: 'analyst' / 'analyst'"
         )
 
     # Generate cryptographically secure session token
@@ -370,7 +264,7 @@ def login(req: LoginRequest):
         "action": "AUTH_LOGIN_SUCCESS",
         "ip": "Client Remote Browser Terminal",
         "status": "AUTHORIZED",
-        "details": f"Authenticated via ThermoTrace PBKDF2 Identity Gateway with role '{user['role']}'"
+        "details": f"Authenticated via ThermoTrace Identity Gateway as '{user['name']}'"
     })
 
     return SessionResponse(
@@ -385,70 +279,37 @@ def login(req: LoginRequest):
 @router.post("/demo-login", response_model=SessionResponse)
 def demo_login():
     """
-    Creates an isolated, restricted read-only demonstration session for SIH judges.
-    Allows full read-only exploration of all maps, dossiers, AI results, and notification previews.
-    Denies production mutations, password changes, and administrative actions.
+    Creates an authenticated demonstration Analyst session for SIH evaluation.
     """
-    demo_user = {
-        "user_id": "USR-DEMO-SIH",
-        "email": "judge.demo@sih2026.gov.in",
-        "username": "sih_judge_demo",
-        "name": "SIH Evaluation Judge / Guest Evaluator",
-        "role": "DEMO",
-        "badge": "SIH",
-        "clearance_level": "SIH Demonstration — Read-Only Access",
-        "clearance_code": "SEC-CLR-DEMO-READONLY",
-        "agency": "Smart India Hackathon 2026 Evaluation Panel",
-        "station": "Interactive Review Console",
-        "password_hash": "RESTRICTED_DEMO_NO_PASSWORD",
-        "permissions": [
-            "events:read",
-            "dossier:view",
-            "ai:view",
-            "hgb:view",
-            "lstm:view",
-            "baseline:view",
-            "xai:view",
-            "hazard:view",
-            "plume:view",
-            "notifications:preview",
-            "demo:explore"
-        ],
-        "avatar_gradient": "linear-gradient(135deg, #10B981 0%, #059669 100%)",
-        "is_active": True,
-        "created_at": "2026-09-11T00:00:00Z",
-        "last_login": datetime.now(timezone.utc).isoformat()
-    }
-
+    user = USERS_DATABASE["analyst"]
     token = f"tt_token_demo_{secrets.token_hex(12)}"
-    expires_at = datetime.now(timezone.utc) + timedelta(hours=12)
+    expires_at = datetime.now(timezone.utc) + timedelta(hours=24)
 
     ACTIVE_SESSIONS[token] = {
-        "user_email": demo_user["email"],
+        "user_email": user["email"],
         "expires_at": expires_at,
         "created_at": datetime.now(timezone.utc),
         "is_demo": True
     }
 
-    # Record demo session start in audit log with explicit actor_type
     SECURITY_AUDIT_LOGS.insert(0, {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "user_email": demo_user["email"],
-        "actor": demo_user["name"],
+        "user_email": user["email"],
+        "actor": user["name"],
         "actor_type": "DEMO",
-        "role": "DEMO",
+        "role": "ANALYST",
         "action": "SIH_DEMO_SESSION_STARTED",
-        "ip": "Judge Evaluation Terminal",
+        "ip": "Analyst Terminal",
         "status": "AUTHORIZED_DEMO",
-        "details": "Judge entered restricted read-only demonstration mode"
+        "details": "Analyst session initialized in SIH Demo Mode"
     })
 
     return SessionResponse(
         token=token,
-        user=demo_user,
-        role=demo_user["role"],
+        user=user,
+        role=user["role"],
         session_expires_at=expires_at.isoformat(),
-        authorized_permissions=demo_user["permissions"]
+        authorized_permissions=user["permissions"]
     )
 
 
@@ -463,9 +324,9 @@ def logout(authorization: Optional[str] = Header(None)):
             SECURITY_AUDIT_LOGS.insert(0, {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "user_email": user_email,
-                "actor": "Demo Judge" if session.get("is_demo") else (USERS_DATABASE.get(user_email, {}).get("name", user_email)),
-                "actor_type": "DEMO" if session.get("is_demo") else "AUTHENTICATED",
-                "role": "DEMO" if session.get("is_demo") else USERS_DATABASE.get(user_email, {}).get("role", "ANALYST"),
+                "actor": USERS_DATABASE.get(user_email, {}).get("name", "Analyst"),
+                "actor_type": "AUTHENTICATED",
+                "role": "ANALYST",
                 "action": "AUTH_LOGOUT",
                 "ip": "Client Remote Browser",
                 "status": "TERMINATED",
@@ -480,10 +341,9 @@ def get_current_user_profile(user: Dict[str, Any] = Depends(get_current_authenti
     return user
 
 
-
 @router.get("/audit-logs")
-def get_security_audit_logs(user: Dict[str, Any] = Depends(require_role(["ADMIN"]))):
-    """Returns security audit trail logs. Protected: Requires role ADMIN."""
+def get_security_audit_logs(user: Dict[str, Any] = Depends(get_current_authenticated_user)):
+    """Returns security audit trail logs for Analyst Console."""
     return {
         "total": len(SECURITY_AUDIT_LOGS),
         "logs": SECURITY_AUDIT_LOGS[:50]
@@ -496,24 +356,10 @@ def get_standard_accounts_info():
     return {
         "analyst_account": {
             "username": "analyst",
-            "email": "anagesh2410198@ssn.edu.in",
+            "email": "thermotrace.india@gmail.com",
             "role": "ANALYST",
             "name": "Lead Thermal Analyst",
-            "scope": "Event Investigation, 4-Engine Review, Verification, Feedback"
+            "scope": "Full ThermoTrace Intelligence Platform · Event Investigation, 4-Engine AI Review, Verification, Report Generation & Central Dispatch"
         },
-        "official_account": {
-            "username": "official",
-            "email": "rijja2310119@ssn.edu.in",
-            "role": "OFFICIAL",
-            "name": "Incident Command Official",
-            "scope": "Official Alerts, Confirmed Dossiers, Hazard & Plume Exposure"
-        },
-        "admin_account": {
-            "username": "admin",
-            "email": "admin@thermotrace.gov.in",
-            "role": "ADMIN",
-            "name": "Command Administrator",
-            "scope": "System Management, Retraining Validation Gate, Audit Logs"
-        },
-        "demo_credentials_hint": "Usernames: admin / analyst / official | Passwords match role name or 'ThermoTrace2026!'"
+        "demo_credentials_hint": "Username: analyst | Password: analyst"
     }

@@ -30,7 +30,7 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({
   const [previewMode, setPreviewMode] = useState<'email' | 'sms'>('email');
 
   // Form state
-  const [recipientEmail, setRecipientEmail] = useState<string>(currentUser?.email || 'rijja2310119@ssn.edu.in');
+  const [recipientEmail, setRecipientEmail] = useState<string>(currentUser?.email || 'thermotrace.india@gmail.com');
   const [recipientPhone, setRecipientPhone] = useState<string>('+91 98200 12345');
   const [recipientName, setRecipientName] = useState<string>(currentUser?.name || 'Chief Industrial Safety Officer');
   const [sendEmail, setSendEmail] = useState<boolean>(true);

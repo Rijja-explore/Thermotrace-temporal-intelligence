@@ -209,7 +209,7 @@ export const PIPELINE_LAYERS: PipelineLayer[] = [
     summary: 'Instantly alerts designated safety officers, plant managers, and regulatory officials (CPCB/ISRO) with structured incident briefings and emergency directives.',
     inputs: [
       'Sector Risk & Threat Tier from Layer 5',
-      'Pre-configured stakeholder registry (Primary: rijja2310119@ssn.edu.in)',
+      'Designated Analyst & Executive Registry (Primary: thermotrace.india@gmail.com)',
       'Event telemetry snapshot and SOP protocol guide'
     ],
     processingSteps: [
@@ -219,7 +219,7 @@ export const PIPELINE_LAYERS: PipelineLayer[] = [
       'Immutable security audit logging of carrier delivery handshake receipts'
     ],
     outputs: [
-      'Direct PDF report sent from thermotrace.india@gmail.com to rijja2310119@ssn.edu.in',
+      'Direct PDF report sent from thermotrace.india@gmail.com to thermotrace.india@gmail.com',
       'SMS text delivered to emergency coordinator mobile phone',
       'Verified delivery receipt and audit trail record'
     ],

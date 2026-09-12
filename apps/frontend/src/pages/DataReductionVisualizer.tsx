@@ -873,7 +873,7 @@ export default function DataReductionVisualizer() {
             </div>
             <div style={{ fontSize: '10px', color: 'var(--text-muted)', lineHeight: 1.5 }}>
               Sender: <strong style={{ color: 'var(--accent-cyan)' }}>thermotrace.india@gmail.com</strong><br />
-              Recipient: <strong style={{ color: 'var(--text-secondary)' }}>rijja2310119@ssn.edu.in</strong>
+              Recipient: <strong style={{ color: 'var(--text-secondary)' }}>thermotrace.india@gmail.com</strong>
             </div>
           </div>
         </div>

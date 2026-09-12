@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { ThermoEvent } from '../../services/api';
 import { verifyEvent } from '../../services/api';
-import { dispatchOfficialConfirmedEmail, RECIPIENT_OFFICIAL } from '../../services/alertEmail';
+import { dispatchApprovedReportEmail, RECIPIENT_CENTRAL } from '../../services/alertEmail';
 
 interface AnalystActionBarProps {
   event: ThermoEvent;
@@ -34,7 +34,7 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
       onStatusChange(action.toLowerCase());
     }
 
-    // When Analyst CONFIRMS or DISPATCHES: Auto-dispatch Official Emergency Directive to Official (rijja2310119@ssn.edu.in)
+    // When Analyst CONFIRMS or DISPATCHES: Auto-generate & dispatch complete ThermoTrace report to thermotrace.india@gmail.com
     if (action.includes('CONFIRM') || action.includes('DISPATCH') || action.includes('VERIF')) {
       const risk = (event as any).operational_risk?.risk_score ?? event.scores?.operational_risk ?? 75;
       const frpVal = event.observations?.[0]?.frp ?? 180.0;
@@ -42,7 +42,7 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
       const plume = (event as any).impact?.downwind_impact_summary ?? '8.6 km NE downwind corridor';
       const pop = (event as any).impact?.population_exposure_formatted ?? 123;
 
-      dispatchOfficialConfirmedEmail({
+      dispatchApprovedReportEmail({
         eventId: event.event_id,
         facilityName: event.facility_context?.nearest_facility_name ?? event.facility_context?.name ?? 'Industrial Installation',
         frpMw: frpVal,
@@ -51,11 +51,11 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
         hazardRadiusM: hazardRadius,
         plumeCorridor: typeof plume === 'string' ? plume : '8.6 km NE downwind corridor',
         populationExposure: typeof pop === 'number' ? pop : 123,
-        customNotes: `Analyst Confirmation: Event ${event.event_id} verified as ${label || event.classification?.class || 'Confirmed Event'}. Analyst notes: "${note || 'Confirmed via forensic multi-spectral telemetry & spatial alignment'}". Immediate Flare Gas Diversion & Deluge activation advised.`,
+        customNotes: `Analyst Confirmation: Event ${event.event_id} verified as ${label || event.classification?.class || 'Confirmed Event'}. Analyst notes: "${note || 'Forensic spatial-spectral alignment and baseline deviation confirmed'}". Flare Gas Diversion recommended.`,
         forceSend: true,
       });
 
-      setFeedback(`🚨 Event CONFIRMED — Emergency Directive dispatched to Incident Command Official (${RECIPIENT_OFFICIAL})`);
+      setFeedback(`✓ Event APPROVED — Complete report generated & sent to ${RECIPIENT_CENTRAL}`);
     } else {
       setFeedback(`✓ ${action} recorded by Lead Analyst`);
     }
@@ -68,7 +68,7 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
     setAuditLog(prev => [newEntry, ...prev]);
     setNote('');
     setShowNote(false);
-    setTimeout(() => setFeedback(null), 4500);
+    setTimeout(() => setFeedback(null), 5000);
   };
 
   const label = (event.classification?.label || event.classification?.class || '').toLowerCase();

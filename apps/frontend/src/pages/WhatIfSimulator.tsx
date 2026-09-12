@@ -207,7 +207,7 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
   };
 
   const [showEmailModal, setShowEmailModal] = useState<boolean>(false);
-  const [recipientEmail, setRecipientEmail] = useState<string>('rijja2310119@ssn.edu.in');
+  const [recipientEmail, setRecipientEmail] = useState<string>('thermotrace.india@gmail.com');
   const [isSendingEmail, setIsSendingEmail] = useState<boolean>(false);
 
   // Export PDF Dossier
@@ -359,7 +359,7 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
                 type="email"
                 value={recipientEmail}
                 onChange={e => setRecipientEmail(e.target.value)}
-                placeholder="e.g. rijja2310119@ssn.edu.in"
+                placeholder="e.g. thermotrace.india@gmail.com"
                 style={{ width: '100%', padding: '8px 10px', background: '#0F172A', border: '1px solid #38BDF8', borderRadius: '4px', color: '#F8FAFC', fontSize: '12px' }}
               />
             </div>

@@ -8,50 +8,31 @@ interface AuthPageProps {
 export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
   const { loginWithCredentials } = useAuth();
 
-  const [email, setEmail] = useState('analyst');
+  const [username, setUsername] = useState('analyst');
   const [password, setPassword] = useState('analyst');
-  const [selectedRole, setSelectedRole] = useState<'ANALYST' | 'OFFICIAL' | 'ADMIN'>('ANALYST');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [forgotMsg, setForgotMsg] = useState(false);
-
-  const handleRoleSelect = (role: 'ANALYST' | 'OFFICIAL' | 'ADMIN') => {
-    setSelectedRole(role);
-    setError(null);
-    setForgotMsg(false);
-    if (role === 'ANALYST') {
-      setEmail('analyst');
-      setPassword('analyst');
-    } else if (role === 'OFFICIAL') {
-      setEmail('official');
-      setPassword('official');
-    } else if (role === 'ADMIN') {
-      setEmail('admin');
-      setPassword('admin');
-    }
-  };
 
   const handleLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
-    setForgotMsg(false);
 
-    const cleanEmail = email.trim();
+    const cleanUsername = username.trim();
     const cleanPassword = password.trim();
 
-    if (!cleanEmail || !cleanPassword) {
-      setError('Please enter both username/email and password.');
+    if (!cleanUsername || !cleanPassword) {
+      setError('Please enter both username and password.');
       return;
     }
 
     setIsSubmitting(true);
-    const result = await loginWithCredentials(cleanEmail, cleanPassword);
+    const result = await loginWithCredentials(cleanUsername, cleanPassword);
     setIsSubmitting(false);
 
     if (result.success) {
-      onNavigate('dashboard');
+      onNavigate('/analyst');
     } else {
-      setError(result.error || 'Invalid credentials. Please verify your password.');
+      setError(result.error || 'Invalid credentials. Demo mode password: analyst');
     }
   };
 
@@ -84,18 +65,18 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
 
         {/* Login Form Card */}
         <div className="auth-login-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <div>
-              <div className="auth-login-card__title">Sign In</div>
-              <div className="auth-login-card__sub" style={{ fontSize: '11.5px' }}>
-                Operational Defense Clearance Gateway
+              <div className="auth-login-card__title">Analyst Sign In</div>
+              <div className="auth-login-card__sub" style={{ fontSize: '11.5px', color: '#94A3B8' }}>
+                Operational Thermal Intelligence Console
               </div>
             </div>
             <div style={{
               background: 'rgba(56, 189, 248, 0.15)',
               border: '1px solid #38BDF8',
               borderRadius: '4px',
-              padding: '3px 8px',
+              padding: '4px 10px',
               fontSize: '10px',
               fontWeight: 800,
               color: '#38BDF8',
@@ -105,127 +86,33 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* 1-Click Operational Roles Header */}
-          <div style={{ marginBottom: '16px' }}>
-            <div style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'flex', justifyContent: 'space-between' }}>
-              <span>SELECT OPERATIONAL ROLE:</span>
-              <span style={{ fontSize: '10px', color: '#38BDF8', fontWeight: 600 }}>Multi-Tier Workflow</span>
+          <div style={{
+            padding: '10px 12px',
+            borderRadius: '6px',
+            background: 'rgba(15, 23, 42, 0.9)',
+            border: '1px solid #1E293B',
+            fontSize: '11px',
+            color: '#CBD5E1',
+            marginBottom: '16px',
+            lineHeight: 1.5,
+          }}>
+            <div style={{ fontWeight: 700, color: '#38BDF8', marginBottom: '3px' }}>
+              🔬 Single Analyst Intelligence Console
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-              {/* ANALYST */}
-              <button
-                type="button"
-                onClick={() => handleRoleSelect('ANALYST')}
-                style={{
-                  padding: '10px 6px',
-                  background: selectedRole === 'ANALYST' ? 'rgba(56, 189, 248, 0.2)' : '#0F172A',
-                  border: `1.5px solid ${selectedRole === 'ANALYST' ? '#38BDF8' : '#1E293B'}`,
-                  borderRadius: '6px',
-                  color: selectedRole === 'ANALYST' ? '#38BDF8' : '#94A3B8',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                  transition: 'all 0.15s ease',
-                  boxShadow: selectedRole === 'ANALYST' ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none',
-                }}
-              >
-                <div style={{ fontSize: '14px', marginBottom: '2px' }}>🔬</div>
-                <div>ANALYST</div>
-                <div style={{ fontSize: '9px', opacity: 0.7, marginTop: '2px', fontWeight: 500 }}>Investigator</div>
-              </button>
-
-              {/* OFFICIAL */}
-              <button
-                type="button"
-                onClick={() => handleRoleSelect('OFFICIAL')}
-                style={{
-                  padding: '10px 6px',
-                  background: selectedRole === 'OFFICIAL' ? 'rgba(245, 158, 11, 0.2)' : '#0F172A',
-                  border: `1.5px solid ${selectedRole === 'OFFICIAL' ? '#F59E0B' : '#1E293B'}`,
-                  borderRadius: '6px',
-                  color: selectedRole === 'OFFICIAL' ? '#F59E0B' : '#94A3B8',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                  transition: 'all 0.15s ease',
-                  boxShadow: selectedRole === 'OFFICIAL' ? '0 0 10px rgba(245, 158, 11, 0.25)' : 'none',
-                }}
-              >
-                <div style={{ fontSize: '14px', marginBottom: '2px' }}>🛡️</div>
-                <div>OFFICIAL</div>
-                <div style={{ fontSize: '9px', opacity: 0.7, marginTop: '2px', fontWeight: 500 }}>Commander</div>
-              </button>
-
-              {/* ADMIN */}
-              <button
-                type="button"
-                onClick={() => handleRoleSelect('ADMIN')}
-                style={{
-                  padding: '10px 6px',
-                  background: selectedRole === 'ADMIN' ? 'rgba(67, 217, 232, 0.2)' : '#0F172A',
-                  border: `1.5px solid ${selectedRole === 'ADMIN' ? '#43D9E8' : '#1E293B'}`,
-                  borderRadius: '6px',
-                  color: selectedRole === 'ADMIN' ? '#43D9E8' : '#94A3B8',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                  transition: 'all 0.15s ease',
-                  boxShadow: selectedRole === 'ADMIN' ? '0 0 10px rgba(67, 217, 232, 0.25)' : 'none',
-                }}
-              >
-                <div style={{ fontSize: '14px', marginBottom: '2px' }}>⚡</div>
-                <div>ADMIN</div>
-                <div style={{ fontSize: '9px', opacity: 0.7, marginTop: '2px', fontWeight: 500 }}>System Gate</div>
-              </button>
-            </div>
-
-            {/* Role Responsibility & Email Matrix Callout */}
-            <div style={{
-              marginTop: '10px',
-              padding: '8px 10px',
-              borderRadius: '6px',
-              background: 'rgba(15, 23, 42, 0.8)',
-              border: '1px solid #1E293B',
-              fontSize: '10.5px',
-              lineHeight: 1.4,
-              color: '#94A3B8'
-            }}>
-              {selectedRole === 'ANALYST' && (
-                <div>
-                  <strong style={{ color: '#38BDF8' }}>🔬 Analyst Scope (anagesh2410198@ssn.edu.in):</strong>
-                  <div>• Receives automated email alerts when thermal anomalies are detected.</div>
-                  <div>• Forensically examines XAI attribution, LSTM curves &amp; triggers Confirmations.</div>
-                </div>
-              )}
-              {selectedRole === 'OFFICIAL' && (
-                <div>
-                  <strong style={{ color: '#F59E0B' }}>🛡️ Incident Command Scope (rijja2310119@ssn.edu.in):</strong>
-                  <div>• Receives official emergency response directives when Analyst confirms incident.</div>
-                  <div>• Governs radiant hazard cordon (API 521), evacuation, and mitigation SOPs.</div>
-                </div>
-              )}
-              {selectedRole === 'ADMIN' && (
-                <div>
-                  <strong style={{ color: '#43D9E8' }}>⚡ System Admin Scope (admin@thermotrace.gov.in):</strong>
-                  <div>• Oversees NASA LANCE telemetry pipelines, email gateway keys &amp; audit history.</div>
-                </div>
-              )}
-            </div>
+            <div>• Full access to 4-Engine AI Pipeline, FIRMS telemetry, XAI &amp; Hazards</div>
+            <div>• Approved dossiers dispatch directly to <strong>thermotrace.india@gmail.com</strong></div>
           </div>
 
           <form onSubmit={handleLogin} autoComplete="off">
             <div className="auth-login-field">
-              <label className="auth-login-label" htmlFor="tt-email">Username / Account</label>
+              <label className="auth-login-label" htmlFor="tt-username">Analyst Username</label>
               <input
-                id="tt-email"
+                id="tt-username"
                 type="text"
                 className={`auth-login-input${error ? ' auth-login-input--error' : ''}`}
-                placeholder="e.g. analyst, official, admin"
-                value={email}
-                onChange={(e) => { setEmail(e.target.value); setError(null); }}
+                placeholder="analyst"
+                value={username}
+                onChange={(e) => { setUsername(e.target.value); setError(null); }}
                 autoFocus
                 autoComplete="username"
                 disabled={isSubmitting}
@@ -233,21 +120,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
             </div>
 
             <div className="auth-login-field">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label className="auth-login-label" htmlFor="tt-password">Password</label>
-                <button
-                  type="button"
-                  onClick={() => setForgotMsg(true)}
-                  style={{ background: 'none', border: 'none', color: '#38BDF8', fontSize: '11px', cursor: 'pointer', padding: 0 }}
-                >
-                  Forgot Password?
-                </button>
-              </div>
+              <label className="auth-login-label" htmlFor="tt-password">Password</label>
               <input
                 id="tt-password"
                 type="password"
                 className={`auth-login-input${error ? ' auth-login-input--error' : ''}`}
-                placeholder="Enter password"
+                placeholder="analyst"
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); setError(null); }}
                 autoComplete="current-password"
@@ -258,12 +136,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
             {error && (
               <div className="auth-login-error" style={{ color: '#FF5C6C', fontSize: '12px', marginTop: '8px' }}>
                 {error}
-              </div>
-            )}
-
-            {forgotMsg && (
-              <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '4px', padding: '8px 10px', fontSize: '11px', color: '#38BDF8', marginTop: '8px' }}>
-                Password corresponds to the role name (e.g. <strong>analyst</strong>, <strong>official</strong>, <strong>admin</strong>).
               </div>
             )}
 
@@ -278,20 +150,16 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
                 fontWeight: 800,
                 fontSize: '13px',
                 letterSpacing: '0.06em',
-                background: selectedRole === 'ADMIN'
-                  ? 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)'
-                  : selectedRole === 'OFFICIAL'
-                  ? 'linear-gradient(135deg, #D97706 0%, #B45309 100%)'
-                  : 'linear-gradient(135deg, #0284C7 0%, #2563EB 100%)',
+                background: 'linear-gradient(135deg, #0284C7 0%, #2563EB 100%)',
               }}
             >
-              {isSubmitting ? 'AUTHENTICATING...' : 'LOGIN'}
+              {isSubmitting ? 'AUTHENTICATING...' : 'SIGN IN'}
             </button>
           </form>
         </div>
 
         <div style={{ marginTop: '14px', fontSize: '11px', color: '#64748B', textAlign: 'center' }}>
-          ThermoTrace Operational Security · Defense Clearance Gateway
+          ThermoTrace AI · NASA FIRMS Spaceborne Thermal Intelligence Platform
         </div>
       </div>
     </div>
@@ -299,3 +167,4 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onNavigate }) => {
 };
 
 export default AuthPage;
+

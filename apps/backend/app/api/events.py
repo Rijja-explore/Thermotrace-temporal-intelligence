@@ -382,7 +382,7 @@ DEMO_EVENTS = [
             "reasons": [
                 "Thermal FRP spike of 340.0 MW exceeds 4.2\u03c3 operational limit",
                 "Immediate Flare Gas Recovery (FGRS) diversion valve engagement advised",
-                "Auto-notification pushed to official@thermotrace.gov.in"
+                "Auto-notification pushed to thermotrace.india@gmail.com"
             ]
         },
         "analyst_review": {
@@ -4059,7 +4059,7 @@ class AnalystVerification(BaseModel):
     decision: str  # CONFIRMED, REJECTED, RECLASSIFIED, INVESTIGATING
     reclassified_label: Optional[str] = None
     notes: Optional[str] = None
-    analyst_id: str = "analyst@thermotrace.gov.in"
+    analyst_id: str = "thermotrace.india@gmail.com"
 
 
 @router.post("/{event_id}/verify")

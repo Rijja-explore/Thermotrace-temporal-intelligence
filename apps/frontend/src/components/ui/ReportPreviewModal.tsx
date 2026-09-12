@@ -30,7 +30,7 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
 
   const [downloading, setDownloading] = useState(false);
   const [showEmailSection, setShowEmailSection] = useState(false);
-  const [recipientEmail, setRecipientEmail] = useState('rijja2310119@ssn.edu.in');
+  const [recipientEmail, setRecipientEmail] = useState('thermotrace.india@gmail.com');
   const [analystNotes, setAnalystNotes] = useState('Official thermal intelligence dossier generated for operational review.');
   const [emailSending, setEmailSending] = useState(false);
   const [emailStatus, setEmailStatus] = useState<{ success: boolean; msg: string } | null>(null);
@@ -70,7 +70,7 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
       const res = await sendReportEmail(eventId, recipientEmail, analystNotes);
       setEmailStatus({
         success: true,
-        msg: res.message || `PDF Intelligence Dossier successfully dispatched to ${recipientEmail} from thermotrace.india@gmail.com`,
+        msg: res.message || `PDF Intelligence Dossier successfully dispatched to ${recipientEmail}`,
       });
     } catch (err: any) {
       setEmailStatus({
@@ -150,12 +150,12 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
               marginBottom: '16px',
             }}>
               <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '10px', display: 'flex', justifyContent: 'space-between' }}>
-                <span>📧 Dispatch PDF Dossier to Officials</span>
-                <span style={{ fontSize: '10px', color: '#94A3B8' }}>Sender: thermotrace.india@gmail.com</span>
+                <span>📧 Dispatch Report Dossier</span>
+                <span style={{ fontSize: '10px', color: '#94A3B8' }}>Destination: thermotrace.india@gmail.com</span>
               </div>
 
               <div style={{ marginBottom: '8px' }}>
-                <label style={{ fontSize: '10px', color: '#94A3B8', display: 'block', marginBottom: '4px' }}>Recipient Official Email:</label>
+                <label style={{ fontSize: '10px', color: '#94A3B8', display: 'block', marginBottom: '4px' }}>Destination Email:</label>
                 <input
                   type="email"
                   value={recipientEmail}
@@ -236,7 +236,7 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
                     cursor: emailSending ? 'wait' : 'pointer',
                   }}
                 >
-                  {emailSending ? 'Dispatching...' : '🚀 Send from thermotrace.india@gmail.com'}
+                  {emailSending ? 'Dispatching...' : '🚀 Send to thermotrace.india@gmail.com'}
                 </button>
               </div>
             </div>
@@ -261,7 +261,7 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
                 borderRadius: '6px',
               }}
             >
-              📧 Send to Officials
+              📧 Send Email Report
             </button>
             <button
               className="report-modal__btn report-modal__btn--primary"

@@ -49,15 +49,15 @@ NASA FIRMS provides satellite thermal anomaly / active-fire observations from VI
                             Unified Incident Dossier
                                          ↓
                         Human Analyst Verification
-                          (Review → Audit Log)
+                           (Review → Audit Log)
                                          │
                     ┌────────────────────┴────────────────────┐
                     ▼                                         ▼
             REJECT / RECLASSIFY                            CONFIRM
                     │                                         │
                     │                                         ▼
-                    │                               Official Emergency Alert
-                    │                             (rijja2310119@ssn.edu.in)
+                    │                              Approved Report & PDF Dossier
+                    │                              (thermotrace.india@gmail.com)
                     ▼                                         ▼
               Verified Analyst Ground-Truth Dataset (Closed-Loop)
                                          ↓
@@ -138,27 +138,27 @@ Refinery B (Jamnagar Mega Complex):
 
 ## 🔑 1-Click Role Accounts & Notification Routing
 
-ThermoTrace features real backend PBKDF2-HMAC-SHA256 authentication with role-based access control and 1-click auto-fill role selection on the login interface:
+## 🔑 Single Analyst Login & Central Report Destination
 
-### Operational Accounts vs Notification Endpoints:
+ThermoTrace provides a unified single-role **Analyst Intelligence Platform** for SIH Demo Mode with PBKDF2-HMAC-SHA256 authentication:
 
-| Role | 1-Click Login Username | Login Password | Alert Notification Recipient *(Alerts Dispatched Here)* | Scope & Permissions |
+### Credentials & Report Destination:
+
+| Role | Username | Password | Central Report Destination | Scope & Permissions |
 | :--- | :--- | :--- | :--- | :--- |
-| ⚡ **Admin** | `admin` | `admin` *(or `ThermoTrace2026!`)* | `admin@thermotrace.gov.in` | Command Administrator — User management, continuous learning retraining gate, NRT satellite poller controls, immutable security audit logs |
-| 🔬 **Analyst** | `analyst` | `analyst` *(or `ThermoTrace2026!`)* | `anagesh2410198@ssn.edu.in` | Lead Thermal Analyst (ISRO SAC) — Incident investigation, 4-engine dossier review, XAI, incident confirmation/reclassification |
-| 🛡️ **Official** | `official` | `official` *(or `ThermoTrace2026!`)* | `rijja2310119@ssn.edu.in` | Incident Command Official (NDMA / MoEFCC) — Official emergency response alerts dispatched from `thermotrace.india@gmail.com`, confirmed disaster dossiers, radiant safety contours ($350\text{ m}$), downwind evacuation plume directives |
+| 🔬 **Analyst** | `analyst` | `analyst` *(or `ThermoTrace2026!`)* | `thermotrace.india@gmail.com` | Lead Thermal Analyst — Full access to the entire platform: Incident investigation, 4-engine AI dossier review, XAI explanations, physical hazard contours, simulation SOPs, and 1-click PDF report approval dispatched directly to `thermotrace.india@gmail.com`. |
 
 ---
 
-## 📬 Centralized Notification Routing Matrix
+## 📬 Intelligence Report & Notification Routing Matrix
 
 | Severity Level | Trigger Condition | Primary Recipient | Format |
 | :--- | :--- | :--- | :--- |
 | 🟢 **NORMAL** | $P_{\text{pers}} \ge 0.60$, $Z < 1.8$, LSTM Stable | Dashboard Monitoring | Suppressed Alarm (Routine Telemetry) |
 | 🟡 **WATCH** | $0.8 \le Z < 1.8$ | Dashboard Monitoring | Status Advisory Badge |
-| 🟠 **HIGH** | $Z \ge 1.8$ or Escalating | `anagesh2410198@ssn.edu.in` (Analyst) | Detailed Investigation Brief |
-| 🔴 **CRITICAL** | $Z \ge 3.0$ + Critical Escalation | `anagesh2410198@ssn.edu.in` (Analyst) | Critical Incident Dossier |
-| 🚨 **CONFIRMED** | Analyst Human Confirmation | `rijja2310119@ssn.edu.in` (Official) | Official Emergency Response Directive & Formatted PDF Dossier |
+| 🟠 **HIGH** | $Z \ge 1.8$ or Escalating | `thermotrace.india@gmail.com` | Detailed Investigation Brief |
+| 🔴 **CRITICAL** | $Z \ge 3.0$ + Critical Escalation | `thermotrace.india@gmail.com` | Critical Incident Dossier |
+| 🚨 **CONFIRMED** | Analyst Approval / SOP Execution | `thermotrace.india@gmail.com` | Official Incident Directive & Attached PDF Dossier |
 
 ---
 
@@ -178,20 +178,20 @@ ThermoTrace features real backend PBKDF2-HMAC-SHA256 authentication with role-ba
 [Step 3: Decision Fusion & Threat Tiering]
  Hybrid fusion layer synthesizes the 4 engines:
  → Final Assessment: ABNORMAL_INDUSTRIAL_EVENT [CRITICAL].
- → Automatically routes High-Priority Investigation Alert to Analyst (anagesh2410198@ssn.edu.in).
+ → Routes Critical Investigation Dossier to Analyst Central Feed (thermotrace.india@gmail.com).
 
 [Step 4: Physical Hazard & Plume Modeling]
  • Radiant Heat Contour: R = 350m at 4.7 kW/m² (API 521 escape threshold).
  • Plume Dispersion: Gaussian downwind dispersion extending along wind vector.
  • Population Exposure: Surrounding residential buffer estimation.
 
-[Step 5: Human-in-the-Loop Analyst Verification]
- Analyst logs into Console, reviews multi-spectral imagery, XAI explanations, and clicks CONFIRM.
+[Step 5: Human-in-the-Loop Analyst Verification & Approval]
+ Analyst logs into Console (`analyst`/`analyst`), reviews multi-spectral imagery, XAI explanations, and clicks CONFIRM / APPROVE.
  An immutable audit record is logged: ACTION: CONFIRMED by Lead Thermal Analyst.
 
-[Step 6: Official Emergency Alert & Formatted PDF Dispatch]
- High-priority emergency directive & formatted PDF dossier dispatched from thermotrace.india@gmail.com to Official (rijja2310119@ssn.edu.in).
- Response SOP triggered: FGRS diversion, boundary deluge curtain, and DDMA standby.
+[Step 6: Direct Report Approval & PDF Dispatch]
+ Complete incident dossier & formatted PDF report dispatched directly to thermotrace.india@gmail.com.
+ Response SOP triggered: FGRS diversion, boundary deluge curtain, and emergency standby directives.
 
 [Step 7: Closed-Loop Continuous Learning Gate]
  Confirmed audit sample is added to the ground-truth training set.
