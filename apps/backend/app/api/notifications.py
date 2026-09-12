@@ -17,6 +17,9 @@ from pydantic import BaseModel, Field
 
 from .auth import get_current_authenticated_user
 
+logger = logging.getLogger("thermotrace.notifications")
+router = APIRouter()
+
 # Mail Identity Configuration
 THERMOTRACE_SENDER_EMAIL = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or "thermotrace.india@gmail.com"
 DEFAULT_RECIPIENT_EMAIL = os.getenv("MAIL_TO") or "rijja2310119@ssn.edu.in"
