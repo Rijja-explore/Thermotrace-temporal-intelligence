@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { INDIA_STATES_GEOJSON } from '../data/indiaStates';
+import LayerByLayerPipeline from '../components/ui/LayerByLayerPipeline';
 
 // ─── Realistic Industrial Hotspots across India's Major States ─────────────────
 export interface RawPoint {
@@ -877,6 +878,11 @@ export default function DataReductionVisualizer() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* ─── Layer-by-Layer Architectural Pipeline ─── */}
+      <div style={{ marginTop: '28px' }}>
+        <LayerByLayerPipeline />
       </div>
     </div>
   );

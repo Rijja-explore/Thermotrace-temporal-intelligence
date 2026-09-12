@@ -32,7 +32,7 @@ export interface AlertEmailPayload {
 /**
  * Dispatches an approved event dossier & report to thermotrace.india@gmail.com.
  */
-export async function dispatchApprovedReportEmail(payload: AlertEmailPayload): Promise<{ success: boolean; status: string; message: string }> {
+export async function dispatchApprovedReportEmail(payload: AlertEmailPayload): Promise<{ success: boolean; status: string; message: string; email_sent?: boolean; error?: string }> {
   const cacheKey = `approved-${payload.eventId}`;
   if (!payload.forceSend && emailedEventIds.has(cacheKey)) {
     return { success: true, status: 'CACHED', message: 'Report already dispatched in this session.' };
@@ -56,8 +56,10 @@ export async function dispatchApprovedReportEmail(payload: AlertEmailPayload): P
       const data = await res.json();
       return {
         success: true,
-        status: data.status || 'REPORT_GENERATED',
+        status: data.delivery_status || (data.email_sent ? 'DELIVERED' : 'REPORT_GENERATED'),
         message: data.message || `Complete report dossier dispatched to ${targetEmail}`,
+        email_sent: data.email_sent,
+        error: data.error,
       };
     }
 

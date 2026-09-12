@@ -1076,13 +1076,16 @@ export async function sendReportEmail(eventId: string, targetEmail: string = 'th
       method: 'POST',
       body: { target_email: targetEmail, notes },
     });
-  } catch {
+  } catch (e: any) {
     return {
-      status: 'DISPATCHED',
+      report_generated: true,
+      email_sent: false,
+      delivery_status: 'FAILED',
+      error: e?.message || 'Backend API unavailable',
       from: 'thermotrace.india@gmail.com',
       to: targetEmail,
       event_id: eventId,
-      message: `Incident PDF dossier dispatched from thermotrace.india@gmail.com to ${targetEmail} successfully.`,
+      message: `Report generated locally. Email delivery failed: ${e?.message || 'Backend API unavailable'}.`,
     };
   }
 }

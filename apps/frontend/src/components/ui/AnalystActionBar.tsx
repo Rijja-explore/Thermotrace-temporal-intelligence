@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { ThermoEvent } from '../../services/api';
-import { verifyEvent } from '../../services/api';
-import { dispatchApprovedReportEmail, RECIPIENT_CENTRAL } from '../../services/alertEmail';
+import { verifyEvent, sendReportEmail } from '../../services/api';
+import { RECIPIENT_CENTRAL } from '../../services/alertEmail';
 
 interface AnalystActionBarProps {
   event: ThermoEvent;
@@ -21,7 +21,86 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
   const [showNote, setShowNote] = useState(false);
   const [note, setNote] = useState('');
 
+  // Approval Modal State
+  const [pendingApproval, setPendingApproval] = useState<{ action: string; label?: string } | null>(null);
+  const [approvalStep, setApprovalStep] = useState<'IDLE' | 'GENERATING' | 'SENDING' | 'DONE'>('IDLE');
+  const [approvalResult, setApprovalResult] = useState<{ success: boolean; msg: string; err?: string } | null>(null);
+
+  const executeApproval = async () => {
+    if (!pendingApproval) return;
+    const { action, label } = pendingApproval;
+    const timeStr = new Date().toLocaleTimeString('en-IN', {
+      hour: '2-digit', minute: '2-digit',
+      timeZone: 'Asia/Kolkata',
+    }) + ' IST';
+
+    setApprovalStep('GENERATING');
+    setApprovalResult(null);
+
+    // Step 1: Record verification on backend
+    try {
+      const result = await verifyEvent(event.event_id, action, label, note || undefined);
+      onStatusChange(result.status || action.toLowerCase());
+    } catch {
+      onStatusChange(action.toLowerCase());
+    }
+
+    // Small delay to simulate report generation
+    await new Promise(r => setTimeout(r, 600));
+    setApprovalStep('SENDING');
+
+    // Step 2: Call backend report email endpoint
+    try {
+      const emailRes = await sendReportEmail(
+        event.event_id,
+        RECIPIENT_CENTRAL,
+        note || `Analyst verified and confirmed thermal excursion at ${event.facility_context?.name || 'industrial facility'}.`
+      );
+
+      if (emailRes?.email_sent || emailRes?.delivery_status === 'DELIVERED') {
+        setApprovalResult({
+          success: true,
+          msg: `✓ Report generated\n✓ Report sent successfully\nDestination: ${RECIPIENT_CENTRAL}`,
+        });
+        setFeedback(`✓ Event APPROVED — Complete report generated & delivered to ${RECIPIENT_CENTRAL}`);
+      } else {
+        const errMsg = emailRes?.error || 'SMTP credentials not configured (Demo Mode recorded)';
+        setApprovalResult({
+          success: false,
+          msg: `✓ Report generated\n⚠️ EMAIL DELIVERY FAILED: ${errMsg}\nDestination: ${RECIPIENT_CENTRAL}`,
+          err: errMsg,
+        });
+        setFeedback(`✓ Report generated · Email status: ${errMsg}`);
+      }
+    } catch (err: any) {
+      setApprovalResult({
+        success: false,
+        msg: `✓ Report generated\n⚠️ EMAIL DELIVERY FAILED: ${err?.message || 'Network error'}\nDestination: ${RECIPIENT_CENTRAL}`,
+        err: err?.message,
+      });
+      setFeedback(`✓ Report generated · Email delivery failed`);
+    } finally {
+      setApprovalStep('DONE');
+      const newEntry: AuditEntry = {
+        action: label ? `Approved → ${label.replace(/_/g, ' ')}` : 'Approved & Dispatched',
+        analyst: 'Lead Thermal Analyst',
+        time: timeStr,
+      };
+      setAuditLog(prev => [newEntry, ...prev]);
+      setNote('');
+      setShowNote(false);
+    }
+  };
+
   const doAction = async (action: string, label?: string) => {
+    // If confirmation or approval action, prompt the modal
+    if (action.includes('CONFIRM') || action.includes('DISPATCH') || action.includes('VERIF')) {
+      setPendingApproval({ action, label });
+      setApprovalStep('IDLE');
+      setApprovalResult(null);
+      return;
+    }
+
     const timeStr = new Date().toLocaleTimeString('en-IN', {
       hour: '2-digit', minute: '2-digit',
       timeZone: 'Asia/Kolkata',
@@ -34,35 +113,10 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
       onStatusChange(action.toLowerCase());
     }
 
-    // When Analyst CONFIRMS or DISPATCHES: Auto-generate & dispatch complete ThermoTrace report to thermotrace.india@gmail.com
-    if (action.includes('CONFIRM') || action.includes('DISPATCH') || action.includes('VERIF')) {
-      const risk = (event as any).operational_risk?.risk_score ?? event.scores?.operational_risk ?? 75;
-      const frpVal = event.observations?.[0]?.frp ?? 180.0;
-      const hazardRadius = (event as any).impact?.hazard_radius_m ?? 350;
-      const plume = (event as any).impact?.downwind_impact_summary ?? '8.6 km NE downwind corridor';
-      const pop = (event as any).impact?.population_exposure_formatted ?? 123;
-
-      dispatchApprovedReportEmail({
-        eventId: event.event_id,
-        facilityName: event.facility_context?.nearest_facility_name ?? event.facility_context?.name ?? 'Industrial Installation',
-        frpMw: frpVal,
-        riskScore: risk,
-        threatTier: 'CONFIRMED',
-        hazardRadiusM: hazardRadius,
-        plumeCorridor: typeof plume === 'string' ? plume : '8.6 km NE downwind corridor',
-        populationExposure: typeof pop === 'number' ? pop : 123,
-        customNotes: `Analyst Confirmation: Event ${event.event_id} verified as ${label || event.classification?.class || 'Confirmed Event'}. Analyst notes: "${note || 'Forensic spatial-spectral alignment and baseline deviation confirmed'}". Flare Gas Diversion recommended.`,
-        forceSend: true,
-      });
-
-      setFeedback(`✓ Event APPROVED — Complete report generated & sent to ${RECIPIENT_CENTRAL}`);
-    } else {
-      setFeedback(`✓ ${action} recorded by Lead Analyst`);
-    }
-
+    setFeedback(`✓ ${action} recorded by Lead Analyst`);
     const newEntry: AuditEntry = {
       action: label ? `Reclassified → ${label.replace(/_/g, ' ')}` : action,
-      analyst: 'Analyst Lead',
+      analyst: 'Lead Thermal Analyst',
       time: timeStr,
     };
     setAuditLog(prev => [newEntry, ...prev]);
@@ -78,7 +132,7 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
 
   return (
     <div className="analyst-action-bar">
-      <div className="analyst-action-bar__title">Analyst Workflow</div>
+      <div className="analyst-action-bar__title">Analyst Decision & Verification</div>
 
       <div className="analyst-action-bar__actions">
         {isAgricultural ? (
@@ -121,7 +175,7 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
           <>
             <button className="action-btn action-btn--confirm" style={{ background: '#FF5C6C', borderColor: '#FF5C6C', color: '#FFF' }} onClick={() => doAction('CONFIRMED', 'industrial_fire_or_abnormal_event')}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-              Confirm Industrial Fire
+              Confirm / Approve Industrial Incident
             </button>
             <button className="action-btn action-btn--reject" onClick={() => doAction('RECLASSIFIED', 'agricultural_burning')}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
@@ -169,20 +223,13 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
             className="modal__textarea"
             value={note}
             onChange={e => setNote(e.target.value)}
-            placeholder="Add analyst rationale or note..."
+            placeholder="Add analyst rationale or verification notes..."
             style={{ marginBottom: '6px', height: '60px' }}
           />
-          <button
-            className="action-btn action-btn--primary"
-            onClick={() => doAction('NOTE_ADDED')}
-            disabled={!note.trim()}
-          >
-            Save Note
-          </button>
         </div>
       )}
 
-      {/* Feedback */}
+      {/* Feedback Toast */}
       {feedback && (
         <div className="analyst-action-bar__feedback">{feedback}</div>
       )}
@@ -193,7 +240,7 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
           {auditLog.map((entry, i) => (
             <div key={i} className="audit-entry">
               <div className="audit-entry__dot" style={{
-                background: entry.action.includes('CONFIRMED') || entry.action.includes('Verified')
+                background: entry.action.includes('Approved') || entry.action.includes('CONFIRMED') || entry.action.includes('Verified')
                   ? 'var(--risk-low)'
                   : entry.action.includes('REJECTED')
                   ? 'var(--risk-critical)'
@@ -213,6 +260,90 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
           {status.replace(/_/g, ' ')}
         </span>
       </div>
+
+      {/* ─── APPROVAL CONFIRMATION MODAL ─── */}
+      {pendingApproval && (
+        <div className="report-modal-backdrop" onClick={e => { if (e.target === e.currentTarget && approvalStep === 'IDLE') setPendingApproval(null); }}>
+          <div className="report-modal" role="dialog" aria-modal="true" style={{ maxWidth: '480px', width: '90%', padding: '24px', background: '#0F172A', border: '1px solid #334155', borderRadius: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+              <span style={{ fontSize: '24px' }}>🛡️</span>
+              <div>
+                <div style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
+                  Approve this thermal event?
+                </div>
+                <div style={{ fontSize: '11px', color: '#94A3B8', fontFamily: 'monospace' }}>
+                  Event ID: {event.event_id}
+                </div>
+              </div>
+            </div>
+
+            <p style={{ fontSize: '13px', color: '#CBD5E1', lineHeight: '1.6', marginBottom: '18px' }}>
+              This will generate the complete ThermoTrace intelligence report and send it to the ThermoTrace report feed.
+            </p>
+
+            {approvalStep === 'IDLE' && (
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+                <button
+                  type="button"
+                  onClick={() => setPendingApproval(null)}
+                  style={{ padding: '8px 16px', background: '#1E293B', border: '1px solid #334155', borderRadius: '6px', color: '#94A3B8', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  CANCEL
+                </button>
+                <button
+                  type="button"
+                  onClick={executeApproval}
+                  style={{ padding: '8px 18px', background: '#0284C7', border: 'none', borderRadius: '6px', color: '#FFFFFF', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                >
+                  APPROVE & SEND REPORT
+                </button>
+              </div>
+            )}
+
+            {(approvalStep === 'GENERATING' || approvalStep === 'SENDING') && (
+              <div style={{ padding: '16px', background: '#1E293B', borderRadius: '8px', border: '1px solid #38BDF8', textAlign: 'center' }}>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: '#38BDF8', marginBottom: '6px' }}>
+                  {approvalStep === 'GENERATING' ? 'Generating report...' : 'Report generated. Sending report...'}
+                </div>
+                <div style={{ fontSize: '11px', color: '#94A3B8' }}>
+                  Connecting to mail service for {RECIPIENT_CENTRAL}...
+                </div>
+              </div>
+            )}
+
+            {approvalStep === 'DONE' && approvalResult && (
+              <div style={{ marginTop: '12px' }}>
+                <div style={{
+                  padding: '14px',
+                  background: approvalResult.success ? 'rgba(79, 209, 139, 0.1)' : 'rgba(255, 92, 108, 0.1)',
+                  border: `1px solid ${approvalResult.success ? 'rgba(79, 209, 139, 0.4)' : 'rgba(255, 92, 108, 0.4)'}`,
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  color: approvalResult.success ? '#4FD18B' : '#FF5C6C',
+                  whiteSpace: 'pre-line',
+                  lineHeight: '1.6',
+                  fontFamily: 'var(--font-mono)'
+                }}>
+                  {approvalResult.msg}
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPendingApproval(null);
+                      setApprovalStep('IDLE');
+                    }}
+                    style={{ padding: '8px 18px', background: '#334155', border: 'none', borderRadius: '6px', color: '#FFFFFF', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                  >
+                    CLOSE
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

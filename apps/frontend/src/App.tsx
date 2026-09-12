@@ -1,18 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import Dashboard from './pages/Dashboard';
 import EventInvestigation from './pages/EventInvestigation';
-import Alerts from './pages/Alerts';
 import { FacilityProfile } from './pages/FacilityProfile';
 import AuthPage from './pages/AuthPage';
 import WhatIfSimulator from './pages/WhatIfSimulator';
 import GuidedDemoOverlay from './components/ui/GuidedDemoOverlay';
 import DataReductionVisualizer from './pages/DataReductionVisualizer';
 import Methodology from './pages/Methodology';
-import AdminDashboard from './pages/AdminDashboard';
-import OfficialDashboard from './pages/OfficialDashboard';
+import ReportsView from './pages/ReportsView';
 import { AuthProvider, useAuth } from './services/AuthContext';
 
-// ─── NAV ITEM DEFINITIONS (UNIFIED ANALYST CONSOLE) ───────────────────────────
+// ─── 7 FINAL TABS (UNIFIED ANALYST INTELLIGENCE PLATFORM) ─────────────────────
 
 interface NavItem {
   id: string;
@@ -23,8 +21,8 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   {
-    id: 'analyst-dash',
-    path: '/analyst',
+    id: 'tab-dashboard',
+    path: '/dashboard',
     label: 'Dashboard',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -34,8 +32,8 @@ const NAV_ITEMS: NavItem[] = [
     ),
   },
   {
-    id: 'analyst-map',
-    path: '/analyst/map',
+    id: 'tab-map',
+    path: '/map',
     label: 'Thermal Map',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -45,20 +43,9 @@ const NAV_ITEMS: NavItem[] = [
     ),
   },
   {
-    id: 'analyst-events',
-    path: '/analyst/events',
-    label: 'Thermal Events',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-      </svg>
-    ),
-  },
-  {
-    id: 'analyst-investigations',
-    path: '/analyst/investigation/TT-CASE-001',
-    label: 'Investigations',
+    id: 'tab-investigation',
+    path: '/investigation/TT-CASE-001',
+    label: 'Event Intelligence',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -67,8 +54,8 @@ const NAV_ITEMS: NavItem[] = [
     ),
   },
   {
-    id: 'analyst-intelligence',
-    path: '/analyst/intelligence',
+    id: 'tab-ai',
+    path: '/intelligence',
     label: 'AI Intelligence',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -77,37 +64,37 @@ const NAV_ITEMS: NavItem[] = [
     ),
   },
   {
-    id: 'analyst-whatif',
-    path: '/analyst/what-if',
-    label: 'What-If & SOP',
+    id: 'tab-hazard',
+    path: '/hazard',
+    label: 'Hazard & Impact',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="10" x2="4" y2="3" />
-        <line x1="12" y1="21" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="3" />
-        <line x1="20" y1="21" x2="20" y2="16" /><line x1="20" y1="12" x2="20" y2="3" />
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+        <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
       </svg>
     ),
   },
   {
-    id: 'analyst-pipeline',
-    path: '/analyst/pipeline',
-    label: 'Telemetry Pipeline',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <ellipse cx="12" cy="5" rx="9" ry="3" />
-        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-      </svg>
-    ),
-  },
-  {
-    id: 'analyst-reports',
-    path: '/analyst/reports',
+    id: 'tab-reports',
+    path: '/reports',
     label: 'Reports',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
         <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+      </svg>
+    ),
+  },
+  {
+    id: 'tab-pipeline',
+    path: '/pipeline',
+    label: 'Pipeline',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
       </svg>
     ),
   },
@@ -151,11 +138,18 @@ function AppContent() {
 
     // Convert legacy page IDs to URL paths
     if (!pathOrPage.startsWith('/')) {
-      targetPath = pathOrPage === 'dashboard' ? '/analyst' : `/analyst/${pathOrPage}`;
+      if (pathOrPage === 'dashboard') targetPath = '/dashboard';
+      else if (pathOrPage === 'map') targetPath = '/map';
+      else if (pathOrPage === 'investigation') targetPath = '/investigation/TT-CASE-001';
+      else if (pathOrPage === 'intelligence' || pathOrPage === 'methodology') targetPath = '/intelligence';
+      else if (pathOrPage === 'hazard' || pathOrPage === 'whatif' || pathOrPage === 'what-if') targetPath = '/hazard';
+      else if (pathOrPage === 'reports') targetPath = '/reports';
+      else if (pathOrPage === 'pipeline') targetPath = '/pipeline';
+      else targetPath = `/${pathOrPage}`;
     }
 
     if (params?.eventId) {
-      targetPath = `/analyst/investigation/${params.eventId}`;
+      targetPath = `/investigation/${params.eventId}`;
     }
 
     window.history.pushState({}, '', targetPath);
@@ -174,12 +168,12 @@ function AppContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Post-login automatic redirection to analyst dashboard
+  // Post-login automatic redirection to dashboard
   useEffect(() => {
     if (currentUser) {
       const p = window.location.pathname;
       if (p === '/' || p === '/login') {
-        navigate('/analyst');
+        navigate('/dashboard');
       }
     }
   }, [currentUser]);
@@ -229,7 +223,7 @@ function AppContent() {
         </header>
 
         <main className="main-workspace" style={{ flex: 1, overflowY: 'auto' }}>
-          <AuthPage onNavigate={(target) => navigate(target || '/analyst')} />
+          <AuthPage onNavigate={(target) => navigate(target || '/dashboard')} />
         </main>
       </div>
     );
@@ -243,7 +237,7 @@ function AppContent() {
       <header className="top-header">
         <div
           className="top-header__logo-zone"
-          onClick={() => navigate('/analyst')}
+          onClick={() => navigate('/dashboard')}
           title="ThermoTrace"
           style={{ cursor: 'pointer' }}
         >
@@ -252,13 +246,13 @@ function AppContent() {
 
         <div
           className="top-header__brand"
-          onClick={() => navigate('/analyst')}
+          onClick={() => navigate('/dashboard')}
           style={{ cursor: 'pointer' }}
         >
           <div className="top-header__product-name">
             THERMO<span>TRACE</span>
           </div>
-          <div className="top-header__product-sub">Satellite GeoAI · SIH26162</div>
+          <div className="top-header__product-sub">Industrial Thermal Intelligence Platform · SIH 26162</div>
         </div>
 
         {/* Central Platform Badge */}
@@ -276,10 +270,10 @@ function AppContent() {
             SIH DEMO MODE ·
           </span>
           <span style={{ fontSize: '11px', fontWeight: 800, color: themeColor, letterSpacing: '0.05em' }}>
-            ANALYST CONSOLE
+            ANALYST
           </span>
           <span style={{ fontSize: '10px', color: '#CBD5E1', paddingLeft: '4px', borderLeft: '1px solid #334155' }}>
-            INTELLIGENCE PLATFORM
+            INTELLIGENCE CONSOLE
           </span>
         </div>
 
@@ -292,8 +286,8 @@ function AppContent() {
           {/* Satellite Telemetry Pipeline Status */}
           <div
             className="top-header__health"
-            title="Near-Real-Time NASA FIRMS Ingestion Pipeline with Closed-Loop Adaptive Intelligence"
-            onClick={() => navigate('/analyst/pipeline')}
+            title="Near-Real-Time NASA FIRMS Ingestion Pipeline"
+            onClick={() => navigate('/pipeline')}
             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', padding: '3px 8px', background: 'rgba(67, 217, 232, 0.08)', border: '1px solid rgba(67, 217, 232, 0.3)', borderRadius: '4px' }}
           >
             <div className="top-header__health-dot" style={{ background: '#38BDF8' }} />
@@ -304,8 +298,8 @@ function AppContent() {
           {/* Alert count */}
           <button
             className="top-header__alert-badge"
-            onClick={() => navigate('/analyst/events')}
-            title="View alerts"
+            onClick={() => navigate('/investigation/TT-CASE-001')}
+            title="View critical events"
           >
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -375,14 +369,19 @@ function AppContent() {
 
       {/* ─── App Body ─── */}
       <div className="app-body">
-        {/* ─── Navigation Rail ─── */}
+        {/* ─── 7 Final Tabs Navigation Rail ─── */}
         <nav className="nav-rail" aria-label="Analyst platform navigation">
           <div className="nav-rail__items">
             {NAV_ITEMS.map((item) => {
               const isActive =
-                currentPath === item.path ||
-                (item.path !== '/analyst' && currentPath.startsWith(item.path)) ||
-                (item.id === 'analyst-investigations' && currentPath.startsWith('/analyst/investigation'));
+                (item.id === 'tab-dashboard' && (currentPath === '/dashboard' || currentPath === '/' || currentPath === '/analyst')) ||
+                (item.id === 'tab-map' && (currentPath === '/map' || currentPath === '/analyst/map')) ||
+                (item.id === 'tab-investigation' && (currentPath.startsWith('/investigation') || currentPath.startsWith('/analyst/investigation'))) ||
+                (item.id === 'tab-ai' && (currentPath === '/intelligence' || currentPath === '/analyst/intelligence' || currentPath === '/methodology')) ||
+                (item.id === 'tab-hazard' && (currentPath === '/hazard' || currentPath === '/what-if' || currentPath === '/analyst/what-if')) ||
+                (item.id === 'tab-reports' && (currentPath === '/reports' || currentPath === '/analyst/reports')) ||
+                (item.id === 'tab-pipeline' && (currentPath === '/pipeline' || currentPath === '/analyst/pipeline' || currentPath === '/admin/sources'));
+
               return (
                 <button
                   key={item.id}
@@ -407,35 +406,37 @@ function AppContent() {
           </div>
         </nav>
 
-        {/* ─── Main Workspace ─── */}
+        {/* ─── Main Workspace (7 Clean Tabs) ─── */}
         <main className="main-workspace">
-          {/* Investigation route */}
-          {currentPath.startsWith('/analyst/investigation') ? (
+          {/* TAB 3: EVENT INTELLIGENCE */}
+          {currentPath.startsWith('/investigation') || currentPath.startsWith('/analyst/investigation') ? (
             <EventInvestigation
               eventId={
-                currentPath.split('/analyst/investigation/')[1] ||
+                currentPath.split('/investigation/')[1]?.split('/')[0] ||
+                currentPath.split('/analyst/investigation/')[1]?.split('/')[0] ||
                 routeParams.eventId ||
                 'TT-CASE-001'
               }
               onNavigate={navigate}
             />
-          ) : currentPath === '/analyst/events' || currentPath === '/analyst/feedback' || currentPath === '/official/alerts' || currentPath === '/official/history' ? (
-            <Alerts onNavigate={navigate} />
-          ) : currentPath === '/analyst/what-if' || currentPath === '/official/impact' || currentPath === '/official/sop' ? (
-            <WhatIfSimulator eventId={routeParams.eventId} onNavigate={navigate} onOpenNotificationModal={() => {}} />
-          ) : currentPath === '/analyst/pipeline' || currentPath === '/admin/sources' ? (
-            <DataReductionVisualizer />
-          ) : currentPath === '/analyst/timeline' || currentPath === '/analyst/intelligence' || currentPath === '/analyst/reports' ? (
+          ) : /* TAB 4: AI INTELLIGENCE */
+          currentPath === '/intelligence' || currentPath === '/analyst/intelligence' || currentPath === '/methodology' ? (
             <Methodology />
-          ) : currentPath.startsWith('/facility') || currentPath === '/official/facilities' ? (
+          ) : /* TAB 5: HAZARD & IMPACT */
+          currentPath === '/hazard' || currentPath === '/what-if' || currentPath === '/analyst/what-if' || currentPath === '/official/impact' || currentPath === '/official/sop' ? (
+            <WhatIfSimulator eventId={routeParams.eventId} onNavigate={navigate} onOpenNotificationModal={() => {}} />
+          ) : /* TAB 6: REPORTS */
+          currentPath === '/reports' || currentPath === '/analyst/reports' ? (
+            <ReportsView onNavigate={navigate} />
+          ) : /* TAB 7: PIPELINE */
+          currentPath === '/pipeline' || currentPath === '/analyst/pipeline' || currentPath === '/admin/sources' ? (
+            <DataReductionVisualizer />
+          ) : /* FACILITY PROFILE */
+          currentPath.startsWith('/facility') || currentPath === '/official/facilities' ? (
             <FacilityProfile facilityId={routeParams.facilityId} onNavigate={navigate} />
-          ) : currentPath.startsWith('/admin') ? (
-            <AdminDashboard onNavigate={navigate} />
-          ) : currentPath.startsWith('/official') ? (
-            <OfficialDashboard onNavigate={navigate} />
-          ) : (
+          ) : /* TAB 1 & TAB 2: DASHBOARD & THERMAL MAP */
             <Dashboard onNavigate={navigate} />
-          )}
+          }
         </main>
       </div>
 
