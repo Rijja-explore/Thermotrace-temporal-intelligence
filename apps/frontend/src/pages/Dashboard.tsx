@@ -4,7 +4,6 @@ import EventPanel from '../components/EventPanel';
 import type { ThermoEvent, SummaryResponse, Alert } from '../services/api';
 import { fetchEvents, fetchSummary, fetchAlerts, fetchEventsFromJson } from '../services/api';
 import LayerByLayerPipeline from '../components/ui/LayerByLayerPipeline';
-import { autoDispatchCriticalAlerts } from '../services/alertEmail';
 
 interface DashboardProps {
   onNavigate?: (page: string, params?: any) => void;
@@ -59,8 +58,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<ThermoEvent | null>(null);
-  const [autoEmailCount, setAutoEmailCount] = useState(0);
-  const [showEmailToast, setShowEmailToast] = useState(false);
+
 
   const [viewMode, setViewMode] = useState<'map' | 'intelligence'>('map');
   const [showPipelineModal, setShowPipelineModal] = useState(false);
@@ -98,15 +96,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
     }
     setLoading(false);
 
-    // Auto-dispatch email alerts for critical events
-    const sent = await autoDispatchCriticalAlerts(
-      (window as any).__lastLoadedEvents || []
-    );
-    if (sent > 0) {
-      setAutoEmailCount(sent);
-      setShowEmailToast(true);
-      setTimeout(() => setShowEmailToast(false), 5000);
-    }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -124,31 +114,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-      {/* ─── Auto Email Toast ─── */}
-      {showEmailToast && (
-        <div style={{
-          position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
-          background: 'rgba(13, 25, 41, 0.97)',
-          border: '1px solid rgba(79,209,139,0.4)',
-          borderLeft: '3px solid #4FD18B',
-          borderRadius: 'var(--radius-sm)',
-          padding: '12px 16px',
-          display: 'flex', alignItems: 'center', gap: '10px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
-          animation: 'fadeIn 0.3s ease-out',
-          maxWidth: '340px',
-        }}>
-          <span style={{ fontSize: '16px' }}>📧</span>
-          <div>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#4FD18B', marginBottom: '2px' }}>
-              Alert Email Auto-Dispatched
-            </div>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              {autoEmailCount} critical event{autoEmailCount > 1 ? 's' : ''} notified to thermotrace.india@gmail.com
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* ─── KPI Strip ─── */}
       <div className="kpi-strip">
