@@ -28,7 +28,7 @@ logger = logging.getLogger("thermotrace.reports")
 router = APIRouter()
 
 THERMOTRACE_SENDER_EMAIL = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or "thermotrace.india@gmail.com"
-DEFAULT_RECIPIENT_EMAIL = os.getenv("MAIL_TO") or "rijja2310119@ssn.edu.in"
+DEFAULT_RECIPIENT_EMAIL = os.getenv("MAIL_TO") or "thermotrace.india@gmail.com"
 THERMOTRACE_DISPATCH_EMAIL = DEFAULT_RECIPIENT_EMAIL
 
 
@@ -36,6 +36,12 @@ class EmailReportRequest(BaseModel):
     target_email: str = DEFAULT_RECIPIENT_EMAIL
     notes: Optional[str] = "Official Incident Dossier dispatched from ThermoTrace Analyst Console"
 
+
+import socket
+import ssl
+import base64
+import urllib.request
+import urllib.error
 
 # Environment-based Mail Provider Configuration
 MAIL_HOST = os.getenv("MAIL_HOST") or os.getenv("SMTP_HOST") or "smtp.gmail.com"
@@ -45,116 +51,151 @@ MAIL_PASSWORD = os.getenv("MAIL_PASSWORD") or os.getenv("SMTP_PASSWORD") or SMTP
 MAIL_FROM = THERMOTRACE_SENDER_EMAIL
 
 
+def _send_email_via_http_api(api_key: str, from_email: str, to_email: str, subject: str, html_body: str, text_body: str = "", pdf_bytes: Optional[bytes] = None, filename: str = "report.pdf") -> tuple[bool, Optional[str]]:
+    """Dispatches email via Resend / HTTPS Mail API (Port 443 — 100% bypasses all SMTP port/network restrictions)."""
+    try:
+        url = "https://api.resend.com/emails"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "ThermoTrace-Engine/1.0"
+        }
+        sender = from_email if ("@" in from_email and not from_email.endswith("gmail.com")) else "ThermoTrace <onboarding@resend.dev>"
+        payload: Dict[str, Any] = {
+            "from": sender,
+            "to": [to_email],
+            "subject": subject,
+            "html": html_body or f"<p>{text_body}</p>",
+            "text": text_body or "ThermoTrace Incident Report"
+        }
+        if pdf_bytes:
+            payload["attachments"] = [
+                {
+                    "filename": filename,
+                    "content": base64.b64encode(pdf_bytes).decode("utf-8")
+                }
+            ]
+        req_data = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(url, data=req_data, headers=headers, method="POST")
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            if 200 <= resp.status < 300:
+                logger.info(f"✓ Email successfully delivered via HTTPS Mail API to {to_email}")
+                return True, None
+            else:
+                body = resp.read().decode("utf-8", errors="ignore")
+                return False, f"HTTP Mail API response {resp.status}: {body}"
+    except urllib.error.HTTPError as e:
+        err_body = e.read().decode("utf-8", errors="ignore")
+        return False, f"HTTP Mail API Error ({e.code}): {err_body}"
+    except Exception as e:
+        return False, f"HTTP Mail API Error: {str(e)}"
+
+
+def _connect_smtp_server_ipv4(host: str, port: int, use_ssl: bool = False, timeout: int = 8):
+    """
+    Connects to SMTP host forcing IPv4 (AF_INET) to bypass Linux/Docker container
+    'Errno 101 Network is unreachable' IPv6 routing issues on cloud providers (Render/AWS).
+    """
+    try:
+        addrinfo = socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM)
+        ipv4_ip = addrinfo[0][4][0]
+    except Exception:
+        ipv4_ip = host
+
+    if use_ssl or port == 465:
+        context = ssl.create_default_context()
+        server = smtplib.SMTP_SSL(ipv4_ip, port, timeout=timeout, context=context)
+        server.ehlo(host)
+        return server
+    else:
+        server = smtplib.SMTP(ipv4_ip, port, timeout=timeout)
+        server.ehlo(host)
+        if server.has_extn('starttls'):
+            context = ssl.create_default_context()
+            server.starttls(context=context)
+            server.ehlo(host)
+        return server
+
+
 def _send_real_smtp_email_with_pdf(to_email: str, subject: str, text_body: str, html_body: str, pdf_bytes: bytes, filename: str) -> tuple[bool, Optional[str]]:
     """
-    Attempts to send an email with PDF attachment via configured SMTP environment credentials.
-    Logs every stage without exposing passwords.
-    Returns: (success: bool, error_detail: Optional[str])
+    Robust multi-strategy mail dispatcher:
+    1. If RESEND_API_KEY is present: Sends over HTTPS Port 443 (100% reliable on Render/Cloud).
+    2. If SMTP credentials configured:
+       - Tries SMTP IPv4 on configured port (e.g. 587 STARTTLS).
+       - Automatically falls back to Port 465 (SSL) if port 587 encounters network errors.
     """
+    http_api_key = os.getenv("RESEND_API_KEY") or os.getenv("MAIL_API_KEY")
     user = os.getenv("MAIL_USERNAME") or os.getenv("SMTP_USER") or os.getenv("SMTP_USERNAME") or SMTP_CONFIG.get("user")
     pwd = os.getenv("MAIL_PASSWORD") or os.getenv("SMTP_PASSWORD") or SMTP_CONFIG.get("password")
     host = os.getenv("MAIL_HOST") or os.getenv("SMTP_HOST") or "smtp.gmail.com"
-    port = int(os.getenv("MAIL_PORT") or os.getenv("SMTP_PORT") or "587")
+    configured_port = int(os.getenv("MAIL_PORT") or os.getenv("SMTP_PORT") or "587")
     from_email = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or THERMOTRACE_SENDER_EMAIL
 
-    logger.info("[MAIL] Preparing email")
-    logger.info(f"[MAIL] From: {from_email}")
-    logger.info(f"[MAIL] To: {to_email}")
+    logger.info(f"[MAIL] Initiating dispatch to {to_email}")
 
-    if not user or not pwd:
-        err_msg = "SMTP credentials not configured (MAIL_USERNAME / MAIL_PASSWORD environment variables not set)"
-        logger.warning(f"[MAIL] ERROR: {err_msg}")
-        return False, err_msg
-
-    try:
-        msg = MIMEMultipart("mixed")
-        msg["Subject"] = subject
-        msg["From"] = from_email
-        msg["To"] = to_email
-
-        # Attach text and html alternative parts
-        msg_alternative = MIMEMultipart("alternative")
-        msg_alternative.attach(MIMEText(text_body, "plain"))
-        if html_body:
-            msg_alternative.attach(MIMEText(html_body, "html"))
-        msg.attach(msg_alternative)
-
-        # Attach PDF
-        part = MIMEApplication(pdf_bytes, Name=filename)
-        part['Content-Disposition'] = f'attachment; filename="{filename}"'
-        msg.attach(part)
-
-        logger.info(f"[MAIL] Connecting to mail provider {host}:{port}...")
-        with smtplib.SMTP(host, port, timeout=10) as server:
-            server.starttls()
-            server.login(user, pwd)
-            logger.info("[MAIL] Authentication successful")
-            logger.info("[MAIL] Sending report")
-            server.sendmail(from_email, [to_email], msg.as_string())
-            logger.info("[MAIL] Provider accepted message")
-
-        logger.info(f"✓ Real SMTP email with PDF attachment successfully delivered to {to_email}")
-        return True, None
-    except smtplib.SMTPAuthenticationError as e:
-        err_msg = f"SMTP authentication failed ({e.smtp_error.decode('utf-8', errors='ignore') if hasattr(e, 'smtp_error') and isinstance(e.smtp_error, bytes) else str(e)})"
-        logger.error(f"[MAIL] ERROR: {err_msg}")
-        return False, err_msg
-    except smtplib.SMTPConnectError as e:
-        err_msg = f"SMTP connection failed ({str(e)})"
-        logger.error(f"[MAIL] ERROR: {err_msg}")
-        return False, err_msg
-    except Exception as e:
-        err_msg = f"Mail provider error ({type(e).__name__}: {str(e)})"
-        logger.error(f"[MAIL] ERROR: {err_msg}")
-        return False, err_msg
+    # Strategy 1: HTTPS API if key present
+    if http_api_key:
+        logger.info("[MAIL] Using HTTPS Mail API (Port 443)...")
+        ok, err = _send_email_via_http_api(http_api_key, from_email, to_email, subject, html_body, text_body, pdf_bytes, filename)
+        if ok:
+            return True, None
+        logger.warning(f"[MAIL] HTTPS API attempt returned: {err}. Trying SMTP...")
 
     if not user or not pwd:
         err_msg = "SMTP credentials not configured (MAIL_USERNAME / MAIL_PASSWORD environment variables not set)"
         logger.warning(f"[MAIL] {err_msg}")
         return False, err_msg
 
-    try:
-        msg = MIMEMultipart("mixed")
-        msg["Subject"] = subject
-        msg["From"] = from_email
-        msg["To"] = to_email
+    # Build MIME message
+    msg = MIMEMultipart("mixed")
+    msg["Subject"] = subject
+    msg["From"] = from_email
+    msg["To"] = to_email
 
-        # Attach text and html alternative parts
-        msg_alternative = MIMEMultipart("alternative")
-        msg_alternative.attach(MIMEText(text_body, "plain"))
-        if html_body:
-            msg_alternative.attach(MIMEText(html_body, "html"))
-        msg.attach(msg_alternative)
+    msg_alternative = MIMEMultipart("alternative")
+    msg_alternative.attach(MIMEText(text_body, "plain"))
+    if html_body:
+        msg_alternative.attach(MIMEText(html_body, "html"))
+    msg.attach(msg_alternative)
 
-        # Attach PDF
-        part = MIMEApplication(pdf_bytes, Name=filename)
-        part['Content-Disposition'] = f'attachment; filename="{filename}"'
-        msg.attach(part)
+    part = MIMEApplication(pdf_bytes, Name=filename)
+    part['Content-Disposition'] = f'attachment; filename="{filename}"'
+    msg.attach(part)
 
-        logger.info(f"[MAIL] Connecting to provider {host}:{port}...")
-        with smtplib.SMTP(host, port, timeout=10) as server:
-            server.starttls()
-            logger.info("[MAIL] Initiating TLS handshake...")
-            server.login(user, pwd)
-            logger.info("[MAIL] Authentication successful")
-            logger.info("[MAIL] Sending message...")
-            server.sendmail(from_email, [to_email], msg.as_string())
-            logger.info("[MAIL] Provider response: Message accepted for delivery")
+    # Strategy 2: Try primary SMTP (forcing IPv4)
+    ports_to_try = [
+        (configured_port, configured_port == 465),
+        (465 if configured_port != 465 else 587, configured_port != 465)
+    ]
 
-        logger.info(f"✓ Real SMTP email with PDF attachment successfully delivered to {to_email}")
-        return True, None
-    except smtplib.SMTPAuthenticationError as e:
-        err_msg = f"SMTP authentication failed ({e.smtp_error.decode('utf-8', errors='ignore') if hasattr(e, 'smtp_error') and isinstance(e.smtp_error, bytes) else str(e)})"
-        logger.error(f"[MAIL] Authentication failed: {err_msg}")
-        return False, err_msg
-    except smtplib.SMTPConnectError as e:
-        err_msg = f"SMTP connection failed ({str(e)})"
-        logger.error(f"[MAIL] Connection failed: {err_msg}")
-        return False, err_msg
-    except Exception as e:
-        err_msg = f"Mail provider error ({type(e).__name__}: {str(e)})"
-        logger.error(f"[MAIL] Delivery failed: {err_msg}")
-        return False, err_msg
+    last_err = None
+    for try_port, use_ssl in ports_to_try:
+        try:
+            logger.info(f"[MAIL] Connecting to SMTP {host}:{try_port} (IPv4, SSL={use_ssl})...")
+            with _connect_smtp_server_ipv4(host, try_port, use_ssl=use_ssl, timeout=8) as server:
+                server.login(user, pwd)
+                logger.info("[MAIL] Authentication successful. Sending message...")
+                server.sendmail(from_email, [to_email], msg.as_string())
+                logger.info(f"✓ Real SMTP email with PDF successfully delivered to {to_email} via port {try_port}")
+                return True, None
+        except smtplib.SMTPAuthenticationError as e:
+            err_msg = f"SMTP authentication failed ({e.smtp_error.decode('utf-8', errors='ignore') if hasattr(e, 'smtp_error') and isinstance(e.smtp_error, bytes) else str(e)})"
+            logger.error(f"[MAIL] {err_msg}")
+            return False, err_msg
+        except (smtplib.SMTPConnectError, smtplib.SMTPServerDisconnected, OSError) as e:
+            last_err = str(e)
+            logger.warning(f"[MAIL] Port {try_port} connection failed ({last_err}). Trying fallback...")
+            continue
+        except Exception as e:
+            last_err = f"{type(e).__name__}: {str(e)}"
+            logger.warning(f"[MAIL] Dispatch error on port {try_port}: {last_err}")
+            continue
+
+    # If all SMTP ports failed due to cloud host port restrictions
+    err_msg = f"Mail provider error (Network unreachable / Port blocked: {last_err}). Tip: Set RESEND_API_KEY in Render Environment Variables for 100% unrestricted HTTPS delivery."
+    logger.error(f"[MAIL] {err_msg}")
+    return False, err_msg
 
 
 def _build_report_pdf(event: dict) -> bytes:

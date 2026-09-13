@@ -30,7 +30,7 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
 
   const [downloading, setDownloading] = useState(false);
   const [showEmailSection, setShowEmailSection] = useState(false);
-  const [recipientEmail, setRecipientEmail] = useState('rijja2310119@ssn.edu.in');
+  const [recipientEmail, setRecipientEmail] = useState('thermotrace.india@gmail.com');
   const [analystNotes, setAnalystNotes] = useState('Official thermal intelligence dossier generated for operational review.');
   const [emailSending, setEmailSending] = useState(false);
   const [emailStatus, setEmailStatus] = useState<{ success: boolean; msg: string } | null>(null);

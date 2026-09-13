@@ -2,16 +2,20 @@
  * ThermoTrace Central Mail & Report Dispatch Engine
  *
  * Sender: thermotrace.india@gmail.com
- * Recipient: rijja2310119@ssn.edu.in
+ * Recipient: thermotrace.india@gmail.com
  */
 
 export const DEFAULT_SENDER = 'thermotrace.india@gmail.com';
-export const DEFAULT_RECIPIENT = 'rijja2310119@ssn.edu.in';
+export const DEFAULT_RECIPIENT = 'thermotrace.india@gmail.com';
 export const RECIPIENT_CENTRAL = DEFAULT_RECIPIENT;
 export const RECIPIENT_OFFICIAL = DEFAULT_RECIPIENT;
 export const DEFAULT_REPORT_EMAIL = DEFAULT_RECIPIENT;
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE
+  || import.meta.env.VITE_API_URL
+  || (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+      ? 'https://thermotrace-temporal-intelligence.onrender.com'
+      : 'http://localhost:8000');
 
 // Track dispatched event IDs to prevent duplicate spamming within the same session
 const emailedEventIds = new Set<string>();

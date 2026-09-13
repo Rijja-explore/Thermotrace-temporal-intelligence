@@ -20,9 +20,15 @@ from .auth import get_current_authenticated_user
 logger = logging.getLogger("thermotrace.notifications")
 router = APIRouter()
 
+import socket
+import ssl
+import base64
+import urllib.request
+import urllib.error
+
 # Mail Identity Configuration
 THERMOTRACE_SENDER_EMAIL = os.getenv("MAIL_FROM") or os.getenv("SMTP_FROM") or "thermotrace.india@gmail.com"
-DEFAULT_RECIPIENT_EMAIL = os.getenv("MAIL_TO") or "rijja2310119@ssn.edu.in"
+DEFAULT_RECIPIENT_EMAIL = os.getenv("MAIL_TO") or "thermotrace.india@gmail.com"
 THERMOTRACE_CENTRAL_EMAIL = DEFAULT_RECIPIENT_EMAIL
 
 SMTP_CONFIG = {
@@ -33,29 +39,86 @@ SMTP_CONFIG = {
     "from_email": THERMOTRACE_SENDER_EMAIL,
 }
 
+def _connect_smtp_server_ipv4(host: str, port: int, use_ssl: bool = False, timeout: int = 8):
+    """Connects to SMTP server enforcing IPv4 (AF_INET) to bypass Linux/Docker IPv6 Errno 101 Network unreachable."""
+    try:
+        addrinfo = socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM)
+        ipv4_ip = addrinfo[0][4][0]
+    except Exception:
+        ipv4_ip = host
+
+    if use_ssl or port == 465:
+        context = ssl.create_default_context()
+        server = smtplib.SMTP_SSL(ipv4_ip, port, timeout=timeout, context=context)
+        server.ehlo(host)
+        return server
+    else:
+        server = smtplib.SMTP(ipv4_ip, port, timeout=timeout)
+        server.ehlo(host)
+        if server.has_extn('starttls'):
+            context = ssl.create_default_context()
+            server.starttls(context=context)
+            server.ehlo(host)
+        return server
+
 def _send_real_smtp_email(to_email: str, subject: str, html_body: str) -> bool:
-    """Attempts to send a real email via configured SMTP environment credentials."""
+    """Attempts to send a real email via configured HTTPS API or SMTP IPv4 credentials."""
+    http_api_key = os.getenv("RESEND_API_KEY") or os.getenv("MAIL_API_KEY")
+    if http_api_key:
+        try:
+            url = "https://api.resend.com/emails"
+            headers = {
+                "Authorization": f"Bearer {http_api_key}",
+                "Content-Type": "application/json",
+                "User-Agent": "ThermoTrace-Engine/1.0"
+            }
+            sender = THERMOTRACE_SENDER_EMAIL if ("@" in THERMOTRACE_SENDER_EMAIL and not THERMOTRACE_SENDER_EMAIL.endswith("gmail.com")) else "ThermoTrace <onboarding@resend.dev>"
+            payload = {
+                "from": sender,
+                "to": [to_email],
+                "subject": subject,
+                "html": html_body
+            }
+            req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                if 200 <= resp.status < 300:
+                    logger.info(f"✓ Real email successfully delivered via HTTPS Mail API to {to_email}")
+                    return True
+        except Exception as e:
+            logger.warning(f"HTTPS Mail API attempt encountered error: {e}. Trying SMTP...")
+
     user = SMTP_CONFIG.get("user")
     pwd = SMTP_CONFIG.get("password")
+    host = SMTP_CONFIG.get("host") or "smtp.gmail.com"
+    configured_port = int(SMTP_CONFIG.get("port") or 587)
+
     if not user or not pwd:
         logger.info(f"[Demo Mail Mode] SMTP credentials not set. Report logged to dispatch ledger for {to_email}.")
         return False
-    try:
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = subject
-        msg["From"] = SMTP_CONFIG["from_email"]
-        msg["To"] = to_email
-        msg.attach(MIMEText(html_body, "html"))
 
-        with smtplib.SMTP(SMTP_CONFIG["host"], SMTP_CONFIG["port"], timeout=5) as server:
-            server.starttls()
-            server.login(user, pwd)
-            server.sendmail(SMTP_CONFIG["from_email"], [to_email], msg.as_string())
-        logger.info(f"✓ Real SMTP email successfully delivered to {to_email}")
-        return True
-    except Exception as e:
-        logger.warning(f"SMTP dispatch attempt to {to_email} encountered error: {e}")
-        return False
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = SMTP_CONFIG["from_email"]
+    msg["To"] = to_email
+    msg.attach(MIMEText(html_body, "html"))
+
+    ports_to_try = [
+        (configured_port, configured_port == 465),
+        (465 if configured_port != 465 else 587, configured_port != 465)
+    ]
+
+    for try_port, use_ssl in ports_to_try:
+        try:
+            with _connect_smtp_server_ipv4(host, try_port, use_ssl=use_ssl, timeout=8) as server:
+                server.login(user, pwd)
+                server.sendmail(SMTP_CONFIG["from_email"], [to_email], msg.as_string())
+            logger.info(f"✓ Real SMTP email successfully delivered to {to_email} via port {try_port}")
+            return True
+        except Exception as e:
+            logger.warning(f"SMTP dispatch attempt to {to_email} on port {try_port} encountered error: {e}")
+            continue
+
+    return False
 
 # Centralized in-memory dispatch history
 DISPATCH_HISTORY: List[Dict[str, Any]] = [

@@ -1710,13 +1710,17 @@ html, body {
 .report-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(7, 17, 31, 0.8);
-  z-index: 500;
+  background: rgba(7, 17, 31, 0.85);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
   animation: fade-in 0.2s ease-out;
+}
+
+.leaflet-control-zoom {
+  display: none !important;
 }
 
 .report-modal {

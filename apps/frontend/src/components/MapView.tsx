@@ -583,7 +583,7 @@ export const MapView: React.FC<MapViewProps> = ({
         border: '1px solid #233B56',
         borderRadius: '10px',
         padding: '12px 14px',
-        zIndex: 1000,
+        zIndex: 10,
         color: '#F4F8FC',
         boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
         minWidth: '160px',

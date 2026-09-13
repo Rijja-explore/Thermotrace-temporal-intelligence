@@ -1,32 +1,49 @@
-# React + TypeScript + Vite
+# 🌐 ThermoTrace Frontend — Analyst Mission Control
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+> React 19 + TypeScript + Vite web client for the ThermoTrace Industrial Thermal Intelligence Platform.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Getting Started
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### 1. Install Dependencies
+```bash
+npm install
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### 2. Configure Environment
+Create a `.env` file in `apps/frontend/`:
+```env
+VITE_API_BASE=https://thermotrace-temporal-intelligence.onrender.com
+```
+*(Or use `http://localhost:8000` when running backend locally).*
+
+### 3. Start Development Server
+```bash
+npm run dev
+```
+
+### 4. Build for Production
+```bash
+npm run build
+```
+
+---
+
+## 📑 Application Structure
+
+- **`src/pages/`**:
+  - `Dashboard.tsx`: Executive KPI & threat tier distribution overview.
+  - `ThermalMap.tsx`: Dark Canvas Leaflet map with satellite anomaly markers & API 521 perimeters.
+  - `EventInvestigation.tsx`: Deep-dive investigation view with spectral analysis & evidence ledger.
+  - `AIIntelligence.tsx`: 4-Engine model inspector, XAI feature attributions, and PyTorch LSTM trajectories.
+  - `WhatIfSimulator.tsx`: Interactive hazard & Gaussian plume dispersion simulation workbench.
+  - `ReportsView.tsx`: 19-Section intelligence report management & PDF dispatch console.
+  - `DataReductionVisualizer.tsx`: 5-Stage interactive 99.98% noise filtration visualizer.
+- **`src/components/`**:
+  - `MapView.tsx`: Leaflet mapping component with custom styling & vector state boundaries.
+  - `EventPanel.tsx`: Side drawer for rapid anomaly inspection.
+  - `ui/`: Reusable cards, modal dialogs, scorebars, and timeline visualizers.
+- **`src/services/`**:
+  - `api.ts`: Centralized HTTP client connecting to FastAPI backend endpoints.
+  - `alertEmail.ts`: Client-side notification and email dispatch helpers.

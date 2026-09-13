@@ -2,7 +2,8 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { INDIA_STATES_GEOJSON } from '../data/indiaStates';
-import { API_BASE } from '../services/api';
+import { API_BASE, fetchEvents } from '../services/api';
+import type { ThermoEvent } from '../services/api';
 
 // ─── Realistic Industrial Hotspots across India's Major States ─────────────────
 export interface RawPoint {
@@ -313,7 +314,7 @@ export default function DataReductionVisualizer() {
     const map = L.map(mapContainerRef.current, {
       center: [21.5, 79.5],
       zoom: 5,
-      zoomControl: true,
+      zoomControl: false,
       attributionControl: false,
     });
 
@@ -345,7 +346,7 @@ export default function DataReductionVisualizer() {
 
     mapRef.current = map;
 
-    const allPoints = generateAllPoints().map(p => ({ ...p, active: true }));
+    let allPoints = generateAllPoints().map(p => ({ ...p, active: true }));
     pointsRef.current = allPoints;
 
     allPoints.forEach(p => {
@@ -372,6 +373,48 @@ export default function DataReductionVisualizer() {
 
     setLiveCount(allPoints.length);
 
+    // Dynamically merge live detected events from backend
+    fetchEvents().then(res => {
+      const liveEvents: ThermoEvent[] = res?.events || [];
+      if (liveEvents.length > 0 && mapRef.current) {
+        const liveMapPoints: MapPoint[] = [];
+        liveEvents.forEach((ev: ThermoEvent) => {
+          const lat = ev.geometry?.lat ?? ev.geometry?.latitude;
+          const lon = ev.geometry?.lon ?? ev.geometry?.longitude;
+          if (lat && lon) {
+            const frp = ev.observations?.[0]?.frp ?? ev.temporal_features?.current_frp ?? 120.0;
+            const pt: MapPoint = {
+              lat,
+              lon,
+              frp,
+              name: ev.facility_context?.nearest_facility_name || ev.facility_context?.name || ev.title || `Live Anomaly ${ev.event_id}`,
+              state: ev.region || 'Active Grid',
+              facility_type: ev.facility_context?.facility_type || 'Industrial Asset',
+              noise: false,
+              active: true,
+            };
+            const radius = getPointRadius(pt.frp, 0, false);
+            const col = getIntensityColor(pt.frp, false);
+            const marker = L.circleMarker([pt.lat, pt.lon], {
+              radius,
+              color: col,
+              fillColor: col,
+              fillOpacity: 0.85,
+              weight: 2,
+              opacity: 1.0,
+            }).addTo(mapRef.current!);
+            marker.bindTooltip(buildTooltip(pt), { permanent: false, direction: 'top', offset: [0, -6] });
+            pt.marker = marker;
+            liveMapPoints.push(pt);
+          }
+        });
+        if (liveMapPoints.length > 0) {
+          pointsRef.current = [...liveMapPoints, ...pointsRef.current];
+          setLiveCount(pointsRef.current.length);
+        }
+      }
+    }).catch(() => {});
+
     return () => {
       map.remove();
       mapRef.current = null;
@@ -392,8 +435,8 @@ export default function DataReductionVisualizer() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          recipient_email: 'rijja2310119@ssn.edu.in',
-          recipient_name: 'ThermoTrace Admin',
+          recipient_email: 'thermotrace.india@gmail.com',
+          recipient_name: 'ThermoTrace Central Feed',
           event_id: 'TT-PIPELINE-AUTO',
           facility_name: 'Jamnagar + Bokaro + Rourkela + Bhilai Mega Industrial Cluster',
           frp_mw: 340.0,

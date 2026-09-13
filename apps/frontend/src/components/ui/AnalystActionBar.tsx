@@ -60,9 +60,9 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
       if (emailRes?.email_sent || emailRes?.delivery_status === 'DELIVERED') {
         setApprovalResult({
           success: true,
-          msg: `✓ Report generated\n✓ Report sent\n\nFrom:\nthermotrace.india@gmail.com\n\nTo:\nrijja2310119@ssn.edu.in`,
+          msg: `✓ Report generated\n✓ Report sent\n\nFrom:\nthermotrace.india@gmail.com\n\nTo:\nthermotrace.india@gmail.com`,
         });
-        setFeedback(`✓ Event APPROVED — Complete report sent to rijja2310119@ssn.edu.in`);
+        setFeedback(`✓ Event APPROVED — Complete report sent to thermotrace.india@gmail.com`);
       } else {
         const errMsg = emailRes?.error || 'SMTP credentials not configured (MAIL_USERNAME / MAIL_PASSWORD environment variables not set)';
         setApprovalResult({
