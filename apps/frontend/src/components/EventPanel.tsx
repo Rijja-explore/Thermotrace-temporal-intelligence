@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import type { ThermoEvent } from '../services/api';
-import { submitAnalystAction, getReportUrl } from '../services/api';
+import { getReportUrl } from '../services/api';
 
 interface EventPanelProps {
   event: ThermoEvent;
@@ -23,19 +22,7 @@ function ScoreBarMini({ label, value, color }: { label: string; value: number; c
 }
 
 export default function EventPanel({ event, onClose, onNavigate }: EventPanelProps) {
-  const [status, setStatus] = useState(event.status);
-  const [actionFeedback, setActionFeedback] = useState<string | null>(null);
-
-  const handleAction = async (action: string) => {
-    try {
-      const result = await submitAnalystAction(event.event_id, action, `${action} via dashboard`);
-      setStatus(result.new_status || action);
-    } catch {
-      setStatus(action === 'confirm' ? 'confirmed' : action === 'reject' ? 'rejected' : status);
-    }
-    setActionFeedback(`✓ ${action} recorded`);
-    setTimeout(() => setActionFeedback(null), 3000);
-  };
+  const status = event.status;
 
   const risk = event.scores?.operational_risk || event.operational_risk?.risk_score || 0;
   const industrial = event.scores?.industrial_likelihood || event.industrial_likelihood?.score || 0;
@@ -149,32 +136,8 @@ export default function EventPanel({ event, onClose, onNavigate }: EventPanelPro
           </>
         )}
 
-        {/* Action feedback */}
-        {actionFeedback && (
-          <div style={{
-            padding: '7px 10px',
-            background: 'rgba(79, 209, 139, 0.1)',
-            border: '1px solid rgba(79, 209, 139, 0.3)',
-            borderRadius: 'var(--radius-sm)',
-            color: 'var(--accent-green)',
-            fontSize: '11px',
-            fontWeight: '600',
-            animation: 'fade-in 0.2s ease-out',
-          }}>
-            {actionFeedback}
-          </div>
-        )}
-
         {/* Actions */}
         <hr className="event-panel__divider" />
-        <div className="event-panel__actions">
-          <button className="action-btn action-btn--confirm" style={{ flex: 1, justifyContent: 'center' }} onClick={() => handleAction('confirm')}>
-            ✓ Confirm
-          </button>
-          <button className="action-btn action-btn--reject" style={{ flex: 1, justifyContent: 'center' }} onClick={() => handleAction('reject')}>
-            ✗ Reject
-          </button>
-        </div>
 
         {onNavigate && (
           <button

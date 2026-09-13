@@ -517,31 +517,8 @@ export const MapView: React.FC<MapViewProps> = ({
               🏭 <strong>${facilityDisplayName}</strong>
             </div>
           ` : ''}
-
-          <button id="btn-inspect-${ev.event_id}" style="
-            margin-top: 10px;
-            width: 100%;
-            background: rgba(67,217,232,0.12);
-            color: #43D9E8;
-            border: 1px solid rgba(67,217,232,0.35);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: Inter, sans-serif;
-          ">Investigate Event →</button>
         </div>
       `);
-
-      marker.on('popupopen', () => {
-        const btn = document.getElementById(`btn-inspect-${ev.event_id}`);
-        if (btn) {
-          btn.onclick = () => {
-            if (onSelectEvent) onSelectEvent(ev);
-          };
-        }
-      });
 
       markersLayerRef.current?.addLayer(marker);
     });
