@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { INDIA_STATES_GEOJSON } from '../data/indiaStates';
-import { API_BASE, fetchEvents } from '../services/api';
+import { fetchEvents } from '../services/api';
 import type { ThermoEvent } from '../services/api';
 
 // ─── Realistic Industrial Hotspots across India's Major States ─────────────────
@@ -228,7 +228,6 @@ export default function DataReductionVisualizer() {
   const [liveCount, setLiveCount] = useState(0);
   const [autoPlay, setAutoPlay] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
   const [colorMode, setColorMode] = useState<'intensity' | 'state'>('intensity');
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const stageRef = useRef(0);
@@ -428,34 +427,15 @@ export default function DataReductionVisualizer() {
 
     refreshMarkerStyles(nextStage, colorModeRef.current);
 
-    // Stage 4: Auto-dispatch emergency alert
-    if (nextStage === 4 && !emailSent) {
-      setEmailSent(true);
-      fetch(`${API_BASE}/api/notifications/email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recipient_email: 'thermotrace.india@gmail.com',
-          recipient_name: 'ThermoTrace Central Feed',
-          event_id: 'TT-PIPELINE-AUTO',
-          facility_name: 'Jamnagar + Bokaro + Rourkela + Bhilai Mega Industrial Cluster',
-          frp_mw: 340.0,
-          risk_score: 88.0,
-          threat_tier: 'CRITICAL',
-          hazard_radius_m: 350,
-          custom_notes: 'Auto-dispatched by ThermoTrace Data Reduction Pipeline: Top Critical industrial anomalies isolated from raw FIRMS scan.',
-        }),
-      }).catch(() => {});
-    }
-
     setTimeout(() => setIsTransitioning(false), 400);
-  }, [isTransitioning, emailSent, refreshMarkerStyles]);
+  }, [isTransitioning, refreshMarkerStyles]);
 
   const goToStage = useCallback((next: number) => {
     stageRef.current = next;
     setStage(next);
     applyStage(next);
   }, [applyStage]);
+
 
   // React to color mode or state filter change
   useEffect(() => {
@@ -582,7 +562,7 @@ export default function DataReductionVisualizer() {
             Auto-Play
           </label>
           <button
-            onClick={() => { goToStage(0); setSelectedState(null); setEmailSent(false); }}
+            onClick={() => { goToStage(0); setSelectedState(null); }}
             style={{ padding: '5px 12px', fontSize: '11px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 'var(--radius-xs)', background: 'transparent', color: 'var(--text-muted)', cursor: 'pointer' }}
           >
             ↺ Reset
