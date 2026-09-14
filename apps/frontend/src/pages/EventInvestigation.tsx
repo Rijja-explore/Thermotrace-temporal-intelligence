@@ -339,8 +339,8 @@ export default function EventInvestigation({ eventId = 'TT-CASE-001', onNavigate
           firstDetection={event.time_window?.start?.split('T')[0]}
           timeWindowStart={event.time_window?.start}
           timeWindowEnd={event.time_window?.end}
-          facilityName={facility.nearest_facility_name || facility.name}
-          landcover={event.landcover_context?.primary_class || facility.land_cover}
+          facilityName={facility.nearest_facility_name || facility.name || undefined}
+          landcover={event.landcover_context?.primary_class || facility.land_cover || undefined}
         />
 
         {/* Evidence Cards */}
@@ -414,7 +414,7 @@ export default function EventInvestigation({ eventId = 'TT-CASE-001', onNavigate
               type="limitation"
             />
           )}
-          {event.satellite_context?.cloud_cover_pct !== undefined && event.satellite_context.cloud_cover_pct > 20 && (
+          {event.satellite_context?.cloud_cover_pct !== undefined && event.satellite_context.cloud_cover_pct !== null && event.satellite_context.cloud_cover_pct > 20 && (
             <EvidenceCard
               icon="☁️"
               title="Cloud Cover Warning"

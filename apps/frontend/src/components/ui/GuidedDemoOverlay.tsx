@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { dispatchDemoRunEmail } from '../../services/alertEmail';
 
 interface GuidedDemoOverlayProps {
   onClose: () => void;
@@ -8,58 +7,57 @@ interface GuidedDemoOverlayProps {
 
 const DEMO_STEPS = [
   {
-    title: 'Raw Thermal Hotspots',
-    desc: 'ThermoTrace ingests real-time FIRMS data from NASA MODIS and VIIRS satellites. Each dot on the map is a thermal anomaly detected at 375m resolution. Industrial clusters are immediately visible against the dark basemap.',
-    nav: 'dashboard',
+    title: 'Near-Real-Time (NRT) Thermal Ingestion',
+    desc: 'ThermoTrace ingests near-real-time satellite thermal anomaly observations from NASA FIRMS (MODIS 1km and VIIRS 375m). Continuous processing identifies industrial thermal sources across the subcontinent with high precision.',
+    nav: 'command-center',
     params: {},
   },
   {
-    title: 'Persistent Industrial Source',
-    desc: 'This event — TT-IND-00427 — has been active for 24 of the last 30 days. Temporal persistence is the first indicator of industrial origin versus a transient natural fire. The system automatically flags persistent sources for review.',
+    title: 'Persistent Industrial Source Intelligence',
+    desc: 'This event — TT-CASE-001 — has exhibited stationary recurrence across 24 of the last 30 days. High temporal persistence and spatial stability distinguish persistent industrial assets from transient agricultural or wild fires.',
     nav: 'investigation',
-    params: { eventId: undefined },
+    params: { eventId: 'TT-CASE-001' },
   },
   {
-    title: 'Facility Context',
-    desc: 'The thermal source is located 0.43 km from the Jamnagar Refinery Complex — the world\'s largest oil refinery. The land cover is classified as industrial (87% built-up). This geographic context is a strong positive evidence factor.',
+    title: 'Facility Baseline & GIS Context',
+    desc: 'The thermal source is matched with the Jamnagar Mega Refinery Complex using OpenStreetMap polygons and ESA WorldCover (87% built-up). Geographic context and infrastructure boundaries are key evidence factors.',
     nav: 'investigation',
-    params: {},
+    params: { eventId: 'TT-CASE-001' },
   },
   {
-    title: 'Baseline Comparison',
-    desc: 'Every industrial facility has a learned thermal fingerprint — its normal operational range. The current reading is 38% above baseline. The Thermal Fingerprint chart shows exactly when and by how much the source deviated.',
+    title: 'Learned Operating Envelope & Z-Score',
+    desc: 'Each facility has a learned 90-day baseline mean (μ) and standard deviation (σ). Statistically significant deviations (+Zσ) reveal true operational anomalies rather than routine operations.',
     nav: 'investigation',
-    params: {},
+    params: { eventId: 'TT-CASE-001' },
   },
   {
-    title: 'Classification & Risk Score',
-    desc: 'The hybrid ML model assigns: Classification Confidence 84%, Industrial Likelihood 91/100, Operational Risk 72/100. Each score is decomposed into its contributing factors so analysts can verify the reasoning.',
+    title: 'Contextual ML & Risk Scoring',
+    desc: 'HistGradientBoosting (HGB) evaluates 24 engineered spatial, temporal, and radiative features. The decomposed scorecard provides full transparency into the classification and operational risk rating.',
     nav: 'investigation',
+    params: { eventId: 'TT-CASE-001' },
+  },
+  {
+    title: 'Natural & Agricultural Event Separation',
+    desc: 'Agricultural crop residue burning is classified with high confidence and segregated from industrial infrastructure, effectively preventing false alarm fatigue.',
+    nav: 'command-center',
     params: {},
   },
   {
-    title: 'Natural & Agricultural Events',
-    desc: 'Agricultural burning events are shown in green — spatially dispersed, low persistence, cropland land cover. The system classifies these with high confidence and separates them from industrial sources, reducing false positives.',
-    nav: 'dashboard',
+    title: 'Calibrated Uncertainty & Review Queue',
+    desc: 'Ambiguous observations are categorized as "Requires Verification". The system presents conflicting evidence to the Analyst for human-in-the-loop audit before any action.',
+    nav: 'alert-center',
     params: {},
   },
   {
-    title: 'Unknown State',
-    desc: 'Ambiguous events are shown in purple and labelled "Requires Verification". The system is deliberately uncertain — it presents the conflicting evidence and asks the analyst to decide. Honesty about uncertainty is a core design principle.',
-    nav: 'alerts',
-    params: {},
-  },
-  {
-    title: 'Report Generation',
-    desc: 'Analysts can export a structured intelligence report for any event: event summary, map snapshot, scores, evidence timeline, and recommended action. Reports can be shared with regulators, operations teams, or incident commanders.',
+    title: 'Analyst-Controlled Report Dossier Dispatch',
+    desc: 'After reviewing the evidence chain, the analyst can click "Dispatch Report Dossier" to generate a certified 19-section intelligence PDF and transmit the brief to thermotrace.india@gmail.com.',
     nav: 'investigation',
-    params: {},
+    params: { eventId: 'TT-CASE-001' },
   },
 ];
 
 const GuidedDemoOverlay: React.FC<GuidedDemoOverlayProps> = ({ onClose, onNavigate }) => {
   const [step, setStep] = useState(0);
-  const [emailDispatched, setEmailDispatched] = useState(false);
   const total = DEMO_STEPS.length;
 
   const go = (dir: 1 | -1) => {
@@ -70,15 +68,9 @@ const GuidedDemoOverlay: React.FC<GuidedDemoOverlayProps> = ({ onClose, onNaviga
     onNavigate(s.nav, s.params);
   };
 
-  // Navigate to initial step page on open AND automatically dispatch alert email
   useEffect(() => {
     const s = DEMO_STEPS[0];
     onNavigate(s.nav, s.params);
-
-    // Auto-dispatch alert email every time demo runs
-    dispatchDemoRunEmail().then(() => {
-      setEmailDispatched(true);
-    });
   }, []);
 
   const current = DEMO_STEPS[step];
@@ -104,27 +96,8 @@ const GuidedDemoOverlay: React.FC<GuidedDemoOverlayProps> = ({ onClose, onNaviga
           <button className="demo-overlay-panel__close" onClick={onClose} title="Close demo (Esc)">✕</button>
         </div>
 
-        {/* Live email auto-dispatch banner */}
-        {emailDispatched && (
-          <div style={{
-            margin: '0 0 10px',
-            padding: '4px 8px',
-            background: 'rgba(79, 209, 139, 0.12)',
-            border: '1px solid rgba(79, 209, 139, 0.3)',
-            borderRadius: 'var(--radius-xs)',
-            fontSize: '10px',
-            color: 'var(--accent-green)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            fontFamily: 'var(--font-mono)'
-          }}>
-            <span>✉</span> Auto-Dispatched Alert Email → <strong>thermotrace.india@gmail.com</strong>
-          </div>
-        )}
-
         <div className="demo-overlay-panel__step-label">
-          Step {step + 1} of {total}
+          Step {step + 1} of {total} · SIH 26162 Interactive Tour
         </div>
         <div className="demo-overlay-panel__title">{current.title}</div>
         <div className="demo-overlay-panel__desc">{current.desc}</div>
@@ -148,7 +121,7 @@ const GuidedDemoOverlay: React.FC<GuidedDemoOverlayProps> = ({ onClose, onNaviga
               onClick={onClose}
               style={{ background: 'rgba(79,209,139,0.12)', borderColor: 'rgba(79,209,139,0.4)', color: 'var(--accent-green)' }}
             >
-              ✓ Demo Complete
+              ✓ Complete Tour
             </button>
           )}
         </div>

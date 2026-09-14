@@ -51,23 +51,40 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
 
     // Step 2: Call backend report email endpoint
     try {
-      await sendReportEmail(
+      const res = await sendReportEmail(
         event.event_id,
         RECIPIENT_CENTRAL,
         note || `Analyst verified and confirmed thermal excursion at ${event.facility_context?.name || 'industrial facility'}.`
       );
 
+      const isDelivered = Boolean(res.email_sent || res.delivery_status === 'DELIVERED');
+      const isNotConfigured = res.delivery_status === 'NOT_CONFIGURED';
+
+      if (isDelivered) {
+        setApprovalResult({
+          success: true,
+          msg: `✓ Official Incident Dossier & PDF Generated\n✓ Dispatched to: thermotrace.india@gmail.com\nFrom: thermotrace.india@gmail.com\nAttachment: ThermoTrace_${event.event_id}_Complete_Report.pdf`,
+        });
+        setFeedback(`✓ Event APPROVED — Complete dossier dispatched to thermotrace.india@gmail.com`);
+      } else if (isNotConfigured) {
+        setApprovalResult({
+          success: false,
+          msg: `✓ Official Incident Dossier & PDF Generated\n⚠ Email delivery not configured on server (Set RESEND_API_KEY or MAIL_USERNAME)\nTarget: thermotrace.india@gmail.com`,
+        });
+        setFeedback(`✓ Event APPROVED — Dossier generated (Email delivery not configured)`);
+      } else {
+        setApprovalResult({
+          success: false,
+          msg: `✓ Official Incident Dossier & PDF Generated\n✕ Email send failed (${res.error || 'Server error'})\nTarget: thermotrace.india@gmail.com`,
+        });
+        setFeedback(`✓ Event APPROVED — Dossier generated (Email send failed)`);
+      }
+    } catch (err: any) {
       setApprovalResult({
-        success: true,
-        msg: `✓ Report generated\n✓ Report dispatched\n\nFrom:\nthermotrace.india@gmail.com\n\nTo:\nthermotrace.india@gmail.com\n\nAttachment:\nThermoTrace_${event.event_id}_Complete_Report.pdf`,
+        success: false,
+        msg: `✓ Official Incident Dossier & PDF Generated\n✕ Network connection error (${err?.message || 'Server offline'})\nTarget: thermotrace.india@gmail.com`,
       });
-      setFeedback(`✓ Event APPROVED — Complete dossier dispatched to thermotrace.india@gmail.com`);
-    } catch {
-      setApprovalResult({
-        success: true,
-        msg: `✓ Report generated\n✓ Report dispatched\n\nFrom:\nthermotrace.india@gmail.com\n\nTo:\nthermotrace.india@gmail.com`,
-      });
-      setFeedback(`✓ Event APPROVED — Dispatched to thermotrace.india@gmail.com`);
+      setFeedback(`✓ Event APPROVED — Dossier generated (Server offline)`);
     } finally {
       setApprovalStep('DONE');
       const newEntry: AuditEntry = {
@@ -284,7 +301,7 @@ const AnalystActionBar: React.FC<AnalystActionBarProps> = ({ event, status, onSt
                   onClick={executeApproval}
                   style={{ padding: '8px 18px', background: '#0284C7', border: 'none', borderRadius: '6px', color: '#FFFFFF', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
                 >
-                  APPROVE & SEND REPORT
+                  🚀 Dispatch Report Dossier
                 </button>
               </div>
             )}

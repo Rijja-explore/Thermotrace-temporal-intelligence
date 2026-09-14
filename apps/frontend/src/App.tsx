@@ -440,7 +440,7 @@ function AppContent() {
             <WhatIfSimulator eventId={routeParams.eventId} onNavigate={navigate} onOpenNotificationModal={() => {}} />
           ) : /* 4. DATA REDUCTION */
           currentPath === '/data-reduction' || currentPath === '/reduction' || currentPath === '/pipeline' ? (
-            <DataReductionVisualizer />
+            <DataReductionVisualizer onNavigate={navigate} />
           ) : /* 5. ALERT CENTER */
           currentPath === '/alert-center' || currentPath === '/alerts' ? (
             <Alerts onNavigate={navigate} />

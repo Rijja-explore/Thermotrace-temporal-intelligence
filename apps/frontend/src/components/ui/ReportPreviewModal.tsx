@@ -67,15 +67,30 @@ const ReportPreviewModal: React.FC<ReportPreviewModalProps> = ({
     setEmailSending(true);
     setEmailStatus(null);
     try {
-      await sendReportEmail(eventId, recipientEmail, analystNotes);
+      const res = await sendReportEmail(eventId, recipientEmail, analystNotes);
+      const isSent = Boolean(res.email_sent || res.delivery_status === 'DELIVERED');
+      const isNotConfigured = res.delivery_status === 'NOT_CONFIGURED';
+
+      if (isSent) {
+        setEmailStatus({
+          success: true,
+          msg: `✓ Official Intelligence Dossier & PDF Generated\n✓ Dispatched to: ${recipientEmail}\nFrom: thermotrace.india@gmail.com\nAttachment: ThermoTrace_${eventId}_Complete_Report.pdf`,
+        });
+      } else if (isNotConfigured) {
+        setEmailStatus({
+          success: false,
+          msg: `✓ Official Intelligence Dossier & PDF Generated\n⚠ Email delivery not configured on server (Set RESEND_API_KEY or MAIL_USERNAME)\nTarget Destination: ${recipientEmail}`,
+        });
+      } else {
+        setEmailStatus({
+          success: false,
+          msg: `✓ Official Intelligence Dossier & PDF Generated\n✕ Delivery error: ${res.error || 'Server rejected dispatch'}\nTarget Destination: ${recipientEmail}`,
+        });
+      }
+    } catch (err: any) {
       setEmailStatus({
-        success: true,
-        msg: `✓ Official Intelligence Dossier & PDF Generated\n✓ Dispatched to: ${recipientEmail}\nFrom: thermotrace.india@gmail.com\nAttachment: ThermoTrace_${eventId}_Complete_Report.pdf`,
-      });
-    } catch {
-      setEmailStatus({
-        success: true,
-        msg: `✓ Official Intelligence Dossier & PDF Generated\n✓ Dispatched to: ${recipientEmail}\nFrom: thermotrace.india@gmail.com`,
+        success: false,
+        msg: `✕ Network error during dispatch: ${err?.message || 'Server unreachable'}\nTarget Destination: ${recipientEmail}`,
       });
     } finally {
       setEmailSending(false);

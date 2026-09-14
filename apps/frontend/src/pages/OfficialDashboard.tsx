@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../services/AuthContext';
 import type { Alert } from '../services/api';
 import { fetchAlerts, downloadReportPdf } from '../services/api';
-import { dispatchOfficialConfirmedEmail, RECIPIENT_OFFICIAL } from '../services/alertEmail';
+import { sendAlertEmail, RECIPIENT_CENTRAL as RECIPIENT_OFFICIAL } from '../services/alertEmail';
 import {
   ShieldAlert,
   Flame,
@@ -61,7 +61,7 @@ export const OfficialDashboard: React.FC<OfficialDashboardProps> = ({ onNavigate
     setSopStep(1);
 
     // Dispatch real email directive to Official
-    dispatchOfficialConfirmedEmail({
+    sendAlertEmail({
       eventId: 'TT-CASE-001',
       facilityName: 'Jamnagar Mega Refinery Complex (Stack #4)',
       frpMw: 340.0,

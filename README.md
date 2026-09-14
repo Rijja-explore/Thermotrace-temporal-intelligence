@@ -18,59 +18,47 @@ NASA FIRMS provides near-real-time satellite thermal anomaly and active fire det
 3. **Environmental Fires** (stubble burning, agricultural clearing, forest wildfires).
 
 ```text
-                               NASA FIRMS NRT Feed
-                         (VIIRS 375m & MODIS 1km Passes)
-                                       ↓
-                     Spatiotemporal DBSCAN & H3 Hex Clustering
-                                       ↓
-                    Multi-Spectral & Contextual Feature Extraction
-                                       ↓
- ┌───────────────────────────────────────────────────────────────────────────┐
- │                       THERMOTRACE 4-ENGINE AI SUITE                       │
- ├─────────────────────────┬───────────────────────────┬─────────────────────┤
- │ Engine 1: Persistent ML │ Engine 2: 90D Baseline    │ Engine 3: LSTM      │
- │ "WHAT TYPE OF SOURCE?"  │ "IS IT ABNORMAL HERE?"    │ "IS IT ESCALATING?" │
- │ Evaluates recurrence,   │ 90-Day facility rolling   │ Sequential pass     │
- │ drift, day/night ratio  │ distribution (Z-score)    │ dynamics & slope    │
- └────────────┬────────────┴─────────────┬─────────────┴──────────┬──────────┘
-              │                          │                        │
-              └──────────────────────────┼────────────────────────┘
-                                         │
-                        ┌────────────────┴────────────────┐
-                        │ Engine 4: Contextual HGB        │
-                        │ Spatial/Land-Cover Signature    │
-                        └────────────────┬────────────────┘
-                                         ↓
-                        Hybrid Decision Fusion Engine
-                                         │
-        ┌────────────────────────────────┼────────────────────────────────┐
-        ↓                                ↓                                ↓
- [Normal Flaring]               [Abnormal Runaway]             [Wildfire / Agri]
- High P_pers + Normal Z         High P_pers + Surge Z          Low P_pers + Natural Land
- → ROUTINE MONITORING           → CRITICAL INCIDENT            → ENVIRONMENTAL ALERT
- (Suppressed Alarm)                      │
-                                         ↓
-                        Radiant Hazard & Plume Modeling
-                          (API 521 Thermal Contours)
-                                         ↓
-                            Unified Incident Dossier
-                                         ↓
-                        Human Analyst Verification
-                           (Review → Audit Log)
-                                         │
-                    ┌────────────────────┴────────────────────┐
-                    ▼                                         ▼
-            REJECT / RECLASSIFY                            CONFIRM
-                    │                                         │
-                    │                                         ▼
-                    │                              Approved Report & PDF Dossier
-                    │                              (thermotrace.india@gmail.com)
-                    ▼                                         ▼
-              Verified Analyst Ground-Truth Dataset (Closed-Loop)
-                                         ↓
-              Candidate Retraining & Validation Gate (Macro F1 ≥ 0.82)
-                                         ↓
-              Controlled Candidate-Model Promotion (Model Registry)
+              NASA SATELLITES
+                    ↓
+             NASA FIRMS NRT
+                    ↓
+        ┌──────────────────────┐
+        │  RAW HOTSPOT DATA    │
+        └──────────┬───────────┘
+                   ↓
+           QUALITY FILTER
+                   ↓
+             DBSCAN CLUSTER
+                   ↓
+       OSM + WORLDCOVER GIS
+                   ↓
+        ┌─────────────────────┐
+        │  THERMOTRACE AI     │
+        │                     │
+        │ Persistence         │
+        │ Facility Baseline   │
+        │ Z-score / MAD       │
+        │ Temporal / LSTM     │
+        │ HGB Classification  │
+        └──────────┬──────────┘
+                   ↓
+            INTELLIGENCE FUSION
+                   ↓
+          RISK + HAZARD + PLUME
+                   ↓
+             COMMAND CENTER
+                   ↓
+             INVESTIGATION
+                   ↓
+        ANALYST MAKES DECISION
+                   ↓
+       ┌───────────┴──────────┐
+       ↓                      ↓
+    No dispatch          Dispatch Report
+                              ↓
+                       Complete Report
+                              ↓
+                 thermotrace.india@gmail.com
 ```
 
 ---
@@ -222,17 +210,29 @@ When an industrial anomaly is flagged, ThermoTrace executes deterministic engine
 
 ## 🖥️ 4. Analyst Mission Control Platform Modules
 
-The frontend interface is organized into **7 dedicated Analyst modules**:
+The frontend interface is organized into **8 canonical Analyst intelligence pages**:
 
-| Module | Purpose & Core Capabilities |
-| :--- | :--- |
-| **1. Executive Dashboard** | Real-time KPI scorecard, threat tier distribution, live feed timeline, and facility health status. |
-| **2. Thermal Map** | High-performance Dark Canvas Leaflet map with multi-layer overlays (FRP heatmap, satellite passes, state borders, API 521 safety rings). |
-| **3. Event Intelligence** | Detailed single-event triage, observation timeline, spectral signature differentials ($\Delta T_{31}$), and analyst confirmation/rejection workflow. |
-| **4. AI Intelligence & XAI** | Model registry inspector, SHAP-style feature importance attributions, PyTorch LSTM trajectory chart, and 4-engine fusion breakdown. |
-| **5. Hazard & Impact Simulation** | Interactive "What-If" engineering simulator for API 521 radiant heat zones, wind speed sliders, and downwind evacuation corridor calculation. |
-| **6. Official Reports & Dossiers** | 19-Section intelligence briefing generator with live PDF export (ReportLab) and centralized email dispatch audit history. |
-| **7. Data Reduction Pipeline** | Step-by-step interactive visualizer demonstrating the 5-stage filtration reducing 5,120 raw FIRMS points down to verified critical events (99.98% noise reduction). |
+| Module | Route | Purpose & Core Capabilities |
+| :--- | :--- | :--- |
+| **1. Command Center** | `/command-center` | Primary mission control dashboard: Near-Real-Time (NRT) KPI strip, interactive Leaflet map, filters, facility overlays, and quick event inspection. |
+| **2. Investigations** | `/investigation/:id` | Deep-dive triage dossier: Sentinel-2 optical imagery, 90-day FRP time series, SHAP/XAI explanations, and human-in-the-loop audit actions. |
+| **3. Scenario Modeler** | `/scenario-modeler` | Interactive physics simulator: API 521 radiant heat exclusion zones ($q = \frac{\tau \eta Q}{4 \pi R^2}$), Gaussian plume corridors, and sector SOP sequences. |
+| **4. Data Reduction** | `/data-reduction` | 5-Stage interactive reduction visualizer demonstrating telemetry reduction from raw FIRMS scan pixels down to verified critical alarms. |
+| **5. Alert Center** | `/alert-center` | Prioritized incident queue: severity badges (CRITICAL / HIGH / MEDIUM), geographic filters, and investigation routing. |
+| **6. Facilities** | `/facilities` | Industrial asset catalog: baseline FRP ($\mu$), standard deviation ($\sigma$), normal operating envelope, and historical flaring metrics. |
+| **7. Analytics** | `/analytics` | System-wide intelligence analytics: temporal distributions, diurnal day/night ratios, regional risk breakdown, and model evaluation metrics. |
+| **8. Methodology** | `/methodology` | Mathematical formulation & scientific documentation: NASA FIRMS NRT ingestion, DBSCAN clustering, OSM GIS fusion, and API 521 physics. |
+
+---
+
+## 🔐 5. Single Analyst Authentication (SIH Demo Mode)
+
+ThermoTrace uses a unified **Lead Thermal Analyst** persona for operational efficiency and SIH defense:
+
+- **Role**: `ANALYST` (Full access to all 8 mission control pages, AI explanations, and dispatch tools)
+- **Default Username**: `analyst`
+- **Default Password**: `analyst`
+- **Official Dispatch Target**: `thermotrace.india@gmail.com`
 
 ---
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type {
   SimulationParams,
   SimulationResult,
@@ -12,7 +12,6 @@ import {
   sendReportEmail,
 } from '../services/api';
 import { useAuth } from '../services/AuthContext';
-import { sendAlertEmail, DEFAULT_RECIPIENT, DEFAULT_SENDER } from '../services/alertEmail';
 
 interface WhatIfSimulatorProps {
   eventId?: string;
@@ -53,7 +52,6 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
   const [sopExecutionStep, setSopExecutionStep] = useState<number>(0);
   const [sopCompleted, setSopCompleted] = useState<boolean>(false);
   const [exportedNotice, setExportedNotice] = useState<string | null>(null);
-  const lastEmailedRiskRef = useRef<number>(0);
 
   // Load Presets
   useEffect(() => {
@@ -109,21 +107,6 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
     const res = computeClientSimulation(params);
     setResult(res);
 
-    // Auto-email when simulated risk is high (and hasn't already been emailed at this tier)
-    const simRisk = res.simulated_risk_score;
-    if (simRisk >= 75 && simRisk > lastEmailedRiskRef.current + 5) {
-      lastEmailedRiskRef.current = simRisk;
-      sendAlertEmail({
-        eventId: eventId || 'TT-SIM-' + Date.now(),
-        facilityName: facilityName,
-        frpMw: simulatedFRP,
-        riskScore: simRisk,
-        threatTier: simRisk >= 80 ? 'CRITICAL' : 'HIGH',
-        hazardRadiusM: res.thermal_hazard_radius_m,
-        customNotes: `Auto-dispatched from Incident Scenario Modeler. Simulated FRP: ${simulatedFRP} MW · Wind: ${windSpeed} km/h at ${windDirection}° · Duration: ${durationHours}h`,
-      });
-    }
-
     // Also dispatch to backend asynchronously
     runWhatIfSimulation(params).then(apiRes => {
       if (apiRes) setResult(apiRes);
@@ -145,7 +128,7 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
     mitigationUAV,
   ]);
 
-  // Execute Automated SOP Sequence
+  // Execute Automated SOP Sequence (Simulation protocol)
   const handleExecuteSOP = () => {
     // If already completed, reset first to give fresh animated feedback
     setMitigationFGRS(false);
@@ -157,22 +140,7 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
     setSopExecutionStep(1);
     setSopCompleted(false);
 
-    // Auto-dispatch Simulation Directive on SOP execution
-    sendAlertEmail({
-      eventId: eventId || 'TT-SIM-SOP-' + Date.now().toString().slice(-4),
-      facilityName: facilityName,
-      frpMw: simulatedFRP,
-      riskScore: result?.simulated_risk_score ?? 85,
-      threatTier: 'CONFIRMED',
-      hazardRadiusM: result?.thermal_hazard_radius_m ?? 350,
-      plumeCorridor: `${result?.plume_dispersion_length_km?.toFixed(1) || '8.6'} km ${cardinalDirection} corridor`,
-      populationExposure: result?.population_threat_index ? Math.round(result.population_threat_index * 1.5) : 123,
-      customNotes: `SIMULATION SOP TRIGGERED: Automated emergency response protocols deployed for ${facilityName}. Actions engaged: Flare Gas Recovery (FGRS) diversion, perimeter water deluge curtain, and inter-agency disaster standby advisory. Dispatched to Incident Command (${DEFAULT_RECIPIENT}) from ${DEFAULT_SENDER}.`,
-      forceSend: true,
-      recipientEmail: DEFAULT_RECIPIENT,
-    });
-
-    setExportedNotice(`🚨 Automated SOP Initialized — Emergency Simulation Directive dispatched to Incident Command (${DEFAULT_RECIPIENT})`);
+    setExportedNotice(`⚡ Simulation Mitigation Protocols Active — Sector SOP sequence executing...`);
     setTimeout(() => setExportedNotice(null), 5000);
 
     // Step 1: Engage FGRS & Drone
@@ -180,7 +148,7 @@ export const WhatIfSimulator: React.FC<WhatIfSimulatorProps> = ({
       setMitigationUAV(true);
       setMitigationFGRS(true);
       setSopExecutionStep(2);
-      addAuditLog('SOP_EXECUTE_PHASE_1', 'Automated FGRS valve diversion and drone re-tasking initialized.');
+      addAuditLog('SOP_EXECUTE_PHASE_1', 'Simulation FGRS valve diversion and drone re-tasking initialized.');
     }, 700);
 
     // Step 2: Trigger Deluge

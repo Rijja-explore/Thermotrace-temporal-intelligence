@@ -550,14 +550,15 @@ ThermoTrace — SIH 26162
     }
     DISPATCH_HISTORY.insert(0, dispatch_record)
 
+    delivery_state = "DELIVERED" if smtp_sent else ("NOT_CONFIGURED" if ("not configured" in (smtp_err or "").lower()) else "FAILED")
     return {
         "report_generated": True,
-        "email_sent": True,
+        "email_sent": smtp_sent,
         "sender": THERMOTRACE_SENDER_EMAIL,
         "recipient": target_email,
-        "delivery_status": "DELIVERED",
-        "status": "DELIVERED",
-        "error": None,
+        "delivery_status": delivery_state,
+        "status": delivery_state,
+        "error": smtp_err if not smtp_sent else None,
         "from": THERMOTRACE_SENDER_EMAIL,
         "to": target_email,
         "event_id": event_id,
@@ -565,6 +566,8 @@ ThermoTrace — SIH 26162
         "smtp_sent": smtp_sent,
         "timestamp_utc": now_utc,
         "message": f"Complete incident dossier & PDF report ({filename}) successfully generated and dispatched to {target_email}."
+        if smtp_sent
+        else f"Official report PDF ({filename}) generated. Email delivery status: {delivery_state} ({smtp_err or 'Provider unavailable'})."
     }
 
 

@@ -28,7 +28,7 @@ export const DataProvenancePanel: React.FC<DataProvenancePanelProps> = ({ event 
           </div>
         ))}
       </div>
-      {cloudCover !== undefined && cloudCover > 20 && (
+      {cloudCover !== undefined && cloudCover !== null && cloudCover > 20 && (
         <div className="provenance-warning">
           ⚠ Cloud cover {cloudCover}% — optical imagery may not be available for visual confirmation
         </div>
