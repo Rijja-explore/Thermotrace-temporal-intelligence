@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { ThermoEvent, Facility } from '../services/api';
@@ -97,6 +97,7 @@ export const MapView: React.FC<MapViewProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
+  const [isLegendExpanded, setIsLegendExpanded] = useState<boolean>(true);
 
   // Initialise map once
   useEffect(() => {
@@ -573,61 +574,107 @@ export const MapView: React.FC<MapViewProps> = ({
 
       <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
 
-      {/* Map Legend */}
+      {/* Map Legend (Pinned with high z-index & interactive collapse/expand toggle) */}
       <div style={{
         position: 'absolute',
         bottom: '20px',
         left: '16px',
-        background: 'rgba(11, 23, 40, 0.92)',
-        backdropFilter: 'blur(8px)',
+        background: 'rgba(11, 23, 40, 0.95)',
+        backdropFilter: 'blur(10px)',
         border: '1px solid #233B56',
         borderRadius: '10px',
-        padding: '12px 14px',
-        zIndex: 10,
+        padding: isLegendExpanded ? '12px 14px' : '8px 12px',
+        zIndex: 1200,
         color: '#F4F8FC',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-        minWidth: '160px',
+        boxShadow: '0 8px 28px rgba(0,0,0,0.6)',
+        minWidth: isLegendExpanded ? '180px' : 'auto',
+        maxWidth: '260px',
+        maxHeight: 'calc(100% - 40px)',
+        overflowY: 'auto',
+        pointerEvents: 'auto',
+        transition: 'all 0.2s ease',
       }}>
-        <div style={{
-          fontWeight: 700,
-          marginBottom: '8px',
-          fontSize: '9px',
-          textTransform: 'uppercase',
-          color: '#71869B',
-          letterSpacing: '1px',
-        }}>
-          SIH 26162 — Industrial Classification
-        </div>
-        {[
-          { color: '#FF5C6C', label: 'Accidental Industrial Fire' },
-          { color: '#FF5C6C', label: 'Gas Leak / Explosion', dash: true },
-          { color: '#FF8C42', label: 'Oil Refinery Source' },
-          { color: '#FFB547', label: 'Petrochemical Complex' },
-          { color: '#F59E0B', label: 'Thermal Power Plant' },
-          { color: '#94A3B8', label: 'Steel Industry' },
-          { color: '#A16207', label: 'Mining Area' },
-          { color: '#38BDF8', label: 'LNG Terminal' },
-          { color: '#4FD18B', label: 'Agricultural / Forest Fire' },
-          { color: '#A78BFA', label: 'Unknown / Ambiguous' },
-          { color: '#43D9E8', label: 'Normal / Monitored' },
-          { color: '#FFB547', label: 'Industrial Facility (OSM)', square: true },
-        ].map((item, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: i < 11 ? '4px' : 0 }}>
-            <div style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: item.square ? '2px' : '50%',
-              background: item.square ? 'transparent' : item.color,
-              border: item.square ? `2px solid ${item.color}` : 'none',
-              opacity: (item as any).dash ? 0.6 : 1,
-              flexShrink: 0,
-            }} />
-            <span style={{ fontSize: '10px', color: '#AFC1D3', opacity: (item as any).dash ? 0.7 : 1 }}>{item.label}</span>
+        <div 
+          onClick={() => setIsLegendExpanded(!isLegendExpanded)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '8px',
+            cursor: 'pointer',
+            userSelect: 'none',
+            marginBottom: isLegendExpanded ? '8px' : 0,
+          }}
+          title={isLegendExpanded ? 'Click to minimize legend' : 'Click to expand legend'}
+        >
+          <div style={{
+            fontWeight: 700,
+            fontSize: '9px',
+            textTransform: 'uppercase',
+            color: '#71869B',
+            letterSpacing: '1px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+          }}>
+            <span style={{ fontSize: '10px' }}>🏷️</span>
+            <span>SIH 26162 — CLASSIFICATION</span>
           </div>
-        ))}
-        <div style={{ marginTop: '8px', paddingTop: '7px', borderTop: '1px solid #233B56', fontSize: '9px', color: '#526579' }}>
-          Animated ring = selected event
+          <button
+            type="button"
+            aria-label={isLegendExpanded ? 'Minimize legend' : 'Expand legend'}
+            style={{
+              background: 'rgba(35, 59, 86, 0.4)',
+              border: '1px solid #233B56',
+              borderRadius: '4px',
+              color: '#94A3B8',
+              cursor: 'pointer',
+              fontSize: '9px',
+              padding: '2px 5px',
+              lineHeight: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {isLegendExpanded ? '▼' : '▲'}
+          </button>
         </div>
+
+        {isLegendExpanded && (
+          <>
+            {[
+              { color: '#FF5C6C', label: 'Accidental Industrial Fire' },
+              { color: '#FF5C6C', label: 'Gas Leak / Explosion', dash: true },
+              { color: '#FF8C42', label: 'Oil Refinery Source' },
+              { color: '#FFB547', label: 'Petrochemical Complex' },
+              { color: '#F59E0B', label: 'Thermal Power Plant' },
+              { color: '#94A3B8', label: 'Steel Industry' },
+              { color: '#A16207', label: 'Mining Area' },
+              { color: '#38BDF8', label: 'LNG Terminal' },
+              { color: '#4FD18B', label: 'Agricultural / Forest Fire' },
+              { color: '#A78BFA', label: 'Unknown / Ambiguous' },
+              { color: '#43D9E8', label: 'Normal / Monitored' },
+              { color: '#FFB547', label: 'Industrial Facility (OSM)', square: true },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: i < 11 ? '4px' : 0 }}>
+                <div style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: item.square ? '2px' : '50%',
+                  background: item.square ? 'transparent' : item.color,
+                  border: item.square ? `2px solid ${item.color}` : 'none',
+                  opacity: (item as any).dash ? 0.6 : 1,
+                  flexShrink: 0,
+                }} />
+                <span style={{ fontSize: '10px', color: '#AFC1D3', opacity: (item as any).dash ? 0.7 : 1 }}>{item.label}</span>
+              </div>
+            ))}
+            <div style={{ marginTop: '8px', paddingTop: '7px', borderTop: '1px solid #233B56', fontSize: '9px', color: '#526579' }}>
+              Animated ring = selected event
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

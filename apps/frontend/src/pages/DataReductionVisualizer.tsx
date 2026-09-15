@@ -392,13 +392,23 @@ export default function DataReductionVisualizer({ onNavigate }: DataReductionVis
 
     L.control.zoom({ position: 'topright' }).addTo(map);
 
-    // Dark CartoDB Tiles
+    // Clean, watermark-free Dark Canvas tiles (Esri Dark Gray Base + Reference)
     L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
       {
-        attribution: '&copy; OpenStreetMap &copy; CARTO | NASA FIRMS Near-Real-Time Telemetry',
-        subdomains: 'abcd',
+        attribution: '&copy; Esri, DeLorme, NAVTEQ | NASA FIRMS Near-Real-Time Telemetry',
         maxZoom: 19,
+        maxNativeZoom: 16,
+      }
+    ).addTo(map);
+
+    L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+      {
+        attribution: '',
+        maxZoom: 19,
+        maxNativeZoom: 16,
+        opacity: 0.85,
       }
     ).addTo(map);
 
